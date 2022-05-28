@@ -29,6 +29,7 @@ function Navbar() {
             </HamburgerButton>
             <NavbarLink to="/">Home</NavbarLink>
             <NavbarLink to="/create-league">Create League</NavbarLink>
+            <NavbarLink to="/create-battle">Create Battle</NavbarLink>
           </NavbarLinkContainer>
         </LeftContainer>
         <RightContainer>
@@ -45,6 +46,9 @@ function Navbar() {
               Create League
             </NavbarLinkExtended>
           </NavbarLinkWrapper>
+          <NavbarLinkWrapper>       <NavbarLinkExtended to="/create-league">
+              Create Battle
+            </NavbarLinkExtended></NavbarLinkWrapper>
         </NavbarExtendedContainer>
       )}
     </NavbarContainer>

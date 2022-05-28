@@ -7,7 +7,8 @@ import Homepage from "./components/Homepage/Homepage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import PasswordEdit from "./components/PasswordEdit/PasswordEdit";
-import CreateLeagueForm from "./components/CreateLeagueForm/CreateLeagueForm";
+import CreateLeaguePage from "./components/CreateLeaguePage/CreateLeaguePage";
+import CreateBattlePage from "./components/CreateBattlePage/CreateBattlePage";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Route exact path="/login" element={<LoginPage />} />
         <Route exact path="/password-reset" element={<PasswordReset />} />
         <Route exact path="/password-edit" element={<PasswordEdit />} />
-        <Route exact path="/create-league" element={<CreateLeagueForm />} />
+        <Route exact path="/create-league" element={<CreateLeaguePage />} />
+        <Route exact path="/create-battle" element={<CreateBattlePage />} />
       </Routes>
     </ThemeProvider>
   );

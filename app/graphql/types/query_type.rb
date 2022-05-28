@@ -12,6 +12,9 @@ module Types
     field :leagues, [Types::LeagueType], null: false
     field :league, Types::LeagueType, null: false
 
+    field :battles, [Types::BattleType], null: false
+    field :battle, Types::BattleType, null: false
+
     def users
       User.all
     end
@@ -27,5 +30,14 @@ module Types
     def league(id:)
       League.find_by(id: id)
     end
+
+    def battles
+      Battle.all
+    end
+
+    def battle(id:)
+      Battle.find_by(id: id)
+    end
+
   end
 end

@@ -1,5 +1,3 @@
-The purpose of this repo is to create a starting point for future applications with necessary infrastructure such as library installations, user authentication, login/session management
-
 ruby on rails<br/>
 devise user authentication<br/>
 graphql/graphiql/apollo graphql<br/>
@@ -13,15 +11,14 @@ and more<br/>
 
 (extra dependencies made need to be installed):
 
----------------------------
 1. Clone the git repository
 
-$ `git clone git@github.com:APysnack/user-login.git`
+$ `git clone git@github.com:APysnack/live-rap-center.git`
 
 ---------------------------
 2. Change directory into the user login folder
 
-$ `cd user-login`
+$ `cd live-rap-center`
 
 ---------------------------
 3. Generate a secret hash

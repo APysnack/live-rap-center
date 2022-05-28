@@ -1,0 +1,9 @@
+Hello <%= params[:user].email %>,
+
+Someone requested a reset of your password. 
+
+If this was you, click the link to reset your password. The link will expire automatically in 15 minutes.
+
+Do not click on this link if you did not make this request.
+
+<%= "http://localhost:3000/password-edit?token=#{@token.to_param}" %>

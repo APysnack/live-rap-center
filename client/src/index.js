@@ -1,17 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
-import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { Provider } from 'react-redux';
-import store from './redux/configureStore';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { createHttpLink } from "apollo-link-http";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+import store from "./redux/configureStore";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+
+let persistor = persistStore(store);
 
 const link = createHttpLink({
-  uri: 'http://localhost:3000/graphql',
+  uri: "http://localhost:3001/graphql",
 });
 
 const client = new ApolloClient({
@@ -22,11 +25,15 @@ const client = new ApolloClient({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
+  <Router>
     <ApolloProvider client={client}>
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </ApolloProvider>
+  </Router>
 );
 
 // If you want to start measuring performance in your app, pass a function

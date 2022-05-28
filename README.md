@@ -1,5 +1,3 @@
-uses
-
 ruby on rails<br/>
 devise user authentication<br/>
 graphql/graphiql/apollo graphql<br/>
@@ -11,10 +9,8 @@ redux<br/>
 redux-persist<br/>
 and more<br/>
 
-(extra dependencies made need to be installed -- using node v 16.15.0):
+(extra dependencies made need to be installed):
 
-installation
----------------------------
 1. Clone the git repository
 
 $ `git clone git@github.com:APysnack/live-rap-center.git`

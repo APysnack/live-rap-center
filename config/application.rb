@@ -16,6 +16,18 @@ module LiveRapCentral
     config.middleware.use ActionDispatch::Cookies 
     config.middleware.use config.session_store, config.session_options
 
+    middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource(
+       '*',
+       headers: :any,
+       expose: ["Authorization"],
+       methods: [:get, :patch, :put, :delete, :post, :options, :show]
+      )
+      end
+  end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

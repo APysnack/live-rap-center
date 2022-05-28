@@ -33,6 +33,8 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials.yml.enc
 /.env
 /node_modules
 yarn-error.log*
+

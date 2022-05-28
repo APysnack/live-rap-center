@@ -9,6 +9,9 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :leagues, [Types::LeagueType], null: false
+    field :league, Types::LeagueType, null: false
+
     def users
       User.all
     end
@@ -17,5 +20,12 @@ module Types
       User.find_by(id: id)
     end
 
+    def leagues
+      League.all
+    end
+
+    def league(id:)
+      League.find_by(id: id)
+    end
   end
 end

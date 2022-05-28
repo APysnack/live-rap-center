@@ -1,14 +1,25 @@
 import React from "react";
-import Users from "./components/Users";
-import Login from "./components/LoginForm/LoginForm";
 import { ThemeProvider } from "styled-components";
-import { lightTheme, darkTheme } from "./theme";
+import { philadelphia } from "./theme";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
 import Homepage from "./components/Homepage/Homepage";
+import LoginPage from "./components/LoginPage/LoginPage";
+import PasswordReset from "./components/PasswordReset/PasswordReset";
+import PasswordEdit from "./components/PasswordEdit/PasswordEdit";
+import CreateLeagueForm from "./components/CreateLeagueForm/CreateLeagueForm";
 
 function App() {
   return (
-    <ThemeProvider theme={lightTheme}>
-      <Homepage />
+    <ThemeProvider theme={philadelphia}>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<Homepage />} />
+        <Route exact path="/login" element={<LoginPage />} />
+        <Route exact path="/password-reset" element={<PasswordReset />} />
+        <Route exact path="/password-edit" element={<PasswordEdit />} />
+        <Route exact path="/create-league" element={<CreateLeagueForm />} />
+      </Routes>
     </ThemeProvider>
   );
 }

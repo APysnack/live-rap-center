@@ -3,41 +3,50 @@ import axios from "axios";
 
 // UTILS
 function assembleResponse(res) {
+  console.log(res);
   var assembledResponse = {
-    headers: res.headers,
-    data: res.data,
+    token: res.headers.authorization,
+    user: res.data,
   };
   return JSON.stringify(assembledResponse);
 }
 
+function assembleError(err) {
+  var assembledError = {
+    code: err.code,
+    errorMessages: err.response.data.status,
+  };
+
+  return JSON.stringify(assembledError);
+}
+
+const API_URL = "http://localhost:3001";
+
 // FUNCTIONS TO BE EXECUTED
 export const registerUser = createAsyncThunk("user/registerUser", (payload) => {
   return axios
-    .post("http://localhost:3000/users", payload)
+    .post(`${API_URL}/signup`, payload)
     .then((res) => assembleResponse(res))
-    .catch((error) => error);
+    .catch((error) => assembleError(error));
 });
 
 export const loginUser = createAsyncThunk("user/loginUser", (payload) => {
   return axios
-    .post("http://localhost:3000/users/sign_in", payload)
+    .post(`${API_URL}/login`, payload)
     .then((res) => assembleResponse(res))
     .catch((error) => error);
 });
 
-export const loginWithToken = createAsyncThunk(
-  "user/loginWithToken",
-  (config) => {
-    return axios
-      .get("http://localhost:3000/member-data", config)
-      .then((res) => assembleResponse(res))
-      .catch((error) => error);
-  }
-);
+export const loginWithToken = createAsyncThunk("user/currentUser", (config) => {
+  return axios
+    .get(`${API_URL}/current_user`, config)
+    .then((res) => res.data)
+    .catch((error) => error);
+});
 
 export const logoutUser = createAsyncThunk("user/logoutUser", (config) => {
   return axios
-    .delete("http://localhost:3000/users/sign_out", config)
+    .delete(`${API_URL}/logout`, config)
     .then((res) => assembleResponse(res))
     .catch((error) => error.message);
 });
@@ -47,7 +56,7 @@ const userInitialState = {
   userState: {
     isLoading: false,
     user: null,
-    error: {},
+    error: [],
   },
 };
 
@@ -64,13 +73,21 @@ const userSlice = createSlice({
     },
     [loginUser.fulfilled.type]: (state, action) => {
       let res = JSON.parse(action.payload);
-      localStorage.setItem("auth_token", res.headers.authorization);
-      state.userState = {
-        isLoading: false,
-        user: res.data.user,
-      };
+      if (res.token) {
+        localStorage.setItem("auth_token", res.token);
+        state.userState = {
+          isLoading: false,
+          user: res.user.data,
+        };
+      } else {
+        state.userState = {
+          isLoading: false,
+          error: ["we were unable to log you in with this information"],
+        };
+      }
     },
     [loginUser.rejected.type]: (state, action) => {
+      console.log(action);
       state.userState = {
         isLoading: false,
         user: null,
@@ -83,18 +100,28 @@ const userSlice = createSlice({
     },
     [registerUser.fulfilled.type]: (state, action) => {
       let res = JSON.parse(action.payload);
-      localStorage.setItem("auth_token", res.headers.authorization);
-      state.userState = {
-        isLoading: false,
-        user: res.data.user,
-        error: {},
-      };
+      let errMessage = [];
+      if (res?.errorMessages?.message) {
+        errMessage.push(res?.errorMessages?.message);
+        state.userState = {
+          isLoading: false,
+          error: [...errMessage],
+        };
+      } else {
+        localStorage.setItem("auth_token", res.token);
+        state.userState = {
+          isLoading: false,
+          user: res.user.data,
+          error: [],
+        };
+      }
     },
     [registerUser.rejected.type]: (state, action) => {
+      console.log(`failed ${action}`);
       state.userState = {
         isLoading: false,
         user: {},
-        error: action.payload,
+        error: ["view register user rejected type"],
       };
     },
     [logoutUser.pending.type]: (state, action) => {
@@ -107,35 +134,34 @@ const userSlice = createSlice({
       state.userState = {
         isLoading: false,
         user: null,
-        error: {},
+        error: [],
       };
     },
     [logoutUser.rejected.type]: (state, action) => {
       state.userState = {
         isLoading: false,
-        user: {},
+        user: [],
         error: action.payload,
       };
     },
     [loginWithToken.pending.type]: (state, action) => {
       state.userState = {
         isLoading: true,
-        error: {},
+        error: [],
       };
     },
     [loginWithToken.fulfilled.type]: (state, action) => {
-      let res = JSON.parse(action.payload);
       state.userState = {
         isLoading: false,
-        user: res.data.user,
-        error: {},
+        user: action.payload,
+        error: [],
       };
     },
     [loginWithToken.rejected.type]: (state, action) => {
       state.userState = {
         isLoading: false,
         user: null,
-        error: action.payload,
+        error: ["view login with user rejected type"],
       };
     },
   },

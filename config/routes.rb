@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users, 
+  get '/current_user', to: 'current_user#index'
+
+  devise_for :users, path: '', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'signup'
+  },
   controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
@@ -10,7 +16,12 @@ Rails.application.routes.draw do
   end
   post "/graphql", to: "graphql#execute"
   get "about", to: "about#index"
-  get "/member-data", to: "members#show"
+
+  get "password/reset", to: "password_resets#new"
+  post "password/reset", to: "password_resets#create"
+
+  get "password/reset/edit", to: "password_resets#edit"
+  patch "password/reset/edit", to: "password_resets#update"
 
   root "main#index"
 end

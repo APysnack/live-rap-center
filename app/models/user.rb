@@ -4,4 +4,6 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :jwt_authenticatable, :validatable, jwt_revocation_strategy: self
   has_one :league
+  has_many :user_roles
+  has_many :roles, through: :user_roles
 end

@@ -1,10 +1,19 @@
+role = Role.create(name: "battler")
+role_2 = Role.create(name: "owner")
+role_3 = Role.create(name: "film-maker")
+
 User.create(username: "Pete", email: "petedavidson@gmail.com", password: "kanye")
 
 User.create(username: "Hermione", email: "granger@gmail.com", password: "gryffindor")
 
-user = User.create(username: "PurelyDef", email: "purleedef@gmail.com", password: "password")
-league = League.create(user_id: user.id, league_name: "Live Rap Circle", league_url: "https://www.youtube.com/channel/UCWseCA4XbP2PvjBox1u4C9g")
-Battle.create(user_id: user.id, league_id: league.id, battle_url: "https://www.youtube.com/watch?v=jMt0E9OaiKo")
+purelyDef = User.create(username: "PurelyDef", email: "purleedef@gmail.com", password: "password")
+league = League.create(user_id: purelyDef.id, league_name: "Live Rap Circle", league_url: "https://www.youtube.com/channel/UCWseCA4XbP2PvjBox1u4C9g")
+
+UserRole.create(user_id: purelyDef.id, role_id: role.id)
+UserRole.create(user_id: purelyDef.id, role_id: role_2.id)
+UserRole.create(user_id: purelyDef.id, role_id: role_3.id)
+
+Battle.create(user_id: purelyDef.id, league_id: league.id, battle_url: "https://www.youtube.com/watch?v=jMt0E9OaiKo")
 Battle.create(league_id: league.id, battle_url: "https://www.youtube.com/watch?v=aPVZrMEYrR0")
 Battle.create(league_id: league.id, battle_url: "https://www.youtube.com/watch?v=SiS7TkiO7sQ")
 Battle.create(league_id: league.id, battle_url: "https://www.youtube.com/watch?v=2QDeROLwwR8")

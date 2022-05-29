@@ -6,4 +6,7 @@ class User < ApplicationRecord
   has_one :league
   has_many :user_roles
   has_many :roles, through: :user_roles
+
+  has_one :user_battler
+  has_one :battler, through: :user_battlers
 end

@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_29_122902) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_29_145204) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "battler_battles", force: :cascade do |t|
+    t.bigint "battler_id", null: false
+    t.bigint "battle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battle_id"], name: "index_battler_battles_on_battle_id"
+    t.index ["battler_id"], name: "index_battler_battles_on_battler_id"
+  end
+
+  create_table "battlers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "battles", force: :cascade do |t|
     t.bigint "user_id"
@@ -61,6 +76,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_29_122902) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_battlers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "battler_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battler_id"], name: "index_user_battlers_on_battler_id"
+    t.index ["user_id"], name: "index_user_battlers_on_user_id"
+  end
+
   create_table "user_roles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "role_id", null: false
@@ -85,10 +109,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_29_122902) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "battler_battles", "battlers"
+  add_foreign_key "battler_battles", "battles"
   add_foreign_key "battles", "leagues"
   add_foreign_key "battles", "users"
   add_foreign_key "leagues", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "user_battlers", "battlers"
+  add_foreign_key "user_battlers", "users"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
 end

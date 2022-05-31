@@ -32,9 +32,11 @@ battler3rdDegree = Battler.create(name: "3rd Degree")
 UserBattler.create(user_id: purelyDef.id, battler_id: battlerPurelyDef.id)
 
 # creating leagues
-lrc = League.create(user_id: purelyDef.id, league_name: "Live Rap Circle", league_url: "https://www.youtube.com/channel/UCWseCA4XbP2PvjBox1u4C9g")
-kotd = League.create(user_id: organik.id, league_name: "King of the Dot", league_url: "https://www.youtube.com/c/KingofthedotEntertainment")
-url = League.create(user_id: smack.id, league_name: "Smack/URL", league_url: "https://www.youtube.com/c/theUrltv")
+lrc = League.create(league_name: "Live Rap Circle", league_url: "UCWseCA4XbP2PvjBox1u4C9g")
+kotd = League.create(league_name: "King of the Dot", league_url: "UCIuFtIO8i_XqA8lM7q4B1FQ")
+url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwYF-g")
+showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
+iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
 
 # creating battles
 craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo")
@@ -43,7 +45,10 @@ skVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "2QDeROLwwR8")
 kaveVsFloLeeds = Battle.create(league_id: lrc.id, battle_url: "NQ2Jr3se3vk")
 reggieVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "_Uivyl1veQ8")
 codesVsComa = Battle.create(league_id: lrc.id, battle_url: "SiS7TkiO7sQ")
-Battle.create(league_id: kotd.id, battle_url: "R4MSPqc-5GA")
+Battle.create(league_id: kotd.id, battle_url: "6cr0idmmSrs")
+Battle.create(league_id: url.id, battle_url: "R4MSPqc-5GA")
+Battle.create(league_id: showtime.id, battle_url: "UE044GrYSXo")
+Battle.create(league_id: iBattle.id, battle_url: "mq400yVwNUk")
 
 # creating battler/battle relationship
 BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: craniumVsDef.id)

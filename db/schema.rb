@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_31_092243) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_31_120811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,15 +30,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_31_092243) do
   end
 
   create_table "battles", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "league_id", null: false
     t.bigint "views"
     t.integer "rating"
     t.string "battle_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "league_id", null: false
     t.index ["league_id"], name: "index_battles_on_league_id"
-    t.index ["user_id"], name: "index_battles_on_user_id"
   end
 
   create_table "jwt_denylist", force: :cascade do |t|
@@ -54,11 +52,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_31_092243) do
     t.string "league_url"
     t.string "league_owner"
     t.string "league_logo"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "league_score"
-    t.index ["user_id"], name: "index_leagues_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -113,8 +109,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_31_092243) do
   add_foreign_key "battler_battles", "battlers"
   add_foreign_key "battler_battles", "battles"
   add_foreign_key "battles", "leagues"
-  add_foreign_key "battles", "users"
-  add_foreign_key "leagues", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "user_battlers", "battlers"
   add_foreign_key "user_battlers", "users"

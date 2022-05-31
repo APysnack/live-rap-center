@@ -39,6 +39,7 @@ function BattlePage() {
           <div>{battle.snippet.title}</div>
           <div>{battle.statistics.viewCount} views</div>
           <div>{battle.statistics.likeCount} likes</div>
+          <div>{battle.snippet.channelId}</div>
 
           {battlers
             ? Object.keys(battlers).map((battler, i) =>

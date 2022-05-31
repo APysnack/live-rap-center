@@ -9,6 +9,7 @@ import PasswordReset from "./components/PasswordReset/PasswordReset";
 import PasswordEdit from "./components/PasswordEdit/PasswordEdit";
 import CreateLeaguePage from "./components/CreateLeaguePage/CreateLeaguePage";
 import CreateBattlePage from "./components/CreateBattlePage/CreateBattlePage";
+import BattlePage from "./components/BattlePage/BattlePage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route exact path="/password-edit" element={<PasswordEdit />} />
         <Route exact path="/create-league" element={<CreateLeaguePage />} />
         <Route exact path="/create-battle" element={<CreateBattlePage />} />
+        <Route exact path="/battle/:battleId" element={<BattlePage />} />
       </Routes>
     </ThemeProvider>
   );

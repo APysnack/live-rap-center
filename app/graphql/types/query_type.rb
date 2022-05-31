@@ -10,10 +10,14 @@ module Types
     end
 
     field :leagues, [Types::LeagueType], null: false
-    field :league, Types::LeagueType, null: false
+    field :league, Types::LeagueType, null: false do
+      argument :id, ID, required: true
+    end
 
     field :battles, [Types::BattleType], null: false
-    field :battle, Types::BattleType, null: false
+    field :battle, Types::BattleType, null: false do
+      argument :id, ID, required: true
+    end
 
     def users
       User.all

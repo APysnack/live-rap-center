@@ -11,7 +11,7 @@ function ListBattlesPage() {
       {data.battles.map((battle) => (
         <div key={battle.id}>
           {battle.battlers.map((battler) => (
-            <div>{battler.name}</div>
+            <div key={battler.id}>{battler.name}</div>
           ))}
         </div>
       ))}

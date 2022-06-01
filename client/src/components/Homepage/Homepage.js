@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { loginWithToken, logoutUser } from "../../redux/userState";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import UserPage from "../UserPage/UserPage";
 
 function Homepage() {
   const [tokenPayload, setTokenPayload] = useState({});
@@ -11,6 +12,7 @@ function Homepage() {
     isLoading: true,
     isLoggedIn: false,
     email: "",
+    id: "",
   });
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ function Homepage() {
     if (user?.email && !currentUser.isLoggedIn) {
       let newUserState = {
         isLoading: false,
+        id: user.id,
         email: user.email,
         isLoggedIn: true,
       };
@@ -61,7 +64,7 @@ function Homepage() {
     <>
       {currentUser.isLoading && "Loading..."}
       {currentUser.isLoggedIn ? (
-        <LoggedInNotice user={currentUser} callLogoutUser={callLogoutUser} />
+        <UserPage userId={currentUser.id} callLogoutUser={callLogoutUser} />
       ) : (
         "User is not logged in"
       )}
@@ -70,14 +73,3 @@ function Homepage() {
 }
 
 export default Homepage;
-
-function LoggedInNotice({ user, callLogoutUser }) {
-  return (
-    <div>
-      <h1>Logged in as {user?.email}</h1>
-      <button style={{ color: "red" }} onClick={callLogoutUser}>
-        Log out
-      </button>
-    </div>
-  );
-}

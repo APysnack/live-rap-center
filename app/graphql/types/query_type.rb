@@ -19,6 +19,16 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :battlers, [Types::BattlerType], null: false
+    field :battler, Types::BattlerType, null: false do
+      argument :id, ID, required: true
+    end
+
+    field :roles, [Types::RoleType], null: false
+    field :role, Types::RoleType, null: false do
+      argument :id, ID, required: true
+    end
+
     def users
       User.all
     end
@@ -41,6 +51,23 @@ module Types
 
     def battle(id:)
       Battle.find_by(id: id)
+    end
+
+
+    def battlers
+      Battler.all
+    end
+
+    def battler(id:)
+      Battler.find_by(id: id)
+    end
+
+    def roles
+      Role.all
+    end
+
+    def role(id:)
+      Role.find_by(id: id)
     end
 
   end

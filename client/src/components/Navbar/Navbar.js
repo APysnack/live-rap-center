@@ -30,6 +30,7 @@ function Navbar() {
             <NavbarLink to="/">Home</NavbarLink>
             <NavbarLink to="/leagues">Leagues</NavbarLink>
             <NavbarLink to="/battles">Battles</NavbarLink>
+            <NavbarLink to="/battlers">Battlers</NavbarLink>
           </NavbarLinkContainer>
         </LeftContainer>
         <RightContainer>
@@ -45,7 +46,7 @@ function Navbar() {
             <NavbarLinkExtended to="/leagues">Leagues</NavbarLinkExtended>
           </NavbarLinkWrapper>
           <NavbarLinkWrapper>
-            <NavbarLinkExtended to="/battles">Battles</NavbarLinkExtended>
+            <NavbarLinkExtended to="/battlers">Battlers</NavbarLinkExtended>
           </NavbarLinkWrapper>
         </NavbarExtendedContainer>
       )}

@@ -10,6 +10,9 @@ import PasswordEdit from "./components/PasswordEdit/PasswordEdit";
 import CreateLeaguePage from "./components/CreateLeaguePage/CreateLeaguePage";
 import CreateBattlePage from "./components/CreateBattlePage/CreateBattlePage";
 import BattlePage from "./components/BattlePage/BattlePage";
+import LeaguePage from "./components/LeaguePage/LeaguePage";
+import ListLeaguesPage from "./components/ListLeaguesPage/ListLeaguesPage";
+import ListBattlesPage from "./components/ListBattlesPage/ListBattlesPage";
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
         <Route exact path="/create-league" element={<CreateLeaguePage />} />
         <Route exact path="/create-battle" element={<CreateBattlePage />} />
         <Route exact path="/battle/:battleId" element={<BattlePage />} />
+        <Route exact path="/league/:leagueId" element={<LeaguePage />} />
+        <Route exact path="/leagues" element={<ListLeaguesPage />} />
+        <Route exact path="/battles" element={<ListBattlesPage />} />
       </Routes>
     </ThemeProvider>
   );

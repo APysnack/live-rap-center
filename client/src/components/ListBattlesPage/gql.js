@@ -6,6 +6,7 @@ export const GET_BATTLES = gql`
       id
       battleUrl
       battlers {
+        id
         name
       }
     }

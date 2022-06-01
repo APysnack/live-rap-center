@@ -12,9 +12,20 @@ module Types
 
     field :posts, [Types::PostType], null: true
     field :posts_count, Integer, null: true
+    field :roles, [Types::RoleType], null: true
+    field :battler, Types::BattlerType, null: true
 
     def posts_count
       object.posts.size
     end
+
+    def roles
+      object.roles
+    end
+
+    def battler
+      object.battler
+    end
+
   end
 end

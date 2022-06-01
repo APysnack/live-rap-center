@@ -25,18 +25,16 @@ showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb
 iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
 
 # creating battlers
-battlerPurelyDef = Battler.create(name: "PurelyDef", league_id: lrc.id)
-battlerRichardCranium = Battler.create(name: "Richard Cranium")
-battlerRemyD = Battler.create(name: "RemyD")
-battlerKavemanBrown = Battler.create(name: "Kaveman Brown")
+battlerPurelyDef = Battler.create(user_id: purelyDef.id, name: "PurelyDef", league_id: lrc.id, score: 100)
+battlerRichardCranium = Battler.create(name: "Richard Cranium", score: 93)
+battlerRemyD = Battler.create(name: "RemyD", score: 88)
+battlerKavemanBrown = Battler.create(name: "Kaveman Brown", score: 86)
 battlerFloLeeds = Battler.create(name: "Flo Leeds")
 battlerReggieLoud = Battler.create(name: "Reginald Loud")
 battlerComa = Battler.create(name: "Coma")
 battlerSK = Battler.create(name: "SK")
 battler3rdDegree = Battler.create(name: "3rd Degree", league_id: lrc.id)
 
-# create UserBattlers
-UserBattler.create(user_id: purelyDef.id, battler_id: battlerPurelyDef.id)
 
 # creating battles
 craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo")

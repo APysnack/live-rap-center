@@ -17,8 +17,15 @@ UserRole.create(user_id: purelyDef.id, role_id: role_3.id)
 UserRole.create(user_id: organik.id, role_id: role.id)
 UserRole.create(user_id: organik.id, role_id: role_2.id)
 
+# creating leagues
+lrc = League.create(league_name: "Live Rap Circle", league_url: "UCWseCA4XbP2PvjBox1u4C9g")
+kotd = League.create(league_name: "King of the Dot", league_url: "UCIuFtIO8i_XqA8lM7q4B1FQ")
+url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwYF-g")
+showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
+iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
+
 # creating battlers
-battlerPurelyDef = Battler.create(name: "PurelyDef")
+battlerPurelyDef = Battler.create(name: "PurelyDef", league_id: lrc.id)
 battlerRichardCranium = Battler.create(name: "Richard Cranium")
 battlerRemyD = Battler.create(name: "RemyD")
 battlerKavemanBrown = Battler.create(name: "Kaveman Brown")
@@ -26,17 +33,10 @@ battlerFloLeeds = Battler.create(name: "Flo Leeds")
 battlerReggieLoud = Battler.create(name: "Reginald Loud")
 battlerComa = Battler.create(name: "Coma")
 battlerSK = Battler.create(name: "SK")
-battler3rdDegree = Battler.create(name: "3rd Degree")
+battler3rdDegree = Battler.create(name: "3rd Degree", league_id: lrc.id)
 
 # create UserBattlers
 UserBattler.create(user_id: purelyDef.id, battler_id: battlerPurelyDef.id)
-
-# creating leagues
-lrc = League.create(league_name: "Live Rap Circle", league_url: "UCWseCA4XbP2PvjBox1u4C9g")
-kotd = League.create(league_name: "King of the Dot", league_url: "UCIuFtIO8i_XqA8lM7q4B1FQ")
-url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwYF-g")
-showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
-iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
 
 # creating battles
 craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo")

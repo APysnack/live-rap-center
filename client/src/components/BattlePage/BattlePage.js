@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../../api/api";
 import { GET_BATTLE } from "./gql";
 import { useQuery } from "@apollo/client";
+import api from "../../api/api";
 
 const VIDEO_WIDTH = "480";
 const VIDEO_HEIGHT = "270";
 
 function BattlePage() {
-  const [battle, setBattle] = useState({});
   let { battleId } = useParams();
+  const [battle, setBattle] = useState({});
   const [youtubeId, setYoutubeId] = useState("");
   const [battlers, setBattlers] = useState({});
 

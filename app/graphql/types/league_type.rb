@@ -10,5 +10,16 @@ module Types
     field :league_logo, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :battles, [Types::BattleType], null: true
+    field :battlers, [Types::BattlerType], null: true
+
+    def battles
+      object.battles
+    end
+
+    def battlers
+      object.battlers
+    end
+
   end
 end

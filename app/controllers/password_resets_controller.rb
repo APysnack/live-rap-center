@@ -20,10 +20,10 @@ class PasswordResetsController < ApplicationController
         if @user.present?
             @user.password = params[:password]
             @user.save
-            redirect_to "http://localhost:3000"
+            redirect_to  ENV["CLIENT_URL"]
         end
     rescue ActiveSupport::MessageVerifier::InvalidSignature
-        redirect_to "http://localhost:3000"
+        redirect_to  ENV["CLIENT_URL"]
     end
 
     def update

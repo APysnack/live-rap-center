@@ -14,6 +14,7 @@ module Types
     field :posts_count, Integer, null: true
     field :roles, [Types::RoleType], null: true
     field :battler, Types::BattlerType, null: true
+    field :profile_picture, Types::ProfilePictureType, null: true
 
     def posts_count
       object.posts.size
@@ -25,6 +26,10 @@ module Types
 
     def battler
       object.battler
+    end
+
+    def profile_picture
+      object.profile_picture
     end
 
   end

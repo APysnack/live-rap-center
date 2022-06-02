@@ -8,6 +8,9 @@ export const GET_USER = gql`
       battler {
         name
       }
+      profilePicture {
+        url
+      }
     }
   }
 `;

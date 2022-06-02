@@ -6,4 +6,4 @@ If this was you, click the link to reset your password. The link will expire aut
 
 Do not click on this link if you did not make this request.
 
-<%= "http://localhost:3000/password-edit?token=#{@token.to_param}" %>
+<%=  ENV["SERVER_URL"] + "/password-edit?token=#{@token.to_param}" %>

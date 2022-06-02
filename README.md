@@ -16,7 +16,7 @@ and more<br/>
 $ `git clone git@github.com:APysnack/live-rap-center.git`
 
 ---------------------------
-2. Change directory into the user login folder
+2. Change directory into the live rap center folder
 
 $ `cd live-rap-center`
 
@@ -55,7 +55,7 @@ $`bundle exec rake db:migrate`
 8. You should now be able to run $`rails s` and see a blank page at `localhost:3001` with the word "main" on it. Keep the server terminal open. 
 
 ---------------------------
-9. Open a new terminal, cd to the `user-login/client` folder
+9. Open a new terminal, cd to the `live-rap-center/client` folder
 
 ---------------------------
 10. Install yarn dependencies

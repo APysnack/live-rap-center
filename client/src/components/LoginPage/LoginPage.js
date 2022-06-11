@@ -5,13 +5,19 @@ import LoginForm from "../LoginForm/LoginForm";
 import { useSelector } from "react-redux";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
+  // the current redux user
+  const { user, error } = useSelector((state) => state.user.userState);
+
+  // toggles the display of the registration form
   const [registrationEnabled, setRegistrationEnabled] = useState(false);
+
   const handleShowRegistration = () => {
     setRegistrationEnabled(true);
   };
-  const { user, error } = useSelector((state) => state.user.userState);
-  const navigate = useNavigate();
 
+  // if the user is logged in through redux, navigates back to homepage
   useEffect(() => {
     if (user?.email) {
       navigate("/");

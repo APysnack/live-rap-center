@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../../api/api";
 import { Formik, Form, Field } from "formik";
 import {
@@ -7,13 +7,20 @@ import {
 } from "../SharedComponents/BaseForm.styles";
 
 function PasswordEdit() {
-  let [searchParams, setSearchParams] = useSearchParams();
-  let token = searchParams.get("token");
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
+  const callback = (res) => {
+    if (res === 200) {
+      navigate("/");
+    }
+  };
 
   const handleSubmit = (values) => {
     if (token && values.password) {
       let payload = { token: token, new_password: values.password };
-      api.updatePassword(payload);
+      api.updatePassword(payload, callback);
     }
   };
 

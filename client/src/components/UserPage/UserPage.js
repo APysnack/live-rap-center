@@ -1,22 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { GET_USER } from "./gql";
-import { useQuery } from "@apollo/client";
+import React, { useState } from "react";
 import { Avatar } from "@mui/material";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import ChangeProfileImgForm from "../ChangeProfileImgForm/ChangeProfileImgForm";
 
 function UserPage({ userId, callLogoutUser }) {
-  const [user, setUser] = useState({});
+  // current redux state of the user
+  const { user } = useSelector((state) => state.user.userState);
   const [profileImgModalOpen, setProfileImgModalOpen] = useState(false);
-  const { loading, data } = useQuery(GET_USER, {
-    variables: { id: userId },
-  });
-
-  useEffect(() => {
-    if (data?.user) {
-      setUser(data.user);
-    }
-  }, [data]);
 
   const openImageModal = () => {
     setProfileImgModalOpen(true);
@@ -35,7 +26,7 @@ function UserPage({ userId, callLogoutUser }) {
           </div>
           <div>{user.username}</div>
           <Avatar
-            src={user?.profilePicture?.url}
+            src={"http://localhost:3001" + user?.profile_picture_url}
             sx={{ width: 150, height: 150 }}
             onClick={openImageModal}
             className="profileImg"

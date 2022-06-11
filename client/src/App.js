@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/" element={<Homepage />} />
         <Route exact path="/login" element={<LoginPage />} />
         <Route exact path="/password-reset" element={<PasswordReset />} />
-        <Route exact path="/password-edit" element={<PasswordEdit />} />
+        <Route exact path="/password/reset/edit" element={<PasswordEdit />} />
         <Route exact path="/create-league" element={<CreateLeaguePage />} />
         <Route exact path="/create-battle" element={<CreateBattlePage />} />
         <Route exact path="/battle/:battleId" element={<BattlePage />} />

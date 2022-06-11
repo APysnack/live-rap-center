@@ -12,7 +12,11 @@ Rails.application.configure do
   config.eager_load = false
 
   # IMPORTANT!: this specifies to the mailer to send to the CLIENT address, not the server
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3001 }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  Rails.application.configure do
+    routes.default_url_options[:host] = 'localhost:3001'
+  end
   
   # Show full error reports.
   config.consider_all_requests_local = true

@@ -7,5 +7,5 @@ If this was you, click the link to reset your password. The link will expire aut
 Do not click on this link if you did not make this request.
 
 
-<%= link_to "Reset password",  ENV["SERVER_URL"] + "/password-edit?token=#{@token.to_param}" %>
+<%= link_to "Reset password",  ENV["CLIENT_URL"] + "/password/reset/edit?token=#{@token.to_param}" %>
 

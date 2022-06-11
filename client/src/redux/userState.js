@@ -3,7 +3,6 @@ import axios from "axios";
 
 // UTILS
 function assembleResponse(res) {
-  console.log(res);
   var assembledResponse = {
     token: res.headers.authorization,
     user: res.data,
@@ -34,7 +33,7 @@ export const loginUser = createAsyncThunk("user/loginUser", (payload) => {
   return axios
     .post(`${API_URL}/login`, payload)
     .then((res) => assembleResponse(res))
-    .catch((error) => error);
+    .catch((error) => console.log(error));
 });
 
 export const loginWithToken = createAsyncThunk("user/currentUser", (config) => {
@@ -51,11 +50,22 @@ export const logoutUser = createAsyncThunk("user/logoutUser", (config) => {
     .catch((error) => error.message);
 });
 
+export const updateProfilePicture = createAsyncThunk(
+  "user/updateProfilePicture",
+  (payload) => {
+    return axios
+      .post(`${API_URL}/profile-picture`, payload)
+      .then((res) => res.data)
+      .catch((error) => error.message);
+  }
+);
+
 // INITIAL STATE
 const userInitialState = {
   userState: {
-    isLoading: false,
     user: null,
+    isLoading: false,
+    isLoggedIn: false,
     error: [],
   },
 };
@@ -68,16 +78,22 @@ const userSlice = createSlice({
   extraReducers: {
     [loginUser.pending.type]: (state, action) => {
       state.userState = {
+        user: null,
         isLoading: true,
+        isLoggedIn: false,
+        error: [],
       };
     },
     [loginUser.fulfilled.type]: (state, action) => {
       let res = JSON.parse(action.payload);
+      let user = res.user.data;
       if (res.token) {
         localStorage.setItem("auth_token", res.token);
         state.userState = {
+          user: user,
           isLoading: false,
-          user: res.user.data,
+          isLoggedIn: true,
+          error: [],
         };
       } else {
         state.userState = {
@@ -87,15 +103,19 @@ const userSlice = createSlice({
       }
     },
     [loginUser.rejected.type]: (state, action) => {
-      console.log(action);
       state.userState = {
-        isLoading: false,
         user: null,
+        isLoading: false,
+        isLoggedIn: false,
+        error: ["Error attempting to log in this user"],
       };
     },
     [registerUser.pending.type]: (state, action) => {
       state.userState = {
+        user: null,
         isLoading: true,
+        isLoggedIn: false,
+        error: [],
       };
     },
     [registerUser.fulfilled.type]: (state, action) => {
@@ -110,8 +130,9 @@ const userSlice = createSlice({
       } else {
         localStorage.setItem("auth_token", res.token);
         state.userState = {
-          isLoading: false,
           user: res.user.data,
+          isLoading: false,
+          isLoggedIn: true,
           error: [],
         };
       }
@@ -119,49 +140,83 @@ const userSlice = createSlice({
     [registerUser.rejected.type]: (state, action) => {
       console.log(`failed ${action}`);
       state.userState = {
+        user: null,
         isLoading: false,
-        user: {},
-        error: ["view register user rejected type"],
+        isLoggedIn: false,
+        error: ["attempt to register user has failed"],
       };
     },
     [logoutUser.pending.type]: (state, action) => {
       state.userState = {
+        user: null,
         isLoading: true,
+        isLoggedIn: false,
+        error: [],
       };
     },
     [logoutUser.fulfilled.type]: (state, action) => {
       localStorage.removeItem("auth_token");
       state.userState = {
-        isLoading: false,
         user: null,
+        isLoading: false,
+        isLoggedIn: false,
         error: [],
       };
     },
     [logoutUser.rejected.type]: (state, action) => {
       state.userState = {
+        user: null,
         isLoading: false,
-        user: [],
+        isLoggedIn: false,
         error: action.payload,
       };
     },
     [loginWithToken.pending.type]: (state, action) => {
       state.userState = {
+        user: null,
         isLoading: true,
+        isLoggedIn: false,
         error: [],
       };
     },
     [loginWithToken.fulfilled.type]: (state, action) => {
       state.userState = {
+        user: action.payload.data,
         isLoading: false,
-        user: action.payload,
+        isLoggedIn: true,
         error: [],
       };
     },
     [loginWithToken.rejected.type]: (state, action) => {
       state.userState = {
-        isLoading: false,
         user: null,
-        error: ["view login with user rejected type"],
+        isLoading: false,
+        isLoggedIn: false,
+        error: ["Error trying to log in with token"],
+      };
+    },
+    [updateProfilePicture.pending.type]: (state, action) => {
+      state.userState = {
+        user: null,
+        isLoading: true,
+        isLoggedIn: true,
+        error: [],
+      };
+    },
+    [updateProfilePicture.fulfilled.type]: (state, action) => {
+      state.userState = {
+        user: action.payload.data,
+        isLoading: false,
+        isLoggedIn: true,
+        error: [],
+      };
+    },
+    [updateProfilePicture.rejected.type]: (state, action) => {
+      console.log(`failed ${action}`);
+      state.userState = {
+        isLoading: false,
+        user: {},
+        error: ["Update profile picture was unsuccessful"],
       };
     },
   },

@@ -19,9 +19,21 @@ class PasswordResetsController < ApplicationController
         @user = User.find_signed!(params[:token], purpose: "password_reset")
         if @user.present?
             @user.password = params[:password]
-            @user.save
-            redirect_to  ENV["CLIENT_URL"]
+            if @user.save
+              render json: {
+                status: {code: 200, message: 'Password updated successfully.'},
+              }
+            else
+              render json: {
+                status: {message: "Error trying to serialize user. #{@user.errors.full_messages.to_sentence}"}
+              }, status: :unprocessable_entity
+            end
+        else
+            render json: {
+                status: {message: "user not found. #{@user.errors.full_messages.to_sentence}"}
+              }, status: :unprocessable_entity
         end
+
     rescue ActiveSupport::MessageVerifier::InvalidSignature
         redirect_to  ENV["CLIENT_URL"]
     end

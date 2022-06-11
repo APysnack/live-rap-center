@@ -1,23 +1,23 @@
 import axios from "axios";
-const { REACT_APP_YT_API_KEY } = process.env;
-
-const API_URL = "http://localhost:3001";
-const YT_VIDEO_API = "https://www.googleapis.com/youtube/v3/videos";
+const { REACT_APP_YT_API_KEY, REACT_APP_SERVER_URL, REACT_APP_YT_VIDEO_API } =
+  process.env;
 
 class API {
   passwordReset = (payload) => {
-    axios.post(`${API_URL}/password/reset`, payload).then((res) => res);
+    axios
+      .post(`${REACT_APP_SERVER_URL}/password/reset`, payload)
+      .then((res) => res);
   };
-
-  updatePassword = (payload) => {
-    axios.get(`${API_URL}/password/reset/edit`, {
-      params: { token: payload.token, password: payload.new_password },
-    });
+  updatePassword = (payload, callback) => {
+    axios
+      .get(`${REACT_APP_SERVER_URL}/password/reset/edit`, {
+        params: { token: payload.token, password: payload.new_password },
+      })
+      .then((res) => callback(res.status));
   };
-
   fetchYouTubeVideo = (id, callback) => {
     axios
-      .get(`${YT_VIDEO_API}?key=${REACT_APP_YT_API_KEY}`, {
+      .get(`${REACT_APP_YT_VIDEO_API}?key=${REACT_APP_YT_API_KEY}`, {
         params: { part: "snippet, statistics, player", id: id },
       })
       .then((res) => {

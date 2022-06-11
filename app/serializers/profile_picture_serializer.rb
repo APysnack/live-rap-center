@@ -1,4 +1,5 @@
-class ProfilePictureSerializer < ActiveModel::Serializer
+class ProfilePictureSerializer
+  include JSONAPI::Serializer
   include Rails.application.routes.url_helpers
   attributes :id, :name, :image
   has_one :user

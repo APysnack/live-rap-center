@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import BasicModal from "../SharedComponents/BasicModal";
-import api from "../../api/api";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfilePicture } from "../../redux/userState";
 
 function ChangeProfileImgForm({ isOpen, onClose }) {
+  const dispatch = useDispatch();
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("Choose File");
   const [uploadedFile, setUploadedFile] = useState({});
+  const { user } = useSelector((state) => state.user.userState);
 
   const onChange = (e) => {
     setFile(e.target.files[0]);
@@ -16,12 +18,10 @@ function ChangeProfileImgForm({ isOpen, onClose }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("user_id", 1);
+    formData.append("user_id", user.id);
     formData.append("name", fileName);
     formData.append("image", file);
-    axios
-      .post(`http://localhost:3001/profile-picture`, formData)
-      .then((res) => console.log(res));
+    dispatch(updateProfilePicture(formData));
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import BasicModal from "../SharedComponents/BasicModal";
+import BasicModal from "../BasicModal";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfilePicture } from "../../redux/userState";
+import { updateProfilePicture } from "../../../redux/userState";
 
 function ChangeProfileImgForm({ isOpen, onClose }) {
   const dispatch = useDispatch();

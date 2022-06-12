@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_02_111453) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_12_102651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -108,6 +108,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_02_111453) do
   end
 
   create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "social_media_links", force: :cascade do |t|
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "social_media_platform_id"
+    t.index ["social_media_platform_id"], name: "index_social_media_links_on_social_media_platform_id"
+    t.index ["user_id"], name: "index_social_media_links_on_user_id"
+  end
+
+  create_table "social_media_platforms", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

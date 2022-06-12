@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 import {
   LeftContainer,
@@ -17,6 +18,7 @@ import {
 import LogoImg from "../../images/Logo.svg";
 
 function Navbar() {
+  const { user } = useSelector((state) => state.user.userState);
   const [extendNavbar, setExtendNavbar] = useState(false);
 
   return (
@@ -31,6 +33,9 @@ function Navbar() {
             <NavbarLink to="/leagues">Leagues</NavbarLink>
             <NavbarLink to="/battles">Battles</NavbarLink>
             <NavbarLink to="/battlers">Battlers</NavbarLink>
+            {user?.email ? (
+              <NavbarLink to="/settings">Settings</NavbarLink>
+            ) : null}
           </NavbarLinkContainer>
         </LeftContainer>
         <RightContainer>
@@ -48,6 +53,11 @@ function Navbar() {
           <NavbarLinkWrapper>
             <NavbarLinkExtended to="/battlers">Battlers</NavbarLinkExtended>
           </NavbarLinkWrapper>
+          {user?.email ? (
+            <NavbarLinkWrapper>
+              <NavbarLinkExtended to="/settings">Settings</NavbarLinkExtended>
+            </NavbarLinkWrapper>
+          ) : null}
         </NavbarExtendedContainer>
       )}
     </NavbarContainer>

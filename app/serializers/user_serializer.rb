@@ -14,7 +14,7 @@ class UserSerializer
   attribute :socials do |object|
     socials = {}
     object.social_media_links.each do | link |
-      socials[link.social_media_platform.name] = link.url
+      socials[link.social_media_platform.name] = { platform_id: link.social_media_platform.id, url: link.url }
     end
     socials
 

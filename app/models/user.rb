@@ -7,6 +7,6 @@ class User < ApplicationRecord
   has_one :profile_picture
   has_many :user_roles
   has_many :roles, through: :user_roles
-
+  has_many :social_media_links
   has_one :battler
 end

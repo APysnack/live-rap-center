@@ -4,6 +4,12 @@ role_2 = Role.create(name: "owner")
 role_3 = Role.create(name: "film-maker")
 role_4 = Role.create(name: "voter")
 
+# creating SocialMediaPlatforms
+fb = SocialMediaPlatform.create(name: "Facebook")
+ig = SocialMediaPlatform.create(name: "Instagram")
+SocialMediaPlatform.create(name: "Twitter")
+SocialMediaPlatform.create(name: "SoundCloud")
+
 # creating users
 purelyDef = User.create(username: "PurelyDef", email: "purleedef@gmail.com", password: "password", is_verified: true)
 organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true)
@@ -65,3 +71,7 @@ BattlerBattle.create(battler_id: battler3rdDegree.id, battle_id: reggieVs3rdDegr
 
 BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: brotherPhilVsDef.id)
 BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: antVsDef.id)
+
+# creating SocialMediaLinks
+SocialMediaLink.create(user_id: purelyDef.id, url: "https://facebook.com/purleedef", social_media_platform_id: fb.id)
+SocialMediaLink.create(user_id: purelyDef.id , url: "https://instagram.com/purelydef", social_media_platform_id: ig.id)

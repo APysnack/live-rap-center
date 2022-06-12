@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
-import ChangeProfileImgForm from "../ChangeProfileImgForm/ChangeProfileImgForm";
 import { GET_USER_BATTLER } from "./gql";
 import { useQuery } from "@apollo/client";
 import api from "../../api/api";
+import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
+import SocialMediaContainer from "../SharedComponents/SocialMediaContainer/SocialMediaContainer";
 
-function UserPage({ userId, callLogoutUser }) {
+function UserPage({ callLogoutUser }) {
   // current redux state of the user
   const { user } = useSelector((state) => state.user.userState);
-  const [profileImgModalOpen, setProfileImgModalOpen] = useState(false);
   const [battler, setBattler] = useState({});
   const [battlerStats, setBattlerStats] = useState({
     totalViews: 0,
@@ -52,28 +50,15 @@ function UserPage({ userId, callLogoutUser }) {
     }
   }, [battler]);
 
-  const openImageModal = () => {
-    setProfileImgModalOpen(true);
-  };
-
-  const closeImageModal = () => {
-    setProfileImgModalOpen(false);
-  };
-
   return (
-    <UserPageWrapper>
+    <>
       {user ? (
         <div>
           <div>
             MY VIEW as a USER who battles -- not others view of my battler page:
           </div>
-          <div>{user.username}</div>
-          <Avatar
-            src={"http://localhost:3001" + user?.profile_picture_url}
-            sx={{ width: 150, height: 150 }}
-            onClick={openImageModal}
-            className="profileImg"
-          />
+          <div>Username: {user.username}</div>
+          <ImageUploadModal />
           {battler?.score ? <div>Current Score: {battler.score}</div> : "bar"}
           {battler?.league ? (
             <div>Home league: {battler.league.leagueName}</div>
@@ -82,10 +67,11 @@ function UserPage({ userId, callLogoutUser }) {
           )}
           <div>Total Views: {battlerStats.totalViews}</div>
           <div>Average Views: {battlerStats.avgViews}</div>
+          {Object.keys(user?.socials).length > 0 ? (
+            <SocialMediaContainer socials={user.socials} />
+          ) : null}
           <div>G: Top Battles of the week</div>
           <div>G: Active Twitter Spaces??</div>
-          <div>G: Settings</div>
-          <div>G: FB/Insta/Twitter for modification</div>
           <div>B: Rank</div>
           <div>
             B: League chat -- possibly on this page directly for ease of access
@@ -98,30 +84,15 @@ function UserPage({ userId, callLogoutUser }) {
           <div>Settings should:</div>
           <div>Modify booking price -- public or not</div>
           <div>Request a home league/Remove home league</div>
-          <div>Modify user image/battle image</div>
           <button style={{ color: "red" }} onClick={callLogoutUser}>
             Log out
           </button>
-          <ChangeProfileImgForm
-            isOpen={profileImgModalOpen}
-            onClose={closeImageModal}
-          />
         </div>
       ) : (
         <div>no user</div>
       )}
-    </UserPageWrapper>
+    </>
   );
 }
 
 export default UserPage;
-
-const UserPageWrapper = styled.div`
-  .profileImg {
-    border: 4px solid black;
-  }
-
-  .profileImg:hover {
-    cursor: pointer;
-  }
-`;

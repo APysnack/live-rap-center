@@ -14,6 +14,7 @@ import LeaguePage from "./components/LeaguePage/LeaguePage";
 import ListLeaguesPage from "./components/ListLeaguesPage/ListLeaguesPage";
 import ListBattlesPage from "./components/ListBattlesPage/ListBattlesPage";
 import ListBattlersPage from "./components/ListBattlersPage/ListBattlersPage";
+import UserSettingsPage from "./components/UserSettingsPage/UserSettingsPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route exact path="/leagues" element={<ListLeaguesPage />} />
         <Route exact path="/battles" element={<ListBattlesPage />} />
         <Route exact path="/battlers" element={<ListBattlersPage />} />
+        <Route exact path="/settings" element={<UserSettingsPage />} />
       </Routes>
     </ThemeProvider>
   );

@@ -30,6 +30,17 @@ module Types
       argument :id, ID, required: true
     end
 
+
+    field :socialMediaLinks, [Types::SocialMediaLinkType], null: false
+    field :socialMediaLink, Types::SocialMediaLinkType, null: false do
+      argument :id, ID, required: true
+    end
+
+    field :socialMediaPlatforms, [Types::SocialMediaPlatformType], null: false
+    field :socialMediaPlatform, Types::SocialMediaPlatformType, null: false do
+      argument :id, ID, required: true
+    end
+
     def users
       User.all
     end
@@ -75,5 +86,20 @@ module Types
       Role.find_by(id: id)
     end
 
+    def socialMediaLinks
+      SocialMediaLink.all
+    end
+
+    def socialMediaLink(id:)
+      SocialMediaLink.find_by(id: id)
+    end
+
+    def socialMediaPlatforms
+      SocialMediaPlatform.all
+    end
+
+    def socialMediaPlatform(id:)
+      SocialMediaPlatform.find_by(id: id)
+    end
   end
 end

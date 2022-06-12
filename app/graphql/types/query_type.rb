@@ -21,7 +21,8 @@ module Types
 
     field :battlers, [Types::BattlerType], null: false
     field :battler, Types::BattlerType, null: false do
-      argument :id, ID, required: true
+      argument :id, ID, required: false
+      argument :user_id, ID, required: false
     end
 
     field :roles, [Types::RoleType], null: false
@@ -58,8 +59,12 @@ module Types
       Battler.all
     end
 
-    def battler(id:)
-      Battler.find_by(id: id)
+    def battler(id: nil, user_id: nil)
+      if user_id.present?
+        Battler.find_by(user_id: user_id)
+      else
+        Battler.find_by(id: id)
+      end
     end
 
     def roles

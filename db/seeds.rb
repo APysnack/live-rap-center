@@ -38,6 +38,8 @@ battler3rdDegree = Battler.create(name: "3rd Degree", league_id: lrc.id)
 
 # creating battles
 craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo")
+brotherPhilVsDef = Battle.create(league_id: showtime.id, battle_url: "UE044GrYSXo")
+antVsDef = Battle.create(league_id: lrc.id, battle_url: "-EjyQarYyyk")
 remydVsComa = Battle.create(league_id: lrc.id, battle_url: "aPVZrMEYrR0")
 skVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "2QDeROLwwR8")
 kaveVsFloLeeds = Battle.create(league_id: lrc.id, battle_url: "NQ2Jr3se3vk")
@@ -60,3 +62,6 @@ BattlerBattle.create(battler_id: battler3rdDegree.id, battle_id: skVs3rdDegree.i
 
 BattlerBattle.create(battler_id: battlerReggieLoud.id, battle_id: reggieVs3rdDegree.id)
 BattlerBattle.create(battler_id: battler3rdDegree.id, battle_id: reggieVs3rdDegree.id)
+
+BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: brotherPhilVsDef.id)
+BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: antVsDef.id)

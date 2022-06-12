@@ -24,6 +24,18 @@ class API {
         callback(res.data.items[0]);
       });
   };
+  fetchYouTubeVideos = (ids, callback) => {
+    axios
+      .get(`${REACT_APP_YT_VIDEO_API}?key=${REACT_APP_YT_API_KEY}`, {
+        params: {
+          part: "snippet, statistics, player",
+          id: ids,
+        },
+      })
+      .then((res) => {
+        callback(res.data.items);
+      });
+  };
 }
 
 export default new API();

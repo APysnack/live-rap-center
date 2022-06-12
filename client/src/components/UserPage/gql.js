@@ -1,15 +1,14 @@
 import { gql } from "@apollo/client";
 
-export const GET_USER = gql`
-  query User($id: ID!) {
-    user(id: $id) {
-      username
-      email
-      battler {
-        name
+export const GET_USER_BATTLER = gql`
+  query Battler($userId: ID!) {
+    battler(userId: $userId) {
+      score
+      league {
+        leagueName
       }
-      profilePicture {
-        url
+      battles {
+        battleUrl
       }
     }
   }

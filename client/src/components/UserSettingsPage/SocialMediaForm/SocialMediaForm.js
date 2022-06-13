@@ -21,8 +21,11 @@ function SocialMediaForm() {
       let newValues = {};
 
       platformQuery.socialMediaPlatforms.forEach((platform) => {
-        let usersCurrentUrl = user.socials[platform.name].url;
-        let initialValue = usersCurrentUrl.length > 0 ? usersCurrentUrl : "";
+        // if user already has a url for this platform, autopopulates
+        // field with the url
+        let initialValue = user?.socials[platform.name]?.url
+          ? user.socials[platform.name].url
+          : "";
 
         let newField = {
           id: platform.id,

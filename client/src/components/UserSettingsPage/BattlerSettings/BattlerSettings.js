@@ -6,9 +6,10 @@ import { HomeLeagueWrapper } from "./BattlerSettings.styles";
 import ConfirmationModal from "../../SharedComponents/ConfirmationModal/ConfirmationModal";
 import { REMOVE_HOME_LEAGUE } from "./gql";
 import { useMutation } from "@apollo/client";
+import BattlerSettingsForm from "./BattlerSettingsForm/BattlerSettingsForm";
 
 function BattlerSettings({ user }) {
-  const { loading, data } = useQuery(GET_USER_BATTLER, {
+  const { data } = useQuery(GET_USER_BATTLER, {
     skip: !user?.id,
     variables: { userId: user?.id },
   });
@@ -43,14 +44,17 @@ function BattlerSettings({ user }) {
 
   return (
     <div>
-      {homeLeague ? (
-        <HomeLeagueWrapper>
-          <div> Home League: {homeLeague}</div>
-          <Delete onClick={openModal} className="delete" />
-        </HomeLeagueWrapper>
-      ) : (
-        <div>No home league. You must be invited to join a home league</div>
-      )}
+      <div>
+        {homeLeague ? (
+          <HomeLeagueWrapper>
+            <div> Home League: {homeLeague}</div>
+            <Delete onClick={openModal} className="delete" />
+          </HomeLeagueWrapper>
+        ) : (
+          <div>No home league. You must be invited to join a home league</div>
+        )}
+        <BattlerSettingsForm user={user} />
+      </div>
       <ConfirmationModal
         isOpen={modalOpen}
         onClose={closeModal}

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
 import SocialMediaForm from "./SocialMediaForm/SocialMediaForm";
-import BattlerSettings from "./BattlerSettings.js/BattlerSettings";
+import BattlerSettings from "./BattlerSettings/BattlerSettings";
 
 function UserSettingsPage() {
   const { user } = useSelector((state) => state.user.userState);

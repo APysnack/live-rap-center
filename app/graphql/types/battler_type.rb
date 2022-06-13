@@ -10,6 +10,7 @@ module Types
     field :league, Types::LeagueType, null: true
     field :battles, [Types::BattleType], null: true
     field :score, Int, null: false
+    field :booking_price, Integer, null: false
 
     def user
       user = object.user

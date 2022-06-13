@@ -83,7 +83,6 @@ function UserPage({ callLogoutUser }) {
           <div>B: Calendar for upcoming events?</div>
           <div>Settings should:</div>
           <div>Modify booking price -- public or not</div>
-          <div>Request a home league/Remove home league</div>
           <button style={{ color: "red" }} onClick={callLogoutUser}>
             Log out
           </button>

@@ -36,6 +36,11 @@ function Navbar() {
             {user?.email ? (
               <NavbarLink to="/settings">Settings</NavbarLink>
             ) : null}
+            {user?.roles.includes("league owner") ? (
+              <NavbarLink to="/league-settings" user={user}>
+                My League
+              </NavbarLink>
+            ) : null}
           </NavbarLinkContainer>
         </LeftContainer>
         <RightContainer>

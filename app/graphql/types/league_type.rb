@@ -5,7 +5,7 @@ module Types
     field :id, ID, null: false
     field :league_name, String, null: false
     field :league_url, String, null: false
-    field :league_owner, String
+    field :league_owner, ID, null: true
     field :league_score, Integer
     field :league_logo, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
@@ -20,6 +20,5 @@ module Types
     def battlers
       object.battlers
     end
-
   end
 end

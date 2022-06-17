@@ -9,4 +9,6 @@ class User < ApplicationRecord
   has_many :roles, through: :user_roles
   has_many :social_media_links
   has_one :battler
+  has_many :league_admins
+  has_many :leagues, :through => :league_admins
 end

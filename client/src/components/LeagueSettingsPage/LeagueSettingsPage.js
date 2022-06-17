@@ -6,6 +6,9 @@ import { useQuery } from "@apollo/client";
 function LeagueSettingsPage() {
   const { user } = useSelector((state) => state.user.userState);
   const [league, setLeague] = useState(null);
+
+  // currently only providing support for being admin of one league, hence the league_ids[0]
+  // of the array. will consider extending support for multiple leagues in the future
   const { loading, data } = useQuery(GET_USER_LEAGUE, {
     skip: !user?.league_ids,
     variables: { id: user.league_ids[0] },

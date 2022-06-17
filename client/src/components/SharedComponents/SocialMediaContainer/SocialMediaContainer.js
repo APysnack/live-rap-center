@@ -3,7 +3,6 @@ import SocialMediaLink from "./SocialMediaLink";
 import { SocialMediaContainerWrapper } from "./SocialMediaContainer.styles";
 
 function SocialMediaContainer({ socials }) {
-  console.log(socials);
   return (
     <SocialMediaContainerWrapper>
       {Object.keys(socials).map((keyName, i) =>

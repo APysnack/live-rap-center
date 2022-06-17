@@ -1,6 +1,6 @@
 class UserSerializer
   include JSONAPI::Serializer
-  attributes :id, :username, :email
+  attributes :id, :username, :email, :is_verified
   has_one :profile_picture, serializer: ProfilePictureSerializer
 
   attribute :profile_picture_url do |object|
@@ -19,4 +19,16 @@ class UserSerializer
     socials
 
   end
+
+  attribute :roles do |object|
+    roles = []
+    roles.concat(object.roles.map(&:name))
+  end
+
+  attribute :league_ids do |object|
+    leagues = []
+    leagues.concat(object.leagues.map(&:id))
+  end
+
+
 end

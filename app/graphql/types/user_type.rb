@@ -15,6 +15,7 @@ module Types
     field :roles, [Types::RoleType], null: true
     field :battler, Types::BattlerType, null: true
     field :profile_picture, Types::ProfilePictureType, null: true
+    field :leagues, [Types::LeagueType], null: true
 
     def posts_count
       object.posts.size
@@ -32,5 +33,8 @@ module Types
       object.profile_picture
     end
 
+    def leagues
+      object.leagues
+    end
   end
 end

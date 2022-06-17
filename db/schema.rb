@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_15_110332) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_17_112816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -82,10 +82,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_110332) do
     t.index ["jti"], name: "index_jwt_denylist_on_jti"
   end
 
+  create_table "league_admins", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "league_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["league_id"], name: "index_league_admins_on_league_id"
+    t.index ["user_id"], name: "index_league_admins_on_user_id"
+  end
+
   create_table "leagues", force: :cascade do |t|
     t.string "league_name"
     t.string "league_url"
-    t.string "league_owner"
     t.string "league_logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -163,6 +171,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_110332) do
   add_foreign_key "battlers", "leagues"
   add_foreign_key "battlers", "users"
   add_foreign_key "battles", "leagues"
+  add_foreign_key "league_admins", "leagues"
+  add_foreign_key "league_admins", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "profile_pictures", "users"
   add_foreign_key "user_roles", "roles"

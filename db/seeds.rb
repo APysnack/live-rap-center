@@ -1,7 +1,7 @@
 # creating roles
 role = Role.create(name: "battler")
-role_2 = Role.create(name: "owner")
-role_3 = Role.create(name: "film-maker")
+role_2 = Role.create(name: "league owner")
+role_3 = Role.create(name: "film maker")
 role_4 = Role.create(name: "voter")
 
 # creating SocialMediaPlatforms
@@ -29,6 +29,9 @@ kotd = League.create(league_name: "King of the Dot", league_url: "UCIuFtIO8i_XqA
 url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwYF-g")
 showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
 iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
+
+# assigning league admins
+LeagueAdmin.create(league_id: lrc.id, user_id: purelyDef.id)
 
 # creating battlers
 battlerPurelyDef = Battler.create(user_id: purelyDef.id, name: "PurelyDef", league_id: lrc.id, score: 100)

@@ -4,7 +4,7 @@ module Mutations
         argument :league_id, ID, required: true
         argument :battle_url, String, required: true
 
-        type Types::BattleType
+        type Types::Models::BattleType
 
         def resolve(league_id: nil, battle_url: nil)
             Battle.create!(

@@ -3,7 +3,7 @@ class Mutations::CreatePost < Mutations::BaseMutation
     argument :title, String, required: true
     argument :body, String, required: true
 
-    field :post, Types::PostType, null: false
+    field :post, Types::Models::PostType, null: false
     field :errors, [String], null: false
 
     def resolve(user_id:, title:, body:)

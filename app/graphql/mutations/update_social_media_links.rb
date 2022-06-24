@@ -4,7 +4,7 @@ module Mutations
         argument :attributes, [Types::SocialMediaLinkAttributes]
         argument :user_id, Integer, required: true
 
-        type [Types::SocialMediaLinkType]
+        type [Types::Models::SocialMediaLinkType]
 
         def resolve(user_id: nil, attributes: nil)
             attributes.each do |attribute|

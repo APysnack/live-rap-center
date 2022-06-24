@@ -2,7 +2,7 @@ module Mutations
     class DeleteHomeLeague < BaseMutation
         argument :user_id, Integer, required: true
 
-        type Types::BattlerType
+        type Types::Models::BattlerType
 
         def resolve(user_id: nil)
             user = User.find_by(id: user_id)

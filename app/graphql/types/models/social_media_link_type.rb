@@ -1,4 +1,7 @@
+# namespace will reflect the module nesting shown below --> Types::Models::{modelNameHere}Type
+
 module Types
+  module Models
     class SocialMediaLinkType < Types::BaseObject
       field :id, ID
       field :user_id, ID
@@ -10,5 +13,6 @@ module Types
         object.social_media_platform.name
       end
     end
+  end
 end
   

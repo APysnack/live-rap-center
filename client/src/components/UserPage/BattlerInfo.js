@@ -3,15 +3,13 @@ import { Link } from "react-router-dom";
 import api from "../../api/api";
 import LeagueInvitations from "./LeagueInvitations";
 
-function BattlerInfo({ battler }) {
+function BattlerInfo({ battler, refetchBattler }) {
   const [battlerStats, setBattlerStats] = useState({
     totalViews: 0,
     avgViews: 0,
   });
 
-  useEffect(() => {
-    console.log(battler.potentialLeagues);
-  }, []);
+  const [potentialLeagues, setPotentialLeagues] = useState(null);
 
   const updateViews = (res) => {
     const totalViews = res.reduce(
@@ -35,6 +33,9 @@ function BattlerInfo({ battler }) {
       idString = idString.replace(/,\s*$/, "");
       api.fetchYouTubeVideos(idString, updateViews);
     }
+    if (battler?.potentialLeagues?.length > 0) {
+      setPotentialLeagues(battler.potentialLeagues);
+    }
   }, [battler]);
 
   return (
@@ -51,8 +52,13 @@ function BattlerInfo({ battler }) {
       ) : null}
       <div>Total Views: {battlerStats.totalViews}</div>
       <div>Average Views: {battlerStats.avgViews}</div>
-      {battler?.potentialLeagues?.length > 0 ? (
-        <LeagueInvitations battler={battler} />
+      {potentialLeagues?.length > 0 ? (
+        <LeagueInvitations
+          battler={battler}
+          potentialLeagues={potentialLeagues}
+          setPotentialLeagues={setPotentialLeagues}
+          refetchBattler={refetchBattler}
+        />
       ) : null}
     </div>
   );

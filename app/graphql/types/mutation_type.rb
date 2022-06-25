@@ -8,5 +8,6 @@ module Types
     field :update_social_media_links, mutation: Mutations::UpdateSocialMediaLinks
     field :create_league_invitation, mutation: Mutations::CreateLeagueInvitation
     field :add_home_league_to_battler, mutation: Mutations::AddHomeLeagueToBattler
+    field :delete_league_invitation, mutation: Mutations::DeleteLeagueInvitation
   end
 end

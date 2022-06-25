@@ -7,9 +7,11 @@ module Mutations
 
         def resolve(league_id: nil, battler_id: nil)
             battler = Battler.find_by(id: battler_id)
-            invitation = LeagueInvitation.find_by(battler_id: battler_id, league_id: league_id)
-            if invitation.present? && battler.present?
+            invitations = LeagueInvitation.where(battler_id: battler_id)
+            invitations.each do | invitation |
                 invitation.destroy
+            end
+            if battler.present?
                 battler.league_id = league_id
                 battler.save
                 battler

@@ -4,6 +4,7 @@ export const GET_USER_BATTLER = gql`
   query Battler($userId: ID!) {
     battler(userId: $userId) {
       id
+      name
       score
       league {
         leagueName
@@ -25,10 +26,16 @@ export const ADD_HOME_LEAGUE_TO_BATTLER = gql`
       input: { battlerId: $battlerId, leagueId: $leagueId }
     ) {
       id
-      name
-      league {
-        leagueName
-      }
+    }
+  }
+`;
+
+export const DELETE_LEAGUE_INVITATION = gql`
+  mutation deleteLeagueInvitation($battlerId: ID!, $leagueId: ID!) {
+    deleteLeagueInvitation(
+      input: { battlerId: $battlerId, leagueId: $leagueId }
+    ) {
+      message
     }
   }
 `;

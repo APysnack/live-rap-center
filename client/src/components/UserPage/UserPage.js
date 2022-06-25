@@ -11,7 +11,11 @@ function UserPage({ callLogoutUser }) {
   const { user } = useSelector((state) => state.user.userState);
   const [battler, setBattler] = useState(null);
 
-  const { loading, data: battlerData } = useQuery(GET_USER_BATTLER, {
+  const {
+    loading,
+    data: battlerData,
+    refetch,
+  } = useQuery(GET_USER_BATTLER, {
     skip: !user?.id,
     variables: { userId: user?.id },
   });
@@ -22,6 +26,8 @@ function UserPage({ callLogoutUser }) {
     }
   }, [battlerData]);
 
+  if (loading) return "Loading...";
+
   return (
     <>
       {user ? (
@@ -31,7 +37,9 @@ function UserPage({ callLogoutUser }) {
           </div>
           <div>Username: {user.username}</div>
           <ImageUploadModal />
-          {battler ? <BattlerInfo battler={battler} /> : null}
+          {battler?.name ? (
+            <BattlerInfo battler={battler} refetchBattler={refetch} />
+          ) : null}
 
           {Object.keys(user?.socials).length > 0 ? (
             <SocialMediaContainer socials={user.socials} />

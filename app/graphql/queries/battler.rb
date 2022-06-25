@@ -9,9 +9,11 @@ module Queries
   
       def resolve(id: nil, user_id: nil)
         if user_id.present?
-            ::Battler.find_by(user_id: user_id)
+            battler = ::Battler.find_by(user_id: user_id)
+            battler
         else
-            ::Battler.find_by(id: id)
+            battler = ::Battler.find_by(id: id)
+            battler
         end
       end
     end

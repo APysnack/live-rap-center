@@ -94,13 +94,11 @@ function BattlerPage() {
           <div>This battler's rating is {battler.score}</div>
           <div>Total Views: {battlerStats.totalViews}</div>
           <div>Average Views: {battlerStats.avgViews}</div>
-          {userViewingPageIsLeagueOwner ? (
-            <LeagueOwnerControls
-              battler={battler}
-              leagueOwner={user}
-              setFlashMessage={setFlashMessage}
-            />
-          ) : null}
+          <LeagueOwnerControls
+            battler={battler}
+            leagueOwner={userViewingPageIsLeagueOwner ? user : null}
+            setFlashMessage={setFlashMessage}
+          />
         </div>
       ) : null}
     </>

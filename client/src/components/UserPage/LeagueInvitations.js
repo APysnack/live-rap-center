@@ -17,9 +17,16 @@ function LeagueInvitations({
     { onCompleted: refetchBattler }
   );
 
+  const updateViewAfterDelete = () => {
+    if (potentialLeagues.length <= 1) {
+      setPotentialLeagues(null);
+    }
+    refetchBattler();
+  };
+
   const [deleteLeagueInvitation, { data: deleteLeagueData }] = useMutation(
     DELETE_LEAGUE_INVITATION,
-    { onCompleted: refetchBattler }
+    { onCompleted: updateViewAfterDelete }
   );
 
   const acceptLeagueInvitation = (leagueId) => {

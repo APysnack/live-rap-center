@@ -13,6 +13,8 @@ module Types
       field :score, Int, null: true
       field :booking_price, Integer, null: true
       field :booking_price_enabled, Boolean, null: true
+      field :potential_leagues, [Types::Models::LeagueType], null: true
+      field :league_id, ID, null: false
 
       def user
         user = object.user
@@ -24,6 +26,10 @@ module Types
 
       def battles
         battles = object.battles
+      end
+
+      def potential_leagues
+        potentialLeagues = object.potential_leagues
       end
     end
   end

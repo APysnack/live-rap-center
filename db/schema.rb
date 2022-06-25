@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_17_112816) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_25_124709) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -89,6 +89,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_17_112816) do
     t.datetime "updated_at", null: false
     t.index ["league_id"], name: "index_league_admins_on_league_id"
     t.index ["user_id"], name: "index_league_admins_on_user_id"
+  end
+
+  create_table "league_invitations", force: :cascade do |t|
+    t.bigint "league_id", null: false
+    t.bigint "battler_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battler_id"], name: "index_league_invitations_on_battler_id"
+    t.index ["league_id"], name: "index_league_invitations_on_league_id"
   end
 
   create_table "leagues", force: :cascade do |t|
@@ -173,6 +182,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_17_112816) do
   add_foreign_key "battles", "leagues"
   add_foreign_key "league_admins", "leagues"
   add_foreign_key "league_admins", "users"
+  add_foreign_key "league_invitations", "battlers"
+  add_foreign_key "league_invitations", "leagues"
   add_foreign_key "posts", "users"
   add_foreign_key "profile_pictures", "users"
   add_foreign_key "user_roles", "roles"

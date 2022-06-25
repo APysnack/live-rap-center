@@ -2,12 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/api";
 import LeagueInvitations from "./LeagueInvitations";
+import { HomeLeagueContainer } from "./BattlerInfo.styles";
+import { DELETE_HOME_LEAGUE_FROM_BATTLER } from "./gql";
+import { useMutation } from "@apollo/client";
 
 function BattlerInfo({ battler, refetchBattler }) {
   const [battlerStats, setBattlerStats] = useState({
     totalViews: 0,
     avgViews: 0,
   });
+
+  const [deleteHomeLeagueFromBattler] = useMutation(
+    DELETE_HOME_LEAGUE_FROM_BATTLER,
+    {
+      onCompleted: refetchBattler,
+    }
+  );
 
   const [potentialLeagues, setPotentialLeagues] = useState(null);
 
@@ -38,12 +48,21 @@ function BattlerInfo({ battler, refetchBattler }) {
     }
   }, [battler]);
 
+  const deleteHomeLeague = () => {
+    deleteHomeLeagueFromBattler({
+      variables: { battlerId: battler.id },
+    });
+  };
+
   return (
     <div>
       Battler Stats
       {battler?.score ? <div>Current Score: {battler.score}</div> : null}
       {battler?.league ? (
-        <div>Home league: {battler.league.leagueName}</div>
+        <HomeLeagueContainer>
+          <div>Home league: {battler.league.leagueName}</div>
+          <button onClick={deleteHomeLeague}>Quit my home league</button>
+        </HomeLeagueContainer>
       ) : (
         <div>No Home league selected</div>
       )}

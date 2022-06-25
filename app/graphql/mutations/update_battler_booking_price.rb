@@ -1,6 +1,6 @@
 module Mutations
-    class UpdateBattler < BaseMutation
-        argument :user_id, Integer, required: true
+    class UpdateBattlerBookingPrice < BaseMutation
+        argument :user_id, ID, required: true
         argument :booking_price, Integer, required: false
         argument :booking_price_enabled, Boolean, required: true
 

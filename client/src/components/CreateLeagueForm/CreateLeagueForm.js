@@ -12,7 +12,6 @@ function CreateLeagueForm() {
   const [flashMessage, setFlashMessage] = useState("");
 
   const addNewLeague = (values) => {
-    console.log(values);
     createLeague({
       variables: { leagueName: values.leagueName, leagueUrl: values.leagueUrl },
     });

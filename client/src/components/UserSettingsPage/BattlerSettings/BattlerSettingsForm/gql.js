@@ -1,12 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const UPDATE_BATTLER = gql`
-  mutation updateBattler(
-    $userId: Int!
+  mutation updateBattlerBookingPrice(
+    $userId: ID!
     $bookingPrice: Int
     $bookingPriceEnabled: Boolean!
   ) {
-    updateBattler(
+    updateBattlerBookingPrice(
       input: {
         userId: $userId
         bookingPrice: $bookingPrice

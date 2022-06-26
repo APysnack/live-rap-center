@@ -4,6 +4,7 @@ class League < ApplicationRecord
   has_many :league_admins
   has_many :users, :through => :league_admins
   has_many :league_invitations
+  has_one_attached :image
 
   # lets us alias the battlers model as "potential battlers" 
   # this makes league.potential_battlers explicitly different from league.battlers

@@ -34,7 +34,7 @@ function UserSettingsPage() {
   return (
     <div>
       UserSettingsPage
-      <ImageUploadModal />
+      <ImageUploadModal type="profile picture" />
       {battler ? <BattlerSettings user={user} battler={battler} /> : null}
       <SocialMediaForm />
     </div>

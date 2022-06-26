@@ -10,5 +10,6 @@ module Types
     field :add_home_league_to_battler, mutation: Mutations::AddHomeLeagueToBattler
     field :delete_league_invitation, mutation: Mutations::DeleteLeagueInvitation
     field :delete_home_league_from_battler, mutation: Mutations::DeleteHomeLeagueFromBattler
+    field :create_league_logo, mutation: Mutations::CreateLeagueLogo
   end
 end

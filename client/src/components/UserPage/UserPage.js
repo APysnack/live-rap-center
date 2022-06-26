@@ -36,7 +36,7 @@ function UserPage({ callLogoutUser }) {
             MY VIEW as a USER who battles -- not others view of my battler page:
           </div>
           <div>Username: {user.username}</div>
-          <ImageUploadModal />
+          <ImageUploadModal type="profile picture" />
           {battler?.name ? (
             <BattlerInfo battler={battler} refetchBattler={refetch} />
           ) : null}

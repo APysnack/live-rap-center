@@ -18,10 +18,6 @@ function BaseForm({
   const [checkboxStates, setCheckboxStates] = useState({});
 
   useEffect(() => {
-    console.log(checkboxStates);
-  }, [checkboxStates]);
-
-  useEffect(() => {
     let checkBoxFields = {};
     fieldArray.map((field) => {
       if (field.isCheckboxField) {

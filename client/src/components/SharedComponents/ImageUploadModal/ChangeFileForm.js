@@ -3,7 +3,7 @@ import BasicModal from "../BasicModal";
 import { useMutation } from "@apollo/client";
 import { CREATE_LEAGUE_LOGO, CREATE_USER_PROFILE_PICTURE } from "./gql";
 
-function ChangeFileForm({ isOpen, onClose, type, refetch }) {
+function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("Choose File");
 
@@ -23,12 +23,12 @@ function ChangeFileForm({ isOpen, onClose, type, refetch }) {
     e.preventDefault();
     if (type === "profile picture") {
       createUserProfilePicture({
-        variables: { userId: 1, name: fileName, image: file },
+        variables: { userId: object?.id, name: fileName, image: file },
         onCompleted: refetchContent,
       });
     } else if (type === "league logo") {
       createLeagueLogo({
-        variables: { leagueId: 1, name: fileName, image: file },
+        variables: { leagueId: object?.id, name: fileName, image: file },
         onCompleted: refetchContent,
       });
     }

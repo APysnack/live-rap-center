@@ -12,5 +12,6 @@ module Types
     field :delete_home_league_from_battler, mutation: Mutations::DeleteHomeLeagueFromBattler
     field :create_league_logo, mutation: Mutations::CreateLeagueLogo
     field :create_user_profile_picture, mutation: Mutations::CreateUserProfilePicture
+    field :update_league_settings, mutation: Mutations::UpdateLeagueSettings
   end
 end

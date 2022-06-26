@@ -39,6 +39,7 @@ function ImageUploadModal({ type, refetch, object = null }) {
         onClose={closeImageModal}
         refetch={refetch}
         type={type}
+        object={object}
       />
     </ImageModalWrapper>
   );

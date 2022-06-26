@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { GET_USER_LEAGUE } from "./gql";
 import { useQuery } from "@apollo/client";
 import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
+import EditLeagueForm from "./EditLeagueForm/EditLeagueForm";
 
 function LeagueSettingsPage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -24,10 +25,12 @@ function LeagueSettingsPage() {
   return (
     <>
       <div>Logged in as {user?.username}</div>
-      <ImageUploadModal type="league logo" object={league} refetch={refetch} />
       {league ? (
         <div>Modifying league settings for {league.leagueName}</div>
       ) : null}
+      <ImageUploadModal type="league logo" object={league} refetch={refetch} />
+
+      <EditLeagueForm league={league} refetch={refetch} />
     </>
   );
 }

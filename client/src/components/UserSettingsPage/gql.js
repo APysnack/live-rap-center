@@ -9,3 +9,13 @@ export const GET_BATTLER = gql`
     }
   }
 `;
+
+export const GET_USER = gql`
+  query user($id: ID!) {
+    user(id: $id) {
+      id
+      username
+      profilePictureUrl
+    }
+  }
+`;

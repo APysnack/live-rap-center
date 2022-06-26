@@ -24,7 +24,6 @@ function RegistrationForm() {
   }, [user]);
 
   const callRegisterUser = (inputValues) => {
-    console.log(inputValues);
     let payload = {
       user: {
         username: inputValues.username,

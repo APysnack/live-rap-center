@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { GET_BATTLER } from "./gql";
+import { GET_USER, GET_BATTLER } from "./gql";
 import { useQuery } from "@apollo/client";
 import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
 import SocialMediaForm from "./SocialMediaForm/SocialMediaForm";
@@ -12,8 +12,26 @@ function UserSettingsPage() {
   const [battler, setBattler] = useState(null);
   const navigate = useNavigate();
 
-  const { loading, data } = useQuery(GET_BATTLER, {
-    variables: { id: user.id },
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const {
+    loading,
+    data: userData,
+    refetch: refetchUser,
+  } = useQuery(GET_USER, {
+    skip: user?.id ? false : true,
+    variables: { id: user?.id },
+  });
+
+  useEffect(() => {
+    if (userData?.user) {
+      setCurrentUser(userData.user);
+    }
+  }, [userData]);
+
+  const { data } = useQuery(GET_BATTLER, {
+    skip: currentUser?.id ? false : true,
+    variables: { id: currentUser?.id },
   });
 
   useEffect(() => {
@@ -34,8 +52,14 @@ function UserSettingsPage() {
   return (
     <div>
       UserSettingsPage
-      <ImageUploadModal type="profile picture" />
-      {battler ? <BattlerSettings user={user} battler={battler} /> : null}
+      <ImageUploadModal
+        type="profile picture"
+        object={currentUser}
+        refetch={refetchUser}
+      />
+      {battler ? (
+        <BattlerSettings user={currentUser} battler={battler} />
+      ) : null}
       <SocialMediaForm />
     </div>
   );

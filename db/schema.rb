@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_26_135519) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_26_195131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -117,14 +117,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_26_135519) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "profile_pictures", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_profile_pictures_on_user_id"
-  end
-
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -184,7 +176,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_26_135519) do
   add_foreign_key "league_invitations", "battlers"
   add_foreign_key "league_invitations", "leagues"
   add_foreign_key "posts", "users"
-  add_foreign_key "profile_pictures", "users"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
 end

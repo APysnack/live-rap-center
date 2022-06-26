@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import BasicModal from "../BasicModal";
 import { useMutation } from "@apollo/client";
-import { CREATE_LEAGUE_LOGO } from "./gql";
+import { CREATE_LEAGUE_LOGO, CREATE_USER_PROFILE_PICTURE } from "./gql";
 
-function ChangeLeagueLogoForm({ isOpen, onClose, refetch }) {
+function ChangeFileForm({ isOpen, onClose, type, refetch }) {
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("Choose File");
-  const [createLeagueLogo, { data }] = useMutation(CREATE_LEAGUE_LOGO);
+
+  const [createLeagueLogo, { data: leagueLogoData }] =
+    useMutation(CREATE_LEAGUE_LOGO);
+
+  const [createUserProfilePicture, { data: userProfilePicData }] = useMutation(
+    CREATE_USER_PROFILE_PICTURE
+  );
 
   const onChange = (e) => {
     setFile(e.target.files[0]);
@@ -15,10 +21,17 @@ function ChangeLeagueLogoForm({ isOpen, onClose, refetch }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    createLeagueLogo({
-      variables: { leagueId: 1, name: fileName, image: file },
-      onCompleted: refetchContent,
-    });
+    if (type === "profile picture") {
+      createUserProfilePicture({
+        variables: { userId: 1, name: fileName, image: file },
+        onCompleted: refetchContent,
+      });
+    } else if (type === "league logo") {
+      createLeagueLogo({
+        variables: { leagueId: 1, name: fileName, image: file },
+        onCompleted: refetchContent,
+      });
+    }
   };
 
   const refetchContent = () => {
@@ -28,7 +41,7 @@ function ChangeLeagueLogoForm({ isOpen, onClose, refetch }) {
 
   return (
     <BasicModal isOpen={isOpen} onClose={onClose}>
-      <div>THIS IS FOR EDITING LEAGUE LOGOS</div>
+      <div>THIS IS FOR EDITING USER PROFILE PICTURES</div>
       <form onSubmit={onSubmit}>
         <div className="custom-file">
           <input
@@ -48,4 +61,4 @@ function ChangeLeagueLogoForm({ isOpen, onClose, refetch }) {
   );
 }
 
-export default ChangeLeagueLogoForm;
+export default ChangeFileForm;

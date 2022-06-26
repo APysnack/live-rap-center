@@ -11,4 +11,5 @@ class User < ApplicationRecord
   has_one :battler
   has_many :league_admins
   has_many :leagues, :through => :league_admins
+  has_one_attached :image
 end

@@ -6,8 +6,9 @@ module Queries
   
       type Types::Models::UserType, null: true
   
-      def resolve(id: nil)
-        ::User.find_by(id: id)
+      def resolve(id:)
+        user = ::User.find_by(id: id)
+        return user
       end
     end
 end

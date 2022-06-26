@@ -21,6 +21,16 @@ export const GET_USER_BATTLER = gql`
   }
 `;
 
+export const GET_USER = gql`
+  query user($id: ID!) {
+    user(id: $id) {
+      id
+      username
+      profilePictureUrl
+    }
+  }
+`;
+
 export const DELETE_LEAGUE_INVITATION = gql`
   mutation deleteLeagueInvitation($battlerId: ID!, $leagueId: ID!) {
     deleteLeagueInvitation(

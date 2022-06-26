@@ -1,6 +1,7 @@
+include Rails.application.routes.url_helpers
+
 # namespace will reflect the module nesting shown below --> Types::Models::{modelNameHere}Type
 # note this matches the folder structure
-
 module Types
   module Models
     class UserType < Types::BaseObject
@@ -18,6 +19,7 @@ module Types
       field :battler, Types::Models::BattlerType, null: true
       field :profile_picture, Types::Models::ProfilePictureType, null: true
       field :leagues, [Types::Models::LeagueType], null: true
+      field :profile_picture_url, String, null: true
 
       def posts_count
         object.posts.size
@@ -33,6 +35,12 @@ module Types
 
       def profile_picture
         object.profile_picture
+      end
+
+      def profile_picture_url
+        if object.image.present?
+          rails_blob_path(object.image, host: ENV["SERVER_URL"])
+        end
       end
 
       def leagues

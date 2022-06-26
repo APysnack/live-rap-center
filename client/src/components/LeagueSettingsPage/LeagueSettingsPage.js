@@ -24,7 +24,7 @@ function LeagueSettingsPage() {
   return (
     <>
       <div>Logged in as {user?.username}</div>
-      <ImageUploadModal type="league logo" league={league} refetch={refetch} />
+      <ImageUploadModal type="league logo" object={league} refetch={refetch} />
       {league ? (
         <div>Modifying league settings for {league.leagueName}</div>
       ) : null}

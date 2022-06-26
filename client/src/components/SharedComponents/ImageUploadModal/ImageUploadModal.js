@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
-import ChangeProfileImgForm from "./ChangeProfileImgForm";
+import ChangeFileForm from "./ChangeFileForm";
 import { ImageModalWrapper } from "./ImageUploadModal.styles";
-import ChangeLeagueLogoForm from "./ChangeLeagueLogoForm";
 
 const { REACT_APP_SERVER_URL } = process.env;
 
-function ImageUploadModal({ type, refetch, league = null }) {
-  const { user } = useSelector((state) => state.user.userState);
+function ImageUploadModal({ type, refetch, object = null }) {
   const [modelOpen, setModalOpen] = useState(false);
 
   const openImageModal = () => {
@@ -21,9 +18,9 @@ function ImageUploadModal({ type, refetch, league = null }) {
 
   const getImageSource = () => {
     if (type === "profile picture") {
-      return REACT_APP_SERVER_URL + user?.profile_picture_url;
+      return REACT_APP_SERVER_URL + object?.profilePictureUrl;
     } else if (type === "league logo") {
-      return REACT_APP_SERVER_URL + league?.logoUrl;
+      return REACT_APP_SERVER_URL + object?.logoUrl;
     } else {
       return null;
     }
@@ -37,15 +34,12 @@ function ImageUploadModal({ type, refetch, league = null }) {
         onClick={openImageModal}
         className="profileImg"
       />
-      {type === "profile picture" ? (
-        <ChangeProfileImgForm isOpen={modelOpen} onClose={closeImageModal} />
-      ) : (
-        <ChangeLeagueLogoForm
-          isOpen={modelOpen}
-          onClose={closeImageModal}
-          refetch={refetch}
-        />
-      )}
+      <ChangeFileForm
+        isOpen={modelOpen}
+        onClose={closeImageModal}
+        refetch={refetch}
+        type={type}
+      />
     </ImageModalWrapper>
   );
 }

@@ -11,3 +11,13 @@ export const CREATE_LEAGUE_LOGO = gql`
     }
   }
 `;
+
+export const CREATE_USER_PROFILE_PICTURE = gql`
+  mutation CreateUserProfilePicture($userId: ID!, $image: Upload!) {
+    createUserProfilePicture(input: { userId: $userId, image: $image }) {
+      id
+      username
+      profilePictureUrl
+    }
+  }
+`;

@@ -12,6 +12,11 @@ export const GET_BATTLER = gql`
       user {
         id
         isVerified
+        socialMediaLinks {
+          id
+          socialMediaPlatformName
+          url
+        }
       }
       league {
         leagueName

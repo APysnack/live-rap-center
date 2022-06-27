@@ -1,30 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import BaseForm from "../../SharedComponents/BaseForm";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_ALL_SOCIAL_PLATFORMS, UPDATE_SOCIALS } from "./gql";
-import { useSelector } from "react-redux";
 
-function SocialMediaForm() {
+function SocialMediaForm({ currentUser, refetchUser }) {
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
-  const { user } = useSelector((state) => state.user.userState);
+  const [userSocials, setUserSocials] = useState({});
+  const userIsMounted = useRef(false);
 
   const { loading: platformQueryLoading, data: platformQuery } = useQuery(
     GET_ALL_SOCIAL_PLATFORMS
   );
   const [updateSocials, { loading, data, error }] = useMutation(UPDATE_SOCIALS);
 
+  useEffect(() => {
+    if (currentUser?.socialMediaLinks) {
+      let socials = {};
+      currentUser.socialMediaLinks.map((social) => {
+        let newObj = { [social.socialMediaPlatformName]: social.url };
+        socials = { ...socials, ...newObj };
+      });
+      setUserSocials({ ...socials });
+      userIsMounted.current = true;
+    }
+  }, [currentUser]);
+
   // generates SocialMediaFormFields dynamically
   // one for each SocialMediaPlatform in the database
   useEffect(() => {
-    if (platformQuery?.socialMediaPlatforms?.length > 0) {
+    if (
+      platformQuery?.socialMediaPlatforms?.length > 0 &&
+      !Object.keys(initialValues).length > 0 &&
+      !fieldArray.length > 0 &&
+      userIsMounted.current === true
+    ) {
       let newValues = {};
 
       platformQuery.socialMediaPlatforms.forEach((platform) => {
         // if user already has a url for this platform, autopopulates
         // field with the url
-        let initialValue = user?.socials[platform.name]?.url
-          ? user.socials[platform.name].url
+        let initialValue = userSocials[platform.name]
+          ? userSocials[platform.name]
           : "";
 
         let newField = {
@@ -41,7 +58,7 @@ function SocialMediaForm() {
       });
       setInitialValues({ ...initialValues, ...newValues });
     }
-  }, [platformQuery]);
+  }, [userSocials, platformQuery, initialValues, fieldArray]);
 
   const [flashMessage, setFlashMessage] = useState("");
 
@@ -58,10 +75,18 @@ function SocialMediaForm() {
 
     updateSocials({
       variables: {
-        userId: user.id,
+        userId: currentUser.id,
         attributes: attributesArray,
       },
+      onCompleted: resetForm,
     });
+  };
+
+  const resetForm = () => {
+    userIsMounted.current = false;
+    setUserSocials({});
+    setInitialValues({});
+    refetchUser();
   };
 
   useEffect(() => {

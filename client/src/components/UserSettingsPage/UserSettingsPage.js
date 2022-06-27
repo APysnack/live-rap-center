@@ -60,7 +60,7 @@ function UserSettingsPage() {
       {battler ? (
         <BattlerSettings user={currentUser} battler={battler} />
       ) : null}
-      <SocialMediaForm />
+      <SocialMediaForm currentUser={currentUser} refetchUser={refetchUser} />
     </div>
   );
 }

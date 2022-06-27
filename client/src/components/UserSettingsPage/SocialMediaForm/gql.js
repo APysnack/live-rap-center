@@ -11,7 +11,7 @@ export const GET_ALL_SOCIAL_PLATFORMS = gql`
 
 export const UPDATE_SOCIALS = gql`
   mutation updateSocialMediaLinks(
-    $userId: Int!
+    $userId: ID!
     $attributes: [SocialMediaLinkAttributes!]!
   ) {
     updateSocialMediaLinks(

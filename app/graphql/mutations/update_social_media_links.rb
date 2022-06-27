@@ -2,7 +2,7 @@ module Mutations
     class UpdateSocialMediaLinks < BaseMutation
         # Custom object defined in base_input_object.rb
         argument :attributes, [Types::SocialMediaLinkAttributes]
-        argument :user_id, Integer, required: true
+        argument :user_id, ID, required: true
 
         type [Types::Models::SocialMediaLinkType]
 

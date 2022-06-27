@@ -5,10 +5,13 @@ import { useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
 import api from "../../api/api";
 import LeagueOwnerControls from "./LeagueOwnerControls";
+import SocialMediaContainer from "../SharedComponents/SocialMediaContainer/SocialMediaContainer";
+import { Newspaper } from "@mui/icons-material";
 
 function BattlerPage() {
   let { battlerId } = useParams();
   const [flashMessage, setFlashMessage] = useState("");
+  const [battlerSocials, setBattlerSocials] = useState({});
   const [battler, setBattler] = useState(null);
   const [userViewingPageIsThisBattler, setUserViewingPageIsThisBattler] =
     useState(false);
@@ -18,6 +21,10 @@ function BattlerPage() {
     totalViews: 0,
     avgViews: 0,
   });
+
+  useEffect(() => {
+    console.log(battler);
+  }, [battler]);
 
   const { user } = useSelector((state) => state.user.userState);
 
@@ -57,7 +64,25 @@ function BattlerPage() {
       idString = idString.replace(/,\s*$/, "");
       api.fetchYouTubeVideos(idString, updateViews);
     }
+    if (battler?.user?.socialMediaLinks.length > 0) {
+      let newSocials = {};
+      battler.user.socialMediaLinks.map((social) => {
+        let tempObj = {
+          [social.socialMediaPlatformName]: {
+            platform_id: social.id,
+            url: social.url,
+          },
+        };
+        newSocials = { ...newSocials, ...tempObj };
+        console.log(newSocials);
+      });
+      setBattlerSocials({ ...newSocials });
+    }
   }, [battler]);
+
+  useEffect(() => {
+    console.log(battlerSocials);
+  }, [battlerSocials]);
 
   const updateViews = (res) => {
     const totalViews = res.reduce(
@@ -94,6 +119,9 @@ function BattlerPage() {
           <div>This battler's rating is {battler.score}</div>
           <div>Total Views: {battlerStats.totalViews}</div>
           <div>Average Views: {battlerStats.avgViews}</div>
+          {Object.keys(battlerSocials).length > 0 ? (
+            <SocialMediaContainer socials={battlerSocials} />
+          ) : null}
           <LeagueOwnerControls
             battler={battler}
             leagueOwner={userViewingPageIsLeagueOwner ? user : null}

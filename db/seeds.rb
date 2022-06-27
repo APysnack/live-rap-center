@@ -39,10 +39,12 @@ battlerRichardCranium = Battler.create(name: "Richard Cranium", score: 93)
 battlerRemyD = Battler.create(name: "RemyD", score: 88)
 battlerKavemanBrown = Battler.create(name: "Kaveman Brown", score: 86)
 battlerFloLeeds = Battler.create(name: "Flo Leeds")
-battlerReggieLoud = Battler.create(name: "Reginald Loud")
+battlerReggieLoud = Battler.create(name: "Reginald Loud", league_id: lrc.id)
 battlerComa = Battler.create(name: "Coma")
 battlerSK = Battler.create(name: "SK")
 battler3rdDegree = Battler.create(name: "3rd Degree", league_id: lrc.id)
+battlerBrotherPhil = Battler.create(name: "Brother Phil")
+battlerBigAnt = Battler.create(name: "Big Ant")
 
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: lrc.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: kotd.id)
@@ -78,7 +80,10 @@ BattlerBattle.create(battler_id: battlerReggieLoud.id, battle_id: reggieVs3rdDeg
 BattlerBattle.create(battler_id: battler3rdDegree.id, battle_id: reggieVs3rdDegree.id)
 
 BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: brotherPhilVsDef.id)
+BattlerBattle.create(battler_id: battlerBrotherPhil.id, battle_id: brotherPhilVsDef.id)
+
 BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: antVsDef.id)
+BattlerBattle.create(battler_id: battlerBigAnt.id, battle_id: antVsDef.id)
 
 # creating SocialMediaLinks
 SocialMediaLink.create(user_id: purelyDef.id, url: "https://facebook.com/purleedef", social_media_platform_id: fb.id)

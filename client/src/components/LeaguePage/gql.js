@@ -6,6 +6,7 @@ export const GET_LEAGUE = gql`
       leagueName
       leagueUrl
       battlers {
+        id
         name
       }
       battles {

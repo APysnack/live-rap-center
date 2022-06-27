@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { GET_LEAGUE } from "./gql";
 import { useQuery } from "@apollo/client";
+import { LeagueBattlersContainer } from "./LeaguePage.styles";
 
 function LeaguePage() {
   let { leagueId } = useParams();
@@ -24,11 +25,19 @@ function LeaguePage() {
     <>
       {league ? (
         <>
-          <div>{league.leagueName}</div>
-          <div>{league.leagueUrl}</div>
-          {Object.keys(battlers).length > 0
-            ? battlers.map((battler) => <div>{battler.name}</div>)
-            : "No battlers for this league"}
+          <a href={`https://youtube.com/channel/${league.leagueUrl}`}>
+            <div>Watch {league.leagueName} battles on YouTube</div>
+          </a>
+          <LeagueBattlersContainer>
+            <span>
+              <b>Battlers for this League</b>
+            </span>
+            {Object.keys(battlers).length > 0
+              ? battlers.map((battler) => (
+                  <div key={battler.id}>{battler.name}</div>
+                ))
+              : "No battlers for this league"}
+          </LeagueBattlersContainer>
         </>
       ) : (
         <div>bar</div>

@@ -47,9 +47,6 @@ function UserPage({ callLogoutUser }) {
     <>
       {currentUser ? (
         <div>
-          <div>
-            MY VIEW as a USER who battles -- not others view of my battler page:
-          </div>
           <div>Username: {currentUser.username}</div>
           <ImageUploadModal
             type="profile picture"
@@ -71,9 +68,13 @@ function UserPage({ callLogoutUser }) {
           </div>
           <div>B: Crew chat?? Tbd</div>
           <div>
-            B: Requests/Messages/Alerts idk for Crew/League/Booking requests
+            B: Requests/Messages/Alerts idk for requests to join crews. Same w/
+            Booking requests but needs to be more elaborate with immediaite chat
+            available
           </div>
-          <div>B: Calendar for upcoming events?</div>
+          <div>
+            B: Calendar for my upcoming events? Available to be booked, etc.
+          </div>
 
           <button style={{ color: "red" }} onClick={callLogoutUser}>
             Log out

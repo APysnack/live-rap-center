@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import api from "../../api/api";
 import LeagueOwnerControls from "./LeagueOwnerControls";
 import SocialMediaContainer from "../SharedComponents/SocialMediaContainer/SocialMediaContainer";
-import { Newspaper } from "@mui/icons-material";
 
 function BattlerPage() {
   let { battlerId } = useParams();
@@ -21,10 +20,6 @@ function BattlerPage() {
     totalViews: 0,
     avgViews: 0,
   });
-
-  useEffect(() => {
-    console.log(battler);
-  }, [battler]);
 
   const { user } = useSelector((state) => state.user.userState);
 
@@ -47,6 +42,7 @@ function BattlerPage() {
     }
   }, [data]);
 
+  // NOTE/POSSIBLE TO DO!!!! ensure that this logic does not apply to any league owner, only owner of THIS league
   useEffect(() => {
     if (user?.roles?.includes("league owner")) {
       setUserViewingPageIsLeagueOwner(true);
@@ -56,7 +52,7 @@ function BattlerPage() {
   useEffect(() => {
     if (battler?.battles) {
       // concatenates all battler's battles into idString
-      // per youtube API docs, video ids format should be: "id1,id2,id3"
+      // per youtube API docs, video ids format should be: ["id1,id2,id3"]
       var idString = battler.battles.reduce(
         (accumulator, battle) => accumulator + (battle.battleUrl + ","),
         ""

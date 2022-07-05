@@ -21,6 +21,8 @@ function ImageUploadModal({ type, refetch, object = null }) {
       return REACT_APP_SERVER_URL + object?.profilePictureUrl;
     } else if (type === "league logo") {
       return REACT_APP_SERVER_URL + object?.logoUrl;
+    } else if (type === "battle thumbnail") {
+      return REACT_APP_SERVER_URL + object?.thumbnail;
     } else {
       return null;
     }

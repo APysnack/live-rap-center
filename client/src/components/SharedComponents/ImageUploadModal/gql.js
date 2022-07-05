@@ -21,3 +21,19 @@ export const CREATE_USER_PROFILE_PICTURE = gql`
     }
   }
 `;
+
+export const UPDATE_BATTLE_THUMBNAIL = gql`
+  mutation UpdateBattleThumbnail(
+    $name: String
+    $battleId: ID!
+    $image: Upload!
+  ) {
+    updateBattleThumbnail(
+      input: { name: $name, battleId: $battleId, image: $image }
+    ) {
+      id
+      battleUrl
+      thumbnail
+    }
+  }
+`;

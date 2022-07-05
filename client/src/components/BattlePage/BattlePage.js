@@ -3,48 +3,67 @@ import { useParams } from "react-router-dom";
 import { GET_BATTLE } from "./gql";
 import { useQuery } from "@apollo/client";
 import api from "../../api/api";
+import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
+import { useSelector } from "react-redux";
 
 const VIDEO_WIDTH = "480";
 const VIDEO_HEIGHT = "270";
 
 function BattlePage() {
-  let { battleId } = useParams();
+  const { user } = useSelector((state) => state.user.userState);
+  const [userViewingPageIsAdmin, setUserViewingPageIsAdmin] = useState(false);
+  const { battleId } = useParams();
   const [battle, setBattle] = useState({});
+  const [youtubeStats, setYoutubeStats] = useState({});
   const [youtubeId, setYoutubeId] = useState("");
-  const [battlers, setBattlers] = useState({});
 
-  const { loading, data } = useQuery(GET_BATTLE, {
+  const updateBattle = (data) => {
+    setBattle(data.battle);
+    setYoutubeId(data.battle.battleUrl);
+  };
+
+  useEffect(() => {
+    if (user?.roles?.includes("admin")) {
+      setUserViewingPageIsAdmin(true);
+    }
+  }, [user]);
+
+  const { loading, refetch } = useQuery(GET_BATTLE, {
     variables: { id: battleId },
+    onCompleted: updateBattle,
   });
 
+  // fetches video from youtube API
   useEffect(() => {
     if (youtubeId) {
-      api.fetchYouTubeVideo(youtubeId, setBattle);
+      api.fetchYouTubeVideo(youtubeId, setYoutubeStats);
     }
   }, [youtubeId]);
-
-  useEffect(() => {
-    if (data?.battle) {
-      setYoutubeId(data.battle.battleUrl);
-      setBattlers({ ...data.battle.battlers });
-    }
-  }, [data]);
 
   if (loading) return "Loading...";
 
   return (
     <>
-      {battle?.snippet ? (
+      {youtubeStats?.snippet ? (
         <div>
-          <div>{battle.snippet.title}</div>
-          <div>{battle.statistics.viewCount} views</div>
-          <div>{battle.statistics.likeCount} likes</div>
-          <div>{battle.snippet.channelId}</div>
+          <div>{youtubeStats.snippet.title}</div>
+          <div>{youtubeStats.statistics.viewCount} views</div>
+          <div>{youtubeStats.statistics.likeCount} likes</div>
+          <div>{youtubeStats.snippet.channelId}</div>
+          {userViewingPageIsAdmin ? (
+            <ImageUploadModal
+              type="battle thumbnail"
+              object={battle}
+              refetch={refetch}
+            />
+          ) : null}
 
-          {battlers
-            ? Object.keys(battlers).map((battler, i) =>
-                battlers[battler]?.user?.username ? (
-                  <div key={i}>{battlers[battler].user.username} is a user</div>
+          {battle?.battlers
+            ? Object.keys(battle.battlers).map((battler, i) =>
+                battle.battlers[battler]?.user?.username ? (
+                  <div key={i}>
+                    {battle.battlers[battler].user.username} is a user
+                  </div>
                 ) : null
               )
             : null}

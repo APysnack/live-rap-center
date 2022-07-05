@@ -3,6 +3,7 @@ role = Role.create(name: "battler")
 role_2 = Role.create(name: "league owner")
 role_3 = Role.create(name: "film maker")
 role_4 = Role.create(name: "voter")
+role_5 = Role.create(name: "admin")
 
 # creating SocialMediaPlatforms
 fb = SocialMediaPlatform.create(name: "Facebook")
@@ -19,6 +20,7 @@ smack = User.create(username: "Smack", email: "smack@gmail.com", password: "ulti
 UserRole.create(user_id: purelyDef.id, role_id: role.id)
 UserRole.create(user_id: purelyDef.id, role_id: role_2.id)
 UserRole.create(user_id: purelyDef.id, role_id: role_3.id)
+UserRole.create(user_id: purelyDef.id, role_id: role_5.id)
 
 UserRole.create(user_id: organik.id, role_id: role.id)
 UserRole.create(user_id: organik.id, role_id: role_2.id)

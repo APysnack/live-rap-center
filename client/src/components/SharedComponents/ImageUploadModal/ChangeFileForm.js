@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import BasicModal from "../BasicModal";
 import { useMutation } from "@apollo/client";
-import { CREATE_LEAGUE_LOGO, CREATE_USER_PROFILE_PICTURE } from "./gql";
+import {
+  CREATE_LEAGUE_LOGO,
+  CREATE_USER_PROFILE_PICTURE,
+  UPDATE_BATTLE_THUMBNAIL,
+} from "./gql";
 
 function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
   const [file, setFile] = useState();
@@ -12,6 +16,10 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
 
   const [createUserProfilePicture, { data: userProfilePicData }] = useMutation(
     CREATE_USER_PROFILE_PICTURE
+  );
+
+  const [updateBattleThumbnail, { data: battleThumbnailData }] = useMutation(
+    UPDATE_BATTLE_THUMBNAIL
   );
 
   const onChange = (e) => {
@@ -31,6 +39,11 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
         variables: { leagueId: object?.id, name: fileName, image: file },
         onCompleted: refetchContent,
       });
+    } else if (type === "battle thumbnail") {
+      updateBattleThumbnail({
+        variables: { battleId: object?.id, name: fileName, image: file },
+        onCompleted: refetchContent,
+      });
     }
   };
 
@@ -41,7 +54,6 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
 
   return (
     <BasicModal isOpen={isOpen} onClose={onClose}>
-      <div>THIS IS FOR EDITING USER PROFILE PICTURES</div>
       <form onSubmit={onSubmit}>
         <div className="custom-file">
           <input

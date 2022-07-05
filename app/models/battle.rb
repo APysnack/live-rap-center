@@ -4,4 +4,6 @@ class Battle < ApplicationRecord
 
   has_many :battler_battles
   has_many :battlers, through: :battler_battles
+
+  has_one_attached :thumbnail
 end

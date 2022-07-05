@@ -24,6 +24,8 @@ class API {
         callback(res.data.items[0]);
       });
   };
+
+  // per youtube API docs, video ids format should be: ["id1,id2,id3"]
   fetchYouTubeVideos = (ids, callback) => {
     axios
       .get(`${REACT_APP_YT_VIDEO_API}?key=${REACT_APP_YT_API_KEY}`, {

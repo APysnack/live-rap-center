@@ -13,5 +13,6 @@ module Types
     field :create_league_logo, mutation: Mutations::CreateLeagueLogo
     field :create_user_profile_picture, mutation: Mutations::CreateUserProfilePicture
     field :update_league_settings, mutation: Mutations::UpdateLeagueSettings
+    field :update_battle_thumbnail, mutation: Mutations::UpdateBattleThumbnail
   end
 end

@@ -5,6 +5,7 @@ import {
   CREATE_LEAGUE_LOGO,
   CREATE_USER_PROFILE_PICTURE,
   UPDATE_BATTLE_THUMBNAIL,
+  UPDATE_BATTLER_IMAGE,
 } from "./gql";
 
 function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
@@ -21,6 +22,9 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
   const [updateBattleThumbnail, { data: battleThumbnailData }] = useMutation(
     UPDATE_BATTLE_THUMBNAIL
   );
+
+  const [updateBattlerImage, { data: battlerImageData }] =
+    useMutation(UPDATE_BATTLER_IMAGE);
 
   const onChange = (e) => {
     setFile(e.target.files[0]);
@@ -42,6 +46,11 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
     } else if (type === "battle thumbnail") {
       updateBattleThumbnail({
         variables: { battleId: object?.id, name: fileName, image: file },
+        onCompleted: refetchContent,
+      });
+    } else if (type === "battler image") {
+      updateBattlerImage({
+        variables: { battlerId: object?.id, name: fileName, image: file },
         onCompleted: refetchContent,
       });
     }

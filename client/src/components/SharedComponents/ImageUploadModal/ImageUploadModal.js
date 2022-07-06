@@ -23,6 +23,8 @@ function ImageUploadModal({ type, refetch, object = null }) {
       return REACT_APP_SERVER_URL + object?.logoUrl;
     } else if (type === "battle thumbnail") {
       return REACT_APP_SERVER_URL + object?.thumbnail;
+    } else if (type === "battler image") {
+      return REACT_APP_SERVER_URL + object?.image;
     } else {
       return null;
     }

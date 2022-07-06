@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import api from "../../api/api";
 import LeagueOwnerControls from "./LeagueOwnerControls";
 import SocialMediaContainer from "../SharedComponents/SocialMediaContainer/SocialMediaContainer";
+import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
+import { Avatar } from "@mui/material";
+const { REACT_APP_SERVER_URL } = process.env;
 
 function BattlerPage() {
   let { battlerId } = useParams();
@@ -20,10 +23,11 @@ function BattlerPage() {
     totalViews: 0,
     avgViews: 0,
   });
+  const [userViewingPageIsAdmin, setUserViewingPageIsAdmin] = useState(false);
 
   const { user } = useSelector((state) => state.user.userState);
 
-  const { loading, data } = useQuery(GET_BATTLER, {
+  const { loading, data, refetch } = useQuery(GET_BATTLER, {
     variables: { id: battlerId },
   });
 
@@ -46,6 +50,9 @@ function BattlerPage() {
   useEffect(() => {
     if (user?.roles?.includes("league owner")) {
       setUserViewingPageIsLeagueOwner(true);
+    }
+    if (user?.roles?.includes("admin")) {
+      setUserViewingPageIsAdmin(true);
     }
   }, [user]);
 
@@ -103,9 +110,23 @@ function BattlerPage() {
           ) : null}
           <div>Battler Name: {battler.name}</div>
           {battler?.user?.isVerified ? (
-            <div>This battler has an account with LRC</div>
+            <div>
+              <div>VERIFIED LRC USER</div>
+              <Avatar
+                src={REACT_APP_SERVER_URL + battler.user.profilePictureUrl}
+                sx={{ width: 100, height: 100 }}
+                className="battlerImage"
+              />
+            </div>
           ) : (
-            <div>This battler is not verified with LRC</div>
+            <div>
+              <div>USER NOT VERIFIED</div>
+              <Avatar
+                src={REACT_APP_SERVER_URL + battler.image}
+                sx={{ width: 100, height: 100 }}
+                className="battlerImage"
+              />
+            </div>
           )}
           {battler?.league?.leagueName ? (
             <div>This battler represents {battler.league.leagueName}</div>
@@ -123,6 +144,16 @@ function BattlerPage() {
             leagueOwner={userViewingPageIsLeagueOwner ? user : null}
             setFlashMessage={setFlashMessage}
           />
+          {userViewingPageIsAdmin ? (
+            <>
+              <div>ADMIN ONLY: MODIFY BATTLER IMAGE</div>
+              <ImageUploadModal
+                type="battler image"
+                object={battler}
+                refetch={refetch}
+              />
+            </>
+          ) : null}
         </div>
       ) : null}
     </>

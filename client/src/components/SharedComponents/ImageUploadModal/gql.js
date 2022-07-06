@@ -37,3 +37,15 @@ export const UPDATE_BATTLE_THUMBNAIL = gql`
     }
   }
 `;
+
+export const UPDATE_BATTLER_IMAGE = gql`
+  mutation UpdateBattlerImage($name: String, $battlerId: ID!, $image: Upload!) {
+    updateBattlerImage(
+      input: { name: $name, battlerId: $battlerId, image: $image }
+    ) {
+      id
+      name
+      image
+    }
+  }
+`;

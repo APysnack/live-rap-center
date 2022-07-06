@@ -15,6 +15,7 @@ module Types
       field :booking_price_enabled, Boolean, null: true
       field :potential_leagues, [Types::Models::LeagueType], null: true
       field :league_id, ID, null: false
+      field :image, String, null: true
 
       def user
         user = object.user
@@ -30,6 +31,12 @@ module Types
 
       def potential_leagues
         potentialLeagues = object.potential_leagues
+      end
+
+      def image
+        if object.image.present?
+          rails_blob_path(object.image, host: ENV["SERVER_URL"])
+        end
       end
     end
   end

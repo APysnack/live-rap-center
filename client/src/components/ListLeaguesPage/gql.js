@@ -5,6 +5,7 @@ export const GET_LEAGUES = gql`
     leagues {
       id
       leagueName
+      logoUrl
     }
   }
 `;

@@ -6,12 +6,14 @@ export const GET_BATTLER = gql`
       id
       name
       score
+      image
       battles {
         battleUrl
       }
       user {
         id
         isVerified
+        profilePictureUrl
         socialMediaLinks {
           id
           socialMediaPlatformName

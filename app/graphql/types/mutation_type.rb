@@ -14,5 +14,6 @@ module Types
     field :create_user_profile_picture, mutation: Mutations::CreateUserProfilePicture
     field :update_league_settings, mutation: Mutations::UpdateLeagueSettings
     field :update_battle_thumbnail, mutation: Mutations::UpdateBattleThumbnail
+    field :update_battler_image, mutation: Mutations::UpdateBattlerImage
   end
 end

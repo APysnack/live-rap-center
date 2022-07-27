@@ -26,7 +26,7 @@ $ `cd live-rap-center`
 
 $`rake secret`
 
-copy the output
+copy the output (if the output you get is longer than 32 characters, only copy 32 characters. It doesn't matter which ones you use)
 
 ---------------------------
 4.Generate rails credentials and add your secret in a text editor (I use vim in this example, use whatever editor you're comfortable with)

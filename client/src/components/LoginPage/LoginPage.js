@@ -31,7 +31,7 @@ function LoginPage() {
       <h1>
         Don't have an account?{" "}
         <button onClick={handleShowRegistration} style={{ color: "blue" }}>
-          Register
+          Register an account
         </button>
       </h1>
       <Link style={{ color: "blue" }} to="/password-reset">

@@ -1,7 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { GET_LEAGUES } from "./gql";
-import { Link } from "react-router-dom";
 import { LeagueListContainer, LeagueLink } from "./ListLeagues.styles";
 import { Avatar } from "@mui/material";
 const { REACT_APP_SERVER_URL } = process.env;

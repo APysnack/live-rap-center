@@ -38,9 +38,7 @@ paste the secret as shown below. Do not modify the `secret_key_base`. Note there
 ![Screen Shot 2022-05-26 at 8 00 58 AM](https://user-images.githubusercontent.com/60242065/170687927-87f2d102-315d-4dfa-afe2-f1cad53e7261.png)
 
 ---------------------------
-5. Be sure to create a `.env` file in the project's `root` directory to save the master key that is shown after you save and completed the last step
-
-In the .env file Add `RAILS_MASTER_KEY=PASTEMASTERKEYHERE`
+5. Be sure to store this secret somewhere secure in case you need access to it in the future
 
 ---------------------------
 6. Install rails gems

@@ -4,6 +4,7 @@ class League < ApplicationRecord
   has_many :league_admins
   has_many :users, :through => :league_admins
   has_many :league_invitations
+  has_one :league_chat
   has_one_attached :image
 
   # lets us alias the battlers model as "potential battlers" 

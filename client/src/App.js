@@ -17,8 +17,9 @@ import ListBattlersPage from "./components/ListBattlersPage/ListBattlersPage";
 import UserSettingsPage from "./components/UserSettingsPage/UserSettingsPage";
 import LeagueSettingsPage from "./components/LeagueSettingsPage/LeagueSettingsPage";
 import BattlerPage from "./components/BattlerPage/BattlerPage";
+import LeagueChat from "./components/LeagueChat/LeagueChat";
 
-function App() {
+function App({ cable }) {
   return (
     <ThemeProvider theme={philadelphia}>
       <Navbar />
@@ -37,6 +38,11 @@ function App() {
         <Route exact path="/settings" element={<UserSettingsPage />} />
         <Route exact path="/league-settings" element={<LeagueSettingsPage />} />
         <Route exact path="/battler/:battlerId" element={<BattlerPage />} />
+        <Route
+          exact
+          path="/league-chat"
+          element={<LeagueChat cable={cable} />}
+        />
       </Routes>
     </ThemeProvider>
   );

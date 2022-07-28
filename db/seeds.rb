@@ -32,6 +32,13 @@ url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwY
 showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
 iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
 
+lrcChat = LeagueChat.create(league_id: lrc.id)
+LeagueChatUser.create(league_chat_id: lrcChat.id, user_id: purelyDef.id)
+LeagueChatUser.create(league_chat_id:  lrcChat.id, user_id: organik.id)
+
+LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: organik.id, body: "hey")
+LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: purelyDef.id, body: "sup")
+
 # assigning league admins
 LeagueAdmin.create(league_id: lrc.id, user_id: purelyDef.id)
 

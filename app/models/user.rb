@@ -11,4 +11,7 @@ class User < ApplicationRecord
   has_many :league_admins
   has_many :leagues, :through => :league_admins
   has_one_attached :image
+  has_many :league_chat_users, dependent: :destroy
+  has_many :league_chats, through: :league_chat_users
+  has_many :league_chat_messages, dependent: :destroy
 end

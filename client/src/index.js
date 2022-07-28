@@ -11,6 +11,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import store from "./redux/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import actionCable from "actioncable";
+
+const CableApp = {};
+const actionCableEndpoint = "ws://localhost:3001/cable";
+CableApp.cable = actionCable.createConsumer(actionCableEndpoint);
 
 let persistor = persistStore(store);
 
@@ -30,7 +35,7 @@ root.render(
     <ApolloProvider client={client}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <App />
+          <App cable={CableApp.cable} />
         </PersistGate>
       </Provider>
     </ApolloProvider>

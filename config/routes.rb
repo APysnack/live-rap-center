@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => "/cable"
+
   get '/current_user', to: 'current_user#index'
 
   devise_for :users, path: '', path_names: {
@@ -14,6 +16,7 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
+
   post "/graphql", to: "graphql#execute"
   get "about", to: "about#index"
 
@@ -25,6 +28,9 @@ Rails.application.routes.draw do
 
   get "profile-picture", to: "profile_picture#index"
   post "profile-picture", to: "profile_picture#create"
+
+  get "league-chat-message", to: "league_chat_message#index"
+  post "league-chat-message", to: "league_chat_message#new"
 
   root "main#index"
 end

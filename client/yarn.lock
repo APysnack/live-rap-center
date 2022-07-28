@@ -3013,6 +3013,11 @@ acorn@^8.2.4, acorn@^8.4.1, acorn@^8.5.0, acorn@^8.7.1:
   resolved "https://registry.npmjs.org/acorn/-/acorn-8.7.1.tgz"
   integrity sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A==
 
+actioncable@^5.2.8-1:
+  version "5.2.8-1"
+  resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.8-1.tgz#1b01df0c7f4928b1b9646323705e8a0196ccf3c1"
+  integrity sha512-p/a9jeFs3KB3SWZ9w/T5HLyztooYSufOG++Uhau9YzprdBNyjFfsqrtN1roVVEzNDBGZJVr/2SSWwofvavPL1w==
+
 address@^1.0.1, address@^1.1.2:
   version "1.2.0"
   resolved "https://registry.npmjs.org/address/-/address-1.2.0.tgz"

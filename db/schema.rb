@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_26_195131) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_28_172658) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,31 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_26_195131) do
     t.index ["league_id"], name: "index_battles_on_league_id"
   end
 
+  create_table "channel_messages", force: :cascade do |t|
+    t.bigint "channel_id", null: false
+    t.bigint "user_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id"], name: "index_channel_messages_on_channel_id"
+    t.index ["user_id"], name: "index_channel_messages_on_user_id"
+  end
+
+  create_table "channel_users", force: :cascade do |t|
+    t.bigint "channel_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id"], name: "index_channel_users_on_channel_id"
+    t.index ["user_id"], name: "index_channel_users_on_user_id"
+  end
+
+  create_table "channels", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "jwt_denylist", force: :cascade do |t|
     t.text "jti", null: false
     t.datetime "exp", null: false
@@ -89,6 +114,32 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_26_195131) do
     t.datetime "updated_at", null: false
     t.index ["league_id"], name: "index_league_admins_on_league_id"
     t.index ["user_id"], name: "index_league_admins_on_user_id"
+  end
+
+  create_table "league_chat_messages", force: :cascade do |t|
+    t.bigint "league_chat_id", null: false
+    t.bigint "user_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["league_chat_id"], name: "index_league_chat_messages_on_league_chat_id"
+    t.index ["user_id"], name: "index_league_chat_messages_on_user_id"
+  end
+
+  create_table "league_chat_users", force: :cascade do |t|
+    t.bigint "league_chat_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["league_chat_id"], name: "index_league_chat_users_on_league_chat_id"
+    t.index ["user_id"], name: "index_league_chat_users_on_user_id"
+  end
+
+  create_table "league_chats", force: :cascade do |t|
+    t.bigint "league_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["league_id"], name: "index_league_chats_on_league_id"
   end
 
   create_table "league_invitations", force: :cascade do |t|
@@ -171,8 +222,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_26_195131) do
   add_foreign_key "battlers", "leagues"
   add_foreign_key "battlers", "users"
   add_foreign_key "battles", "leagues"
+  add_foreign_key "channel_messages", "channels"
+  add_foreign_key "channel_messages", "users"
+  add_foreign_key "channel_users", "channels"
+  add_foreign_key "channel_users", "users"
   add_foreign_key "league_admins", "leagues"
   add_foreign_key "league_admins", "users"
+  add_foreign_key "league_chat_messages", "league_chats"
+  add_foreign_key "league_chat_messages", "users"
+  add_foreign_key "league_chat_users", "league_chats"
+  add_foreign_key "league_chat_users", "users"
+  add_foreign_key "league_chats", "leagues"
   add_foreign_key "league_invitations", "battlers"
   add_foreign_key "league_invitations", "leagues"
   add_foreign_key "posts", "users"

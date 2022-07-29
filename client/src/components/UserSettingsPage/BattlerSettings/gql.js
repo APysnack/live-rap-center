@@ -10,11 +10,10 @@ export const GET_USER_BATTLER = gql`
   }
 `;
 
-export const REMOVE_HOME_LEAGUE = gql`
-  mutation deleteHomeLeague($userId: Int!) {
-    deleteHomeLeague(input: { userId: $userId }) {
+export const DELETE_HOME_LEAGUE_FROM_BATTLER = gql`
+  mutation deleteHomeLeagueFromBattler($battlerId: ID!) {
+    deleteHomeLeagueFromBattler(input: { battlerId: $battlerId }) {
       id
-      name
     }
   }
 `;

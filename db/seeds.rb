@@ -55,23 +55,19 @@ battlerPatStay = Battler.create(user_id: patStay.id, name: "Pat Stay", league_id
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: lrc.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: kotd.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: url.id)
-LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: iBattle.id)
-LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: showtime.id)
-
 
 # creating chat components
 lrcChat = LeagueChat.create(league_id: lrc.id)
-LeagueChatUser.create(league_chat_id: lrcChat.id, user_id: purelyDef.id)
-LeagueChatUser.create(league_chat_id:  lrcChat.id, user_id: organik.id)
-
-LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "welcome to LRC")
-LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "A second lrc message")
+LeagueChatUser.create(league_chat_id:  lrcChat.id, user_id: smack.id)
 
 kotdChat = LeagueChat.create(league_id: kotd.id)
 LeagueChatUser.create(league_chat_id: kotdChat.id, user_id: patStay.id)
 LeagueChatUser.create(league_chat_id:  kotdChat.id, user_id: organik.id)
 
-LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: patStay.id, body: "yo welcome to KOTD")
+LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "welcome to LRC")
+LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "A second lrc message")
+
+LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: patStay.id, body: "welcome to KOTD")
 LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: organik.id, body: "sup")
 
 # creating battles

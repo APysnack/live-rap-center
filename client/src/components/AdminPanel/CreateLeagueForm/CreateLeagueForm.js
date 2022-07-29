@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import BaseForm from "../SharedComponents/BaseForm";
+import BaseForm from "../../SharedComponents/BaseForm";
 import { leagueNameField, leagueUrlField } from "./CreateLeagueFormFields";
 import { useMutation } from "@apollo/client";
 import { CREATE_LEAGUE } from "./gql";

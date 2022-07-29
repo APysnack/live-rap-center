@@ -12,7 +12,7 @@ export const leagueUrlField = {
   id: "leagueUrl",
   initialValue: "",
   name: "leagueUrl",
-  placeholder: "Please enter the league url",
+  placeholder: "Channel ID (e.g. UCWseCA4XbP2PvjBox1u4C9g)",
   type: "text",
-  displayedLabel: "League URL", 
+  displayedLabel: "League URL",
 };

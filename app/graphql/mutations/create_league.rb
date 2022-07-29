@@ -7,10 +7,12 @@ module Mutations
         type Types::Models::LeagueType
 
         def resolve(league_name: nil, league_url: nil)
-            League.create!(
+            league = League.create!(
                 league_name: league_name,
                 league_url: league_url
             )
+            LeagueChat.create!(league_id: league.id)
+            return league
         end
     end
 end

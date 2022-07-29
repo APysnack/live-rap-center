@@ -2,7 +2,6 @@
 ruby on rails<br/>
 devise user authentication<br/>
 graphql/graphiql/apollo graphql<br/>
-tailwind css<br/>
 styled components<br/>
 material ui<br/>
 formik<br/>

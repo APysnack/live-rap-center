@@ -10,6 +10,11 @@ module Types
         field :created_at, GraphQL::Types::ISO8601DateTime, null: false
         field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
         field :outcome, Types::OutcomeEnum, null: false
+        field :battler_name, String, null: false
+
+        def battler_name
+          object.battler.name
+        end
       end
     end
   end

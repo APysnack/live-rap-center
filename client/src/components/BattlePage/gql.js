@@ -13,6 +13,15 @@ export const GET_BATTLE = gql`
           isVerified
         }
       }
+      battleVotes {
+        id
+        comment
+        voterName
+        scores {
+          battlerName
+          outcome
+        }
+      }
     }
   }
 `;

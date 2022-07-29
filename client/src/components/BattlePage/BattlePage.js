@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import api from "../../api/api";
 import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
 import { useSelector } from "react-redux";
+import VoteSubmissionPanel from "./VoteSubmissionPanel/VoteSubmissionPanel";
 
 const VIDEO_WIDTH = "480";
 const VIDEO_HEIGHT = "270";
@@ -58,7 +59,7 @@ function BattlePage() {
             src={"https://www.youtube.com/embed/" + youtubeId}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
           ></iframe>
-
+          <VoteSubmissionPanel user={user} battle={battle} />
           {battle?.battlers
             ? Object.keys(battle.battlers).map((battler, i) =>
                 battle.battlers[battler]?.user?.username ? (
@@ -69,6 +70,7 @@ function BattlePage() {
               )
             : null}
 
+          {/* currently gives a key error, should be resolved when transformed into component */}
           {battle?.battleVotes.length > 0
             ? battle.battleVotes.map((vote) => (
                 <div key={vote.id}>
@@ -77,7 +79,7 @@ function BattlePage() {
                   </div>
                   {vote?.scores?.length > 0
                     ? vote.scores.map((score) => (
-                        <div>
+                        <div key={score.id}>
                           {score.battlerName} {score.outcome}
                         </div>
                       ))

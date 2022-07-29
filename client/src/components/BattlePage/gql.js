@@ -7,8 +7,10 @@ export const GET_BATTLE = gql`
       battleUrl
       thumbnail
       battlers {
+        id
         name
         user {
+          id
           username
           isVerified
         }

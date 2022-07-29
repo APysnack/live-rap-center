@@ -6,7 +6,7 @@ module Mutations
         argument :winner_battler_id, ID, required: true
         argument :loser_battler_id, ID, required: true
         argument :winner_battler_score, Integer, required: true
-        argument :loser_battler_score, ID, required: true
+        argument :loser_battler_score, Integer, required: true
 
         type Types::Models::BattleVoteType
 

@@ -7,10 +7,10 @@ class APIChat {
       .post(`${REACT_APP_SERVER_URL}/league-chat-message`, payload)
       .then((res) => console.log(res));
   };
-  getChatMessages = (callback) => {
+  getChatMessages = (id, callback) => {
     axios
       .get(`${REACT_APP_SERVER_URL}/league-chat-message`, {
-        params: {},
+        params: { id: id },
       })
       .then((res) => callback(res));
   };

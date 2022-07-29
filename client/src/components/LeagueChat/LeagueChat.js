@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import api from "../../api/apiChat";
-import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import Chat from "../SharedComponents/Chat/Chat";
+import { useSelector } from "react-redux";
 
 function LeagueChat({ cable }) {
   const location = useLocation();
@@ -10,19 +11,22 @@ function LeagueChat({ cable }) {
   const { leagueId, leagueName } = location.state || {};
   const navigate = useNavigate();
 
-  const updateMessages = (res) => {
+  // callback function, used after GET api request made
+  const loadMessages = (res) => {
     setMessages(res.data);
   };
 
+  // loads all messages currently in the db
   useEffect(() => {
-    // if user does not have a league, redirect to home
-    if (leagueId != null) {
-      api.getChatMessages(leagueId, updateMessages);
+    console.log(leagueId);
+    if (leagueId !== undefined) {
+      api.getChatMessages(leagueId, loadMessages);
     } else {
       navigate("/login");
     }
   }, []);
 
+  // handles socket connection for realtime updates
   useEffect(() => {
     if (leagueId) {
       const paramsToSend = {
@@ -52,27 +56,26 @@ function LeagueChat({ cable }) {
     }
   }, [messages]);
 
-  const sendMessage = () => {
-    const message = {
-      user_id: user.id,
-      league_chat_id: leagueId,
-      body: "My first posted message",
-    };
-    api.postChatMessage(message);
+  const sendMessage = (message) => {
+    if (message?.data !== "") {
+      const payload = {
+        user_id: user.id,
+        league_chat_id: leagueId,
+        body: message.data,
+      };
+      api.postChatMessage(payload);
+    }
+  };
+
+  const title = () => {
+    return leagueName + " Chat Room";
   };
 
   return (
     <div>
-      <div>{leagueName} Chat Room</div>
-      {messages?.length > 0
-        ? messages.map((message) => (
-            <div key={message.id}>
-              <div>Username: {message.attributes.username}</div>
-              <div>Message: {message.attributes.body}</div>
-            </div>
-          ))
-        : null}
-      <button onClick={sendMessage}>Send a message</button>
+      {messages?.length > 0 ? (
+        <Chat messages={messages} title={title()} onSubmit={sendMessage} />
+      ) : null}
     </div>
   );
 }

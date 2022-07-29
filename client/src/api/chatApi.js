@@ -3,14 +3,17 @@ const { REACT_APP_SERVER_URL } = process.env;
 
 class APIChat {
   postChatMessage = (payload) => {
+    console.log(payload);
     axios
       .post(`${REACT_APP_SERVER_URL}/league-chat-message`, payload)
       .then((res) => console.log(res));
   };
-  getChatMessages = (id, callback) => {
+
+  // note we retrieve messages from the chat that belongs to the league with id: leagueId
+  getChatMessages = (leagueId, callback) => {
     axios
       .get(`${REACT_APP_SERVER_URL}/league-chat-message`, {
-        params: { id: id },
+        params: { id: leagueId },
       })
       .then((res) => callback(res));
   };

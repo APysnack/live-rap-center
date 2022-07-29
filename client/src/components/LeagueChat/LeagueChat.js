@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import api from "../../api/apiChat";
+import api from "../../api/chatApi";
 import { useNavigate, useLocation } from "react-router-dom";
 import Chat from "../SharedComponents/Chat/Chat";
 import { useSelector } from "react-redux";
@@ -18,7 +18,6 @@ function LeagueChat({ cable }) {
 
   // loads all messages currently in the db
   useEffect(() => {
-    console.log(leagueId);
     if (leagueId !== undefined) {
       api.getChatMessages(leagueId, loadMessages);
     } else {
@@ -37,8 +36,7 @@ function LeagueChat({ cable }) {
 
       const handlers = {
         received(data) {
-          console.log(data);
-          setMessages([...messages, data]);
+          setMessages([data, ...messages]);
         },
         connected() {
           console.log("connected");
@@ -58,9 +56,10 @@ function LeagueChat({ cable }) {
 
   const sendMessage = (message) => {
     if (message?.data !== "") {
+      // note we send the leagueId and post to the chat belonging to that league
       const payload = {
         user_id: user.id,
-        league_chat_id: leagueId,
+        league_id: leagueId,
         body: message.data,
       };
       api.postChatMessage(payload);

@@ -20,6 +20,8 @@ export const GET_BATTLE = gql`
         comment
         voterName
         scores {
+          id
+          value
           battlerName
           outcome
         }

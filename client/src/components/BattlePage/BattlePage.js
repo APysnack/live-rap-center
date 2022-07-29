@@ -6,6 +6,8 @@ import api from "../../api/api";
 import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
 import { useSelector } from "react-redux";
 import VoteSubmissionPanel from "./VoteSubmissionPanel/VoteSubmissionPanel";
+import { BattlePageContainer } from "./BattlePage.styles";
+import VoteDetails from "./VoteDetails/VoteDetails";
 
 const VIDEO_WIDTH = "480";
 const VIDEO_HEIGHT = "270";
@@ -45,7 +47,7 @@ function BattlePage() {
   if (loading) return "Loading...";
 
   return (
-    <>
+    <BattlePageContainer>
       {youtubeStats?.snippet ? (
         <div>
           <div>{youtubeStats.snippet.title}</div>
@@ -73,18 +75,7 @@ function BattlePage() {
           {/* currently gives a key error, should be resolved when transformed into component */}
           {battle?.battleVotes.length > 0
             ? battle.battleVotes.map((vote) => (
-                <div key={vote.id}>
-                  <div>
-                    vote from {vote.voterName} {vote.comment}
-                  </div>
-                  {vote?.scores?.length > 0
-                    ? vote.scores.map((score) => (
-                        <div key={score.id}>
-                          {score.battlerName} {score.outcome}
-                        </div>
-                      ))
-                    : null}
-                </div>
+                <VoteDetails key={vote.id} vote={vote} />
               ))
             : null}
           {userViewingPageIsAdmin ? (
@@ -101,7 +92,7 @@ function BattlePage() {
       ) : (
         <div>Battle could not be found</div>
       )}
-    </>
+    </BattlePageContainer>
   );
 }
 

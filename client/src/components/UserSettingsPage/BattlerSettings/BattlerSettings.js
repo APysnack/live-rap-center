@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Delete } from "@mui/icons-material";
 import { HomeLeagueWrapper } from "./BattlerSettings.styles";
 import ConfirmationModal from "../../SharedComponents/ConfirmationModal/ConfirmationModal";
-import { REMOVE_HOME_LEAGUE } from "./gql";
+import { DELETE_HOME_LEAGUE_FROM_BATTLER } from "./gql";
 import { useMutation } from "@apollo/client";
 import BattlerSettingsForm from "./BattlerSettingsForm/BattlerSettingsForm";
 
 function BattlerSettings({ user, battler }) {
   const [homeLeague, setHomeLeague] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [deleteLeague] = useMutation(REMOVE_HOME_LEAGUE);
+  const [deleteLeague] = useMutation(DELETE_HOME_LEAGUE_FROM_BATTLER);
 
   useEffect(() => {
     if (battler?.league?.leagueName) {
@@ -26,9 +26,11 @@ function BattlerSettings({ user, battler }) {
   };
 
   const removeHomeLeague = () => {
-    if (user?.id) {
+    console.log(user);
+    console.log(battler);
+    if (user?.id && battler?.id) {
       deleteLeague({
-        variables: { userId: user.id },
+        variables: { battlerId: battler.id },
       });
       closeModal();
       setHomeLeague(null);

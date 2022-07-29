@@ -41,6 +41,10 @@ function Navbar() {
                 My League
               </NavbarLink>
             ) : null}
+
+            {user?.roles.includes("admin") ? (
+              <NavbarLink to="/admin-panel">Administrator</NavbarLink>
+            ) : null}
           </NavbarLinkContainer>
         </LeftContainer>
         <RightContainer>

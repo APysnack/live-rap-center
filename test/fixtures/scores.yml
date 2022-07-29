@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  battler: one
+  battle_vote: one
+  value: 1
+  outcome: 1
+
+two:
+  battler: two
+  battle_vote: two
+  value: 1
+  outcome: 1

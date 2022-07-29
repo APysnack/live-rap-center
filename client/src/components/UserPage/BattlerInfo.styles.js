@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const HomeLeagueContainer = styled.nav`
-  width: 100%;
+  width: 100vw;
   display: flex;
-  div {
-    margin-right: 1em;
-  }
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid black;
+  margin: 1em;
 `;

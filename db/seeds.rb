@@ -15,6 +15,7 @@ SocialMediaPlatform.create(name: "SoundCloud")
 purelyDef = User.create(username: "PurelyDef", email: "purleedef@gmail.com", password: "password", is_verified: true)
 organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true)
 smack = User.create(username: "Smack", email: "smack@gmail.com", password: "ultimaterapleague", is_verified: true)
+patStay = User.create(username: "Pat", email: "pat@gmail.com", password: "patstay", is_verified: true)
 
 # Assigning roles
 UserRole.create(user_id: purelyDef.id, role_id: role.id)
@@ -32,12 +33,21 @@ url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwY
 showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
 iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
 
+# creating chat components
 lrcChat = LeagueChat.create(league_id: lrc.id)
 LeagueChatUser.create(league_chat_id: lrcChat.id, user_id: purelyDef.id)
 LeagueChatUser.create(league_chat_id:  lrcChat.id, user_id: organik.id)
 
-LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: organik.id, body: "hey")
-LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: purelyDef.id, body: "sup")
+LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "welcome to LRC")
+LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "A second lrc message")
+
+kotdChat = LeagueChat.create(league_id: kotd.id)
+LeagueChatUser.create(league_chat_id: kotdChat.id, user_id: patStay.id)
+LeagueChatUser.create(league_chat_id:  kotdChat.id, user_id: organik.id)
+
+LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: patStay.id, body: "yo welcome to KOTD")
+LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: organik.id, body: "sup")
+
 
 # assigning league admins
 LeagueAdmin.create(league_id: lrc.id, user_id: purelyDef.id)

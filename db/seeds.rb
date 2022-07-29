@@ -103,6 +103,12 @@ BattlerBattle.create(battler_id: battlerBrotherPhil.id, battle_id: brotherPhilVs
 BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: antVsDef.id)
 BattlerBattle.create(battler_id: battlerBigAnt.id, battle_id: antVsDef.id)
 
+# vote creation
+purelyDefVoter = Voter.create(user_id: purelyDef.id)
+battleVote = BattleVote.create(voter_id: purelyDefVoter.id, battle_id: remydVsComa.id, comment: "classic battle")
+Score.create(battler_id: battlerComa.id, battle_vote_id: battleVote.id, value: 8, outcome: 0)
+Score.create(battler_id: battlerRemyD.id, battle_vote_id: battleVote.id, value: 7, outcome: 1)
+
 # creating SocialMediaLinks
 SocialMediaLink.create(user_id: purelyDef.id, url: "https://facebook.com/purleedef", social_media_platform_id: fb.id)
 SocialMediaLink.create(user_id: purelyDef.id , url: "https://instagram.com/purelydef", social_media_platform_id: ig.id)

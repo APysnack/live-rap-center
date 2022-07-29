@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_28_172658) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_29_175220) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_28_172658) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "battle_votes", force: :cascade do |t|
+    t.bigint "voter_id", null: false
+    t.bigint "battle_id", null: false
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battle_id"], name: "index_battle_votes_on_battle_id"
+    t.index ["voter_id"], name: "index_battle_votes_on_voter_id"
   end
 
   create_table "battler_battles", force: :cascade do |t|
@@ -174,6 +184,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_28_172658) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scores", force: :cascade do |t|
+    t.bigint "battler_id", null: false
+    t.bigint "battle_vote_id", null: false
+    t.integer "value"
+    t.integer "outcome"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battle_vote_id"], name: "index_scores_on_battle_vote_id"
+    t.index ["battler_id"], name: "index_scores_on_battler_id"
+  end
+
   create_table "social_media_links", force: :cascade do |t|
     t.string "url"
     t.datetime "created_at", null: false
@@ -215,8 +236,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_28_172658) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "voters", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_voters_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "battle_votes", "battles"
+  add_foreign_key "battle_votes", "voters"
   add_foreign_key "battler_battles", "battlers"
   add_foreign_key "battler_battles", "battles"
   add_foreign_key "battlers", "leagues"
@@ -236,6 +266,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_28_172658) do
   add_foreign_key "league_invitations", "battlers"
   add_foreign_key "league_invitations", "leagues"
   add_foreign_key "posts", "users"
+  add_foreign_key "scores", "battle_votes"
+  add_foreign_key "scores", "battlers"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
+  add_foreign_key "voters", "users"
 end

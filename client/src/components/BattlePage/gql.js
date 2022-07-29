@@ -7,10 +7,23 @@ export const GET_BATTLE = gql`
       battleUrl
       thumbnail
       battlers {
+        id
         name
         user {
+          id
           username
           isVerified
+        }
+      }
+      battleVotes {
+        id
+        comment
+        voterName
+        scores {
+          id
+          value
+          battlerName
+          outcome
         }
       }
     }

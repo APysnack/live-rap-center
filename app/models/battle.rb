@@ -5,5 +5,8 @@ class Battle < ApplicationRecord
   has_many :battler_battles
   has_many :battlers, through: :battler_battles
 
+  has_many :battle_votes
+  has_many :voters, through: :battle_votes
+
   has_one_attached :thumbnail
 end

@@ -5,6 +5,9 @@ import { useQuery } from "@apollo/client";
 import api from "../../api/api";
 import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
 import { useSelector } from "react-redux";
+import VoteSubmissionPanel from "./VoteSubmissionPanel/VoteSubmissionPanel";
+import { BattlePageContainer } from "./BattlePage.styles";
+import VoteDetails from "./VoteDetails/VoteDetails";
 
 const VIDEO_WIDTH = "480";
 const VIDEO_HEIGHT = "270";
@@ -18,6 +21,7 @@ function BattlePage() {
   const [youtubeId, setYoutubeId] = useState("");
 
   const updateBattle = (data) => {
+    console.log(data);
     setBattle(data.battle);
     setYoutubeId(data.battle.battleUrl);
   };
@@ -43,21 +47,21 @@ function BattlePage() {
   if (loading) return "Loading...";
 
   return (
-    <>
+    <BattlePageContainer>
       {youtubeStats?.snippet ? (
         <div>
           <div>{youtubeStats.snippet.title}</div>
           <div>{youtubeStats.statistics.viewCount} views</div>
           <div>{youtubeStats.statistics.likeCount} likes</div>
+          {/* add link to channel later */}
           <div>{youtubeStats.snippet.channelId}</div>
-          {userViewingPageIsAdmin ? (
-            <ImageUploadModal
-              type="battle thumbnail"
-              object={battle}
-              refetch={refetch}
-            />
-          ) : null}
-
+          <iframe
+            width={VIDEO_WIDTH}
+            height={VIDEO_HEIGHT}
+            src={"https://www.youtube.com/embed/" + youtubeId}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
+          ></iframe>
+          <VoteSubmissionPanel user={user} battle={battle} />
           {battle?.battlers
             ? Object.keys(battle.battlers).map((battler, i) =>
                 battle.battlers[battler]?.user?.username ? (
@@ -68,17 +72,27 @@ function BattlePage() {
               )
             : null}
 
-          <iframe
-            width={VIDEO_WIDTH}
-            height={VIDEO_HEIGHT}
-            src={"https://www.youtube.com/embed/" + youtubeId}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
-          ></iframe>
+          {/* currently gives a key error, should be resolved when transformed into component */}
+          {battle?.battleVotes.length > 0
+            ? battle.battleVotes.map((vote) => (
+                <VoteDetails key={vote.id} vote={vote} />
+              ))
+            : null}
+          {userViewingPageIsAdmin ? (
+            <div>
+              <div>Edit Battle Thumbnail: Admin Only</div>
+              <ImageUploadModal
+                type="battle thumbnail"
+                object={battle}
+                refetch={refetch}
+              />
+            </div>
+          ) : null}
         </div>
       ) : (
         <div>Battle could not be found</div>
       )}
-    </>
+    </BattlePageContainer>
   );
 }
 

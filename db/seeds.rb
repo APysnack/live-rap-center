@@ -26,28 +26,14 @@ UserRole.create(user_id: purelyDef.id, role_id: role_5.id)
 UserRole.create(user_id: organik.id, role_id: role.id)
 UserRole.create(user_id: organik.id, role_id: role_2.id)
 
+UserRole.create(user_id: patStay.id, role_id: role.id)
+
 # creating leagues
 lrc = League.create(league_name: "Live Rap Circle", league_url: "UCWseCA4XbP2PvjBox1u4C9g")
 kotd = League.create(league_name: "King of the Dot", league_url: "UCIuFtIO8i_XqA8lM7q4B1FQ")
 url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwYF-g")
 showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
 iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
-
-# creating chat components
-lrcChat = LeagueChat.create(league_id: lrc.id)
-LeagueChatUser.create(league_chat_id: lrcChat.id, user_id: purelyDef.id)
-LeagueChatUser.create(league_chat_id:  lrcChat.id, user_id: organik.id)
-
-LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "welcome to LRC")
-LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "A second lrc message")
-
-kotdChat = LeagueChat.create(league_id: kotd.id)
-LeagueChatUser.create(league_chat_id: kotdChat.id, user_id: patStay.id)
-LeagueChatUser.create(league_chat_id:  kotdChat.id, user_id: organik.id)
-
-LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: patStay.id, body: "yo welcome to KOTD")
-LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: organik.id, body: "sup")
-
 
 # assigning league admins
 LeagueAdmin.create(league_id: lrc.id, user_id: purelyDef.id)
@@ -64,12 +50,29 @@ battlerSK = Battler.create(name: "SK")
 battler3rdDegree = Battler.create(name: "3rd Degree", league_id: lrc.id)
 battlerBrotherPhil = Battler.create(name: "Brother Phil")
 battlerBigAnt = Battler.create(name: "Big Ant")
+battlerPatStay = Battler.create(user_id: patStay.id, name: "Pat Stay", league_id: kotd.id)
 
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: lrc.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: kotd.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: url.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: iBattle.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: showtime.id)
+
+
+# creating chat components
+lrcChat = LeagueChat.create(league_id: lrc.id)
+LeagueChatUser.create(league_chat_id: lrcChat.id, user_id: purelyDef.id)
+LeagueChatUser.create(league_chat_id:  lrcChat.id, user_id: organik.id)
+
+LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "welcome to LRC")
+LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "A second lrc message")
+
+kotdChat = LeagueChat.create(league_id: kotd.id)
+LeagueChatUser.create(league_chat_id: kotdChat.id, user_id: patStay.id)
+LeagueChatUser.create(league_chat_id:  kotdChat.id, user_id: organik.id)
+
+LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: patStay.id, body: "yo welcome to KOTD")
+LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: organik.id, body: "sup")
 
 # creating battles
 craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo")

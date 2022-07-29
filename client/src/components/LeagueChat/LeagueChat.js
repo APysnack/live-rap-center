@@ -7,7 +7,7 @@ function LeagueChat({ cable }) {
   const location = useLocation();
   const [messages, setMessages] = useState([]);
   const { user } = useSelector((state) => state.user.userState);
-  const { leagueId, leagueName } = location.state || null;
+  const { leagueId, leagueName } = location.state || {};
   const navigate = useNavigate();
 
   const updateMessages = (res) => {
@@ -16,7 +16,7 @@ function LeagueChat({ cable }) {
 
   useEffect(() => {
     // if user does not have a league, redirect to home
-    if (leagueId) {
+    if (leagueId != null) {
       api.getChatMessages(leagueId, updateMessages);
     } else {
       navigate("/login");

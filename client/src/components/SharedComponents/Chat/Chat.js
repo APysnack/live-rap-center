@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import BaseForm from "../BaseForm";
 import { sendMessageField } from "./ChatFormFields";
+import ChatMessage from "./ChatMessage";
+import { ChatContainer, MessagesWindow } from "./Chat.styles";
 
-function Chat({ messages, title, onSubmit }) {
+function Chat({ messages, onSubmit }) {
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
 
@@ -25,22 +27,22 @@ function Chat({ messages, title, onSubmit }) {
   }, []);
 
   return (
-    <div>
-      {messages?.length > 0
-        ? messages.map((message) => (
-            <div key={message.id}>
-              <div>{message.attributes.username}</div>
-              <div>{message.attributes.body}</div>
-            </div>
-          ))
-        : null}
+    <ChatContainer>
+      <MessagesWindow>
+        {messages?.length > 0
+          ? messages.map((message) => (
+              <ChatMessage key={message.id} message={message} />
+            ))
+          : null}
+      </MessagesWindow>
+
       <BaseForm
         initialValues={initialValues}
         fieldArray={fieldArray}
         onSubmit={sendMessage}
-        title={"Add New Battle"}
+        title={""}
       />
-    </div>
+    </ChatContainer>
   );
 }
 

@@ -59,6 +59,12 @@ function BattlerInfo({ battler, refetchBattler }) {
     <div>
       Battler Stats
       {battler?.score ? <div>Current Score: {battler.score}</div> : null}
+      {
+        <div>
+          <div>Wins: {battler.record.wins}</div>
+          <div>Losses: {battler.record.losses}</div>
+        </div>
+      }
       {battler?.league ? (
         <HomeLeagueContainer>
           <div>Home league: {battler.league.leagueName}</div>

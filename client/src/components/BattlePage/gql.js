@@ -19,6 +19,7 @@ export const GET_BATTLE = gql`
       battleVotes {
         id
         comment
+        voterId
         voterName
         scores {
           id

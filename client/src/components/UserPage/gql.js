@@ -6,6 +6,10 @@ export const GET_USER_BATTLER = gql`
       id
       name
       score
+      record {
+        wins
+        losses
+      }
       league {
         id
         leagueName

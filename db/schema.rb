@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_29_175220) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_01_022452) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,8 +48,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_29_175220) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "selected_winner_id"
     t.index ["battle_id"], name: "index_battle_votes_on_battle_id"
     t.index ["voter_id"], name: "index_battle_votes_on_voter_id"
+  end
+
+  create_table "battler_battle_results", force: :cascade do |t|
+    t.bigint "battler_id", null: false
+    t.bigint "battle_id", null: false
+    t.integer "outcome"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battle_id"], name: "index_battler_battle_results_on_battle_id"
+    t.index ["battler_id"], name: "index_battler_battle_results_on_battler_id"
   end
 
   create_table "battler_battles", force: :cascade do |t|
@@ -67,9 +78,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_29_175220) do
     t.datetime "updated_at", null: false
     t.bigint "league_id"
     t.bigint "user_id"
-    t.integer "score", default: 0
     t.integer "booking_price", default: 0
     t.boolean "booking_price_enabled", default: false
+    t.decimal "score", precision: 3, scale: 2, default: "0.0"
     t.index ["league_id"], name: "index_battlers_on_league_id"
     t.index ["user_id"], name: "index_battlers_on_user_id"
   end
@@ -81,6 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_29_175220) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "league_id", null: false
+    t.integer "voting_status", default: 1
     t.index ["league_id"], name: "index_battles_on_league_id"
   end
 
@@ -247,6 +259,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_29_175220) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "battle_votes", "battles"
   add_foreign_key "battle_votes", "voters"
+  add_foreign_key "battler_battle_results", "battlers"
+  add_foreign_key "battler_battle_results", "battles"
   add_foreign_key "battler_battles", "battlers"
   add_foreign_key "battler_battles", "battles"
   add_foreign_key "battlers", "leagues"

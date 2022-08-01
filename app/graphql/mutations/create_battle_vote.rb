@@ -17,7 +17,8 @@ module Mutations
         def resolve(input)
             battle = Battle.find_by(id: input[:battle_id])
             voter = User.find_by(id: input[:user_id])
-            if battle.present? && voter.present?
+
+            if battle.present? && voter.present? && !battle.battle_votes.pluck(:voter_id).include?(voter.id)
                 battleVote = BattleVote.create!(
                     voter_id: voter.id,
                     battle_id: battle.id,

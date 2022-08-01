@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import VoteSubmissionPanel from "./VoteSubmissionPanel/VoteSubmissionPanel";
 import { BattlePageContainer } from "./BattlePage.styles";
 import VoteDetails from "./VoteDetails/VoteDetails";
+import _ from "lodash";
 
 const VIDEO_WIDTH = "480";
 const VIDEO_HEIGHT = "270";
@@ -19,10 +20,19 @@ function BattlePage() {
   const [battle, setBattle] = useState({});
   const [youtubeStats, setYoutubeStats] = useState({});
   const [youtubeId, setYoutubeId] = useState("");
+  const [userHasVoted, setUserHasVoted] = useState(false);
 
   const updateBattle = (data) => {
+    console.log(data);
     setBattle(data.battle);
     setYoutubeId(data.battle.battleUrl);
+    if (data?.battle?.battleVotes.length > 0) {
+      checkIfUserHasVoted(data.battle.battleVotes);
+    }
+  };
+
+  const checkIfUserHasVoted = (votes) => {
+    setUserHasVoted(_.map(votes, "voterId").includes("" + user.voter_id));
   };
 
   useEffect(() => {
@@ -38,7 +48,6 @@ function BattlePage() {
 
   // fetches video from youtube API
   useEffect(() => {
-    console.log(battle);
     if (youtubeId) {
       api.fetchYouTubeVideo(youtubeId, setYoutubeStats);
     }
@@ -62,11 +71,15 @@ function BattlePage() {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
           ></iframe>
           {battle.votingStatus === "open" ? (
-            <VoteSubmissionPanel
-              user={user}
-              battle={battle}
-              refetchBattle={refetch}
-            />
+            !userHasVoted ? (
+              <VoteSubmissionPanel
+                user={user}
+                battle={battle}
+                refetchBattle={refetch}
+              />
+            ) : (
+              "You have already voted on this battle"
+            )
           ) : (
             "Voting for this battle is closed"
           )}

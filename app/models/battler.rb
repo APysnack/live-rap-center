@@ -10,6 +10,9 @@ class Battler < ApplicationRecord
     has_one_attached :image
     has_many :scores
 
+    # the overall outcome of a battle (win or loss) for each battler
+    has_many :battler_battle_results
+
     # lets us alias the leagues model as "potential leagues"
     # this makes battler.potential_leagues explicitly different from battler.league
     has_many :potential_leagues, :through => :league_invitations, 

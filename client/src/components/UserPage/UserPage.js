@@ -66,7 +66,6 @@ function UserPage({ callLogoutUser }) {
           <div>
             B: League chat -- possibly on this page directly for ease of access
           </div>
-          <div>B: Crew chat?? Tbd</div>
           <div>
             B: Requests/Messages/Alerts idk for requests to join crews. Same w/
             Booking requests but needs to be more elaborate with immediaite chat

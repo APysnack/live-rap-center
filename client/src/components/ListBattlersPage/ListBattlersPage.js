@@ -8,6 +8,10 @@ const { REACT_APP_SERVER_URL } = process.env;
 function ListBattlersPage() {
   const { loading, data } = useQuery(GET_BATTLERS);
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   if (loading) return "Loading...";
   return (
     <BattlerListContainer>

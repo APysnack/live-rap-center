@@ -16,6 +16,7 @@ module Types
       field :potential_leagues, [Types::Models::LeagueType], null: true
       field :league_id, ID, null: false
       field :image, String, null: true
+      field :record, Types::BattlerRecordObject, null: false
 
       def user
         user = object.user
@@ -37,6 +38,14 @@ module Types
         if object.image.present?
           rails_blob_path(object.image, host: ENV["SERVER_URL"])
         end
+      end
+
+      def record 
+        record = Hash.new()
+        record[:wins] = object.battler_battle_results.pluck(:outcome).count("win")
+        record[:losses] = object.battler_battle_results.pluck(:outcome).count("loss")
+        record[:ties] = object.battler_battle_results.pluck(:outcome).count("tie")
+        record
       end
     end
   end

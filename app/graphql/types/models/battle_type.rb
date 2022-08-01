@@ -14,6 +14,7 @@ module Types
       field :battlers, [Types::Models::BattlerType], null: false
       field :thumbnail, String, null: true
       field :battle_votes, [Types::Models::BattleVoteType], null: false
+      field :voting_status, Types::VotingStatusEnum, null: false
   
       def battlers
         object.battlers

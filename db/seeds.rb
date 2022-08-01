@@ -39,10 +39,10 @@ iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH
 LeagueAdmin.create(league_id: lrc.id, user_id: purelyDef.id)
 
 # creating battlers
-battlerPurelyDef = Battler.create(user_id: purelyDef.id, name: "PurelyDef", score: 100)
-battlerRichardCranium = Battler.create(name: "Richard Cranium", score: 93)
-battlerRemyD = Battler.create(name: "RemyD", score: 88)
-battlerKavemanBrown = Battler.create(name: "Kaveman Brown", score: 86)
+battlerPurelyDef = Battler.create(user_id: purelyDef.id, name: "PurelyDef")
+battlerRichardCranium = Battler.create(name: "Richard Cranium")
+battlerRemyD = Battler.create(name: "RemyD")
+battlerKavemanBrown = Battler.create(name: "Kaveman Brown")
 battlerFloLeeds = Battler.create(name: "Flo Leeds")
 battlerReggieLoud = Battler.create(name: "Reginald Loud", league_id: lrc.id)
 battlerComa = Battler.create(name: "Coma")

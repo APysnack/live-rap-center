@@ -4,18 +4,14 @@ import StarSelector from "./StarSelector/StarSelector";
 import { useMutation } from "@apollo/client";
 import { CREATE_BATTLE_VOTE } from "./gql";
 
-function VoteSubmissionPanel({ user, battle }) {
+function VoteSubmissionPanel({ user, battle, refetchBattle }) {
+  // foo
   const [createBattleVote, { data, loading, error }] =
     useMutation(CREATE_BATTLE_VOTE);
 
   const [starState, setStarState] = useState({});
   const [checkedState, setCheckedState] = useState({});
   const [disableChecks, setDisableChecks] = useState(false);
-
-  useEffect(() => {
-    console.log(starState);
-    console.log(checkedState);
-  }, [starState, checkedState]);
 
   useEffect(() => {
     loadDefaultCheckState();
@@ -51,6 +47,7 @@ function VoteSubmissionPanel({ user, battle }) {
           winnerBattlerScore: starState[parseInt(winnerIds[0])],
           comment: formData.comment,
         },
+        onCompleted: refetchBattle,
       });
     }
   };

@@ -7,6 +7,10 @@ export const GET_BATTLER = gql`
       name
       score
       image
+      record {
+        wins
+        losses
+      }
       battles {
         battleUrl
       }

@@ -21,7 +21,6 @@ function BattlePage() {
   const [youtubeId, setYoutubeId] = useState("");
 
   const updateBattle = (data) => {
-    console.log(data);
     setBattle(data.battle);
     setYoutubeId(data.battle.battleUrl);
   };
@@ -39,6 +38,7 @@ function BattlePage() {
 
   // fetches video from youtube API
   useEffect(() => {
+    console.log(battle);
     if (youtubeId) {
       api.fetchYouTubeVideo(youtubeId, setYoutubeStats);
     }
@@ -61,7 +61,16 @@ function BattlePage() {
             src={"https://www.youtube.com/embed/" + youtubeId}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
           ></iframe>
-          <VoteSubmissionPanel user={user} battle={battle} />
+          {battle.votingStatus === "open" ? (
+            <VoteSubmissionPanel
+              user={user}
+              battle={battle}
+              refetchBattle={refetch}
+            />
+          ) : (
+            "Voting for this battle is closed"
+          )}
+
           {battle?.battlers
             ? Object.keys(battle.battlers).map((battler, i) =>
                 battle.battlers[battler]?.user?.username ? (

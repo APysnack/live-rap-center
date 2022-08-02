@@ -42,7 +42,7 @@ module Mutations
 
                     battle.battlers.each do |battler|
                             score_array = battler.scores.map(&:value)
-                            battler.score = score_array.sum.to_f / score_array.count
+                            battler.score = (score_array.sum.to_f / score_array.count) * 10
                             battler.save
                     end
                 end

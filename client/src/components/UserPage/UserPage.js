@@ -64,12 +64,8 @@ function UserPage({ callLogoutUser }) {
           <div>G: Active Twitter Spaces??</div>
           <div>B: Rank</div>
           <div>
-            B: League chat -- possibly on this page directly for ease of access
-          </div>
-          <div>
-            B: Requests/Messages/Alerts idk for requests to join crews. Same w/
-            Booking requests but needs to be more elaborate with immediaite chat
-            available
+            Alerts for Booking requests but needs to be more elaborate with
+            immediate chat available
           </div>
           <div>
             B: Calendar for my upcoming events? Available to be booked, etc.

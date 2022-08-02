@@ -3,9 +3,9 @@ import CreateVoteForm from "./CreateVoteForm/CreateVoteForm";
 import StarSelector from "./StarSelector/StarSelector";
 import { useMutation } from "@apollo/client";
 import { CREATE_BATTLE_VOTE } from "./gql";
+import _ from "lodash";
 
 function VoteSubmissionPanel({ user, battle, refetchBattle }) {
-  // foo
   const [createBattleVote, { data, loading, error }] =
     useMutation(CREATE_BATTLE_VOTE);
 
@@ -30,33 +30,39 @@ function VoteSubmissionPanel({ user, battle, refetchBattle }) {
   // currently does not handle 2v2s.  loserIds[0] gets first/only item in array
   // will need to parse all elements in winnerIds/loserIds for 2v2
   const submitVote = (formData) => {
-    if (voteCompleted(formData) === true) {
-      let winnerIds = Object.keys(checkedState).filter(
-        (key) => checkedState[key]
-      );
-      let loserIds = Object.keys(checkedState).filter(
-        (key) => !checkedState[key]
-      );
-      createBattleVote({
-        variables: {
-          userId: user.id,
-          battleId: battle.id,
-          loserBattlerId: parseInt(loserIds[0]),
-          winnerBattlerId: parseInt(winnerIds[0]),
-          loserBattlerScore: starState[parseInt(loserIds[0])],
-          winnerBattlerScore: starState[parseInt(winnerIds[0])],
-          comment: formData.comment,
-        },
-        onCompleted: refetchBattle,
-      });
-    }
+    let winnerIds = Object.keys(checkedState).filter(
+      (key) => checkedState[key]
+    );
+    let loserIds = Object.keys(checkedState).filter(
+      (key) => !checkedState[key]
+    );
+    let loserId = parseInt(loserIds[0]);
+    let winnerId = parseInt(winnerIds[0]);
+    createBattleVote({
+      variables: {
+        userId: user.id,
+        battleId: battle.id,
+        loserBattlerId: loserId,
+        winnerBattlerId: winnerId,
+        loserBattlerScore: sumValues(starState[loserId]),
+        winnerBattlerScore: sumValues(starState[winnerId]),
+        comment: formData.comment,
+      },
+      onCompleted: refetchBattle,
+    });
+  };
+
+  // adds all values in the object
+  const sumValues = (obj) => {
+    return Object.values(obj).reduce((prev, current) => prev + current, 0);
   };
 
   const voteCompleted = (formData) => {
     if (
+      disableChecks === true &&
       formData.comment !== "" &&
       Object.keys(starState).length > 1 &&
-      disableChecks === true
+      allMetricsCompleted()
     ) {
       return true;
     } else {
@@ -64,12 +70,30 @@ function VoteSubmissionPanel({ user, battle, refetchBattle }) {
     }
   };
 
+  const allMetricsCompleted = () => {
+    let metricsCompleted = true;
+    battle.battlers.map((battler) => {
+      if (
+        starState[battler.id]["lyricism"] == null ||
+        starState[battler.id]["performance"] == null
+      ) {
+        metricsCompleted = false;
+      }
+    });
+    return metricsCompleted;
+  };
+
   // tracks the star ratings for each battler
-  const updateStarState = (battlerId, value) => {
-    const tempObj = {
-      [battlerId]: value,
-    };
-    setStarState({ ...starState, ...tempObj });
+  const updateStarState = (battlerId, value, metric) => {
+    var newState = {};
+    const oldState = _.cloneDeep(starState);
+    const tempObj = { [battlerId]: { [metric]: value } };
+    if (oldState[battlerId]) {
+      newState[battlerId] = { ...oldState[battlerId], ...tempObj[battlerId] };
+    } else {
+      newState = tempObj;
+    }
+    setStarState({ ...starState, ...newState });
   };
 
   // only updates when the user selects a winner. Sets all other battler checkbox states to false

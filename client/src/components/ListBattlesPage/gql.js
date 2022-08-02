@@ -6,6 +6,7 @@ export const GET_BATTLES = gql`
       id
       thumbnail
       battleUrl
+      score
       battlers {
         id
         name

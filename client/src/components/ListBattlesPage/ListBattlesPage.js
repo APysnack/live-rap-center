@@ -5,10 +5,13 @@ import { BattleLink } from "./ListBattles.styles";
 import { Avatar } from "@mui/material";
 const { REACT_APP_SERVER_URL } = process.env;
 
+const THUMBNAIL_WIDTH = 100;
+const THUMBNAIL_HEIGHT = 100;
+
 function ListBattlesPage() {
   const { loading, data } = useQuery(GET_BATTLES);
 
-  // note there's no issue with the code, some battles arent assigned battlers in the db
+  // note there's no issue with the code, some battles arent assigned battlers in the seeded db
 
   if (loading) return "Loading...";
   return (
@@ -18,13 +21,13 @@ function ListBattlesPage() {
           {battle.thumbnail ? (
             <Avatar
               src={REACT_APP_SERVER_URL + battle.thumbnail}
-              sx={{ width: 100, height: 100 }}
+              sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
               className="battleThumb"
             />
           ) : (
             <Avatar
               src={null}
-              sx={{ width: 100, height: 100 }}
+              sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
               className="battleThumb"
             />
           )}
@@ -33,6 +36,7 @@ function ListBattlesPage() {
               {battler.name} {i % 2 === 0 ? <span>versus</span> : null}
             </div>
           ))}
+          <div>Rating: {battle.score}</div>
         </BattleLink>
       ))}
     </>

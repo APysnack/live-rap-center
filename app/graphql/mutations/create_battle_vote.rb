@@ -12,15 +12,15 @@ module Mutations
 
         # TODO: currently only supports battles with 2 battles
         # this should be the only thing needed to be modified to extend to 2v2s
-        # additionally, use outcome: 2 to create tie scores
+        # additionally, use outcome: 2 if you want to add tie scores
         # extra protections needed to ensure voter does not vote more than once
         def resolve(input)
             battle = Battle.find_by(id: input[:battle_id])
-            voter = User.find_by(id: input[:user_id])
+            voting_user = User.find_by(id: input[:user_id])
 
-            if battle.present? && voter.present? && !battle.battle_votes.pluck(:voter_id).include?(voter.id)
+            if valid_vote?(battle, voting_user)
                 battleVote = BattleVote.create!(
-                    voter_id: voter.id,
+                    voter_id: voting_user.voter_id,
                     battle_id: battle.id,
                     comment: input[:comment],
                     selected_winner_id: input[:winner_battler_id],
@@ -31,6 +31,14 @@ module Mutations
 
                 if battle.battle_votes.count >= Integer(ENV.fetch('VOTES_UNTIL_BATTLE_CLOSED'))
                     battle.voting_status = :closed
+                    total = 0
+                    count = 0
+                    battle.battle_votes.each do | vote |
+                        total += vote.scores.map(&:value).sum
+                        count += 2
+                    end
+
+                    battle.score = (total.to_f / count) * 10
                     battle.save
 
                     votes = BattleVote.where(battle_id: battle.id).map(&:selected_winner_id)
@@ -48,6 +56,18 @@ module Mutations
                 end
                 return battleVote
             end
+        end
+
+        def valid_vote?(battle, voting_user)
+            return false unless battle.present?
+            return false unless voting_user.present? 
+
+            # ensure battler is not voting on their own battle
+            return false if battle.battlers.map(&:id).include?(voting_user.battler.id)
+
+            # ensure that a voter has not already voted
+            return false if battle.battle_votes.pluck(:voter_id).include?(voting_user.id)
+            return true
         end
     end
 end

@@ -15,6 +15,7 @@ module Types
       field :thumbnail, String, null: true
       field :battle_votes, [Types::Models::BattleVoteType], null: false
       field :voting_status, Types::VotingStatusEnum, null: false
+      field :score, Float, null: false
   
       def battlers
         object.battlers
@@ -28,6 +29,10 @@ module Types
 
       def battle_votes
         object.battle_votes
+      end
+
+      def score
+        object.score
       end
     end
   end

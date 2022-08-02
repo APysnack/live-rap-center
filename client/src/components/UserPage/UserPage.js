@@ -70,7 +70,6 @@ function UserPage({ callLogoutUser }) {
           <div>
             B: Calendar for my upcoming events? Available to be booked, etc.
           </div>
-          <div>Note: ensure that user usernames are unique</div>
 
           <button style={{ color: "red" }} onClick={callLogoutUser}>
             Log out

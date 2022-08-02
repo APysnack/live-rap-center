@@ -12,10 +12,19 @@ function StarSelector({
   return (
     <div>
       <div>{battler.name}</div>
+      <div>Lyricism</div>
       <StarRatingComponent
-        name={battler.id}
-        id="test"
-        onStarClick={(value) => updateStarState(battlerId, value)}
+        name={"lyricism-" + battler.id}
+        id="lyricism"
+        onStarClick={(value) => updateStarState(battlerId, value, "lyricism")}
+      />
+      <div>Performance</div>
+      <StarRatingComponent
+        name={"performance-" + battler.id}
+        id="performance"
+        onStarClick={(value) =>
+          updateStarState(battlerId, value, "performance")
+        }
       />
       <div>
         <div>Winner of the Battle</div>

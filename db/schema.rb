@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_01_022452) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_02_115205) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,7 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_022452) do
     t.bigint "user_id"
     t.integer "booking_price", default: 0
     t.boolean "booking_price_enabled", default: false
-    t.decimal "score", precision: 3, scale: 2, default: "0.0"
+    t.decimal "score", precision: 5, scale: 1, default: "0.0"
     t.index ["league_id"], name: "index_battlers_on_league_id"
     t.index ["user_id"], name: "index_battlers_on_user_id"
   end

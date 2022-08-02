@@ -21,9 +21,10 @@ function BattlePage() {
   const [youtubeStats, setYoutubeStats] = useState({});
   const [youtubeId, setYoutubeId] = useState("");
   const [userHasVoted, setUserHasVoted] = useState(false);
+  const [userViewingPageIsInBattle, setUserViewingPageIsInBattle] =
+    useState(false);
 
   const updateBattle = (data) => {
-    console.log(data);
     setBattle(data.battle);
     setYoutubeId(data.battle.battleUrl);
     if (data?.battle?.battleVotes.length > 0) {
@@ -39,7 +40,18 @@ function BattlePage() {
     if (user?.roles?.includes("admin")) {
       setUserViewingPageIsAdmin(true);
     }
-  }, [user]);
+    if (user && Object.keys(battle).length > 0) {
+      checkIfUserIsInBattle(battle);
+    }
+  }, [user, battle]);
+
+  const checkIfUserIsInBattle = (battle) => {
+    battle.battlers.map((battler) => {
+      if (battler.id === "" + user.battler_id) {
+        setUserViewingPageIsInBattle(true);
+      }
+    });
+  };
 
   const { loading, refetch } = useQuery(GET_BATTLE, {
     variables: { id: battleId },
@@ -70,7 +82,9 @@ function BattlePage() {
             src={"https://www.youtube.com/embed/" + youtubeId}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
           ></iframe>
-          {battle.votingStatus === "open" ? (
+          {battle.votingStatus === "open" &&
+          user.voter_id !== null &&
+          !userViewingPageIsInBattle ? (
             !userHasVoted ? (
               <VoteSubmissionPanel
                 user={user}
@@ -81,7 +95,7 @@ function BattlePage() {
               "You have already voted on this battle"
             )
           ) : (
-            "Voting for this battle is closed"
+            "You do not have permissions to vote on this battle"
           )}
 
           {battle?.battlers

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_02_212752) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_03_115949) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,6 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_212752) do
     t.bigint "league_id", null: false
     t.integer "voting_status", default: 1
     t.decimal "score", precision: 4, scale: 1, default: "0.0"
+    t.datetime "closed_at"
     t.index ["league_id"], name: "index_battles_on_league_id"
   end
 

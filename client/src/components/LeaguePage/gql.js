@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export const GET_LEAGUE = gql`
   query League($id: ID!) {
     league(id: $id) {
+      id
       leagueName
       leagueUrl
       battlers {
@@ -10,7 +11,9 @@ export const GET_LEAGUE = gql`
         name
       }
       battles {
+        id
         battlers {
+          id
           name
         }
       }

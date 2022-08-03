@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
 import SocialMediaContainer from "../SharedComponents/SocialMediaContainer/SocialMediaContainer";
 import BattlerInfo from "./BattlerInfo";
+import TopBattles from "./TopBattles/TopBattles";
 
 function UserPage({ callLogoutUser }) {
   // current redux state of the user
@@ -60,7 +61,9 @@ function UserPage({ callLogoutUser }) {
           {Object.keys(user?.socials).length > 0 ? (
             <SocialMediaContainer socials={user.socials} />
           ) : null}
-          <div>G: Top Battles of the week</div>
+          <div>WTF</div>
+          <TopBattles />
+          <div>WTF</div>
           <div>G: Active Twitter Spaces??</div>
           <div>B: Rank</div>
           <div>

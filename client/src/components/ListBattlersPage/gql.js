@@ -8,6 +8,7 @@ export const GET_BATTLERS = gql`
       name
       score
       user {
+        id
         profilePictureUrl
       }
     }

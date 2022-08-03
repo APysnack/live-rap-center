@@ -16,6 +16,7 @@ module Types
     field :battles, resolver: Queries::Battles
     field :battle_vote, resolver: Queries::BattleVote
     field :battle_votes, resolver: Queries::BattleVotes
+    field :top_battles, resolver: Queries::TopBattles
     field :battler_battle_result, resolver: Queries::BattlerBattleResult
     field :battler_battle_results, resolver: Queries::BattlerBattleResults
     field :score, resolver: Queries::Score

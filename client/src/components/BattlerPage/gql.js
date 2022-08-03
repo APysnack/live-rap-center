@@ -12,6 +12,7 @@ export const GET_BATTLER = gql`
         losses
       }
       battles {
+        id
         battleUrl
       }
       user {
@@ -25,6 +26,7 @@ export const GET_BATTLER = gql`
         }
       }
       league {
+        id
         leagueName
       }
     }

@@ -7,7 +7,6 @@ module Types
       field :user_id, ID, null: true
       field :league_id, ID, null: false
       field :views, Integer
-      field :rating, Integer
       field :battle_url, String
       field :created_at, GraphQL::Types::ISO8601DateTime, null: false
       field :updated_at, GraphQL::Types::ISO8601DateTime, null: false

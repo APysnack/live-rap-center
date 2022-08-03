@@ -17,6 +17,7 @@ export const UPDATE_SOCIALS = gql`
     updateSocialMediaLinks(
       input: { userId: $userId, attributes: $attributes }
     ) {
+      id
       socialMediaPlatformId
       socialMediaPlatformName
       url

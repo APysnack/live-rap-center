@@ -19,6 +19,7 @@ export const GET_USER_BATTLER = gql`
         leagueName
       }
       battles {
+        id
         battleUrl
       }
     }
@@ -40,6 +41,7 @@ export const DELETE_LEAGUE_INVITATION = gql`
     deleteLeagueInvitation(
       input: { battlerId: $battlerId, leagueId: $leagueId }
     ) {
+      id
       message
     }
   }

@@ -31,6 +31,7 @@ module Mutations
 
                 if battle.battle_votes.count >= Integer(ENV.fetch('VOTES_UNTIL_BATTLE_CLOSED'))
                     battle.voting_status = :closed
+                    battle.closed_at = Time.now
                     total = 0
                     count = 0
                     battle.battle_votes.each do | vote |

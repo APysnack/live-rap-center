@@ -1,12 +1,34 @@
-import React, { useState } from "react";
-import { Avatar } from "@mui/material";
-import ChangeFileForm from "./ChangeFileForm";
-import { ImageModalWrapper } from "./ImageUploadModal.styles";
+import React, { useEffect, useState } from 'react';
+import { Avatar } from '@mui/material';
+import ChangeFileForm from './ChangeFileForm';
+import { ImageModalWrapper } from './ImageUploadModal.styles';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
+// object is an optional argument to modify the image for a particular instance
 function ImageUploadModal({ type, refetch, object = null }) {
   const [modelOpen, setModalOpen] = useState(false);
+  const [imageSource, setImageSource] = useState('');
+  const [dimensions, setDimensions] = useState({ width: 150, height: 150 });
+
+  useEffect(() => {
+    switch (type) {
+      case 'profile picture':
+        setImageSource(REACT_APP_SERVER_URL + object?.profilePictureUrl);
+        break;
+      case 'league logo':
+        setImageSource(REACT_APP_SERVER_URL + object?.logoUrl);
+        break;
+      case 'battle thumbnail':
+        setImageSource(REACT_APP_SERVER_URL + object?.thumbnail);
+        break;
+      case 'battler image':
+        setImageSource(REACT_APP_SERVER_URL + object?.image);
+        break;
+      default:
+        setImageSource('');
+    }
+  }, []);
 
   const openImageModal = () => {
     setModalOpen(true);
@@ -16,28 +38,19 @@ function ImageUploadModal({ type, refetch, object = null }) {
     setModalOpen(false);
   };
 
-  const getImageSource = () => {
-    if (type === "profile picture") {
-      return REACT_APP_SERVER_URL + object?.profilePictureUrl;
-    } else if (type === "league logo") {
-      return REACT_APP_SERVER_URL + object?.logoUrl;
-    } else if (type === "battle thumbnail") {
-      return REACT_APP_SERVER_URL + object?.thumbnail;
-    } else if (type === "battler image") {
-      return REACT_APP_SERVER_URL + object?.image;
-    } else {
-      return null;
-    }
-  };
-
   return (
     <ImageModalWrapper>
-      <Avatar
-        src={getImageSource()}
-        sx={{ width: 150, height: 150 }}
-        onClick={openImageModal}
-        className="profileImg"
-      />
+      {type !== 'award image' ? (
+        <Avatar
+          src={imageSource}
+          sx={{ width: dimensions.width, height: dimensions.height }}
+          onClick={openImageModal}
+          className='profileImg'
+        />
+      ) : (
+        <div onClick={openImageModal}>Upload A New Award</div>
+      )}
+
       <ChangeFileForm
         isOpen={modelOpen}
         onClose={closeImageModal}

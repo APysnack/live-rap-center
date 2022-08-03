@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { GET_USER_BATTLER, GET_USER } from "./gql";
-import { useQuery } from "@apollo/client";
-import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
-import SocialMediaContainer from "../SharedComponents/SocialMediaContainer/SocialMediaContainer";
-import BattlerInfo from "./BattlerInfo";
-import TopBattles from "./TopBattles/TopBattles";
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { GET_USER_BATTLER, GET_USER } from './gql';
+import { useQuery } from '@apollo/client';
+import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
+import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/SocialMediaContainer';
+import BattlerInfo from './BattlerInfo';
+import TopBattles from './TopBattles/TopBattles';
 
 function UserPage({ callLogoutUser }) {
   // current redux state of the user
@@ -42,7 +42,7 @@ function UserPage({ callLogoutUser }) {
     }
   }, [userData]);
 
-  if (loading) return "Loading...";
+  if (loading) return 'Loading...';
 
   return (
     <>
@@ -50,7 +50,7 @@ function UserPage({ callLogoutUser }) {
         <div>
           <div>Username: {currentUser.username}</div>
           <ImageUploadModal
-            type="profile picture"
+            type='profile picture'
             refetch={refetchUser}
             object={currentUser}
           />
@@ -61,9 +61,7 @@ function UserPage({ callLogoutUser }) {
           {Object.keys(user?.socials).length > 0 ? (
             <SocialMediaContainer socials={user.socials} />
           ) : null}
-          <div>WTF</div>
           <TopBattles />
-          <div>WTF</div>
           <div>G: Active Twitter Spaces??</div>
           <div>B: Rank</div>
           <div>
@@ -74,7 +72,7 @@ function UserPage({ callLogoutUser }) {
             B: Calendar for my upcoming events? Available to be booked, etc.
           </div>
 
-          <button style={{ color: "red" }} onClick={callLogoutUser}>
+          <button style={{ color: 'red' }} onClick={callLogoutUser}>
             Log out
           </button>
         </div>

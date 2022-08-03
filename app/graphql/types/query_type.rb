@@ -27,5 +27,7 @@ module Types
     field :socialMediaPlatforms, resolver: Queries::SocialMediaPlatforms
     field :socialMediaLink, resolver: Queries::SocialMediaLink
     field :socialMediaLinks, resolver: Queries::SocialMediaLinks
+    field :award, resolver: Queries::Award
+    field :awards, resolver: Queries::Awards
   end
 end

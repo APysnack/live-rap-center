@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import BaseForm from "../../SharedComponents/BaseForm";
-import { leagueNameField, leagueUrlField } from "./CreateLeagueFormFields";
-import { useMutation } from "@apollo/client";
-import { CREATE_LEAGUE } from "./gql";
+import React, { useEffect, useState } from 'react';
+import BaseForm from '../../SharedComponents/BaseForm';
+import { leagueNameField, leagueUrlField } from './CreateLeagueFormFields';
+import { useMutation } from '@apollo/client';
+import { CREATE_LEAGUE } from './gql';
 
 function CreateLeagueForm() {
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
 
   const [createLeague, { data, loading, error }] = useMutation(CREATE_LEAGUE);
-  const [flashMessage, setFlashMessage] = useState("");
+  const [flashMessage, setFlashMessage] = useState('');
 
   const addNewLeague = (values) => {
     createLeague({
@@ -42,7 +42,7 @@ function CreateLeagueForm() {
     }
   }, []);
 
-  if (loading) return "Loading...";
+  if (loading) return 'Loading...';
   if (error) return `Submission error ${error.message}`;
 
   return (
@@ -52,7 +52,7 @@ function CreateLeagueForm() {
         initialValues={initialValues}
         fieldArray={fieldArray}
         onSubmit={addNewLeague}
-        title={"Add New League"}
+        title={''}
       />
     </div>
   );

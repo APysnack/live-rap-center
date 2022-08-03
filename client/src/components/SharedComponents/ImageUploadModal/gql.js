@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const CREATE_LEAGUE_LOGO = gql`
   mutation CreateLeagueLogo($name: String, $leagueId: ID!, $image: Upload!) {
@@ -46,6 +46,16 @@ export const UPDATE_BATTLER_IMAGE = gql`
       id
       name
       image
+    }
+  }
+`;
+
+export const CREATE_AWARD = gql`
+  mutation CreateAward($name: String!, $image: Upload!) {
+    createAward(input: { name: $name, image: $image }) {
+      id
+      name
+      imageUrl
     }
   }
 `;

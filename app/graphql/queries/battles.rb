@@ -5,7 +5,7 @@ module Queries
       type [Types::Models::BattleType], null: true
   
       def resolve()
-        ::Battle.all
+        ::Battle.all.order('score DESC')
       end
     end
 end

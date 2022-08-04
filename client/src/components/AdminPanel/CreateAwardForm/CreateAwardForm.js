@@ -12,7 +12,9 @@ function CreateAwardForm() {
     <div>
       <div>All Awards</div>
       {data?.awards?.length > 0
-        ? data.awards.map((award) => <Award award={award} />)
+        ? data.awards.map((award) => (
+            <Award key={award.id} award={award} refetch={refetch} />
+          ))
         : null}
       <ImageUploadModal type='award image' refetch={refetch} />
     </div>

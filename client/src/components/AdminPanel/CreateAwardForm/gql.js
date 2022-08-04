@@ -9,3 +9,11 @@ export const GET_AWARDS = gql`
     }
   }
 `;
+
+export const DELETE_AWARD = gql`
+  mutation deleteAward($awardId: ID!) {
+    deleteAward(input: { awardId: $awardId }) {
+      message
+    }
+  }
+`;

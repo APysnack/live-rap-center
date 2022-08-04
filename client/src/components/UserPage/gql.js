@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_USER_BATTLER = gql`
   query Battler($userId: ID!) {
@@ -41,7 +41,6 @@ export const DELETE_LEAGUE_INVITATION = gql`
     deleteLeagueInvitation(
       input: { battlerId: $battlerId, leagueId: $leagueId }
     ) {
-      id
       message
     }
   }

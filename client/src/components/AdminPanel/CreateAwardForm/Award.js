@@ -17,6 +17,10 @@ function Award({ award, refetch }) {
     });
   };
 
+  const updateAward = () => {
+    console.log('up');
+  };
+
   const completeDeletion = () => {
     setModalOpen(false);
     refetch();
@@ -32,7 +36,12 @@ function Award({ award, refetch }) {
   return (
     <div>
       <div>{award.name}</div>
-      <img src={REACT_APP_SERVER_URL + award.imageUrl} width='30' height='30' />
+      <img
+        src={REACT_APP_SERVER_URL + award.imageUrl}
+        onClick={updateAward}
+        width='30'
+        height='30'
+      />
       <Delete onClick={openModal} className='delete' />
       <ConfirmationModal
         isOpen={modalOpen}

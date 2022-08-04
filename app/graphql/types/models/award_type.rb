@@ -9,11 +9,16 @@ module Types
       field :image_url, String, null: true
       field :created_at, GraphQL::Types::ISO8601DateTime, null: false
       field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+      field :award_type, String, null: true
 
       def image_url
         if object.image.present?
           rails_blob_path(object.image, host: ENV["SERVER_URL"])
         end
+      end
+
+      def award_type
+        object.award_type.to_s
       end
     end
   end

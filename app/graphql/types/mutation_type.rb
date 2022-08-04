@@ -17,5 +17,6 @@ module Types
     field :create_battle_vote, mutation: Mutations::CreateBattleVote
     field :create_award, mutation: Mutations::CreateAward
     field :delete_award, mutation: Mutations::DeleteAward
+    field :update_award, mutation: Mutations::UpdateAward
   end
 end

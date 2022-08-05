@@ -3,12 +3,27 @@ import { Delete } from '@mui/icons-material';
 import ConfirmationModal from '../../SharedComponents/ConfirmationModal/ConfirmationModal';
 import { DELETE_AWARD } from './gql';
 import { useMutation } from '@apollo/client';
+import BasicModal from '../../SharedComponents/BasicModal';
+import UpdateAwardForm from './UpdateAwardForm.js/UpdateAwardForm';
+import { UPDATE_AWARD } from './gql';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
+// AwardTypeEnum must match acceptedTypeValues, including the order
+const AwardTypeEnum = {
+  BATTLER: 'BATTLER',
+  VOTER: 'VOTER',
+  LEAGUE: 'LEAGUE',
+};
+
+const acceptedTypeValues = ['battler_award', 'voter_award', 'league_award'];
+
 function Award({ award, refetch }) {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [uploadImageModalOpen, setUploadImageModalOpen] = useState(false);
+  const [editAwardModalOpen, setEditAwardModalOpen] = useState(false);
+
   const [deleteAward] = useMutation(DELETE_AWARD);
+  const [updateAward] = useMutation(UPDATE_AWARD);
 
   const removeAward = () => {
     deleteAward({
@@ -17,38 +32,68 @@ function Award({ award, refetch }) {
     });
   };
 
-  const updateAward = () => {
-    console.log('up');
+  const editAward = (value) => {
+    let enumValue;
+    if (value.awardType === 'battler_award') {
+      enumValue = AwardTypeEnum.BATTLER;
+    } else if (value.awardType === 'voter_award') {
+      enumValue = AwardTypeEnum.VOTER;
+    } else if (value.awardType === 'league_award') {
+      enumValue = AwardTypeEnum.LEAGUE;
+    } else {
+      enumValue = null;
+    }
+    if (enumValue !== null && value.awardName !== '') {
+      updateAward({
+        variables: {
+          awardId: award.id,
+          awardName: value.awardName,
+          awardType: enumValue,
+        },
+        onCompleted: completeEdit,
+      });
+    }
   };
 
   const completeDeletion = () => {
-    setModalOpen(false);
+    setUploadImageModalOpen(false);
+    refetch();
+  };
+
+  const completeEdit = () => {
+    setEditAwardModalOpen(false);
     refetch();
   };
 
   const openModal = () => {
-    setModalOpen(true);
+    setUploadImageModalOpen(true);
   };
 
   const closeModal = () => {
-    setModalOpen(false);
+    setUploadImageModalOpen(false);
   };
   return (
     <div>
       <div>{award.name}</div>
       <img
         src={REACT_APP_SERVER_URL + award.imageUrl}
-        onClick={updateAward}
+        onClick={() => setEditAwardModalOpen(true)}
         width='30'
         height='30'
       />
       <Delete onClick={openModal} className='delete' />
       <ConfirmationModal
-        isOpen={modalOpen}
+        isOpen={uploadImageModalOpen}
         onClose={closeModal}
         onConfirm={removeAward}
         onDeny={closeModal}
       />
+      <BasicModal
+        isOpen={editAwardModalOpen}
+        onClose={() => setEditAwardModalOpen(false)}
+      >
+        <UpdateAwardForm award={award} onSubmit={(value) => editAward(value)} />
+      </BasicModal>
     </div>
   );
 }

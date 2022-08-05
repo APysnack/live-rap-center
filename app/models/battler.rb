@@ -10,6 +10,9 @@ class Battler < ApplicationRecord
     has_one_attached :image
     has_many :scores
 
+    has_many :battler_awards
+    has_many :awards, :through => :battler_awards
+
     # the overall outcome of a battle (win or loss) for each battler
     has_many :battler_battle_results
 

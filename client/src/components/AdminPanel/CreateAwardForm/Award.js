@@ -16,8 +16,6 @@ const AwardTypeEnum = {
   LEAGUE: 'LEAGUE',
 };
 
-const acceptedTypeValues = ['battler_award', 'voter_award', 'league_award'];
-
 function Award({ award, refetch }) {
   const [uploadImageModalOpen, setUploadImageModalOpen] = useState(false);
   const [editAwardModalOpen, setEditAwardModalOpen] = useState(false);

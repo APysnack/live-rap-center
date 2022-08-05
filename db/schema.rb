@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_04_120334) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_05_003631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_04_120334) do
     t.integer "selected_winner_id"
     t.index ["battle_id"], name: "index_battle_votes_on_battle_id"
     t.index ["voter_id"], name: "index_battle_votes_on_voter_id"
+  end
+
+  create_table "battler_awards", force: :cascade do |t|
+    t.bigint "battler_id", null: false
+    t.bigint "award_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["award_id"], name: "index_battler_awards_on_award_id"
+    t.index ["battler_id"], name: "index_battler_awards_on_battler_id"
   end
 
   create_table "battler_battle_results", force: :cascade do |t|
@@ -145,6 +154,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_04_120334) do
     t.datetime "updated_at", null: false
     t.index ["league_id"], name: "index_league_admins_on_league_id"
     t.index ["user_id"], name: "index_league_admins_on_user_id"
+  end
+
+  create_table "league_awards", force: :cascade do |t|
+    t.bigint "league_id", null: false
+    t.bigint "award_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["award_id"], name: "index_league_awards_on_award_id"
+    t.index ["league_id"], name: "index_league_awards_on_league_id"
   end
 
   create_table "league_chat_messages", force: :cascade do |t|
@@ -258,6 +276,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_04_120334) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "voter_awards", force: :cascade do |t|
+    t.bigint "voter_id", null: false
+    t.bigint "award_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["award_id"], name: "index_voter_awards_on_award_id"
+    t.index ["voter_id"], name: "index_voter_awards_on_voter_id"
+  end
+
   create_table "voters", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -269,6 +296,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_04_120334) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "battle_votes", "battles"
   add_foreign_key "battle_votes", "voters"
+  add_foreign_key "battler_awards", "awards"
+  add_foreign_key "battler_awards", "battlers"
   add_foreign_key "battler_battle_results", "battlers"
   add_foreign_key "battler_battle_results", "battles"
   add_foreign_key "battler_battles", "battlers"
@@ -282,6 +311,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_04_120334) do
   add_foreign_key "channel_users", "users"
   add_foreign_key "league_admins", "leagues"
   add_foreign_key "league_admins", "users"
+  add_foreign_key "league_awards", "awards"
+  add_foreign_key "league_awards", "leagues"
   add_foreign_key "league_chat_messages", "league_chats"
   add_foreign_key "league_chat_messages", "users"
   add_foreign_key "league_chat_users", "league_chats"
@@ -294,5 +325,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_04_120334) do
   add_foreign_key "scores", "battlers"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
+  add_foreign_key "voter_awards", "awards"
+  add_foreign_key "voter_awards", "voters"
   add_foreign_key "voters", "users"
 end

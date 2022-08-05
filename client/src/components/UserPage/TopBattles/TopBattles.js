@@ -19,11 +19,13 @@ function TopBattles() {
   return (
     <TopBattlesWrapper>
       <div>Top Battles this week</div>
-      {data?.topBattles?.length > 0
-        ? data.topBattles.map((battle) => (
-            <BattleLink key={battle.id} battle={battle} />
-          ))
-        : 'bar'}
+      {data?.topBattles?.length > 0 ? (
+        data.topBattles.map((battle) => (
+          <BattleLink key={battle.id} battle={battle} />
+        ))
+      ) : (
+        <div>No battles that have finished voting in the last week</div>
+      )}
     </TopBattlesWrapper>
   );
 }

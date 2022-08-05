@@ -18,5 +18,6 @@ module Types
     field :create_award, mutation: Mutations::CreateAward
     field :delete_award, mutation: Mutations::DeleteAward
     field :update_award, mutation: Mutations::UpdateAward
+    field :assign_award, mutation: Mutations::AssignAward
   end
 end

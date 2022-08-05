@@ -1,4 +1,4 @@
-# defines the gql type for the enumeration outcome on the score model (for battle votes)
+# object associated with battler used to track how many wins/losses a battler has
 
 module Types
     class BattlerRecordObject < Types::BaseObject

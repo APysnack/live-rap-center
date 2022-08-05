@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Delete } from "@mui/icons-material";
-import { HomeLeagueWrapper } from "./BattlerSettings.styles";
-import ConfirmationModal from "../../SharedComponents/ConfirmationModal/ConfirmationModal";
-import { DELETE_HOME_LEAGUE_FROM_BATTLER } from "./gql";
-import { useMutation } from "@apollo/client";
-import BattlerSettingsForm from "./BattlerSettingsForm/BattlerSettingsForm";
+import React, { useState, useEffect } from 'react';
+import { Delete } from '@mui/icons-material';
+import { HomeLeagueWrapper } from './BattlerSettings.styles';
+import ConfirmationModal from '../../SharedComponents/ConfirmationModal/ConfirmationModal';
+import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
+import { useMutation } from '@apollo/client';
+import BattlerSettingsForm from './BattlerSettingsForm/BattlerSettingsForm';
 
 function BattlerSettings({ user, battler }) {
   const [homeLeague, setHomeLeague] = useState(null);
@@ -26,8 +26,6 @@ function BattlerSettings({ user, battler }) {
   };
 
   const removeHomeLeague = () => {
-    console.log(user);
-    console.log(battler);
     if (user?.id && battler?.id) {
       deleteLeague({
         variables: { battlerId: battler.id },
@@ -43,7 +41,7 @@ function BattlerSettings({ user, battler }) {
         {homeLeague ? (
           <HomeLeagueWrapper>
             <div> Home League: {homeLeague}</div>
-            <Delete onClick={openModal} className="delete" />
+            <Delete onClick={openModal} className='delete' />
           </HomeLeagueWrapper>
         ) : (
           <div>No home league. You must be invited to join a home league</div>

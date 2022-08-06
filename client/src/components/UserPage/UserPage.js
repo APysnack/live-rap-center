@@ -6,6 +6,7 @@ import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadMo
 import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/SocialMediaContainer';
 import BattlerInfo from './BattlerInfo';
 import TopBattles from './TopBattles/TopBattles';
+import { Link } from 'react-router-dom';
 
 function UserPage({ callLogoutUser }) {
   // current redux state of the user
@@ -62,6 +63,15 @@ function UserPage({ callLogoutUser }) {
             <SocialMediaContainer socials={user.socials} />
           ) : null}
           <TopBattles />
+          <Link
+            to='/crew-chat'
+            state={{
+              crewId: 1,
+              crewName: 'test',
+            }}
+          >
+            Crew Chat
+          </Link>
           <div>G: Active Twitter Spaces??</div>
           <div>B: Rank</div>
           <div>

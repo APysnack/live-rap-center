@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import api from "../../api/api";
-import LeagueInvitations from "./LeagueInvitations";
-import { HomeLeagueContainer } from "./BattlerInfo.styles";
-import { DELETE_HOME_LEAGUE_FROM_BATTLER } from "./gql";
-import { useMutation } from "@apollo/client";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../../api/api';
+import LeagueInvitations from './LeagueInvitations';
+import { HomeLeagueContainer } from './BattlerInfo.styles';
+import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
+import { useMutation } from '@apollo/client';
 
 function BattlerInfo({ battler, refetchBattler }) {
   const [battlerStats, setBattlerStats] = useState({
@@ -38,10 +38,10 @@ function BattlerInfo({ battler, refetchBattler }) {
       // concatenates all battler's battles into idString
       // per youtube API docs, video ids format should be: "id1,id2,id3"
       var idString = battler.battles.reduce(
-        (accumulator, battle) => accumulator + (battle.battleUrl + ","),
-        ""
+        (accumulator, battle) => accumulator + (battle.battleUrl + ','),
+        ''
       );
-      idString = idString.replace(/,\s*$/, "");
+      idString = idString.replace(/,\s*$/, '');
       api.fetchYouTubeVideos(idString, updateViews);
     }
     if (battler?.potentialLeagues?.length > 0) {
@@ -69,7 +69,7 @@ function BattlerInfo({ battler, refetchBattler }) {
         <HomeLeagueContainer>
           <div>Home league: {battler.league.leagueName}</div>
           <Link
-            to="/league-chat"
+            to='/league-chat'
             state={{
               leagueId: battler.league.id,
               leagueName: battler.league.leagueName,

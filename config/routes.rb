@@ -32,5 +32,8 @@ Rails.application.routes.draw do
   get "league-chat-message", to: "league_chat_message#index"
   post "league-chat-message", to: "league_chat_message#new"
 
+  get "crew-chat-message", to: "crew_chat_message#index"
+  post "crew-chat-message", to: "crew_chat_message#new"
+
   root "main#index"
 end

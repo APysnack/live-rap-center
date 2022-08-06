@@ -70,6 +70,14 @@ LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "A
 LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: patStay.id, body: "welcome to KOTD")
 LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: organik.id, body: "sup")
 
+testingCrew = Crew.create(name: "testing")
+testingCrewChat = CrewChat.create(crew_id: testingCrew.id)
+CrewChatUser.create(crew_chat_id: testingCrewChat.id, user_id: purelyDef.id)
+CrewChatUser.create(crew_chat_id:  testingCrewChat.id, user_id: organik.id)
+
+CrewChatMessage.create(crew_chat_id: testingCrewChat.id, user_id: organik.id, body: "hey")
+CrewChatMessage.create(crew_chat_id: testingCrewChat.id, user_id: purelyDef.id, body: "sup")
+
 # creating battles
 craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo")
 brotherPhilVsDef = Battle.create(league_id: showtime.id, battle_url: "UE044GrYSXo")

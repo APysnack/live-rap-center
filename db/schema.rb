@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_05_003631) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_06_225513) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -134,6 +134,39 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_05_003631) do
   end
 
   create_table "channels", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "crew_chat_messages", force: :cascade do |t|
+    t.text "body"
+    t.bigint "user_id", null: false
+    t.bigint "crew_chat_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crew_chat_id"], name: "index_crew_chat_messages_on_crew_chat_id"
+    t.index ["user_id"], name: "index_crew_chat_messages_on_user_id"
+  end
+
+  create_table "crew_chat_users", force: :cascade do |t|
+    t.bigint "crew_chat_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crew_chat_id"], name: "index_crew_chat_users_on_crew_chat_id"
+    t.index ["user_id"], name: "index_crew_chat_users_on_user_id"
+  end
+
+  create_table "crew_chats", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "crew_id", null: false
+    t.index ["crew_id"], name: "index_crew_chats_on_crew_id"
+  end
+
+  create_table "crews", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -309,6 +342,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_05_003631) do
   add_foreign_key "channel_messages", "users"
   add_foreign_key "channel_users", "channels"
   add_foreign_key "channel_users", "users"
+  add_foreign_key "crew_chat_messages", "crew_chats"
+  add_foreign_key "crew_chat_messages", "users"
+  add_foreign_key "crew_chat_users", "crew_chats"
+  add_foreign_key "crew_chat_users", "users"
+  add_foreign_key "crew_chats", "crews"
   add_foreign_key "league_admins", "leagues"
   add_foreign_key "league_admins", "users"
   add_foreign_key "league_awards", "awards"

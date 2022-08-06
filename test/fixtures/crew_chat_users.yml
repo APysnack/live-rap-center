@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  crew_chat: one
+  user: one
+
+two:
+  crew_chat: two
+  user: two

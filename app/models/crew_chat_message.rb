@@ -1,0 +1,4 @@
+class CrewChatMessage < ApplicationRecord
+  belongs_to :user
+  belongs_to :crew_chat
+end

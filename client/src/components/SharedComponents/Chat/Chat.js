@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import BaseForm from "../BaseForm";
-import { sendMessageField } from "./ChatFormFields";
-import ChatMessage from "./ChatMessage";
-import { ChatContainer, MessagesWindow } from "./Chat.styles";
+import React, { useState, useEffect } from 'react';
+import BaseForm from '../BaseForm';
+import { sendMessageField } from './ChatFormFields';
+import ChatMessage from './ChatMessage';
+import { ChatContainer, MessagesWindow } from './Chat.styles';
 
 function Chat({ messages, onSubmit }) {
   const [initialValues, setInitialValues] = useState({});
@@ -40,7 +40,7 @@ function Chat({ messages, onSubmit }) {
         initialValues={initialValues}
         fieldArray={fieldArray}
         onSubmit={sendMessage}
-        title={""}
+        title={''}
       />
     </ChatContainer>
   );

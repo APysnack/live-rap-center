@@ -73,9 +73,7 @@ function LeagueChat({ cable }) {
 
   return (
     <div>
-      {messages?.length > 0 ? (
-        <Chat messages={messages} title={title()} onSubmit={sendMessage} />
-      ) : null}
+      <Chat messages={messages} title={title()} onSubmit={sendMessage} />
     </div>
   );
 }

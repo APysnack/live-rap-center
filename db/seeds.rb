@@ -70,7 +70,7 @@ LeagueChatMessage.create(league_chat_id: lrcChat.id, user_id: smack.id, body: "A
 LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: patStay.id, body: "welcome to KOTD")
 LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: organik.id, body: "sup")
 
-testingCrew = Crew.create(name: "testing")
+testingCrew = Crew.create(name: "testing", user_id: purelyDef.id)
 testingCrewChat = CrewChat.create(crew_id: testingCrew.id)
 CrewChatUser.create(crew_chat_id: testingCrewChat.id, user_id: purelyDef.id)
 CrewChatUser.create(crew_chat_id:  testingCrewChat.id, user_id: organik.id)

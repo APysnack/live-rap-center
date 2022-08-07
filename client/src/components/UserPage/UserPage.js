@@ -63,15 +63,21 @@ function UserPage({ callLogoutUser }) {
             <SocialMediaContainer socials={user.socials} />
           ) : null}
           <TopBattles />
-          <Link
-            to='/crew-chat'
-            state={{
-              crewId: 1,
-              crewName: 'test',
-            }}
-          >
-            Crew Chat
-          </Link>
+          {user.crew_chat_ids?.length > 0
+            ? user.crew_chat_ids.map((chatId) => (
+                <Link
+                  key={chatId}
+                  to='/crew-chat'
+                  state={{
+                    crewId: chatId,
+                    crewName: 'Crew Chat',
+                  }}
+                >
+                  Crew Chat
+                </Link>
+              ))
+            : 'bar'}
+
           <div>G: Active Twitter Spaces??</div>
           <div>B: Rank</div>
           <div>

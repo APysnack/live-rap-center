@@ -29,5 +29,7 @@ module Types
     field :socialMediaLinks, resolver: Queries::SocialMediaLinks
     field :award, resolver: Queries::Award
     field :awards, resolver: Queries::Awards
+    field :crew, resolver: Queries::Crew
+    field :crews, resolver: Queries::Crews
   end
 end

@@ -19,5 +19,6 @@ module Types
     field :delete_award, mutation: Mutations::DeleteAward
     field :update_award, mutation: Mutations::UpdateAward
     field :assign_award, mutation: Mutations::AssignAward
+    field :create_crew, mutation: Mutations::CreateCrew
   end
 end

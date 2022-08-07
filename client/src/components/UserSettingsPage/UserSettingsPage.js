@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { GET_USER, GET_BATTLER } from "./gql";
-import { useQuery } from "@apollo/client";
-import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
-import SocialMediaForm from "./SocialMediaForm/SocialMediaForm";
-import BattlerSettings from "./BattlerSettings/BattlerSettings";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { GET_USER, GET_BATTLER } from './gql';
+import { useQuery } from '@apollo/client';
+import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
+import SocialMediaForm from './SocialMediaForm/SocialMediaForm';
+import BattlerSettings from './BattlerSettings/BattlerSettings';
+import CreateCrewForm from './CreateCrewForm/CreateCrewForm';
 
 function UserSettingsPage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -43,17 +44,18 @@ function UserSettingsPage() {
   // if the user is not logged in, redirects to login page
   useEffect(() => {
     if (!user?.email) {
-      navigate("/login");
+      navigate('/login');
     }
   }, [user]);
 
-  if (loading) return "Loading...";
+  if (loading) return 'Loading...';
 
   return (
     <div>
       UserSettingsPage
+      <CreateCrewForm user={user} />
       <ImageUploadModal
-        type="profile picture"
+        type='profile picture'
         object={currentUser}
         refetch={refetchUser}
       />

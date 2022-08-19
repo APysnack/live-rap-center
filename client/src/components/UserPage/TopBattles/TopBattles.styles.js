@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const TopBattlesWrapper = styled.div`
   display: flex;
@@ -6,4 +6,6 @@ export const TopBattlesWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 30vw;
+  border: 2px solid black;
+  border-radius: 20px;
 `;

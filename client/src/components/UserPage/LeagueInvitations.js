@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
-import BasicModal from "../SharedComponents/BasicModal";
-import { LeagueInvitationContainer } from "./LeagueInvitations.styles";
-import { ADD_HOME_LEAGUE_TO_BATTLER, DELETE_LEAGUE_INVITATION } from "./gql";
-import { useMutation } from "@apollo/client";
+import React, { useState, useEffect } from 'react';
+import BasicModal from '../SharedComponents/BasicModal';
+import {
+  LeagueInvitationContainer,
+  InviteNotificationContainer,
+} from './LeagueInvitations.styles';
+import { ADD_HOME_LEAGUE_TO_BATTLER, DELETE_LEAGUE_INVITATION } from './gql';
+import { useMutation } from '@apollo/client';
+import { MarkEmailUnread as InviteNotification } from '@mui/icons-material';
 
 function LeagueInvitations({
   battler,
@@ -44,31 +48,33 @@ function LeagueInvitations({
   };
 
   return (
-    <div>
+    <InviteNotificationContainer>
       {potentialLeagues?.length > 0 ? (
-        <div>
-          <button onClick={() => setModalOpen(true)}>
-            You have league invitations
-          </button>
-          <BasicModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-            <div>Pending League Invitations</div>
-            {potentialLeagues.map((league) => (
-              <LeagueInvitationContainer key={league.id}>
-                <div>{league.leagueName}</div>
-                <button onClick={() => acceptLeagueInvitation(league.id)}>
-                  Accept
-                </button>
-                <button onClick={() => denyLeagueInvitation(league.id)}>
-                  Deny
-                </button>
-              </LeagueInvitationContainer>
-            ))}
-          </BasicModal>
+        <div className='invite-icon' onClick={() => setModalOpen(true)}>
+          <InviteNotification
+            className='invite-notification'
+            fontSize='large'
+          />
+          <div>You have league invites</div>
         </div>
       ) : (
         <div>You currently do not have any league invitations</div>
       )}
-    </div>
+      <BasicModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        <div>Pending League Invitations</div>
+        {potentialLeagues.map((league) => (
+          <LeagueInvitationContainer key={league.id}>
+            <div>{league.leagueName}</div>
+            <button onClick={() => acceptLeagueInvitation(league.id)}>
+              Accept
+            </button>
+            <button onClick={() => denyLeagueInvitation(league.id)}>
+              Deny
+            </button>
+          </LeagueInvitationContainer>
+        ))}
+      </BasicModal>
+    </InviteNotificationContainer>
   );
 }
 

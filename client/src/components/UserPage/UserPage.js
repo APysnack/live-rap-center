@@ -7,6 +7,7 @@ import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/Socia
 import BattlerInfo from './BattlerInfo';
 import TopBattles from './TopBattles/TopBattles';
 import { Link } from 'react-router-dom';
+import { UserInfo, PrimaryContentContainer } from './UserPage.styles';
 
 function UserPage({ callLogoutUser }) {
   // current redux state of the user
@@ -49,20 +50,24 @@ function UserPage({ callLogoutUser }) {
     <>
       {currentUser ? (
         <div>
-          <div>Username: {currentUser.username}</div>
-          <ImageUploadModal
-            type='profile picture'
-            refetch={refetchUser}
-            object={currentUser}
-          />
-          {battler?.name ? (
-            <BattlerInfo battler={battler} refetchBattler={refetchBattler} />
-          ) : null}
+          <PrimaryContentContainer>
+            <UserInfo>
+              <div>Username: {currentUser.username}</div>
+              <ImageUploadModal
+                type='profile picture'
+                refetch={refetchUser}
+                object={currentUser}
+              />
+              {Object.keys(user?.socials).length > 0 ? (
+                <SocialMediaContainer socials={user.socials} />
+              ) : null}
+            </UserInfo>
+            {battler?.name ? (
+              <BattlerInfo battler={battler} refetchBattler={refetchBattler} />
+            ) : null}
+            <TopBattles />
+          </PrimaryContentContainer>
 
-          {Object.keys(user?.socials).length > 0 ? (
-            <SocialMediaContainer socials={user.socials} />
-          ) : null}
-          <TopBattles />
           {user.crew_chat_ids?.length > 0
             ? user.crew_chat_ids.map((chatId) => (
                 <Link

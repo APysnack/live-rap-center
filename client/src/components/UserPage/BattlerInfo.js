@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/api';
 import LeagueInvitations from './LeagueInvitations';
-import { HomeLeagueContainer } from './BattlerInfo.styles';
+import {
+  HomeLeagueContainer,
+  BattlerInfoContainer,
+} from './BattlerInfo.styles';
 import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
 import { useMutation } from '@apollo/client';
+import { display, flexbox } from '@mui/system';
 
 function BattlerInfo({ battler, refetchBattler }) {
   const [battlerStats, setBattlerStats] = useState({
@@ -56,15 +60,15 @@ function BattlerInfo({ battler, refetchBattler }) {
   };
 
   return (
-    <div>
-      Battler Stats
-      {battler?.score ? <div>Current Score: {battler.score}</div> : null}
-      {
-        <div>
-          <div>Wins: {battler.record.wins}</div>
-          <div>Losses: {battler.record.losses}</div>
-        </div>
-      }
+    <BattlerInfoContainer>
+      {potentialLeagues?.length > 0 ? (
+        <LeagueInvitations
+          battler={battler}
+          potentialLeagues={potentialLeagues}
+          setPotentialLeagues={setPotentialLeagues}
+          refetchBattler={refetchBattler}
+        />
+      ) : null}
       {battler?.league ? (
         <HomeLeagueContainer>
           <div>Home league: {battler.league.leagueName}</div>
@@ -82,20 +86,24 @@ function BattlerInfo({ battler, refetchBattler }) {
       ) : (
         <div>No Home league selected</div>
       )}
-      {battler?.id ? (
-        <Link to={`/battler/${battler.id}`}>My public battler page</Link>
-      ) : null}
+      <div className='horizontal-line' />
+      {battler.name}
+      {battler?.score ? <div>Current Score: {battler.score}</div> : null}
+      {
+        <div>
+          <div>Wins: {battler.record.wins}</div>
+          <div>Losses: {battler.record.losses}</div>
+        </div>
+      }
+
       <div>Total Views: {battlerStats.totalViews}</div>
       <div>Average Views: {battlerStats.avgViews}</div>
-      {potentialLeagues?.length > 0 ? (
-        <LeagueInvitations
-          battler={battler}
-          potentialLeagues={potentialLeagues}
-          setPotentialLeagues={setPotentialLeagues}
-          refetchBattler={refetchBattler}
-        />
+      {battler?.id ? (
+        <Link to={`/battler/${battler.id}`}>
+          <div className='button'>Battler Page</div>
+        </Link>
       ) : null}
-    </div>
+    </BattlerInfoContainer>
   );
 }
 

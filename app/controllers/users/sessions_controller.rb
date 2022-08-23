@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
+  # calls valid? and authenticate! functions in config/initializers/devise.rb
+  # sets current_user if user is valid
+  before_action :authenticate_user!
   respond_to :json
   
   private
   def respond_with(resource, _opts = {})
-    @hash = UserSerializer.new(resource).serializable_hash[:data][:attributes]
-    puts @hash
-    if current_user
-      render json: {
+    @hash = UserSerializer.new(current_user).serializable_hash[:data][:attributes]
+    render json: {
         status: {code: 200, message: 'Logged in sucessfully.'},
         data: @hash,
-      }, status: :ok
-    else
-      render json: {
-        status: {code: 200, message: 'Log in was unsuccessful'},
-        data: nil
-      }, status: :ok
-    end
+    }, status: :ok
+    #   render json: {
+    #     status: {code: 200, message: 'Log in was unsuccessful'},
+    #     data: nil
+    #   }, status: :ok
+    # end
   end
 
   def respond_to_on_destroy

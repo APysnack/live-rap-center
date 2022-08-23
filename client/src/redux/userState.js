@@ -80,7 +80,7 @@ const userSlice = createSlice({
     [loginUser.fulfilled.type]: (state, action) => {
       let res = JSON.parse(action.payload);
       let user = res.user.data;
-      if (res.token) {
+      if (user) {
         localStorage.setItem('auth_token', res.token);
         state.userState = {
           user: user,

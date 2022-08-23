@@ -288,11 +288,11 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  config.warden do |manager|
-    # manager.intercept_401 = false
-    manager.strategies.add :jwt, Devise::Strategies::JWT
-    manager.default_strategies(scope: :user).unshift :jwt
-  end
+  # config.warden do |manager|
+  #   # manager.intercept_401 = false
+  #   manager.strategies.add :jwt, Devise::Strategies::JWT
+  #   manager.default_strategies(scope: :user).unshift :jwt
+  # end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -320,34 +320,4 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
-end
-
-module Devise 
-  module Strategies
-    class JWT < Base
-      def authenticate!
-        # library that decodes google id token received from login component
-        googleIdTokenValidator = GoogleIDToken::Validator.new
-        # payload contains user name/email/etc. from google, verifies signature is valid
-        payload = googleIdTokenValidator.check(params[:token], ENV.fetch('GOOGLE_CLIENT_ID'))
-        # ensures the issuer information hasnt been tampered with
-        if ['https://accounts.google.com', 'accounts.google.com'].include? payload['iss']
-          user = User.find_by(email: payload['email'])
-          # user exists in the system and 
-          if !user.present?
-            number = User.count + 1
-            user = User.create(username: "Tom Cruise Moms Shoes ##{number}", email: payload['email'], password: "password", is_verified: true)
-          end
-          @current_user = user
-          success! user
-        else 
-          @current_user = nil
-          fail!
-        end
-      rescue
-        @current_user = nil
-        fail!
-      end
-    end
-  end
 end

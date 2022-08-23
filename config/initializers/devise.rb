@@ -325,21 +325,29 @@ end
 module Devise 
   module Strategies
     class JWT < Base
-      def valid?
-        true
-      end
-
       def authenticate!
-        binding.pry 
-        puts params
-        @email = params[:user][:email]
-        user = User.find_by(email: @email)
-        @current_user = user
-        success! user
+        # library that decodes google id token received from login component
+        googleIdTokenValidator = GoogleIDToken::Validator.new
+        # payload contains user name/email/etc. from google, verifies signature is valid
+        payload = googleIdTokenValidator.check(params[:token], ENV.fetch('GOOGLE_CLIENT_ID'))
+        # ensures the issuer information hasnt been tampered with
+        if ['https://accounts.google.com', 'accounts.google.com'].include? payload['iss']
+          user = User.find_by(email: payload['email'])
+          # user exists in the system and 
+          if !user.present?
+            number = User.count + 1
+            user = User.create(username: "Tom Cruise Moms Shoes ##{number}", email: payload['email'], password: "password", is_verified: true)
+          end
+          @current_user = user
+          success! user
+        else 
+          @current_user = nil
+          fail!
+        end
       rescue
+        @current_user = nil
         fail!
       end
-
     end
   end
 end

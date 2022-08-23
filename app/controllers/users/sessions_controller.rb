@@ -8,30 +8,26 @@ class Users::SessionsController < Devise::SessionsController
   
   private
   def respond_with(resource, _opts = {})
-    @hash = UserSerializer.new(current_user).serializable_hash[:data][:attributes]
-    render json: {
-        status: {code: 200, message: 'Logged in sucessfully.'},
-        data: @hash,
-    }, status: :ok
-    #   render json: {
-    #     status: {code: 200, message: 'Log in was unsuccessful'},
-    #     data: nil
-    #   }, status: :ok
-    # end
-  end
-
-  def respond_to_on_destroy
     if current_user
+      @hash = UserSerializer.new(current_user).serializable_hash[:data][:attributes]
       render json: {
-        status: 200,
-        message: "logged out successfully"
+          status: {code: 200, message: 'Logged in sucessfully.'},
+          data: @hash,
       }, status: :ok
     else
       render json: {
-        status: 401,
-        message: "Couldn't find an active session."
-      }, status: :unauthorized
+        status: {code: 200, message: 'Log in was unsuccessful'},
+        data: nil
+      }, status: :ok
     end
+  end
+
+  def respond_to_on_destroy
+    @current_user = nil
+    render json: {
+      status: 200,
+      message: "logged out successfully"
+    }, status: :ok
   end
   # before_action :configure_sign_in_params, only: [:create]
 

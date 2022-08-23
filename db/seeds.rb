@@ -12,7 +12,7 @@ SocialMediaPlatform.create(name: "Twitter")
 SocialMediaPlatform.create(name: "SoundCloud")
 
 # creating users
-purelyDef = User.create(username: "PurelyDef", email: "purleedef@gmail.com", password: "password", is_verified: true)
+purelyDef = User.create(username: "PurelyDef", email: "apysnack@gmail.com", password: "password", is_verified: true)
 organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true)
 smack = User.create(username: "Smack", email: "smack@gmail.com", password: "ultimaterapleague", is_verified: true)
 patStay = User.create(username: "Pat", email: "pat@gmail.com", password: "patstay", is_verified: true)

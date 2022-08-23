@@ -128,6 +128,8 @@ GEM
       i18n (>= 1.8.11, < 2)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    google-id-token (1.4.2)
+      jwt (>= 1)
     graphiql-rails (1.8.0)
       railties
       sprockets-rails
@@ -285,6 +287,7 @@ DEPENDENCIES
   devise-jwt (~> 0.9.0)
   dotenv-rails (~> 2.7, >= 2.7.6)
   faker
+  google-id-token
   graphiql-rails
   graphql
   importmap-rails

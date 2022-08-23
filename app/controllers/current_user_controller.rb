@@ -1,13 +1,17 @@
 class CurrentUserController < ApplicationController
-  # FOO ENSURE AUTHENTICATE_USER HANDLES TOKENS
-   # calls valid? and authenticate! functions in config/initializers/devise.rb
-  before_action :authenticate_user!
-
-  def index
-    @hash = UserSerializer.new(current_user).serializable_hash[:data][:attributes]
-    render json: {
-        status: {code: 200, message: 'Logged in sucessfully.'},
-        data: @hash,
-    }, status: :ok
-  end
+    before_action :authenticate_user!
+    
+    def index
+      @hash = UserSerializer.new(current_user).serializable_hash[:data][:attributes]
+      if hash.present?
+        render json: {
+          status: {code: 200, message: 'Logged in sucessfully.'},
+          data: @hash
+        }
+      else
+        render json: {
+          status: {message: "User couldn't be logged in. #{current_user.errors.full_messages.to_sentence}"}
+        }, status: :unprocessable_entity
+      end
+    end
 end

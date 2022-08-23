@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/userState';
-import BaseForm from '../SharedComponents/BaseForm';
 import { passwordField, emailField } from './LoginFormFields';
 import { GoogleLogin } from '@react-oauth/google';
 
@@ -9,16 +8,6 @@ function LoginForm() {
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
-
-  const callLoginUser = (inputValues) => {
-    let payload = {
-      user: {
-        email: inputValues.email,
-        password: inputValues.password,
-      },
-    };
-    dispatch(loginUser(payload));
-  };
 
   useEffect(() => {
     if (!Object.keys(initialValues).length > 0 && !fieldArray.length > 0) {
@@ -37,7 +26,8 @@ function LoginForm() {
   }, []);
 
   const handleSuccess = (response) => {
-    console.log(response);
+    let payload = { token: response.credential };
+    dispatch(loginUser(payload));
   };
 
   const handleError = (response) => {
@@ -49,12 +39,6 @@ function LoginForm() {
     // still need to implement form validation
     <div>
       <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
-      <BaseForm
-        initialValues={initialValues}
-        fieldArray={fieldArray}
-        onSubmit={callLoginUser}
-        title={'Login'}
-      />
     </div>
   );
 }

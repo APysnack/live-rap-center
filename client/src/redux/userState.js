@@ -36,13 +36,6 @@ export const loginUser = createAsyncThunk('user/loginUser', (payload) => {
     .catch((error) => console.log(error));
 });
 
-export const loginWithToken = createAsyncThunk('user/currentUser', (config) => {
-  return axios
-    .get(`${API_URL}/current_user`, config)
-    .then((res) => res.data)
-    .catch((error) => error);
-});
-
 export const logoutUser = createAsyncThunk('user/logoutUser', (config) => {
   return axios
     .delete(`${API_URL}/logout`, config)
@@ -169,30 +162,6 @@ const userSlice = createSlice({
         isLoading: false,
         isLoggedIn: false,
         error: action.payload,
-      };
-    },
-    [loginWithToken.pending.type]: (state, action) => {
-      state.userState = {
-        user: null,
-        isLoading: true,
-        isLoggedIn: false,
-        error: [],
-      };
-    },
-    [loginWithToken.fulfilled.type]: (state, action) => {
-      state.userState = {
-        user: action.payload.data,
-        isLoading: false,
-        isLoggedIn: true,
-        error: [],
-      };
-    },
-    [loginWithToken.rejected.type]: (state, action) => {
-      state.userState = {
-        user: null,
-        isLoading: false,
-        isLoggedIn: false,
-        error: ['Error trying to log in with token'],
       };
     },
     [updateProfilePicture.pending.type]: (state, action) => {

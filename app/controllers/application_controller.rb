@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
         # ensures the issuer information hasnt been tampered with
         if ['https://accounts.google.com', 'accounts.google.com'].include? payload['iss']
           user = User.find_by(email: payload['email'])
-          binding.pry 
           # creates user if theyre not already registered
           if !user.present?
             number = User.count + 1

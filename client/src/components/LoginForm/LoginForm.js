@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/userState";
-import BaseForm from "../SharedComponents/BaseForm";
-import { passwordField, emailField } from "./LoginFormFields";
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/userState';
+import BaseForm from '../SharedComponents/BaseForm';
+import { passwordField, emailField } from './LoginFormFields';
+import { GoogleLogin } from '@react-oauth/google';
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -35,14 +36,24 @@ function LoginForm() {
     }
   }, []);
 
+  const handleSuccess = (response) => {
+    console.log(response);
+  };
+
+  const handleError = (response) => {
+    console.log('Fail');
+    console.log(response);
+  };
+
   return (
     // still need to implement form validation
     <div>
+      <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
       <BaseForm
         initialValues={initialValues}
         fieldArray={fieldArray}
         onSubmit={callLoginUser}
-        title={"Login"}
+        title={'Login'}
       />
     </div>
   );

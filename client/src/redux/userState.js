@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 // UTILS
 function assembleResponse(res) {
@@ -19,31 +19,24 @@ function assembleError(err) {
   return JSON.stringify(assembledError);
 }
 
-const API_URL = "http://localhost:3001";
+const API_URL = 'http://localhost:3001';
 
 // FUNCTIONS TO BE EXECUTED
-export const registerUser = createAsyncThunk("user/registerUser", (payload) => {
+export const registerUser = createAsyncThunk('user/registerUser', (payload) => {
   return axios
     .post(`${API_URL}/signup`, payload)
     .then((res) => assembleResponse(res))
     .catch((error) => assembleError(error));
 });
 
-export const loginUser = createAsyncThunk("user/loginUser", (payload) => {
+export const loginUser = createAsyncThunk('user/loginUser', (payload) => {
   return axios
     .post(`${API_URL}/login`, payload)
     .then((res) => assembleResponse(res))
     .catch((error) => console.log(error));
 });
 
-export const loginWithToken = createAsyncThunk("user/currentUser", (config) => {
-  return axios
-    .get(`${API_URL}/current_user`, config)
-    .then((res) => res.data)
-    .catch((error) => error);
-});
-
-export const logoutUser = createAsyncThunk("user/logoutUser", (config) => {
+export const logoutUser = createAsyncThunk('user/logoutUser', (config) => {
   return axios
     .delete(`${API_URL}/logout`, config)
     .then((res) => assembleResponse(res))
@@ -51,7 +44,7 @@ export const logoutUser = createAsyncThunk("user/logoutUser", (config) => {
 });
 
 export const updateProfilePicture = createAsyncThunk(
-  "user/updateProfilePicture",
+  'user/updateProfilePicture',
   (payload) => {
     return axios
       .post(`${API_URL}/profile-picture`, payload)
@@ -72,7 +65,7 @@ const userInitialState = {
 
 // SLICE
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: userInitialState,
   reducers: {},
   extraReducers: {
@@ -87,8 +80,8 @@ const userSlice = createSlice({
     [loginUser.fulfilled.type]: (state, action) => {
       let res = JSON.parse(action.payload);
       let user = res.user.data;
-      if (res.token) {
-        localStorage.setItem("auth_token", res.token);
+      if (user) {
+        localStorage.setItem('auth_token', res.token);
         state.userState = {
           user: user,
           isLoading: false,
@@ -98,7 +91,7 @@ const userSlice = createSlice({
       } else {
         state.userState = {
           isLoading: false,
-          error: ["we were unable to log you in with this information"],
+          error: ['we were unable to log you in with this information'],
         };
       }
     },
@@ -107,7 +100,7 @@ const userSlice = createSlice({
         user: null,
         isLoading: false,
         isLoggedIn: false,
-        error: ["Error attempting to log in this user"],
+        error: ['Error attempting to log in this user'],
       };
     },
     [registerUser.pending.type]: (state, action) => {
@@ -128,7 +121,7 @@ const userSlice = createSlice({
           error: [...errMessage],
         };
       } else {
-        localStorage.setItem("auth_token", res.token);
+        localStorage.setItem('auth_token', res.token);
         state.userState = {
           user: res.user.data,
           isLoading: false,
@@ -143,7 +136,7 @@ const userSlice = createSlice({
         user: null,
         isLoading: false,
         isLoggedIn: false,
-        error: ["attempt to register user has failed"],
+        error: ['attempt to register user has failed'],
       };
     },
     [logoutUser.pending.type]: (state, action) => {
@@ -155,7 +148,7 @@ const userSlice = createSlice({
       };
     },
     [logoutUser.fulfilled.type]: (state, action) => {
-      localStorage.removeItem("auth_token");
+      localStorage.removeItem('auth_token');
       state.userState = {
         user: null,
         isLoading: false,
@@ -169,30 +162,6 @@ const userSlice = createSlice({
         isLoading: false,
         isLoggedIn: false,
         error: action.payload,
-      };
-    },
-    [loginWithToken.pending.type]: (state, action) => {
-      state.userState = {
-        user: null,
-        isLoading: true,
-        isLoggedIn: false,
-        error: [],
-      };
-    },
-    [loginWithToken.fulfilled.type]: (state, action) => {
-      state.userState = {
-        user: action.payload.data,
-        isLoading: false,
-        isLoggedIn: true,
-        error: [],
-      };
-    },
-    [loginWithToken.rejected.type]: (state, action) => {
-      state.userState = {
-        user: null,
-        isLoading: false,
-        isLoggedIn: false,
-        error: ["Error trying to log in with token"],
       };
     },
     [updateProfilePicture.pending.type]: (state, action) => {
@@ -216,7 +185,7 @@ const userSlice = createSlice({
       state.userState = {
         isLoading: false,
         user: {},
-        error: ["Update profile picture was unsuccessful"],
+        error: ['Update profile picture was unsuccessful'],
       };
     },
   },

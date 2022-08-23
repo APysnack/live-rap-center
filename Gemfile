@@ -35,6 +35,8 @@ gem 'devise-jwt', '~> 0.9.0'
 gem 'jsonapi-serializer'
 gem 'active_model_serializers'
 gem 'apollo_upload_server', '~> 2.1'
+gem 'jwt', '~> 2.4', '>= 2.4.1'
+gem 'google-id-token'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"

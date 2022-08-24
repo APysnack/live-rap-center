@@ -8,9 +8,9 @@ import {
   UPDATE_BATTLER_IMAGE,
   CREATE_AWARD,
 } from './gql';
+import Dropzone from './Dropzone';
 
 function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
-  const [file, setFile] = useState();
   const [fileName, setFileName] = useState('Choose File');
 
   const [createLeagueLogo, { data: leagueLogoData }] =
@@ -29,13 +29,8 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
 
   const [createAward, { data: awardData }] = useMutation(CREATE_AWARD);
 
-  const onChange = (e) => {
-    setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (file) => {
+    console.log(file);
     if (type === 'profile picture') {
       createUserProfilePicture({
         variables: { userId: object?.id, name: fileName, image: file },
@@ -76,7 +71,8 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
 
   return (
     <BasicModal isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={onSubmit}>
+      <Dropzone onSubmit={onSubmit} />
+      {/* <form onSubmit={onSubmit}>
         <div className='custom-file'>
           <input
             type='file'
@@ -90,7 +86,7 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
         </div>
 
         <input type='submit' value='Upload' />
-      </form>
+      </form> */}
     </BasicModal>
   );
 }

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_BATTLER = gql`
   query Battler($id: ID!) {
@@ -50,6 +50,14 @@ export const GET_USER_LEAGUE = gql`
     league(id: $id) {
       id
       leagueName
+    }
+  }
+`;
+
+export const CREATE_BATTLER_FOLLOW = gql`
+  mutation createBattlerFollow($userId: ID!, $battlerId: ID!) {
+    createBattlerFollow(input: { userId: $userId, battlerId: $battlerId }) {
+      id
     }
   }
 `;

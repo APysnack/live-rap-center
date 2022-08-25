@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { GET_BATTLER } from "./gql";
-import { useQuery } from "@apollo/client";
-import { useSelector } from "react-redux";
-import api from "../../api/api";
-import LeagueOwnerControls from "./LeagueOwnerControls";
-import SocialMediaContainer from "../SharedComponents/SocialMediaContainer/SocialMediaContainer";
-import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
-import { Avatar } from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { GET_BATTLER } from './gql';
+import { useQuery } from '@apollo/client';
+import { useSelector } from 'react-redux';
+import api from '../../api/api';
+import LeagueOwnerControls from './LeagueOwnerControls';
+import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/SocialMediaContainer';
+import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
+import { Avatar } from '@mui/material';
+import FollowBattlerButton from './FollowBattlerButton';
 const { REACT_APP_SERVER_URL } = process.env;
 
 function BattlerPage() {
   let { battlerId } = useParams();
-  const [flashMessage, setFlashMessage] = useState("");
+  const [flashMessage, setFlashMessage] = useState('');
   const [battlerSocials, setBattlerSocials] = useState({});
   const [battler, setBattler] = useState(null);
   const [userViewingPageIsThisBattler, setUserViewingPageIsThisBattler] =
@@ -46,12 +47,12 @@ function BattlerPage() {
     }
   }, [data]);
 
-  // NOTE/POSSIBLE TO DO!!!! ensure that this logic does not apply to any league owner, only owner of THIS league
+  // NOTE/POSSIBLE TO DO!!!! ensure that this logic does not apply to ANY league owner, only owner of THIS league
   useEffect(() => {
-    if (user?.roles?.includes("league owner")) {
+    if (user?.roles?.includes('league owner')) {
       setUserViewingPageIsLeagueOwner(true);
     }
-    if (user?.roles?.includes("admin")) {
+    if (user?.roles?.includes('admin')) {
       setUserViewingPageIsAdmin(true);
     }
   }, [user]);
@@ -61,10 +62,10 @@ function BattlerPage() {
       // concatenates all battler's battles into idString
       // per youtube API docs, video ids format should be: ["id1,id2,id3"]
       var idString = battler.battles.reduce(
-        (accumulator, battle) => accumulator + (battle.battleUrl + ","),
-        ""
+        (accumulator, battle) => accumulator + (battle.battleUrl + ','),
+        ''
       );
-      idString = idString.replace(/,\s*$/, "");
+      idString = idString.replace(/,\s*$/, '');
       api.fetchYouTubeVideos(idString, updateViews);
     }
     if (battler?.user?.socialMediaLinks.length > 0) {
@@ -83,10 +84,6 @@ function BattlerPage() {
     }
   }, [battler]);
 
-  useEffect(() => {
-    console.log(battlerSocials);
-  }, [battlerSocials]);
-
   const updateViews = (res) => {
     const totalViews = res.reduce(
       (accumulator, video) =>
@@ -98,7 +95,7 @@ function BattlerPage() {
     setBattlerStats({ ...stats });
   };
 
-  if (loading) return "Loading...";
+  if (loading) return 'Loading...';
 
   return (
     <>
@@ -115,7 +112,7 @@ function BattlerPage() {
               <Avatar
                 src={REACT_APP_SERVER_URL + battler.user.profilePictureUrl}
                 sx={{ width: 100, height: 100 }}
-                className="battlerImage"
+                className='battlerImage'
               />
             </div>
           ) : (
@@ -124,7 +121,7 @@ function BattlerPage() {
               <Avatar
                 src={REACT_APP_SERVER_URL + battler.image}
                 sx={{ width: 100, height: 100 }}
-                className="battlerImage"
+                className='battlerImage'
               />
             </div>
           )}
@@ -138,6 +135,7 @@ function BattlerPage() {
           <div>Average Views: {battlerStats.avgViews}</div>
           <div>Wins: {battler?.record?.wins}</div>
           <div>Losses: {battler?.record?.losses}</div>
+          <FollowBattlerButton battlerId={battlerId} userId={user.id} />
           {Object.keys(battlerSocials).length > 0 ? (
             <SocialMediaContainer socials={battlerSocials} />
           ) : null}
@@ -150,7 +148,7 @@ function BattlerPage() {
             <>
               <div>ADMIN ONLY: MODIFY BATTLER IMAGE</div>
               <ImageUploadModal
-                type="battler image"
+                type='battler image'
                 object={battler}
                 refetch={refetch}
               />

@@ -1,6 +1,6 @@
-import React from "react";
-import { BattleLinkContainer } from "./BattleLink.styles";
-import { Avatar } from "@mui/material";
+import React from 'react';
+import { BattleLinkContainer } from './BattleLink.styles';
+import { Avatar } from '@mui/material';
 const { REACT_APP_SERVER_URL } = process.env;
 const THUMBNAIL_WIDTH = 100;
 const THUMBNAIL_HEIGHT = 100;
@@ -12,13 +12,13 @@ function BattleLink({ battle }) {
         <Avatar
           src={REACT_APP_SERVER_URL + battle.thumbnail}
           sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
-          className="battleThumb"
+          className='battleThumb'
         />
       ) : (
         <Avatar
           src={null}
           sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
-          className="battleThumb"
+          className='battleThumb'
         />
       )}
       {battle.battlers.map((battler, i) => (
@@ -26,7 +26,7 @@ function BattleLink({ battle }) {
           {battler.name} {i % 2 === 0 ? <span>versus</span> : null}
         </div>
       ))}
-      <div>Rating: {battle.score}</div>
+      <div>Rating: {battle.score > 0 ? battle.score : 'N/A'}</div>
     </BattleLinkContainer>
   );
 }

@@ -13,6 +13,9 @@ class Battler < ApplicationRecord
     has_many :battler_awards
     has_many :awards, :through => :battler_awards
 
+    has_many :battler_follows
+    has_many :users, through: :battler_follows
+
     # the overall outcome of a battle (win or loss) for each battler
     has_many :battler_battle_results
 

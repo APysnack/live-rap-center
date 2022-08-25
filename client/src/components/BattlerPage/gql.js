@@ -61,3 +61,20 @@ export const CREATE_BATTLER_FOLLOW = gql`
     }
   }
 `;
+
+export const DELETE_BATTLER_FOLLOW = gql`
+  mutation deleteBattlerFollow($userId: ID!, $battlerId: ID!) {
+    deleteBattlerFollow(input: { userId: $userId, battlerId: $battlerId }) {
+      message
+    }
+  }
+`;
+
+export const GET_USER = gql`
+  query User($id: ID!) {
+    user(id: $id) {
+      id
+      followedBattlerIds
+    }
+  }
+`;

@@ -8,6 +8,7 @@ import BattlerInfo from './BattlerInfo';
 import TopBattles from './TopBattles/TopBattles';
 import { Link } from 'react-router-dom';
 import { UserInfo, PrimaryContentContainer } from './UserPage.styles';
+import FollowedBattles from './FollowedBattles/FollowedBattles';
 
 function UserPage({ callLogoutUser }) {
   // current redux state of the user
@@ -66,6 +67,7 @@ function UserPage({ callLogoutUser }) {
               <BattlerInfo battler={battler} refetchBattler={refetchBattler} />
             ) : null}
             <TopBattles />
+            <FollowedBattles userId={currentUser.id} />
           </PrimaryContentContainer>
 
           {user.crew_chat_ids?.length > 0

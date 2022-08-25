@@ -46,11 +46,17 @@ battlerKavemanBrown = Battler.create(name: "Kaveman Brown")
 battlerFloLeeds = Battler.create(name: "Flo Leeds")
 battlerReggieLoud = Battler.create(name: "Reginald Loud", league_id: lrc.id)
 battlerComa = Battler.create(name: "Coma")
+battlerCodes = Battler.create(name: "Codes")
 battlerSK = Battler.create(name: "SK")
 battler3rdDegree = Battler.create(name: "3rd Degree", league_id: lrc.id)
 battlerBrotherPhil = Battler.create(name: "Brother Phil")
 battlerBigAnt = Battler.create(name: "Big Ant")
 battlerPatStay = Battler.create(user_id: patStay.id, name: "Pat Stay", league_id: kotd.id)
+battlerLux = Battler.create(name: "Loaded Lux")
+battlerGeech = Battler.create(name: "Geechi Gotti")
+battlerArsonal = Battler.create(name: "Arsonal")
+battlerMac = Battler.create(name: "Mac the Captain")
+battlerFebou = Battler.create(name: "Febou")
 
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: lrc.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: kotd.id)
@@ -84,17 +90,23 @@ brotherPhilVsDef = Battle.create(league_id: showtime.id, battle_url: "UE044GrYSX
 antVsDef = Battle.create(league_id: lrc.id, battle_url: "-EjyQarYyyk")
 remydVsComa = Battle.create(league_id: lrc.id, battle_url: "aPVZrMEYrR0")
 skVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "2QDeROLwwR8")
-kaveVsFloLeeds = Battle.create(league_id: lrc.id, battle_url: "NQ2Jr3se3vk")
 reggieVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "_Uivyl1veQ8")
+kaveVsFloLeeds = Battle.create(league_id: lrc.id, battle_url: "NQ2Jr3se3vk")
 codesVsComa = Battle.create(league_id: lrc.id, battle_url: "SiS7TkiO7sQ")
-Battle.create(league_id: kotd.id, battle_url: "6cr0idmmSrs")
-Battle.create(league_id: url.id, battle_url: "R4MSPqc-5GA")
-Battle.create(league_id: showtime.id, battle_url: "UE044GrYSXo")
-Battle.create(league_id: iBattle.id, battle_url: "mq400yVwNUk")
+
+luxVsGeechi = Battle.create(league_id: kotd.id, battle_url: "6cr0idmmSrs")
+arsonalVsPat = Battle.create(league_id: url.id, battle_url: "R4MSPqc-5GA")
+febouVsMac = Battle.create(league_id: iBattle.id, battle_url: "v6gJhMQ0chU")
 
 # creating battler/battle relationship
 BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: craniumVsDef.id)
 BattlerBattle.create(battler_id: battlerRichardCranium.id, battle_id: craniumVsDef.id)
+
+BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: brotherPhilVsDef.id)
+BattlerBattle.create(battler_id: battlerBrotherPhil.id, battle_id: brotherPhilVsDef.id)
+
+BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: antVsDef.id)
+BattlerBattle.create(battler_id: battlerBigAnt.id, battle_id: antVsDef.id)
 
 BattlerBattle.create(battler_id: battlerRemyD.id, battle_id: remydVsComa.id)
 BattlerBattle.create(battler_id: battlerComa.id, battle_id: remydVsComa.id)
@@ -105,11 +117,24 @@ BattlerBattle.create(battler_id: battler3rdDegree.id, battle_id: skVs3rdDegree.i
 BattlerBattle.create(battler_id: battlerReggieLoud.id, battle_id: reggieVs3rdDegree.id)
 BattlerBattle.create(battler_id: battler3rdDegree.id, battle_id: reggieVs3rdDegree.id)
 
-BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: brotherPhilVsDef.id)
-BattlerBattle.create(battler_id: battlerBrotherPhil.id, battle_id: brotherPhilVsDef.id)
+BattlerBattle.create(battler_id: battlerKavemanBrown.id, battle_id: kaveVsFloLeeds.id)
+BattlerBattle.create(battler_id: battlerFloLeeds.id, battle_id: kaveVsFloLeeds.id)
 
-BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: antVsDef.id)
-BattlerBattle.create(battler_id: battlerBigAnt.id, battle_id: antVsDef.id)
+BattlerBattle.create(battler_id: battlerCodes.id, battle_id: codesVsComa.id)
+BattlerBattle.create(battler_id: battlerComa.id, battle_id: codesVsComa.id)
+
+BattlerBattle.create(battler_id: battlerLux.id, battle_id: luxVsGeechi.id)
+BattlerBattle.create(battler_id: battlerGeech.id, battle_id: luxVsGeechi.id)
+
+BattlerBattle.create(battler_id: battlerPatStay.id, battle_id: arsonalVsPat.id)
+BattlerBattle.create(battler_id: battlerArsonal.id, battle_id: arsonalVsPat.id)
+
+BattlerBattle.create(battler_id: battlerFebou.id, battle_id: febouVsMac.id)
+BattlerBattle.create(battler_id: battlerMac.id, battle_id: febouVsMac.id)
+
+# BattlerFollow.create(user_id: purelyDef.id, battler_id: battlerComa.id)
+BattlerFollow.create(user_id: purelyDef.id, battler_id: battlerPatStay.id)
+BattlerFollow.create(user_id: purelyDef.id, battler_id: battler3rdDegree.id)
 
 # vote creation
 purelyDefVoter = Voter.create(user_id: purelyDef.id)

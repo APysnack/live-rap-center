@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_07_122656) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_25_124213) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -86,6 +86,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_07_122656) do
     t.datetime "updated_at", null: false
     t.index ["battle_id"], name: "index_battler_battles_on_battle_id"
     t.index ["battler_id"], name: "index_battler_battles_on_battler_id"
+  end
+
+  create_table "battler_followers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "battler_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battler_id"], name: "index_battler_followers_on_battler_id"
+    t.index ["user_id"], name: "index_battler_followers_on_user_id"
+  end
+
+  create_table "battler_follows", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "battler_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battler_id"], name: "index_battler_follows_on_battler_id"
+    t.index ["user_id"], name: "index_battler_follows_on_user_id"
   end
 
   create_table "battlers", force: :cascade do |t|
@@ -337,6 +355,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_07_122656) do
   add_foreign_key "battler_battle_results", "battles"
   add_foreign_key "battler_battles", "battlers"
   add_foreign_key "battler_battles", "battles"
+  add_foreign_key "battler_followers", "battlers"
+  add_foreign_key "battler_followers", "users"
+  add_foreign_key "battler_follows", "battlers"
+  add_foreign_key "battler_follows", "users"
   add_foreign_key "battlers", "leagues"
   add_foreign_key "battlers", "users"
   add_foreign_key "battles", "leagues"

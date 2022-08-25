@@ -20,6 +20,7 @@ module Types
       field :leagues, [Types::Models::LeagueType], null: true
       field :profile_picture_url, String, null: true
       field :social_media_links, [Types::Models::SocialMediaLinkType], null: true
+      field :followed_battler_ids, [ID], null: true
 
       def posts_count
         object.posts.size
@@ -45,6 +46,10 @@ module Types
 
       def social_media_links
         object.social_media_links
+      end
+
+      def followed_battler_ids
+        object.followed_battlers.map(&:id)
       end
     end
   end

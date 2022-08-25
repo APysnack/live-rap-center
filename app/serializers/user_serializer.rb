@@ -32,5 +32,4 @@ class UserSerializer
 
   attribute :battler_id do |object|
     object.battler_id
-  end
 end

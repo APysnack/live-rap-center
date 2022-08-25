@@ -19,5 +19,5 @@ class User < ApplicationRecord
   has_many :crew_chats, through: :crew_chat_users
   has_many :crew_chat_messages, dependent: :destroy
   has_many :battler_follows
-  has_many :battlers, through: :battler_follows
+  has_many :followed_battlers, through: :battler_follows, :source => :battler
 end

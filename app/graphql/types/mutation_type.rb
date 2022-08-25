@@ -21,5 +21,6 @@ module Types
     field :assign_award, mutation: Mutations::AssignAward
     field :create_crew, mutation: Mutations::CreateCrew
     field :create_battler_follow, mutation: Mutations::CreateBattlerFollow
+    field :delete_battler_follow, mutation: Mutations::DeleteBattlerFollow
   end
 end

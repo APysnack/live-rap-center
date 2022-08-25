@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { GET_BATTLER } from './gql';
+import { GET_BATTLER, GET_USER } from './gql';
 import { useQuery } from '@apollo/client';
 import { useSelector } from 'react-redux';
 import api from '../../api/api';
@@ -31,6 +31,13 @@ function BattlerPage() {
   const { loading, data, refetch } = useQuery(GET_BATTLER, {
     variables: { id: battlerId },
   });
+
+  const { data: currentUser, refetch: refetchCurrentUser } = useQuery(
+    GET_USER,
+    {
+      variables: { id: user.id },
+    }
+  );
 
   // makes gql query for a battler, if found
   // sets this as the "battler" for this page
@@ -78,7 +85,6 @@ function BattlerPage() {
           },
         };
         newSocials = { ...newSocials, ...tempObj };
-        console.log(newSocials);
       });
       setBattlerSocials({ ...newSocials });
     }
@@ -135,7 +141,11 @@ function BattlerPage() {
           <div>Average Views: {battlerStats.avgViews}</div>
           <div>Wins: {battler?.record?.wins}</div>
           <div>Losses: {battler?.record?.losses}</div>
-          <FollowBattlerButton battlerId={battlerId} userId={user.id} />
+          <FollowBattlerButton
+            battlerId={battlerId}
+            currentUser={currentUser?.user}
+            refetchCurrentUser={refetchCurrentUser}
+          />
           {Object.keys(battlerSocials).length > 0 ? (
             <SocialMediaContainer socials={battlerSocials} />
           ) : null}

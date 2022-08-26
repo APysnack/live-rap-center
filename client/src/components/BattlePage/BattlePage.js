@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { GET_BATTLE } from "./gql";
-import { useQuery } from "@apollo/client";
-import api from "../../api/api";
-import ImageUploadModal from "../SharedComponents/ImageUploadModal/ImageUploadModal";
-import { useSelector } from "react-redux";
-import VoteSubmissionPanel from "./VoteSubmissionPanel/VoteSubmissionPanel";
-import { BattlePageContainer } from "./BattlePage.styles";
-import VoteDetails from "./VoteDetails/VoteDetails";
-import _ from "lodash";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { GET_BATTLE } from './gql';
+import { useQuery } from '@apollo/client';
+import api from '../../api/api';
+import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
+import { useSelector } from 'react-redux';
+import VoteSubmissionPanel from './VoteSubmissionPanel/VoteSubmissionPanel';
+import { BattlePageContainer } from './BattlePage.styles';
+import VoteDetails from './VoteDetails/VoteDetails';
+import _ from 'lodash';
 
-const VIDEO_WIDTH = "480";
-const VIDEO_HEIGHT = "270";
+const VIDEO_WIDTH = '480';
+const VIDEO_HEIGHT = '270';
 
 function BattlePage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -19,7 +19,7 @@ function BattlePage() {
   const { battleId } = useParams();
   const [battle, setBattle] = useState({});
   const [youtubeStats, setYoutubeStats] = useState({});
-  const [youtubeId, setYoutubeId] = useState("");
+  const [youtubeId, setYoutubeId] = useState('');
   const [userHasVoted, setUserHasVoted] = useState(false);
   const [userViewingPageIsInBattle, setUserViewingPageIsInBattle] =
     useState(false);
@@ -33,11 +33,11 @@ function BattlePage() {
   };
 
   const checkIfUserHasVoted = (votes) => {
-    setUserHasVoted(_.map(votes, "voterId").includes("" + user.voter_id));
+    setUserHasVoted(_.map(votes, 'voterId').includes('' + user.voter_id));
   };
 
   useEffect(() => {
-    if (user?.roles?.includes("admin")) {
+    if (user?.roles?.includes('admin')) {
       setUserViewingPageIsAdmin(true);
     }
     if (user && Object.keys(battle).length > 0) {
@@ -47,7 +47,7 @@ function BattlePage() {
 
   const checkIfUserIsInBattle = (battle) => {
     battle.battlers.map((battler) => {
-      if (battler.id === "" + user.battler_id) {
+      if (battler.id === '' + user.battler_id) {
         setUserViewingPageIsInBattle(true);
       }
     });
@@ -65,7 +65,7 @@ function BattlePage() {
     }
   }, [youtubeId]);
 
-  if (loading) return "Loading...";
+  if (loading) return 'Loading...';
 
   return (
     <BattlePageContainer>
@@ -79,10 +79,10 @@ function BattlePage() {
           <iframe
             width={VIDEO_WIDTH}
             height={VIDEO_HEIGHT}
-            src={"https://www.youtube.com/embed/" + youtubeId}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
+            src={'https://www.youtube.com/embed/' + youtubeId}
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;'
           ></iframe>
-          {battle.votingStatus === "open" &&
+          {battle.votingStatus === 'open' &&
           user.voter_id !== null &&
           !userViewingPageIsInBattle ? (
             !userHasVoted ? (
@@ -92,10 +92,10 @@ function BattlePage() {
                 refetchBattle={refetch}
               />
             ) : (
-              "You have already voted on this battle"
+              'You have already voted on this battle'
             )
           ) : (
-            "You do not have permissions to vote on this battle"
+            'You do not have permissions to vote on this battle'
           )}
 
           {battle?.battlers
@@ -108,17 +108,20 @@ function BattlePage() {
               )
             : null}
 
-          {/* currently gives a key error, should be resolved when transformed into component */}
           {battle?.battleVotes.length > 0
             ? battle.battleVotes.map((vote) => (
-                <VoteDetails key={vote.id} vote={vote} />
+                <VoteDetails
+                  key={vote.id}
+                  vote={vote}
+                  refetchBattle={refetch}
+                />
               ))
             : null}
           {userViewingPageIsAdmin ? (
             <div>
               <div>Edit Battle Thumbnail: Admin Only</div>
               <ImageUploadModal
-                type="battle thumbnail"
+                type='battle thumbnail'
                 object={battle}
                 refetch={refetch}
               />

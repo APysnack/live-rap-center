@@ -34,6 +34,8 @@ module Mutations
                     battle.closed_at = Time.now
                     total = 0
                     count = 0
+
+                    # (i think, averages all votes from this battle and scores the battle) 
                     battle.battle_votes.each do | vote |
                         total += vote.scores.map(&:value).sum
                         count += 2
@@ -42,8 +44,13 @@ module Mutations
                     battle.score = (total.to_f / count) * 10
                     battle.save
 
+                    # all votes for this battle that belong to the winner
                     votes = BattleVote.where(battle_id: battle.id).map(&:selected_winner_id)
+
+                    # winner determined by most votes (logic may need to be pluralized for 2v2s)
                     winner_id = votes.max_by { |i| votes.count(i) }
+
+                    # loser is all ids excluding the winner id(s)
                     loser_id = battle.battlers.pluck(:id).excluding(winner_id)[0]
 
                     BattlerBattleResult.create(battler_id: winner_id, battle_id: battle.id, outcome: :win)

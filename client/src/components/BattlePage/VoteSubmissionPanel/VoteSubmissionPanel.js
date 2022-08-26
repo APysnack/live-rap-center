@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import CreateVoteForm from "./CreateVoteForm/CreateVoteForm";
-import StarSelector from "./StarSelector/StarSelector";
-import { useMutation } from "@apollo/client";
-import { CREATE_BATTLE_VOTE } from "./gql";
-import _ from "lodash";
+import React, { useEffect, useState } from 'react';
+import CreateVoteForm from './CreateVoteForm/CreateVoteForm';
+import StarSelector from './StarSelector/StarSelector';
+import { useMutation } from '@apollo/client';
+import { CREATE_BATTLE_VOTE } from './gql';
+import _ from 'lodash';
 
 function VoteSubmissionPanel({ user, battle, refetchBattle }) {
   const [createBattleVote, { data, loading, error }] =
@@ -57,10 +57,11 @@ function VoteSubmissionPanel({ user, battle, refetchBattle }) {
     return Object.values(obj).reduce((prev, current) => prev + current, 0);
   };
 
+  // should this be deleted?
   const voteCompleted = (formData) => {
     if (
       disableChecks === true &&
-      formData.comment !== "" &&
+      formData.comment !== '' &&
       Object.keys(starState).length > 1 &&
       allMetricsCompleted()
     ) {
@@ -74,8 +75,8 @@ function VoteSubmissionPanel({ user, battle, refetchBattle }) {
     let metricsCompleted = true;
     battle.battlers.map((battler) => {
       if (
-        starState[battler.id]["lyricism"] == null ||
-        starState[battler.id]["performance"] == null
+        starState[battler.id]['lyricism'] == null ||
+        starState[battler.id]['performance'] == null
       ) {
         metricsCompleted = false;
       }

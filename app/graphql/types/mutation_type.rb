@@ -15,6 +15,7 @@ module Types
     field :update_battle_thumbnail, mutation: Mutations::UpdateBattleThumbnail
     field :update_battler_image, mutation: Mutations::UpdateBattlerImage
     field :create_battle_vote, mutation: Mutations::CreateBattleVote
+    field :delete_battle_vote, mutation: Mutations::DeleteBattleVote
     field :create_award, mutation: Mutations::CreateAward
     field :delete_award, mutation: Mutations::DeleteAward
     field :update_award, mutation: Mutations::UpdateAward

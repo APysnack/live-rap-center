@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_25_124213) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_27_103936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -129,6 +129,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_124213) do
     t.integer "voting_status", default: 1
     t.decimal "score", precision: 4, scale: 1, default: "0.0"
     t.datetime "closed_at"
+    t.integer "event_id"
+    t.index ["event_id"], name: "index_battles_on_event_id"
     t.index ["league_id"], name: "index_battles_on_league_id"
   end
 
@@ -190,6 +192,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_124213) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_crews_on_user_id"
+  end
+
+  create_table "event_battles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer "admission_cost"
+    t.datetime "date"
+    t.string "address"
+    t.string "name"
+    t.bigint "league_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["league_id"], name: "index_events_on_league_id"
   end
 
   create_table "jwt_denylist", force: :cascade do |t|
@@ -372,6 +390,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_124213) do
   add_foreign_key "crew_chat_users", "users"
   add_foreign_key "crew_chats", "crews"
   add_foreign_key "crews", "users"
+  add_foreign_key "events", "leagues"
   add_foreign_key "league_admins", "leagues"
   add_foreign_key "league_admins", "users"
   add_foreign_key "league_awards", "awards"

@@ -35,8 +35,6 @@ url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwY
 showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
 iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
 
-lrcEvent1 = Event.create(name: "LRC 1",admission_cost: 20, league_id: lrc.id, address: "123 Street", date: Time.now)
-
 # assigning league admins
 LeagueAdmin.create(league_id: lrc.id, user_id: purelyDef.id)
 
@@ -137,6 +135,14 @@ BattlerBattle.create(battler_id: battlerMac.id, battle_id: febouVsMac.id)
 # BattlerFollow.create(user_id: purelyDef.id, battler_id: battlerComa.id)
 BattlerFollow.create(user_id: purelyDef.id, battler_id: battlerPatStay.id)
 BattlerFollow.create(user_id: purelyDef.id, battler_id: battler3rdDegree.id)
+
+lrcEvent1 = Event.create(name: "LRC 1", admission_cost: 20, league_id: lrc.id, address: "123 Street", date: Time.now)
+lrcEvent3 = Event.create(name: "LRC 3", admission_cost: 50, league_id: lrc.id, address: "TBA", date: Time.now)
+
+defVsPat = Battle.create(league_id: lrc.id, battle_status: :prospective)
+
+BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: defVsPat.id)
+BattlerBattle.create(battler_id: battlerPatStay.id, battle_id: defVsPat.id)
 
 # vote creation
 purelyDefVoter = Voter.create(user_id: purelyDef.id)

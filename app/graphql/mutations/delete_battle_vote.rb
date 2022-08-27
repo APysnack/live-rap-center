@@ -17,7 +17,7 @@ module Mutations
                 battle_vote.destroy
 
                 if battle.battle_votes.count < Integer(ENV.fetch('VOTES_UNTIL_BATTLE_CLOSED'))
-                    battle.voting_status = :open
+                    battle.battle_status = :open
                     battle.closed_at = nil
                     battle.score = 0
                     battle.save

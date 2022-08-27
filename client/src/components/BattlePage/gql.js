@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_BATTLE = gql`
   query Battle($id: ID!) {
@@ -6,7 +6,7 @@ export const GET_BATTLE = gql`
       id
       battleUrl
       thumbnail
-      votingStatus
+      battleStatus
       battlers {
         id
         name

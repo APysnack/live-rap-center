@@ -82,7 +82,7 @@ function BattlePage() {
             src={'https://www.youtube.com/embed/' + youtubeId}
             allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;'
           ></iframe>
-          {battle.votingStatus === 'open' &&
+          {battle.battleStatus === 'open' &&
           user.voter_id !== null &&
           !userViewingPageIsInBattle ? (
             !userHasVoted ? (

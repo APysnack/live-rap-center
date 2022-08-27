@@ -6,7 +6,9 @@ import BattleLink from '../SharedComponents/BattleLink/BattleLink';
 function ListBattlesPage() {
   const { loading, data } = useQuery(GET_BATTLES);
 
-  // note there's no issue with the code, some battles arent assigned battlers in the seeded db
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   if (loading) return 'Loading...';
   return (

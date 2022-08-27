@@ -30,7 +30,7 @@ module Mutations
                 Score.create(battler_id: input[:loser_battler_id], battle_vote_id: battleVote.id, value: input[:loser_battler_score], outcome: 1)
 
                 if battle.battle_votes.count >= Integer(ENV.fetch('VOTES_UNTIL_BATTLE_CLOSED'))
-                    battle.voting_status = :closed
+                    battle.battle_status = :closed
                     battle.closed_at = Time.now
                     total = 0
                     count = 0

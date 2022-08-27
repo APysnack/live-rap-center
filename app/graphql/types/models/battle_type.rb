@@ -13,7 +13,7 @@ module Types
       field :battlers, [Types::Models::BattlerType], null: false
       field :thumbnail, String, null: true
       field :battle_votes, [Types::Models::BattleVoteType], null: false
-      field :voting_status, Types::VotingStatusEnum, null: false
+      field :battle_status, Types::BattleStatusEnum, null: false
       field :score, Float, null: false
   
       def battlers

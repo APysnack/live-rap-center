@@ -19,6 +19,7 @@ import LeagueSettingsPage from './components/LeagueSettingsPage/LeagueSettingsPa
 import BattlerPage from './components/BattlerPage/BattlerPage';
 import LeagueChat from './components/LeagueChat/LeagueChat';
 import CrewChat from './components/CrewChat/CrewChat';
+import EventPage from './components/EventPage/EventPage';
 
 function App({ cable }) {
   return (
@@ -45,6 +46,7 @@ function App({ cable }) {
           element={<LeagueChat cable={cable} />}
         />
         <Route exact path='/crew-chat' element={<CrewChat cable={cable} />} />
+        <Route exact path='/events' element={<EventPage />} />
       </Routes>
     </ThemeProvider>
   );

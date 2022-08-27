@@ -10,6 +10,8 @@ module Types
     field :battlers, resolver: Queries::Battlers
     field :user, resolver: Queries::User
     field :users, resolver: Queries::Users
+    field :event, resolver: Queries::Event
+    field :events, resolver: Queries::Events
     field :league, resolver: Queries::League
     field :leagues, resolver: Queries::Leagues
     field :battle, resolver: Queries::Battle

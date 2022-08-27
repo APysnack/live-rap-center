@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  admission_cost: 1
+  date: 2022-08-27 05:56:24
+  address: MyString
+  name: MyString
+  league: one
+
+two:
+  admission_cost: 1
+  date: 2022-08-27 05:56:24
+  address: MyString
+  name: MyString
+  league: two

@@ -35,6 +35,8 @@ url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwY
 showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
 iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
 
+lrcEvent1 = Event.create(name: "LRC 1",admission_cost: 20, league_id: lrc.id, address: "123 Street", date: Time.now)
+
 # assigning league admins
 LeagueAdmin.create(league_id: lrc.id, user_id: purelyDef.id)
 
@@ -85,14 +87,14 @@ CrewChatMessage.create(crew_chat_id: testingCrewChat.id, user_id: organik.id, bo
 CrewChatMessage.create(crew_chat_id: testingCrewChat.id, user_id: purelyDef.id, body: "sup")
 
 # creating battles
-craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo")
+craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo", event_id: 1)
 brotherPhilVsDef = Battle.create(league_id: showtime.id, battle_url: "UE044GrYSXo")
 antVsDef = Battle.create(league_id: lrc.id, battle_url: "-EjyQarYyyk")
 remydVsComa = Battle.create(league_id: lrc.id, battle_url: "aPVZrMEYrR0")
-skVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "2QDeROLwwR8")
+skVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "2QDeROLwwR8", event_id: 1)
 reggieVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "_Uivyl1veQ8")
 kaveVsFloLeeds = Battle.create(league_id: lrc.id, battle_url: "NQ2Jr3se3vk")
-codesVsComa = Battle.create(league_id: lrc.id, battle_url: "SiS7TkiO7sQ")
+codesVsComa = Battle.create(league_id: lrc.id, battle_url: "SiS7TkiO7sQ", event_id: 1)
 
 luxVsGeechi = Battle.create(league_id: kotd.id, battle_url: "6cr0idmmSrs")
 arsonalVsPat = Battle.create(league_id: url.id, battle_url: "R4MSPqc-5GA")

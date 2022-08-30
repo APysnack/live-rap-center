@@ -8,7 +8,6 @@ import {
 } from './BattlerInfo.styles';
 import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
 import { useMutation } from '@apollo/client';
-import { display, flexbox } from '@mui/system';
 
 function BattlerInfo({ battler, refetchBattler }) {
   const [battlerStats, setBattlerStats] = useState({

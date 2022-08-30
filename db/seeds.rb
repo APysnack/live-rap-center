@@ -8,14 +8,14 @@ role_5 = Role.create(name: "admin")
 # creating SocialMediaPlatforms
 fb = SocialMediaPlatform.create(name: "Facebook")
 ig = SocialMediaPlatform.create(name: "Instagram")
-SocialMediaPlatform.create(name: "Twitter")
+twitter = SocialMediaPlatform.create(name: "Twitter")
 SocialMediaPlatform.create(name: "SoundCloud")
 
 # creating users
-purelyDef = User.create(username: "PurelyDef", email: "apysnack@gmail.com", password: "password", is_verified: true)
-organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true)
+purelyDef = User.create(username: "PurelyDef", email: "apysnack@gmail.com", password: "password", is_verified: true, vip_status: true)
+organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true, vip_status: true)
 smack = User.create(username: "Smack", email: "smack@gmail.com", password: "ultimaterapleague", is_verified: true)
-patStay = User.create(username: "Pat", email: "pat@gmail.com", password: "patstay", is_verified: true)
+patStay = User.create(username: "Pat", email: "pat@gmail.com", password: "patstay", is_verified: true, vip_status: true)
 
 # Assigning roles
 UserRole.create(user_id: purelyDef.id, role_id: role.id)
@@ -150,3 +150,7 @@ purelyDefVoter = Voter.create(user_id: purelyDef.id)
 # creating SocialMediaLinks
 SocialMediaLink.create(user_id: purelyDef.id, url: "https://facebook.com/purleedef", social_media_platform_id: fb.id)
 SocialMediaLink.create(user_id: purelyDef.id , url: "https://instagram.com/purelydef", social_media_platform_id: ig.id)
+
+SocialMediaLink.create(user_id: patStay.id , url: "twitter.com/ehart914", social_media_platform_id: twitter.id)
+
+SocialMediaLink.create(user_id: organik.id , url: "twitter.com/therevronhunt", social_media_platform_id: twitter.id)

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   post "login", to: "sessions#new"
   post "logout", to: "sessions#destroy"
 
-  get "about", to: "about#index"
+  get "spaces", to: "spaces#index"
 
   root "main#index"
 end

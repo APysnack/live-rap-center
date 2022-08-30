@@ -7,7 +7,7 @@ import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/Socia
 import BattlerInfo from './BattlerInfo';
 import TopBattles from './TopBattles/TopBattles';
 import { Link } from 'react-router-dom';
-import { UserInfo, PrimaryContentContainer } from './UserPage.styles';
+import { UserPageContainer } from './UserPage.styles';
 import FollowedBattles from './FollowedBattles/FollowedBattles';
 
 function UserPage({ callLogoutUser }) {
@@ -48,11 +48,11 @@ function UserPage({ callLogoutUser }) {
   if (loading) return 'Loading...';
 
   return (
-    <>
+    <UserPageContainer>
       {currentUser ? (
         <div>
-          <PrimaryContentContainer>
-            <UserInfo>
+          <div className='primary-content-container'>
+            <div className='user-info'>
               <div>Username: {currentUser.username}</div>
               <ImageUploadModal
                 type='profile picture'
@@ -62,30 +62,33 @@ function UserPage({ callLogoutUser }) {
               {Object.keys(user?.socials).length > 0 ? (
                 <SocialMediaContainer socials={user.socials} />
               ) : null}
-            </UserInfo>
+            </div>
             {battler?.name ? (
               <BattlerInfo battler={battler} refetchBattler={refetchBattler} />
             ) : null}
             <TopBattles />
             <FollowedBattles userId={currentUser.id} />
-          </PrimaryContentContainer>
+          </div>
 
-          {user.crew_chat_ids?.length > 0
-            ? user.crew_chat_ids.map((chatId) => (
-                <Link
-                  key={chatId}
-                  to='/crew-chat'
-                  state={{
-                    crewId: chatId,
-                    crewName: 'Crew Chat',
-                  }}
-                >
-                  Crew Chat
-                </Link>
-              ))
-            : 'bar'}
+          <div className='link-container'>
+            <Link to='/spaces'>Link to Spaces</Link>
 
-          <div>G: Active Twitter Spaces??</div>
+            {user.crew_chat_ids?.length > 0
+              ? user.crew_chat_ids.map((chatId) => (
+                  <Link
+                    key={chatId}
+                    to='/crew-chat'
+                    state={{
+                      crewId: chatId,
+                      crewName: 'Crew Chat',
+                    }}
+                  >
+                    Link to Crew Chat
+                  </Link>
+                ))
+              : 'bar'}
+          </div>
+
           <div>B: Rank</div>
           <div>
             Alerts for Booking requests but needs to be more elaborate with
@@ -102,7 +105,7 @@ function UserPage({ callLogoutUser }) {
       ) : (
         <div>no user</div>
       )}
-    </>
+    </UserPageContainer>
   );
 }
 

@@ -4,6 +4,13 @@
 
 
 module BattleParser
+    def parse_title(league_name, title)
+        if league_name == "iBattle"
+            trailing_dash_format(title)
+        end
+    end
+
+
     # emcee 1 vs emcee 2 - ibattle
     # ibattle
     def trailing_dash_format(title)

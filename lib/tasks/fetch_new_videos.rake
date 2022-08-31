@@ -29,7 +29,7 @@ task fetch_new_videos: :environment do
       video_id = video["snippet"]["resourceId"]["videoId"]
 
       # parses the battler names into an array ["battler1Name", "battler2Name"]
-      battler_names = BattleParser.trailing_dash_format(video["snippet"]["title"])
+      battler_names = BattleParser.parse_title(league.league_name, video["snippet"]["title"])
 
       if battler_names.length > 0
         battle_object = Battle.create(league_id: league.id, battle_url: video_id)

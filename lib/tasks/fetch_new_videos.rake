@@ -10,36 +10,37 @@ include BattleParser
 task fetch_new_videos: :environment do 
   fetch_all_videos = false
 
-  league = League.find_by(league_name: "iBattle")
+  leagues = League.all
+  leagues.each do | league |
+    # concatenates all league ids into a string "id1,id2,id3" as required by youtube api
+    channel_id = league.league_url
 
-  # concatenates all league ids into a string "id1,id2,id3" as required by youtube api
-  channel_id = league.league_url
+    # gets all playlist ids from the aforementioned league channels in the same format of "id1,id2,id3"
+    # currently only gets one playlist id, will need to modify to get multiple ids at once
+    playlist_id = fetch_playlist_ids_from_channel_ids(channel_id)
 
-  # gets all playlist ids from the aforementioned league channels in the same format of "id1,id2,id3"
-  # currently only gets one playlist id, will need to modify to get multiple ids at once
-  playlist_id = fetch_playlist_ids_from_channel_ids(channel_id)
+    # gets all videos for the playlist
+    response  = fetch_videos_from_playlist(playlist_id, nil)
 
-  # gets all videos for the playlist
-  response  = fetch_videos_from_playlist(playlist_id, nil)
+    videos = response["items"]
 
-  videos = response["items"]
+    # loops through each video in the playlist
+    videos.each do | video | 
+        create_battles_for(video, league)
+    end
 
-  # loops through each video in the playlist
-  videos.each do | video | 
-      create_battles_for(video, league)
-  end
+    # youtube has a max of 50 video retrievals, requires a nextPageToken to paginate through ALL results
+    if fetch_all_videos
+      until response["nextPageToken"].nil? do 
+        response  = fetch_videos_from_playlist(playlist_id, response["nextPageToken"])
+        videos = response["items"]
 
-  # youtube has a max of 50 video retrievals, requires a nextPageToken to paginate through ALL results
-  if fetch_all_videos
-    until response["nextPageToken"].nil? do 
-      response  = fetch_videos_from_playlist(playlist_id, response["nextPageToken"])
-      videos = response["items"]
-
-      # loops through each video in the playlist
-      videos.each do | video | 
-          create_battles_for(video, league)
-      end
-    end  
+        # loops through each video in the playlist
+        videos.each do | video | 
+            create_battles_for(video, league)
+        end
+      end  
+    end
   end
 end
 

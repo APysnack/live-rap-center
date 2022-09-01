@@ -7,6 +7,7 @@ export const GET_BATTLER = gql`
       name
       score
       image
+      battleCount
       record {
         wins
         losses

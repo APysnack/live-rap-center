@@ -17,6 +17,7 @@ module Types
       field :league_id, ID, null: false
       field :image, String, null: true
       field :record, Types::BattlerRecordObject, null: false
+      field :battle_count, Integer, null: true
 
       def user
         user = object.user
@@ -38,6 +39,10 @@ module Types
         if object.image.present?
           rails_blob_path(object.image, host: ENV["SERVER_URL"])
         end
+      end
+
+      def battle_count
+        object.battles.count
       end
 
       def record 

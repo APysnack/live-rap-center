@@ -12,54 +12,35 @@ task fetch_new_videos: :environment do
 
   league = League.find_by(league_name: "iBattle")
 
-    # concatenates all league ids into a string "id1,id2,id3" as required by youtube api
-    channel_id = league.league_url
+  # concatenates all league ids into a string "id1,id2,id3" as required by youtube api
+  channel_id = league.league_url
 
-    # gets all playlist ids from the aforementioned league channels in the same format of "id1,id2,id3"
-    # currently only gets one playlist id, will need to modify to get multiple ids at once
-    playlist_id = fetch_playlist_ids_from_channel_ids(channel_id)
+  # gets all playlist ids from the aforementioned league channels in the same format of "id1,id2,id3"
+  # currently only gets one playlist id, will need to modify to get multiple ids at once
+  playlist_id = fetch_playlist_ids_from_channel_ids(channel_id)
 
-    # gets all videos for the playlist
-    response  = fetch_videos_from_playlist(playlist_id, nil)
+  # gets all videos for the playlist
+  response  = fetch_videos_from_playlist(playlist_id, nil)
 
-    videos = response["items"]
+  videos = response["items"]
 
-    # loops through each video in the playlist
-    videos.each do | video | 
-      video_id = video["snippet"]["resourceId"]["videoId"]
+  # loops through each video in the playlist
+  videos.each do | video | 
+      create_battles_for(video, league)
+  end
 
-      # parses the battler names into an array ["battler1Name", "battler2Name"]
-      battler_names = BattleParser.parse_title(league.league_name, video["snippet"]["title"])
+  # youtube has a max of 50 video retrievals, requires a nextPageToken to paginate through ALL results
+  if fetch_all_videos
+    until response["nextPageToken"].nil? do 
+      response  = fetch_videos_from_playlist(playlist_id, response["nextPageToken"])
+      videos = response["items"]
 
-      if battler_names.length > 0
-        battle_object = Battle.create(league_id: league.id, battle_url: video_id)
-
-        # array of battler objects participating in the battle
-        battlers = []
-
-        # adds battler to the db when not found
-        battler_names.each do |battler_name|
-          battler = Battler.find_by(name: battler_name)
-          if battler.nil?
-            battlers.push(Battler.create(name: battler_name))
-          else 
-            battlers.push(battler)
-          end
-        end
-
-        battlers.each do | battler_object |
-          BattlerBattle.create(battler_id: battler_object.id, battle_id: battle_object.id)
-        end
-
-
-        # youtube has a max of 50 video retrievals, requires a nextPageToken to paginate through ALL results
-        if fetch_all_videos
-          until response["nextPageToken"].nil? do 
-            response  = fetch_videos_from_playlist(playlist_id, response["nextPageToken"])
-          end  
-        end
+      # loops through each video in the playlist
+      videos.each do | video | 
+          create_battles_for(video, league)
       end
-    end
+    end  
+  end
 end
 
 def fetch_playlist_ids_from_channel_ids(all_channel_ids)
@@ -93,4 +74,33 @@ def fetch_videos_from_playlist(playlist_id, nextPageToken)
 
   request = Typhoeus::Request.new(playlist_api_url, options).run
   return response = JSON.parse(request.body)
+end
+
+
+def create_battles_for(video, league)
+  video_id = video["snippet"]["resourceId"]["videoId"]
+  
+  # parses the battler names into an array ["battler1Name", "battler2Name"]
+  battler_names = BattleParser.parse_title(league.league_name, video["snippet"]["title"])
+
+  if battler_names.length > 0
+    battle_object = Battle.create(league_id: league.id, battle_url: video_id)
+
+    # array of battler objects participating in the battle
+    battlers = []
+
+    # adds battler to the db when not found
+    battler_names.each do |battler_name|
+    battler = Battler.find_by(name: battler_name)
+      if battler.nil?
+        battlers.push(Battler.create(name: battler_name))
+      else 
+        battlers.push(battler)
+      end
+    end
+
+    battlers.each do | battler_object |
+      BattlerBattle.create(battler_id: battler_object.id, battle_id: battle_object.id)
+    end
+  end
 end

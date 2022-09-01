@@ -6,6 +6,8 @@ const THUMBNAIL_WIDTH = 100;
 const THUMBNAIL_HEIGHT = 100;
 
 function BattleLink({ battle }) {
+  const YOUTUBE_IMAGE_URL = `https://i.ytimg.com/vi/${battle.battleUrl}/hqdefault.jpg`;
+
   return (
     <BattleLinkContainer to={`/battle/${battle.id}`} key={battle.id}>
       {battle.thumbnail ? (
@@ -16,7 +18,7 @@ function BattleLink({ battle }) {
         />
       ) : (
         <Avatar
-          src={null}
+          src={YOUTUBE_IMAGE_URL}
           sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
           className='battleThumb'
         />

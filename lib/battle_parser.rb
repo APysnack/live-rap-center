@@ -5,27 +5,28 @@
 
 module BattleParser
     def parse_title(league_name, title)
-        if league_name == "iBattle"
-            trailing_dash_format(title)
+        begin
+            if league_name == "leagueNameHere"
+                return "placeholder for future function"
+            else
+                default_format(title) 
+            end
+        rescue
+            battlers = [] 
         end
     end
 
 
-    # emcee 1 vs emcee 2 - ibattle
-    # ibattle
-    def trailing_dash_format(title)
+    # format: { battler1 vs battler2 } with any other symbols preceding or following
+    def default_format(title)
         battlers = []
-        begin
-            if title.include?("vs") || title.include?("VS")
-                battler_1 = title.split(/ vs /, 2)[0]
-                trailing_string = title.split(/ vs /, 2)[1].upcase
-                battler_2 = trailing_string.split(/ -/, 2)[0].upcase
-                battlers.push(battler_1)
-                battlers.push(battler_2)
-            else
-                battlers
+        if title.include?("vs") || title.include?("VS")
+            matches = title.match(/([0-9A-Z ]*) vs ([0-9A-Z ]*)/i).captures
+            matches.each do |match|
+                battlers.push(match.strip())
             end
-        rescue
+            battlers
+        else
             battlers
         end
     end

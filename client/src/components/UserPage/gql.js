@@ -6,6 +6,7 @@ export const GET_USER_BATTLER = gql`
       id
       name
       score
+      battleCount
       record {
         wins
         losses

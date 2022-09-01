@@ -31,7 +31,6 @@ UserRole.create(user_id: patStay.id, role_id: role.id)
 # creating leagues
 lrc = League.create(league_name: "Live Rap Circle", league_url: "UCWseCA4XbP2PvjBox1u4C9g")
 kotd = League.create(league_name: "King of the Dot", league_url: "UCIuFtIO8i_XqA8lM7q4B1FQ")
-url = League.create(league_name: "Smack/URL", league_url: "UCflIAeM03JFL9ml03LwYF-g")
 showtime = League.create(league_name: "Showtime Battle Arena", league_url: "UCkb4L-6YsUhocxB-WFwmQ2A")
 iBattle = League.create(league_name: "iBattle", league_url: "UCcn1FcR6MoWhnZ0gfH2dVJw")
 
@@ -60,7 +59,6 @@ battlerFebou = Battler.create(name: "Febou")
 
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: lrc.id)
 LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: kotd.id)
-LeagueInvitation.create(battler_id: battlerPurelyDef.id, league_id: url.id)
 
 # creating chat components
 lrcChat = LeagueChat.create(league_id: lrc.id)
@@ -95,7 +93,6 @@ kaveVsFloLeeds = Battle.create(league_id: lrc.id, battle_url: "NQ2Jr3se3vk")
 codesVsComa = Battle.create(league_id: lrc.id, battle_url: "SiS7TkiO7sQ", event_id: 1)
 
 luxVsGeechi = Battle.create(league_id: kotd.id, battle_url: "6cr0idmmSrs")
-arsonalVsPat = Battle.create(league_id: url.id, battle_url: "R4MSPqc-5GA")
 febouVsMac = Battle.create(league_id: iBattle.id, battle_url: "v6gJhMQ0chU")
 
 # creating battler/battle relationship
@@ -125,9 +122,6 @@ BattlerBattle.create(battler_id: battlerComa.id, battle_id: codesVsComa.id)
 
 BattlerBattle.create(battler_id: battlerLux.id, battle_id: luxVsGeechi.id)
 BattlerBattle.create(battler_id: battlerGeech.id, battle_id: luxVsGeechi.id)
-
-BattlerBattle.create(battler_id: battlerPatStay.id, battle_id: arsonalVsPat.id)
-BattlerBattle.create(battler_id: battlerArsonal.id, battle_id: arsonalVsPat.id)
 
 BattlerBattle.create(battler_id: battlerFebou.id, battle_id: febouVsMac.id)
 BattlerBattle.create(battler_id: battlerMac.id, battle_id: febouVsMac.id)

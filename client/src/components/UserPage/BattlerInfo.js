@@ -94,7 +94,7 @@ function BattlerInfo({ battler, refetchBattler }) {
           <div>Losses: {battler.record.losses}</div>
         </div>
       }
-
+      <div>Number of battles: {battler.battleCount}</div>
       <div>Total Views: {battlerStats.totalViews}</div>
       <div>Average Views: {battlerStats.avgViews}</div>
       {battler?.id ? (

@@ -137,6 +137,7 @@ function BattlerPage() {
             <div>This battler has not confirmed a homeleague</div>
           )}
           <div>This battler's rating is {battler.score}</div>
+          <div>Number of Battles: {battler.battleCount}</div>
           <div>Total Views: {battlerStats.totalViews}</div>
           <div>Average Views: {battlerStats.avgViews}</div>
           <div>Wins: {battler?.record?.wins}</div>

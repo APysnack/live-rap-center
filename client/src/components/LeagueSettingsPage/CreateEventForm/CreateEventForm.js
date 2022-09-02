@@ -8,17 +8,26 @@ import {
 } from './CreateEventFormFields';
 import { useMutation } from '@apollo/client';
 import BaseForm from '../../SharedComponents/BaseForm';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import {
+  CreateEventFormWrapper,
+  DatePickerWrapper,
+} from './CreateEvent.styles';
+import moment from 'moment';
 
-function CreateEventForm({ league }) {
+function CreateEventForm({ league, refetch }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
   const [flashMessage, setFlashMessage] = useState('');
   const [createEvent, { data, loading, error }] = useMutation(CREATE_EVENT);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     if (data?.createEvent?.name) {
       setFlashMessage(`${data.createEvent.name} added successfully!`);
+      refetch();
     }
     if (error) {
       console.log(error);
@@ -26,15 +35,18 @@ function CreateEventForm({ league }) {
   }, [data, error]);
 
   const addNewEvent = (values) => {
-    setModalOpen(false);
-    createEvent({
-      variables: {
-        leagueId: league.id,
-        name: values.eventName,
-        admissionCost: parseInt(values.eventAdmission),
-        address: values.eventAddress,
-      },
-    });
+    if (Object.values(values).every((value) => value !== '')) {
+      setModalOpen(false);
+      createEvent({
+        variables: {
+          leagueId: league.id,
+          name: values.eventName,
+          admissionCost: parseInt(values.eventAdmission),
+          address: values.eventAddress,
+          date: selectedDate.toISOString(),
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -58,10 +70,23 @@ function CreateEventForm({ league }) {
   if (loading) return 'Loading...';
 
   return (
-    <div>
+    <CreateEventFormWrapper>
       {flashMessage ? <div>{flashMessage}</div> : null}
       <div onClick={() => setModalOpen(true)}>Create a new event</div>
       <BasicModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        <DatePickerWrapper>
+          <div className='sanity'>Select a Date:</div>
+          <DatePicker
+            selected={selectedDate}
+            showTimeSelect={true}
+            closeOnScroll={true}
+            className='event-datepicker'
+            calendarClassName='event-calendar'
+            dateFormat={'MMMM d, yyyy'}
+            onChange={(date) => setSelectedDate(date)}
+            minDate={moment().toDate()}
+          />
+        </DatePickerWrapper>
         <BaseForm
           initialValues={initialValues}
           fieldArray={fieldArray}
@@ -69,7 +94,7 @@ function CreateEventForm({ league }) {
           title={'Create New Event'}
         />
       </BasicModal>
-    </div>
+    </CreateEventFormWrapper>
   );
 }
 

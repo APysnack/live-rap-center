@@ -24,7 +24,7 @@ function LeagueSettingsPage() {
   }, [data]);
 
   return (
-    <>
+    <div>
       <div>Logged in as {user?.username}</div>
       {league ? (
         <div>Modifying league settings for {league.leagueName}</div>
@@ -36,11 +36,11 @@ function LeagueSettingsPage() {
         <div>
           <div>Upcoming events</div>
           {league.upcomingEvents.map((event) => (
-            <div>{event.name}</div>
+            <div key={event.id}>{event.name}</div>
           ))}
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
 

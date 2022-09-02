@@ -14,6 +14,7 @@ module Types
       field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
       field :battles, [Types::Models::BattleType], null: true
       field :battlers, [Types::Models::BattlerType], null: true
+      field :upcoming_events, [Types::Models::EventType], null: true
 
       def battles
         object.battles
@@ -27,6 +28,10 @@ module Types
         if object.image.present?
           rails_blob_path(object.image, host: ENV["SERVER_URL"])
         end
+      end
+
+      def upcoming_events 
+        object.events.where("date > ?", Time.now)
       end
     end
   end

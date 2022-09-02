@@ -25,10 +25,13 @@ function ImageUploadModal({ type, refetch, object = null }) {
       case 'battler image':
         setImageSource(REACT_APP_SERVER_URL + object?.image);
         break;
+      case 'event flyer':
+        setImageSource(REACT_APP_SERVER_URL + object?.flyerImageUrl);
+        break;
       default:
         setImageSource('');
     }
-  }, []);
+  }, [object]);
 
   const openImageModal = () => {
     setModalOpen(true);

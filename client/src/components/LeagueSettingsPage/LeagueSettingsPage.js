@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
 import EditLeagueForm from './EditLeagueForm/EditLeagueForm';
 import CreateEventForm from './CreateEventForm/CreateEventForm';
+import EventLink from '../SharedComponents/EventLink/EventLink';
 
 function LeagueSettingsPage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -36,7 +37,7 @@ function LeagueSettingsPage() {
         <div>
           <div>Upcoming events</div>
           {league.upcomingEvents.map((event) => (
-            <div key={event.id}>{event.name}</div>
+            <EventLink key={event.id} event={event} type='edit' />
           ))}
         </div>
       ) : null}

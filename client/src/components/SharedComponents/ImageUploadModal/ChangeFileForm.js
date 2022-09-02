@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client';
 import {
   CREATE_LEAGUE_LOGO,
   CREATE_USER_PROFILE_PICTURE,
+  CREATE_EVENT_FLYER_IMAGE,
   UPDATE_BATTLE_THUMBNAIL,
   UPDATE_BATTLER_IMAGE,
   CREATE_AWARD,
@@ -20,6 +21,10 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
     CREATE_USER_PROFILE_PICTURE
   );
 
+  const [createEventFlyerImage, { data: eventFlyerImageData }] = useMutation(
+    CREATE_EVENT_FLYER_IMAGE
+  );
+
   const [updateBattleThumbnail, { data: battleThumbnailData }] = useMutation(
     UPDATE_BATTLE_THUMBNAIL
   );
@@ -30,7 +35,6 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
   const [createAward, { data: awardData }] = useMutation(CREATE_AWARD);
 
   const onSubmit = async (file) => {
-    console.log(file);
     if (type === 'profile picture') {
       createUserProfilePicture({
         variables: { userId: object?.id, name: fileName, image: file },
@@ -56,6 +60,11 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
         variables: { name: fileNameNoExtension(), image: file },
         onCompleted: refetchContent,
       });
+    } else if (type === 'event flyer') {
+      createEventFlyerImage({
+        variables: { eventId: object?.id, name: fileName, image: file },
+        onCompleted: refetchContent,
+      });
     }
   };
 
@@ -72,7 +81,10 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
   return (
     <BasicModal isOpen={isOpen} onClose={onClose}>
       <Dropzone onSubmit={onSubmit} />
-      {/* <form onSubmit={onSubmit}>
+
+      {/* old code, can probably delete
+      
+      <form onSubmit={onSubmit}>
         <div className='custom-file'>
           <input
             type='file'

@@ -9,9 +9,6 @@ module Mutations
         type Types::Models::EventType
 
         def resolve(input)
-            binding.pry 
-            puts input[:date]
-
             event = Event.create!(
                 league_id: input[:league_id], 
                 admission_cost: input[:admission_cost],

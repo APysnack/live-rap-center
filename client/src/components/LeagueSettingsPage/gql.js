@@ -9,6 +9,8 @@ export const GET_USER_LEAGUE = gql`
       upcomingEvents {
         id
         name
+        flyerImageUrl
+        date
       }
     }
   }

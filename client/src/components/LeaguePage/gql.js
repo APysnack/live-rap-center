@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_LEAGUE = gql`
   query League($id: ID!) {
@@ -16,6 +16,12 @@ export const GET_LEAGUE = gql`
           id
           name
         }
+      }
+      upcomingEvents {
+        id
+        name
+        date
+        flyerImageUrl
       }
     }
   }

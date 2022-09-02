@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   LeftContainer,
@@ -13,9 +13,9 @@ import {
   HamburgerButton,
   NavbarLinkExtended,
   NavbarLinkWrapper,
-} from "./Navbar.styles";
+} from './Navbar.styles';
 
-import LogoImg from "../../images/Logo.svg";
+import LogoImg from '../../images/Logo.svg';
 
 function Navbar() {
   const { user } = useSelector((state) => state.user.userState);
@@ -29,21 +29,21 @@ function Navbar() {
             <HamburgerButton onClick={() => setExtendNavbar(!extendNavbar)}>
               &#8801;
             </HamburgerButton>
-            <NavbarLink to="/">Home</NavbarLink>
-            <NavbarLink to="/leagues">Leagues</NavbarLink>
-            <NavbarLink to="/battles">Battles</NavbarLink>
-            <NavbarLink to="/battlers">Battlers</NavbarLink>
+            <NavbarLink to='/'>Home</NavbarLink>
+            <NavbarLink to='/leagues'>Leagues</NavbarLink>
+            <NavbarLink to='/battles'>Battles</NavbarLink>
+            <NavbarLink to='/battlers'>Battlers</NavbarLink>
             {user?.email ? (
-              <NavbarLink to="/settings">Settings</NavbarLink>
+              <NavbarLink to='/settings'>Settings</NavbarLink>
             ) : null}
-            {user?.roles.includes("league owner") ? (
-              <NavbarLink to="/league-settings" user={user}>
-                My League
+            {user?.roles.includes('league owner') ? (
+              <NavbarLink to='/league-settings' user={user}>
+                League Admin
               </NavbarLink>
             ) : null}
 
-            {user?.roles.includes("admin") ? (
-              <NavbarLink to="/admin-panel">Administrator</NavbarLink>
+            {user?.roles.includes('admin') ? (
+              <NavbarLink to='/admin-panel'>Administrator</NavbarLink>
             ) : null}
           </NavbarLinkContainer>
         </LeftContainer>
@@ -54,17 +54,17 @@ function Navbar() {
       {extendNavbar && (
         <NavbarExtendedContainer>
           <NavbarLinkWrapper>
-            <NavbarLinkExtended to="/">Home</NavbarLinkExtended>
+            <NavbarLinkExtended to='/'>Home</NavbarLinkExtended>
           </NavbarLinkWrapper>
           <NavbarLinkWrapper>
-            <NavbarLinkExtended to="/leagues">Leagues</NavbarLinkExtended>
+            <NavbarLinkExtended to='/leagues'>Leagues</NavbarLinkExtended>
           </NavbarLinkWrapper>
           <NavbarLinkWrapper>
-            <NavbarLinkExtended to="/battlers">Battlers</NavbarLinkExtended>
+            <NavbarLinkExtended to='/battlers'>Battlers</NavbarLinkExtended>
           </NavbarLinkWrapper>
           {user?.email ? (
             <NavbarLinkWrapper>
-              <NavbarLinkExtended to="/settings">Settings</NavbarLinkExtended>
+              <NavbarLinkExtended to='/settings'>Settings</NavbarLinkExtended>
             </NavbarLinkWrapper>
           ) : null}
         </NavbarExtendedContainer>

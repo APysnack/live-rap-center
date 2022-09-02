@@ -1,35 +1,28 @@
-import React from 'react';
-import { GET_ALL_EVENTS } from './gql';
+import React, { useEffect, useState } from 'react';
+import { GET_EVENT } from './gql';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 function EventPage() {
-  const { loading, data } = useQuery(GET_ALL_EVENTS);
+  const { eventId } = useParams();
+  const [event, setEvent] = useState(null);
 
-  React.useEffect(() => {
-    console.log(data);
+  const { loading, data, refetch } = useQuery(GET_EVENT, {
+    variables: { id: eventId },
+    options: {
+      awaitRefetchQueries: true,
+    },
+  });
+
+  useEffect(() => {
+    if (data?.event) {
+      setEvent(data.event);
+    }
   }, [data]);
 
-  return (
-    <div>
-      {data?.events?.length > 0
-        ? data.events.map((event) => (
-            <div key={event.id}>
-              <div>League name: {event.league.leagueName}</div>
-              <div>Event name: {event.name}</div>
-              <div>Address: {event.address}</div>
-              <div>Admission: {event.admissionCost}</div>
-              {event.battles?.length > 0
-                ? event.battles.map((battle) =>
-                    battle.battlers.map((battler) => (
-                      <div key={battler.id}>{battler.name}</div>
-                    ))
-                  )
-                : null}
-            </div>
-          ))
-        : null}
-    </div>
-  );
+  if (loading) return 'Loading...';
+
+  return <div>{event ? <div>EventPage for {event.name}</div> : null}</div>;
 }
 
 export default EventPage;

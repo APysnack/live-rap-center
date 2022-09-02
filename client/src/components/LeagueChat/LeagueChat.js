@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../../api/chatApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Chat from '../SharedComponents/Chat/Chat';
@@ -13,7 +13,6 @@ function LeagueChat({ cable }) {
 
   // callback function, used after GET api request made
   const loadMessages = (res) => {
-    console.log(res);
     setMessages(res.data);
   };
 

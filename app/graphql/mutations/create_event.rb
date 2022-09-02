@@ -14,7 +14,7 @@ module Mutations
                 admission_cost: input[:admission_cost],
                 address: input[:address], 
                 name: input[:name],
-                date: Time.now + 7.days
+                date: input[:date],
             )
             return event
         end

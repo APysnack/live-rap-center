@@ -24,5 +24,6 @@ module Types
     field :create_event, mutation: Mutations::CreateEvent
     field :create_battler_follow, mutation: Mutations::CreateBattlerFollow
     field :delete_battler_follow, mutation: Mutations::DeleteBattlerFollow
+    field :create_event_flyer_image, mutation: Mutations::CreateEventFlyerImage
   end
 end

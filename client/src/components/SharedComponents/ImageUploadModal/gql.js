@@ -59,3 +59,19 @@ export const CREATE_AWARD = gql`
     }
   }
 `;
+
+export const CREATE_EVENT_FLYER_IMAGE = gql`
+  mutation createEventFlyerImage(
+    $name: String!
+    $eventId: ID!
+    $image: Upload!
+  ) {
+    createEventFlyerImage(
+      input: { name: $name, eventId: $eventId, image: $image }
+    ) {
+      id
+      name
+      flyerImageUrl
+    }
+  }
+`;

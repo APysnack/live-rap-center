@@ -21,15 +21,11 @@ class UserSerializer
     leagues.concat(object.leagues.map(&:id))
   end
 
-  attribute :crew_chat_ids do |object|
-    crew_chats = []
-    crew_chats.concat(object.crew_chats.map(&:id))
-  end
-
   attribute :voter_id do |object|
     object.voter_id
   end
 
   attribute :battler_id do |object|
     object.battler_id
+  end
 end

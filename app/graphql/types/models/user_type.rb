@@ -12,7 +12,6 @@ module Types
       field :is_verified, Boolean, null: false
       field :created_at, GraphQL::Types::ISO8601DateTime, null: false
       field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-
       field :posts, [Types::Models::PostType], null: true
       field :posts_count, Integer, null: true
       field :roles, [Types::Models::RoleType], null: true
@@ -21,6 +20,7 @@ module Types
       field :profile_picture_url, String, null: true
       field :social_media_links, [Types::Models::SocialMediaLinkType], null: true
       field :followed_battler_ids, [ID], null: true
+      field :crew_chat_ids, [ID], null: true
 
       def posts_count
         object.posts.size
@@ -50,6 +50,11 @@ module Types
 
       def followed_battler_ids
         object.followed_battlers.map(&:id)
+      end
+
+      def crew_chat_ids
+        crew_chats = []
+        crew_chats.concat(object.crew_chats.map(&:id))
       end
     end
   end

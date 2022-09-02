@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { GET_LEAGUE } from "./gql";
-import { useQuery } from "@apollo/client";
-import { LeagueBattlersContainer } from "./LeaguePage.styles";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { GET_LEAGUE } from './gql';
+import { useQuery } from '@apollo/client';
+import { LeagueBattlersContainer } from './LeaguePage.styles';
+import EventLink from '../SharedComponents/EventLink/EventLink';
 
 function LeaguePage() {
   let { leagueId } = useParams();
@@ -20,7 +21,7 @@ function LeaguePage() {
     }
   }, [data]);
 
-  if (loading) return "Loading...";
+  if (loading) return 'Loading...';
   return (
     <>
       {league ? (
@@ -36,8 +37,12 @@ function LeaguePage() {
               ? battlers.map((battler) => (
                   <div key={battler.id}>{battler.name}</div>
                 ))
-              : "No battlers for this league"}
+              : 'No battlers for this league'}
           </LeagueBattlersContainer>
+          <div>Upcoming Events</div>
+          {league?.upcomingEvents?.length > 0
+            ? league.upcomingEvents.map((event) => <EventLink event={event} />)
+            : 'No upcoming events'}
         </>
       ) : (
         <div>bar</div>

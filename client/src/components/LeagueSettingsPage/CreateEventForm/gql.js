@@ -6,6 +6,7 @@ export const CREATE_EVENT = gql`
     $name: String!
     $admissionCost: Int!
     $address: String
+    $date: ISO8601DateTime!
   ) {
     createEvent(
       input: {
@@ -13,6 +14,7 @@ export const CREATE_EVENT = gql`
         name: $name
         admissionCost: $admissionCost
         address: $address
+        date: $date
       }
     ) {
       id

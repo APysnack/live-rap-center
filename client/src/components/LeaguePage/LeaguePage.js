@@ -41,7 +41,9 @@ function LeaguePage() {
           </LeagueBattlersContainer>
           <div>Upcoming Events</div>
           {league?.upcomingEvents?.length > 0
-            ? league.upcomingEvents.map((event) => <EventLink event={event} />)
+            ? league.upcomingEvents.map((event) => (
+                <EventLink key={event.id} event={event} />
+              ))
             : 'No upcoming events'}
         </>
       ) : (

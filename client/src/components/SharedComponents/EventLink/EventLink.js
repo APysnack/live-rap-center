@@ -1,15 +1,11 @@
 import React from 'react';
 import { EventLinkContainer } from './EventLink.styles';
 import { Avatar } from '@mui/material';
+import { formatDate } from '../../../utils/helperFunctions';
+
 const { REACT_APP_SERVER_URL } = process.env;
 const THUMBNAIL_WIDTH = 100;
 const THUMBNAIL_HEIGHT = 100;
-
-const options = {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-};
 
 function EventLink({ event, type = 'view' }) {
   const eventDate = new Date(event.date);
@@ -43,7 +39,7 @@ function EventLink({ event, type = 'view' }) {
         />
       )}
       <div>{event.name}</div>
-      <div>{eventDate.toLocaleDateString('en-US', options)}</div>
+      <div>{formatDate(eventDate, ['includeWeekday'])}</div>
     </EventLinkContainer>
   );
 }

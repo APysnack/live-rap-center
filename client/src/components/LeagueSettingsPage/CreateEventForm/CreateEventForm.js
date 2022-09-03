@@ -70,10 +70,6 @@ function CreateEventForm({
   };
 
   useEffect(() => {
-    console.log(typeof event.date);
-  }, [event]);
-
-  useEffect(() => {
     if (!Object.keys(initialValues).length > 0 && !fieldArray.length > 0) {
       let newValues = {};
       // sets keys for newValues

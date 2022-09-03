@@ -5,7 +5,10 @@ export const GET_EVENT = gql`
     event(id: $id) {
       id
       name
+      address
+      admissionCost
       flyerImageUrl
+      date
     }
   }
 `;

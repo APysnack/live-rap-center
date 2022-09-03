@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BasicModal from '../../SharedComponents/BasicModal';
-import { CREATE_EVENT } from './gql';
+import { CREATE_EVENT, UPDATE_EVENT } from './gql';
 import {
   eventNameField,
   eventAddressField,
@@ -10,52 +9,84 @@ import { useMutation } from '@apollo/client';
 import BaseForm from '../../SharedComponents/BaseForm';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import {
-  CreateEventFormWrapper,
-  DatePickerWrapper,
-} from './CreateEvent.styles';
+import { DatePickerWrapper } from './CreateEvent.styles';
 import moment from 'moment';
 
-function CreateEventForm({ league, refetch }) {
-  const [modalOpen, setModalOpen] = useState(false);
+function CreateEventForm({
+  league,
+  refetch,
+  setFlashMessage,
+  setModalOpen,
+  event = null,
+  type,
+}) {
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
-  const [flashMessage, setFlashMessage] = useState('');
-  const [createEvent, { data, loading, error }] = useMutation(CREATE_EVENT);
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  useEffect(() => {
-    if (data?.createEvent?.name) {
-      setFlashMessage(`${data.createEvent.name} added successfully!`);
-      refetch();
-    }
-    if (error) {
-      console.log(error);
-    }
-  }, [data, error]);
+  const [selectedDate, setSelectedDate] = useState(
+    event?.date ? new Date(event.date) : moment().add(1, 'days').toDate()
+  );
+  const [createEvent, { loading }] = useMutation(CREATE_EVENT);
+  const [updateEvent] = useMutation(UPDATE_EVENT);
+  const [editingExistingEvent, setEditingExistingEvent] = useState(
+    event ? true : false
+  );
 
   const addNewEvent = (values) => {
     if (Object.values(values).every((value) => value !== '')) {
-      setModalOpen(false);
-      createEvent({
-        variables: {
-          leagueId: league.id,
-          name: values.eventName,
-          admissionCost: parseInt(values.eventAdmission),
-          address: values.eventAddress,
-          date: selectedDate.toISOString(),
-        },
-      });
+      if (type === 'update') {
+        updateEvent({
+          variables: {
+            eventId: event.id,
+            name: values.eventName,
+            admissionCost: parseInt(values.eventAdmission),
+            address: values.eventAddress,
+            date: selectedDate.toISOString(),
+          },
+          onCompleted: (data) => updateView(data),
+        });
+      } else {
+        createEvent({
+          variables: {
+            leagueId: league.id,
+            name: values.eventName,
+            admissionCost: parseInt(values.eventAdmission),
+            address: values.eventAddress,
+            date: selectedDate.toISOString(),
+          },
+          onCompleted: (data) => updateView(data),
+        });
+      }
     }
   };
+
+  const updateView = (data) => {
+    if (!editingExistingEvent) {
+      setModalOpen(false);
+      setFlashMessage('Event created successfully!');
+      refetch();
+    }
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    console.log(typeof event.date);
+  }, [event]);
 
   useEffect(() => {
     if (!Object.keys(initialValues).length > 0 && !fieldArray.length > 0) {
       let newValues = {};
       // sets keys for newValues
-      newValues[eventNameField.id] = eventNameField.initialValue;
-      newValues[eventAddressField.id] = eventAddressField.initialValue;
-      newValues[eventAdmissionField.id] = eventAdmissionField.initialValue;
+      if (event) {
+        console.log(event);
+        newValues[eventNameField.id] = event.name;
+        newValues[eventAddressField.id] = event.address;
+        newValues[eventAdmissionField.id] = event.admissionCost;
+      } else {
+        newValues[eventNameField.id] = eventNameField.initialValue;
+        newValues[eventAddressField.id] = eventAddressField.initialValue;
+        newValues[eventAdmissionField.id] = eventAdmissionField.initialValue;
+      }
 
       // replaces initial values empty array with newValues
       setInitialValues({ ...initialValues, ...newValues });
@@ -70,31 +101,27 @@ function CreateEventForm({ league, refetch }) {
   if (loading) return 'Loading...';
 
   return (
-    <CreateEventFormWrapper>
-      {flashMessage ? <div>{flashMessage}</div> : null}
-      <div onClick={() => setModalOpen(true)}>Create a new event</div>
-      <BasicModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        <DatePickerWrapper>
-          <div className='sanity'>Select a Date:</div>
-          <DatePicker
-            selected={selectedDate}
-            showTimeSelect={true}
-            closeOnScroll={true}
-            className='event-datepicker'
-            calendarClassName='event-calendar'
-            dateFormat={'MMMM d, yyyy'}
-            onChange={(date) => setSelectedDate(date)}
-            minDate={moment().toDate()}
-          />
-        </DatePickerWrapper>
-        <BaseForm
-          initialValues={initialValues}
-          fieldArray={fieldArray}
-          onSubmit={addNewEvent}
-          title={'Create New Event'}
+    <div>
+      <DatePickerWrapper>
+        <div>Select a Date:</div>
+        <DatePicker
+          selected={selectedDate}
+          showTimeSelect={true}
+          closeOnScroll={true}
+          className='event-datepicker'
+          calendarClassName='event-calendar'
+          dateFormat={'MMMM d, yyyy'}
+          onChange={(date) => setSelectedDate(date)}
+          minDate={moment().add(1, 'days').toDate()}
         />
-      </BasicModal>
-    </CreateEventFormWrapper>
+      </DatePickerWrapper>
+      <BaseForm
+        initialValues={initialValues}
+        fieldArray={fieldArray}
+        onSubmit={addNewEvent}
+        title={'Create New Event'}
+      />
+    </div>
   );
 }
 

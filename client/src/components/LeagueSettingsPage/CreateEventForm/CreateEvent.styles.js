@@ -1,12 +1,8 @@
 import styled from 'styled-components';
 
-export const CreateEventFormWrapper = styled.div`
+export const CreateEventModalWrapper = styled.div`
   display: flex;
   justify-content: center;
-
-  .sanity {
-    color: red;
-  }
 `;
 
 export const DatePickerWrapper = styled.div`

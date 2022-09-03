@@ -22,6 +22,8 @@ module Types
     field :assign_award, mutation: Mutations::AssignAward
     field :create_crew, mutation: Mutations::CreateCrew
     field :create_event, mutation: Mutations::CreateEvent
+    field :update_event, mutation: Mutations::UpdateEvent
+    field :delete_event, mutation: Mutations::DeleteEvent
     field :create_battler_follow, mutation: Mutations::CreateBattlerFollow
     field :delete_battler_follow, mutation: Mutations::DeleteBattlerFollow
     field :create_event_flyer_image, mutation: Mutations::CreateEventFlyerImage

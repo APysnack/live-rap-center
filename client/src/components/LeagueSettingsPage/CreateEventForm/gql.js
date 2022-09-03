@@ -23,3 +23,27 @@ export const CREATE_EVENT = gql`
     }
   }
 `;
+
+export const UPDATE_EVENT = gql`
+  mutation UpdateEvent(
+    $eventId: ID!
+    $name: String!
+    $admissionCost: Int!
+    $address: String
+    $date: ISO8601DateTime!
+  ) {
+    updateEvent(
+      input: {
+        eventId: $eventId
+        name: $name
+        admissionCost: $admissionCost
+        address: $address
+        date: $date
+      }
+    ) {
+      id
+      name
+      address
+    }
+  }
+`;

@@ -4,8 +4,9 @@ import { GET_USER_LEAGUE } from './gql';
 import { useQuery } from '@apollo/client';
 import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
 import EditLeagueForm from './EditLeagueForm/EditLeagueForm';
-import CreateEventForm from './CreateEventForm/CreateEventForm';
+import CreateEventModal from './CreateEventForm/CreateEventModal';
 import EventLink from '../SharedComponents/EventLink/EventLink';
+import DeleteEventButton from './DeleteEventButton/DeleteEventButton';
 
 function LeagueSettingsPage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -32,15 +33,30 @@ function LeagueSettingsPage() {
       ) : null}
       <ImageUploadModal type='league logo' object={league} refetch={refetch} />
       <EditLeagueForm league={league} refetch={refetch} />
-      <CreateEventForm league={league} refetch={refetch} />
-      {league?.upcomingEvents?.length > 0 ? (
-        <div>
-          <div>Upcoming events</div>
-          {league.upcomingEvents.map((event) => (
-            <EventLink key={event.id} event={event} type='edit' />
-          ))}
-        </div>
-      ) : null}
+      <CreateEventModal league={league} refetch={refetch} />
+      <div>
+        <div>Upcoming events</div>
+        {league?.upcomingEvents?.length > 0 ? (
+          <div>
+            {league.upcomingEvents.map((event) => (
+              <div key={event.id}>
+                <EventLink
+                  key={`event-link-${event.id}`}
+                  event={event}
+                  type='edit'
+                />
+                <DeleteEventButton
+                  key={`delete-event-${event.id}`}
+                  event={event}
+                  refetch={refetch}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div>No events currently planned</div>
+        )}
+      </div>
     </div>
   );
 }

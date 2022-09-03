@@ -3,6 +3,7 @@ import { GET_EVENT } from './gql';
 import { useQuery } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 import ImageUploadModal from '../../SharedComponents/ImageUploadModal/ImageUploadModal';
+import CreateEventForm from '../CreateEventForm/CreateEventForm';
 
 function UpdateEventForm() {
   const [event, setEvent] = useState(null);
@@ -27,7 +28,6 @@ function UpdateEventForm() {
 
   return (
     <div>
-      <div onClick={() => refetch()}>test ne</div>
       {event ? (
         <div>
           <ImageUploadModal
@@ -35,6 +35,7 @@ function UpdateEventForm() {
             object={event}
             refetch={refetch}
           />
+          <CreateEventForm event={event} refetch={refetch} type='update' />
         </div>
       ) : null}
     </div>

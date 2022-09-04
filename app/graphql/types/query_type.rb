@@ -8,6 +8,7 @@ module Types
     # note that this is one singular instance and one plural version
     field :battler, resolver: Queries::Battler
     field :battlers, resolver: Queries::Battlers
+    field :battler_search, resolver: Queries::BattlerSearch
     field :user, resolver: Queries::User
     field :users, resolver: Queries::Users
     field :event, resolver: Queries::Event

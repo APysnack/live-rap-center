@@ -21,7 +21,7 @@ import LeagueChat from './components/LeagueChat/LeagueChat';
 import CrewChat from './components/CrewChat/CrewChat';
 import ListEventsPage from './components/ListEventsPage/ListEventsPage';
 import ListSpacesPage from './components/ListSpacesPage/ListSpacesPage';
-import UpdateEventForm from './components/LeagueSettingsPage/UpdateEventForm/UpdateEventForm';
+import UpdateEventPage from './components/LeagueSettingsPage/UpdateEventPage/UpdateEventPage';
 import EventPage from './components/EventPage/EventPage';
 
 function App({ cable }) {
@@ -51,7 +51,7 @@ function App({ cable }) {
         <Route exact path='/crew-chat' element={<CrewChat cable={cable} />} />
         <Route exact path='/events' element={<ListEventsPage />} />
         <Route exact path='/spaces' element={<ListSpacesPage />} />
-        <Route exact path='/update-event/' element={<UpdateEventForm />} />
+        <Route exact path='/update-event/' element={<UpdateEventPage />} />
         <Route exact path='/event/:eventId' element={<EventPage />} />
       </Routes>
     </ThemeProvider>

@@ -9,6 +9,15 @@ export const GET_EVENT = gql`
       admissionCost
       flyerImageUrl
       date
+      league {
+        id
+      }
+      battles {
+        id
+        battlers {
+          name
+        }
+      }
     }
   }
 `;

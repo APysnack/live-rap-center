@@ -2,34 +2,31 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_BATTLERS } from './gql';
 import { BattlerListContainer, BattlerLink } from './ListBattlers.styles';
-import { Avatar } from '@mui/material';
-const { REACT_APP_SERVER_URL } = process.env;
+import DataTable from '../SharedComponents/DataTable/DataTable';
 
 function ListBattlersPage() {
   const { loading, data } = useQuery(GET_BATTLERS);
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const tableProps = {
+    columns: [
+      { title: 'rank', accessor: '', behavior: 'enumerate' },
+      { title: 'image', accessor: 'image', behavior: 'image' },
+      { title: 'name', accessor: 'name' },
+      { title: 'location', accessor: 'location' },
+      { title: 'rating', accessor: 'score' },
+    ],
+    rowData: data?.battlers ? data.battlers : [],
+  };
+
   if (loading) return 'Loading...';
+
   return (
     <BattlerListContainer>
-      {data?.battlers.map((battler) => (
-        <BattlerLink to={`/battler/${battler.id}`} key={battler.id}>
-          {battler?.user?.profilePictureUrl ? (
-            <Avatar
-              src={REACT_APP_SERVER_URL + battler.user.profilePictureUrl}
-              sx={{ width: 100, height: 100 }}
-              className='battlerImage'
-            />
-          ) : (
-            <Avatar
-              src={REACT_APP_SERVER_URL + battler.image}
-              sx={{ width: 100, height: 100 }}
-              className='battlerImage'
-            />
-          )}
-          <div>{battler.name}</div>
-          <div>{battler.score}</div>
-        </BattlerLink>
-      ))}
+      <DataTable tableProps={tableProps} />
     </BattlerListContainer>
   );
 }

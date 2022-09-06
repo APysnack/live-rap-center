@@ -21,6 +21,7 @@ module Types
       field :social_media_links, [Types::Models::SocialMediaLinkType], null: true
       field :followed_battler_ids, [ID], null: true
       field :crew_chat_ids, [ID], null: true
+      field :location, Types::Models::LocationType, null: true
 
       def posts_count
         object.posts.size
@@ -55,6 +56,10 @@ module Types
       def crew_chat_ids
         crew_chats = []
         crew_chats.concat(object.crew_chats.map(&:id))
+      end
+
+      def location
+        object.location
       end
     end
   end

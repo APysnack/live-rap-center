@@ -1,21 +1,33 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_BATTLES } from './gql';
-import BattleLink from '../SharedComponents/BattleLink/BattleLink';
+import { useNavigate } from 'react-router-dom';
+import DataTable from '../SharedComponents/DataTable/DataTable';
 
 function ListBattlesPage() {
   const { loading, data } = useQuery(GET_BATTLES);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const handleRowClick = (rowData) => {
+    navigate(`/battle/${rowData.id}`);
+  };
+
+  const tableProps = {
+    columns: [
+      { title: 'rank', accessor: '', behavior: 'enumerate' },
+      { title: 'image', accessor: 'battleImage', behavior: 'image' },
+      { title: 'title', accessor: 'battlers', behavior: 'versus' },
+      { title: 'league name', accessor: 'leagueName' },
+      { title: 'rating', accessor: 'score' },
+    ],
+    rowData: data?.battles ? data.battles : [],
+    onRowClick: handleRowClick,
+  };
 
   if (loading) return 'Loading...';
   return (
     <>
-      {data.battles.map((battle, i) => (
-        <BattleLink key={i} battle={battle} />
-      ))}
+      <DataTable tableProps={tableProps} />
     </>
   );
 }

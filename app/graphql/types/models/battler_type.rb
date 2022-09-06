@@ -18,6 +18,7 @@ module Types
       field :image, String, null: true
       field :record, Types::BattlerRecordObject, null: false
       field :battle_count, Integer, null: true
+      field :region, String, null: true
 
       def user
         user = object.user
@@ -51,6 +52,14 @@ module Types
         record[:losses] = object.battler_battle_results.pluck(:outcome).count("loss")
         record[:ties] = object.battler_battle_results.pluck(:outcome).count("tie")
         record
+      end
+
+      def region
+        begin
+          return object.user.location.region
+        rescue 
+          return ''
+        end
       end
     end
   end

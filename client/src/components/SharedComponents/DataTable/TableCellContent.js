@@ -1,29 +1,18 @@
 import React from 'react';
-import { Avatar } from '@mui/material';
-const { REACT_APP_SERVER_URL } = process.env;
-
-const IMAGE_WIDTH = 60;
-const IMAGE_HEIGHT = 60;
+import Thumbnail from '../Thumbnail/Thumbnail';
 
 function TableCellContent({ rowNumber, column, rowData }) {
-  React.useEffect(() => {
-    console.log(rowData);
-  }, []);
+  const renderImage = () => {
+    return <Thumbnail type={column.accessor} object={rowData} />;
+  };
 
-  const renderImage = () =>
-    rowData?.user?.profilePictureUrl ? (
-      <Avatar
-        src={REACT_APP_SERVER_URL + rowData.user.profilePictureUrl}
-        sx={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}
-        className='image'
-      />
-    ) : (
-      <Avatar
-        src={REACT_APP_SERVER_URL + rowData.image}
-        sx={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}
-        className='image'
-      />
+  const generateVersusTitle = () => {
+    let str = '';
+    rowData[column.accessor].forEach((data, i) =>
+      i % 2 === 1 ? (str += ` versus ${data.name}`) : (str += data.name)
     );
+    return str;
+  };
 
   const renderContent = () => {
     switch (column.behavior) {
@@ -31,6 +20,8 @@ function TableCellContent({ rowNumber, column, rowData }) {
         return rowNumber + 1;
       case 'image':
         return renderImage();
+      case 'versus':
+        return generateVersusTitle();
       default:
         return rowData[column.accessor];
     }

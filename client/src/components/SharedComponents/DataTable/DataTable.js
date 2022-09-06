@@ -7,7 +7,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableCellContent from './TableCellContent';
-const { REACT_APP_SERVER_URL } = process.env;
 
 function DataTable({ tableProps }) {
   return (
@@ -27,8 +26,8 @@ function DataTable({ tableProps }) {
             <TableBody>
               {tableProps.rowData.map((rowData, i) => (
                 <TableRow
+                  onClick={() => tableProps.onRowClick(rowData)}
                   key={i}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   {tableProps.columns.map((column) => (
                     <TableCell
@@ -48,9 +47,7 @@ function DataTable({ tableProps }) {
             </TableBody>
           </Table>
         </TableContainer>
-      ) : (
-        'bar'
-      )}
+      ) : null}
     </>
   );
 }

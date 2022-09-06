@@ -1,28 +1,13 @@
 import React from 'react';
 import { BattleLinkContainer } from './BattleLink.styles';
-import { Avatar } from '@mui/material';
-const { REACT_APP_SERVER_URL } = process.env;
-const THUMBNAIL_WIDTH = 100;
-const THUMBNAIL_HEIGHT = 100;
+import Thumbnail from '../Thumbnail/Thumbnail';
 
 function BattleLink({ battle }) {
   const YOUTUBE_IMAGE_URL = `https://i.ytimg.com/vi/${battle.battleUrl}/hqdefault.jpg`;
 
   return (
     <BattleLinkContainer to={`/battle/${battle.id}`} key={battle.id}>
-      {battle.thumbnail ? (
-        <Avatar
-          src={REACT_APP_SERVER_URL + battle.thumbnail}
-          sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
-          className='battleThumb'
-        />
-      ) : (
-        <Avatar
-          src={YOUTUBE_IMAGE_URL}
-          sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
-          className='battleThumb'
-        />
-      )}
+      <Thumbnail type='battleImage' object={battle} />
       {battle.battlers.map((battler, i) => (
         <div key={battler.id}>
           {battler.name} {i % 2 === 0 ? <span>versus</span> : null}

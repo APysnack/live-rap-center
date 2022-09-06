@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_BATTLER = gql`
   query Battler($id: ID!) {
@@ -20,6 +20,10 @@ export const GET_USER = gql`
       id
       username
       profilePictureUrl
+      location {
+        country
+        region
+      }
       socialMediaLinks {
         id
         socialMediaPlatformName

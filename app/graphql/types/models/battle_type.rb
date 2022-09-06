@@ -15,6 +15,7 @@ module Types
       field :battle_votes, [Types::Models::BattleVoteType], null: false
       field :battle_status, Types::BattleStatusEnum, null: false
       field :score, Float, null: false
+      field :league_name, String, null: true
   
       def battlers
         object.battlers
@@ -32,6 +33,10 @@ module Types
 
       def score
         object.score
+      end
+
+      def league_name
+        object.league.league_name || ''
       end
     end
   end

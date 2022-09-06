@@ -8,7 +8,7 @@ module Types
       field :league_name, String, null: false
       field :league_url, String, null: false
       field :league_owner, ID, null: true
-      field :league_score, Integer
+      field :league_score, Integer, null: true
       field :logo_url, String, null: true
       field :created_at, GraphQL::Types::ISO8601DateTime, null: false
       field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
@@ -32,6 +32,10 @@ module Types
 
       def upcoming_events 
         object.events.where("date > ?", Time.now)
+      end
+
+      def league_score
+        object.league_score
       end
     end
   end

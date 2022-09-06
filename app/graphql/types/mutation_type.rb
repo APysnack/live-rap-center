@@ -28,5 +28,6 @@ module Types
     field :delete_battler_follow, mutation: Mutations::DeleteBattlerFollow
     field :create_event_flyer_image, mutation: Mutations::CreateEventFlyerImage
     field :add_battle_to_upcoming_event, mutation: Mutations::AddBattleToUpcomingEvent
+    field :update_user_location, mutation: Mutations::UpdateUserLocation
   end
 end

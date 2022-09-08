@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_BATTLES = gql`
-  {
-    battles {
+  query Battles($searchText: String) {
+    battles(searchText: $searchText) {
       id
       thumbnail
       battleUrl

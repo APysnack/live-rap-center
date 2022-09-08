@@ -7,12 +7,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableCellContent from './TableCellContent';
+import Toolbar from './Toolbar';
+import { DataTableContainer } from './DataTable.styles';
 
 function DataTable({ tableProps }) {
   return (
-    <>
+    <DataTableContainer>
       {tableProps ? (
         <TableContainer component={Paper}>
+          <Toolbar onSearch={tableProps.onSearch} />
           <Table sx={{ minWidth: 650 }} aria-label='simple table'>
             <TableHead>
               <TableRow>
@@ -48,7 +51,7 @@ function DataTable({ tableProps }) {
           </Table>
         </TableContainer>
       ) : null}
-    </>
+    </DataTableContainer>
   );
 }
 

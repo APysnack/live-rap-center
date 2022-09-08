@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_LEAGUES = gql`
-  {
-    leagues {
+  query Leagues($searchText: String) {
+    leagues(searchText: $searchText) {
       id
       leagueName
       leagueScore

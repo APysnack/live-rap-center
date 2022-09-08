@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_LEAGUES } from './gql';
 import DataTable from '../SharedComponents/DataTable/DataTable';
 import { useNavigate } from 'react-router-dom';
 
 function ListLeaguesPage() {
-  const { loading, data } = useQuery(GET_LEAGUES);
+  const [searchText, setSearchText] = useState('');
+
+  const { data } = useQuery(GET_LEAGUES, {
+    variables: { searchText: searchText },
+  });
+
   const navigate = useNavigate();
 
   const handleRowClick = (rowData) => {
     navigate(`/league/${rowData.id}`);
+  };
+
+  const updateSearchText = (value) => {
+    setSearchText(value);
   };
 
   const tableProps = {
@@ -21,10 +30,14 @@ function ListLeaguesPage() {
     ],
     rowData: data?.leagues ? data.leagues : [],
     onRowClick: handleRowClick,
+    onSearch: updateSearchText,
   };
 
-  if (loading) return 'Loading...';
-  return <>{data ? <DataTable tableProps={tableProps} /> : null}</>;
+  return (
+    <>
+      <DataTable tableProps={tableProps} />
+    </>
+  );
 }
 
 export default ListLeaguesPage;

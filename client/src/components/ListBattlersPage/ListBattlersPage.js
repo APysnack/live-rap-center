@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_BATTLERS } from './gql';
 import { BattlerListContainer, BattlerLink } from './ListBattlers.styles';
@@ -6,11 +6,19 @@ import DataTable from '../SharedComponents/DataTable/DataTable';
 import { useNavigate } from 'react-router-dom';
 
 function ListBattlersPage() {
-  const { loading, data } = useQuery(GET_BATTLERS);
+  const [searchText, setSearchText] = useState('');
+  const { loading, data } = useQuery(GET_BATTLERS, {
+    variables: { searchText: searchText },
+  });
+
   const navigate = useNavigate();
 
   const handleRowClick = (rowData) => {
     navigate(`/battler/${rowData.id}`);
+  };
+
+  const updateSearchText = (value) => {
+    setSearchText(value);
   };
 
   const tableProps = {
@@ -23,9 +31,8 @@ function ListBattlersPage() {
     ],
     rowData: data?.battlers ? data.battlers : [],
     onRowClick: handleRowClick,
+    onSearch: updateSearchText,
   };
-
-  if (loading) return 'Loading...';
 
   return (
     <BattlerListContainer>

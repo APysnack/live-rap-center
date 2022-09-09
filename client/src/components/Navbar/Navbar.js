@@ -31,8 +31,8 @@ function Navbar() {
             </HamburgerButton>
             <NavbarLink to='/'>Home</NavbarLink>
             <NavbarLink to='/leagues'>Leagues</NavbarLink>
-            <NavbarLink to='/battles'>Battles</NavbarLink>
             <NavbarLink to='/battlers'>Battlers</NavbarLink>
+            <NavbarLink to='/battles'>Battles</NavbarLink>
             {user?.email ? (
               <NavbarLink to='/settings'>Settings</NavbarLink>
             ) : null}

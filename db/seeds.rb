@@ -12,10 +12,15 @@ twitter = SocialMediaPlatform.create(name: "Twitter")
 SocialMediaPlatform.create(name: "SoundCloud")
 
 # creating users
+# note that a location model should be created when a user is created as shown below
 purelyDef = User.create(username: "PurelyDef", email: "apysnack@gmail.com", password: "password", is_verified: true, vip_status: true)
+Location.create(user_id: purelyDef.id)
 organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true, vip_status: true)
+Location.create(user_id: organik.id)
 smack = User.create(username: "Smack", email: "smack@gmail.com", password: "ultimaterapleague", is_verified: true)
+Location.create(user_id: smack.id)
 patStay = User.create(username: "Pat", email: "pat@gmail.com", password: "patstay", is_verified: true, vip_status: true)
+Location.create(user_id: patStay.id, country: "Canada", region: "Nova Scotia")
 
 # Assigning roles
 UserRole.create(user_id: purelyDef.id, role_id: role.id)

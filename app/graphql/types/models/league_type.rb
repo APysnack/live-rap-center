@@ -17,11 +17,11 @@ module Types
       field :upcoming_events, [Types::Models::EventType], null: true
 
       def battles
-        object.battles
+        object.battles.order('score desc')
       end
 
       def battlers
-        object.battlers
+        object.battlers.order('score desc')
       end
 
       def logo_url

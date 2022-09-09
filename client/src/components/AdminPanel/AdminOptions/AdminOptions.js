@@ -10,8 +10,8 @@ function AdminOptions({ setDisplay }) {
       <div className='btn' onClick={() => setDisplay('assignAwards')}>
         Assign Awards
       </div>
-      <div className='btn' onClick={() => setDisplay('addLeague')}>
-        Add League Awards
+      <div className='btn' onClick={() => setDisplay('createLeague')}>
+        Create League
       </div>
     </AdminOptionsWrapper>
   );

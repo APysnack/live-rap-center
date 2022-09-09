@@ -12,6 +12,7 @@ module Mutations
             )
             crew_chat = CrewChat.create!(crew_id: crew.id)
             CrewChatUser.create(crew_chat_id: crew_chat.id, user_id: user_id)
+            CrewUser.create(crew_id: crew_chat.id, user_id: user_id)
             return crew
         end
     end

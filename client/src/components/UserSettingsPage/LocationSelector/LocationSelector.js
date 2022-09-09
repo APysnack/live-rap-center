@@ -22,22 +22,21 @@ function LocationSelector({ user, refetchUser }) {
   }, [user]);
 
   const handleUpdate = () => {
-    if (
-      user?.location?.country &&
-      user?.location?.region &&
-      user?.location?.country !== '' &&
-      user?.location?.region !== ''
-    ) {
-      updateUserLocation({
-        variables: {
-          userId: user.id,
-          country: country,
-          region: region,
-        },
-        onCompleted: refetchUser,
-      });
-    }
+    updateUserLocation({
+      variables: {
+        userId: user.id,
+        country: country,
+        region: region,
+      },
+      onCompleted: refetchUser,
+    });
   };
+
+  useEffect(() => {
+    if (region !== '') {
+      handleUpdate();
+    }
+  }, [region]);
 
   return (
     <div>
@@ -50,7 +49,6 @@ function LocationSelector({ user, refetchUser }) {
         value={region}
         onChange={(value) => setRegion(value)}
       />
-      <div onClick={handleUpdate}>Update Location</div>
     </div>
   );
 }

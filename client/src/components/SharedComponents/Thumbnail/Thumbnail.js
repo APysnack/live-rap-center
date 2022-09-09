@@ -7,7 +7,12 @@ const { REACT_APP_SERVER_URL } = process.env;
 const IMAGE_WIDTH = 70;
 const IMAGE_HEIGHT = 70;
 
-function Thumbnail({ type, object }) {
+function Thumbnail({
+  type,
+  object,
+  width = IMAGE_WIDTH,
+  height = IMAGE_HEIGHT,
+}) {
   const YOUTUBE_IMAGE_URL = `https://i.ytimg.com/vi/${object.battleUrl}/hqdefault.jpg`;
 
   const getSourceFromType = () => {
@@ -30,8 +35,8 @@ function Thumbnail({ type, object }) {
   return (
     <Avatar
       src={getSourceFromType()}
-      sx={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}
-      className='image'
+      sx={{ width: width, height: height }}
+      className='thumb-image'
     />
   );
 }

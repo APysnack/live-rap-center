@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GET_LEAGUE } from './gql';
 import { useQuery } from '@apollo/client';
-import { LeagueBattlersContainer } from './LeaguePage.styles';
+import { LeaguePageWrapper } from './LeaguePage.styles';
 import EventLink from '../SharedComponents/EventLink/EventLink';
+import Thumbnail from '../SharedComponents/Thumbnail/Thumbnail';
 
 function LeaguePage() {
   let { leagueId } = useParams();
@@ -23,22 +24,33 @@ function LeaguePage() {
 
   if (loading) return 'Loading...';
   return (
-    <>
+    <LeaguePageWrapper>
       {league ? (
         <>
+          <Thumbnail
+            className='league-logo-image'
+            type='leagueLogo'
+            object={league}
+            width='200px'
+            height='200px'
+          />
+          <div>League Score: {league.leagueScore}</div>
           <a href={`https://youtube.com/channel/${league.leagueUrl}`}>
             <div>Watch {league.leagueName} battles on YouTube</div>
           </a>
-          <LeagueBattlersContainer>
+          <div className='league-battlers-container'>
             <span>
               <b>Battlers for this League</b>
             </span>
             {Object.keys(battlers).length > 0
               ? battlers.map((battler) => (
-                  <div key={battler.id}>{battler.name}</div>
+                  <div className='league-battler-container' key={battler.id}>
+                    <div>{battler.name}</div>
+                    <div>{battler.score}</div>
+                  </div>
                 ))
               : 'No battlers for this league'}
-          </LeagueBattlersContainer>
+          </div>
           <div>Upcoming Events</div>
           {league?.upcomingEvents?.length > 0
             ? league.upcomingEvents.map((event) => (
@@ -49,7 +61,7 @@ function LeaguePage() {
       ) : (
         <div>bar</div>
       )}
-    </>
+    </LeaguePageWrapper>
   );
 }
 

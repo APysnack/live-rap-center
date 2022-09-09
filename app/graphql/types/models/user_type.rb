@@ -20,7 +20,7 @@ module Types
       field :profile_picture_url, String, null: true
       field :social_media_links, [Types::Models::SocialMediaLinkType], null: true
       field :followed_battler_ids, [ID], null: true
-      field :crew_chat_ids, [ID], null: true
+      field :crews, [Types::Models::CrewType], null: true
       field :location, Types::Models::LocationType, null: true
 
       def posts_count
@@ -53,9 +53,8 @@ module Types
         object.followed_battlers.map(&:id)
       end
 
-      def crew_chat_ids
-        crew_chats = []
-        crew_chats.concat(object.crew_chats.map(&:id))
+      def crews
+        object.crews
       end
 
       def location

@@ -73,17 +73,17 @@ function UserPage({ callLogoutUser }) {
           <div className='link-container'>
             <Link to='/spaces'>Link to Spaces</Link>
 
-            {currentUser.crewChatIds?.length > 0
-              ? currentUser.crewChatIds.map((chatId) => (
+            {currentUser.crews?.length > 0
+              ? currentUser.crews.map((crew) => (
                   <Link
-                    key={chatId}
+                    key={crew.crewChatId}
                     to='/crew-chat'
                     state={{
-                      crewId: chatId,
+                      crewId: crew.crewChatId,
                       crewName: 'Crew Chat',
                     }}
                   >
-                    Link to Crew Chat
+                    {crew.name}
                   </Link>
                 ))
               : 'bar'}

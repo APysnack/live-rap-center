@@ -81,6 +81,7 @@ LeagueChatMessage.create(league_chat_id: kotdChat.id, user_id: organik.id, body:
 
 testingCrew = Crew.create(name: "testing", user_id: purelyDef.id)
 testingCrewChat = CrewChat.create(crew_id: testingCrew.id)
+CrewUser.create(crew_id: testingCrew.id, user_id: purelyDef.id)
 CrewChatUser.create(crew_chat_id: testingCrewChat.id, user_id: purelyDef.id)
 CrewChatUser.create(crew_chat_id:  testingCrewChat.id, user_id: organik.id)
 

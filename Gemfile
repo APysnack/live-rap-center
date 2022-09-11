@@ -41,6 +41,7 @@ gem 'twitter', '~> 7.0'
 gem 'typhoeus', '~> 1.4'
 gem 'oauth', '~> 1.0'
 gem 'whenever', require: false
+gem 'will_paginate', '~> 3.3', '>= 3.3.1'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"

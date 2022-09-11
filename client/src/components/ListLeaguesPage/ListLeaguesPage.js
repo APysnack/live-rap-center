@@ -3,12 +3,18 @@ import { useQuery } from '@apollo/client';
 import { GET_LEAGUES } from './gql';
 import DataTable from '../SharedComponents/DataTable/DataTable';
 import { useNavigate } from 'react-router-dom';
+import { CLIENT_MEMORY_LIMIT } from '../SharedComponents/DataTable/Constants';
 
 function ListLeaguesPage() {
+  const [virtualFrame, setVirtualFrame] = useState(null);
   const [searchText, setSearchText] = useState('');
 
   const { data } = useQuery(GET_LEAGUES, {
-    variables: { searchText: searchText },
+    variables: {
+      searchText: searchText,
+      rowsToFetch: CLIENT_MEMORY_LIMIT,
+      firstPageToFetch: virtualFrame,
+    },
   });
 
   const navigate = useNavigate();
@@ -28,14 +34,18 @@ function ListLeaguesPage() {
       { title: 'name', accessor: 'leagueName' },
       { title: 'rating', accessor: 'leagueScore' },
     ],
-    rowData: data?.leagues ? data.leagues : [],
+    rowData: data?.leagues?.leagues ? data.leagues.leagues : [],
     onRowClick: handleRowClick,
     onSearch: updateSearchText,
   };
 
   return (
     <>
-      <DataTable tableProps={tableProps} />
+      <DataTable
+        tableProps={tableProps}
+        setVirtualFrame={setVirtualFrame}
+        totalDataCount={data?.leagues?.tableRowCount}
+      />
     </>
   );
 }

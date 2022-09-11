@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,8 +9,12 @@ import Paper from '@mui/material/Paper';
 import TableCellContent from './TableCellContent';
 import Toolbar from './Toolbar';
 import { DataTableContainer } from './DataTable.styles';
+import Pagination from './Pagination';
 
-function DataTable({ tableProps }) {
+function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
+  // controls managed by pagination component
+  const [visibleRows, setVisibleRows] = useState([]);
+
   return (
     <DataTableContainer>
       {tableProps ? (
@@ -27,7 +31,7 @@ function DataTable({ tableProps }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tableProps.rowData.map((rowData, i) => (
+              {visibleRows.map((rowData, i) => (
                 <TableRow
                   onClick={() => tableProps.onRowClick(rowData)}
                   key={i}
@@ -49,6 +53,12 @@ function DataTable({ tableProps }) {
               ))}
             </TableBody>
           </Table>
+          <Pagination
+            rowData={tableProps.rowData}
+            setVisibleRows={setVisibleRows}
+            setVirtualFrame={setVirtualFrame}
+            totalDataCount={totalDataCount}
+          />
         </TableContainer>
       ) : null}
     </DataTableContainer>

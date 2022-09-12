@@ -43,6 +43,7 @@ function ListBattlesPage() {
     <>
       <DataTable
         tableProps={tableProps}
+        virtualFrame={virtualFrame}
         setVirtualFrame={setVirtualFrame}
         totalDataCount={data?.battles?.tableRowCount}
       />

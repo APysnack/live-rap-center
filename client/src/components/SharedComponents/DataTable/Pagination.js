@@ -12,21 +12,10 @@ function Pagination({
   setVisibleRows,
   setVirtualFrame,
   totalDataCount,
+  vpt,
+  setVpt,
 }) {
-  const maxPages = Math.ceil(totalDataCount / ROWS_TO_DISPLAY);
-  const maxFrame = Math.floor(maxPages / ROWS_TO_DISPLAY) * ROWS_TO_DISPLAY + 1;
-  const maxVirtualPage = Math.ceil(
-    (totalDataCount - (maxFrame - 1) * ROWS_TO_DISPLAY) / ROWS_TO_DISPLAY
-  );
   const componentIsMounted = useRef(false);
-
-  // vpt is an acronym for "virtual page tracker"
-  const [vpt, setVpt] = useState({
-    currentDisplayedFrame: 1,
-    currentVirtualPage: 1,
-    nextVirtualPage: 1,
-    pageDisplayedInBrowser: 1,
-  });
 
   useEffect(() => {
     setVirtualFrame(vpt.currentDisplayedFrame);
@@ -34,7 +23,6 @@ function Pagination({
 
   useEffect(() => {
     if (rowData?.length > 0) {
-      console.log(rowData);
       setVisibleRows(
         rowData.slice(
           (vpt.currentVirtualPage - 1) * ROWS_TO_DISPLAY,
@@ -112,16 +100,28 @@ function Pagination({
     <PaginationContainer>
       <div>Current page: {vpt.pageDisplayedInBrowser}</div>
       <PaginationButton
-        type='prev'
-        disabled={vpt.pageDisplayedInBrowser === 1}
+        type='to-first'
         vpt={vpt}
         setVpt={setVpt}
+        totalDataCount={totalDataCount}
+      />
+      <PaginationButton
+        type='prev'
+        vpt={vpt}
+        setVpt={setVpt}
+        totalDataCount={totalDataCount}
       />
       <PaginationButton
         type='next'
-        disabled={vpt.pageDisplayedInBrowser === maxPages}
         vpt={vpt}
         setVpt={setVpt}
+        totalDataCount={totalDataCount}
+      />
+      <PaginationButton
+        type='to-last'
+        vpt={vpt}
+        setVpt={setVpt}
+        totalDataCount={totalDataCount}
       />
     </PaginationContainer>
   );

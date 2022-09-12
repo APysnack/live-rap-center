@@ -1,7 +1,13 @@
 import React from 'react';
 import Thumbnail from '../Thumbnail/Thumbnail';
 
-function TableCellContent({ rowNumber, column, rowData }) {
+function TableCellContent({
+  currentPage,
+  rowsPerPage,
+  rowNumber,
+  column,
+  rowData,
+}) {
   const renderImage = () => {
     return <Thumbnail type={column.accessor} object={rowData} />;
   };
@@ -17,7 +23,7 @@ function TableCellContent({ rowNumber, column, rowData }) {
   const renderContent = () => {
     switch (column.behavior) {
       case 'enumerate':
-        return rowNumber + 1;
+        return (currentPage - 1) * rowsPerPage + (rowNumber + 1);
       case 'image':
         return renderImage();
       case 'versus':

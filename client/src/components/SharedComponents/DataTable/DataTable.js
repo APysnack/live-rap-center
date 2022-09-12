@@ -10,10 +10,26 @@ import TableCellContent from './TableCellContent';
 import Toolbar from './Toolbar';
 import { DataTableContainer } from './DataTable.styles';
 import Pagination from './Pagination';
+import { ROWS_TO_DISPLAY } from './Constants';
 
-function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
+function DataTable({
+  tableProps,
+  virtualFrame,
+  setVirtualFrame,
+  totalDataCount,
+}) {
   // controls managed by pagination component
+  // array of data that is actively being displayed in table
   const [visibleRows, setVisibleRows] = useState([]);
+
+  // vpt is an acronym for "virtual page tracker"
+  // used by pagination to manage current page states
+  const [vpt, setVpt] = useState({
+    currentDisplayedFrame: 1,
+    currentVirtualPage: 1,
+    nextVirtualPage: 1,
+    pageDisplayedInBrowser: 1,
+  });
 
   return (
     <DataTableContainer>
@@ -44,6 +60,8 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
                     >
                       <TableCellContent
                         rowNumber={i}
+                        currentPage={vpt.pageDisplayedInBrowser}
+                        rowsPerPage={ROWS_TO_DISPLAY}
                         column={column}
                         rowData={rowData}
                       />
@@ -54,6 +72,8 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
             </TableBody>
           </Table>
           <Pagination
+            vpt={vpt}
+            setVpt={setVpt}
             rowData={tableProps.rowData}
             setVisibleRows={setVisibleRows}
             setVirtualFrame={setVirtualFrame}

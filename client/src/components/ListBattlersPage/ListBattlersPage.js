@@ -44,7 +44,6 @@ function ListBattlersPage() {
     <BattlerListContainer>
       <DataTable
         tableProps={tableProps}
-        virtualFrame={virtualFrame}
         setVirtualFrame={setVirtualFrame}
         totalDataCount={data?.battlers?.tableRowCount}
       />

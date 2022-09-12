@@ -43,7 +43,6 @@ function ListLeaguesPage() {
     <>
       <DataTable
         tableProps={tableProps}
-        virtualFrame={virtualFrame}
         setVirtualFrame={setVirtualFrame}
         totalDataCount={data?.leagues?.tableRowCount}
       />

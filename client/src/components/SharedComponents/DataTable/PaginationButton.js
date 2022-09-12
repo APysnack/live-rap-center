@@ -25,7 +25,7 @@ function PaginationButton({ type, vpt, setVpt, totalDataCount }) {
 
   useEffect(() => {
     checkIfDisabled();
-  }, [vpt.pageDisplayedInBrowser]);
+  }, [vpt.pageDisplayedInBrowser, boundaries.maxPages]);
 
   const checkIfDisabled = () => {
     switch (type) {

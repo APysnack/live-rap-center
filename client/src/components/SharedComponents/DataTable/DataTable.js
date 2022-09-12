@@ -12,12 +12,7 @@ import { DataTableContainer } from './DataTable.styles';
 import Pagination from './Pagination';
 import { ROWS_TO_DISPLAY } from './Constants';
 
-function DataTable({
-  tableProps,
-  virtualFrame,
-  setVirtualFrame,
-  totalDataCount,
-}) {
+function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
   // controls managed by pagination component
   // array of data that is actively being displayed in table
   const [visibleRows, setVisibleRows] = useState([]);

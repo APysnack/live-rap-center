@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
         if !user.present?
           number = User.count + 1
           user = User.create!(username: "Tom Cruise Moms Shoes ##{number}", email: payload['email'], password: "password", is_verified: true)
+          Location.create(user_id: user.id)
         end
         
         Current.user = user

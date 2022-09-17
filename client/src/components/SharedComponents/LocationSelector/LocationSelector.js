@@ -3,7 +3,7 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { UPDATE_USER_LOCATION } from './gql';
 import { useMutation } from '@apollo/client';
 
-function LocationSelector({ user, refetchUser }) {
+function LocationSelector({ object, refetch, type }) {
   const [country, setCountry] = useState('United States');
   const [region, setRegion] = useState('');
 
@@ -11,25 +11,30 @@ function LocationSelector({ user, refetchUser }) {
 
   useEffect(() => {
     if (
-      user?.location?.country &&
-      user?.location?.region &&
-      user?.location?.country !== '' &&
-      user?.location?.region !== ''
+      object?.location?.country &&
+      object?.location?.region &&
+      object?.location?.country !== '' &&
+      object?.location?.region !== ''
     ) {
-      setCountry(user.location.country);
-      setRegion(user.location.region);
+      setCountry(object.location.country);
+      setRegion(object.location.region);
     }
-  }, [user]);
+  }, [object]);
 
   const handleUpdate = () => {
-    updateUserLocation({
-      variables: {
-        userId: user.id,
-        country: country,
-        region: region,
-      },
-      onCompleted: refetchUser,
-    });
+    if (type === 'user') {
+      console.log(country);
+      console.log(region);
+      console.log(object.id);
+      updateUserLocation({
+        variables: {
+          userId: object.id,
+          country: country,
+          region: region,
+        },
+        onCompleted: refetch,
+      });
+    }
   };
 
   useEffect(() => {

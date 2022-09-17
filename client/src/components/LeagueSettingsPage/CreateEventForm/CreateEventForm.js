@@ -9,8 +9,9 @@ import { useMutation } from '@apollo/client';
 import BaseForm from '../../SharedComponents/BaseForm';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { DatePickerWrapper } from './CreateEvent.styles';
+import { CreateEventContainer } from './CreateEvent.styles';
 import moment from 'moment';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 
 function CreateEventForm({
   league,
@@ -20,6 +21,12 @@ function CreateEventForm({
   event = null,
   type,
 }) {
+  const [country, setCountry] = useState(
+    event?.location?.country ? event.location.country : 'United States'
+  );
+  const [region, setRegion] = useState(
+    event?.location?.region ? event.location.region : ''
+  );
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
 
@@ -33,12 +40,18 @@ function CreateEventForm({
   );
 
   const addNewEvent = (values) => {
-    if (Object.values(values).every((value) => value !== '')) {
+    if (
+      country !== '' &&
+      region !== '' &&
+      Object.values(values).every((value) => value !== '')
+    ) {
       if (type === 'update') {
         updateEvent({
           variables: {
             eventId: event.id,
             name: values.eventName,
+            country: country,
+            region: region,
             admissionCost: parseInt(values.eventAdmission),
             address: values.eventAddress,
             date: selectedDate.toISOString(),
@@ -50,6 +63,8 @@ function CreateEventForm({
           variables: {
             leagueId: league.id,
             name: values.eventName,
+            country: country,
+            region: region,
             admissionCost: parseInt(values.eventAdmission),
             address: values.eventAddress,
             date: selectedDate.toISOString(),
@@ -76,12 +91,12 @@ function CreateEventForm({
       if (event) {
         console.log(event);
         newValues[eventNameField.id] = event.name;
-        newValues[eventAddressField.id] = event.address;
         newValues[eventAdmissionField.id] = event.admissionCost;
+        newValues[eventAddressField.id] = event.address;
       } else {
         newValues[eventNameField.id] = eventNameField.initialValue;
-        newValues[eventAddressField.id] = eventAddressField.initialValue;
         newValues[eventAdmissionField.id] = eventAdmissionField.initialValue;
+        newValues[eventAddressField.id] = eventAddressField.initialValue;
       }
 
       // replaces initial values empty array with newValues
@@ -89,16 +104,16 @@ function CreateEventForm({
 
       // pushes objects into the array
       setFieldArray((fieldArray) => [...fieldArray, eventNameField]);
-      setFieldArray((fieldArray) => [...fieldArray, eventAddressField]);
       setFieldArray((fieldArray) => [...fieldArray, eventAdmissionField]);
+      setFieldArray((fieldArray) => [...fieldArray, eventAddressField]);
     }
   }, []);
 
   if (loading) return 'Loading...';
 
   return (
-    <div>
-      <DatePickerWrapper>
+    <CreateEventContainer>
+      <div className='datepicker-wrapper'>
         <div>Select a Date:</div>
         <DatePicker
           selected={selectedDate}
@@ -110,14 +125,25 @@ function CreateEventForm({
           onChange={(date) => setSelectedDate(date)}
           minDate={moment().add(1, 'days').toDate()}
         />
-      </DatePickerWrapper>
+      </div>
+      <CountryDropdown
+        className='location-selector'
+        value={country}
+        onChange={(value) => setCountry(value)}
+      />
+      <RegionDropdown
+        className='location-selector'
+        country={country}
+        value={region}
+        onChange={(value) => setRegion(value)}
+      />
       <BaseForm
         initialValues={initialValues}
         fieldArray={fieldArray}
         onSubmit={addNewEvent}
-        title={'Create New Event'}
+        title={''}
       />
-    </div>
+    </CreateEventContainer>
   );
 }
 

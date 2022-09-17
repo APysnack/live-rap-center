@@ -9,6 +9,7 @@ import TopBattles from './TopBattles/TopBattles';
 import { Link } from 'react-router-dom';
 import { UserPageContainer } from './UserPage.styles';
 import FollowedBattles from './FollowedBattles/FollowedBattles';
+import EventCalendar from '../SharedComponents/EventCalendar/EventCalendar';
 
 function UserPage({ callLogoutUser }) {
   // current redux state of the user
@@ -94,10 +95,7 @@ function UserPage({ callLogoutUser }) {
             Alerts for Booking requests but needs to be more elaborate with
             immediate chat available
           </div>
-          <div>
-            B: Calendar for my upcoming events? Available to be booked, etc.
-          </div>
-
+          <EventCalendar />
           <button style={{ color: 'red' }} onClick={callLogoutUser}>
             Log out
           </button>

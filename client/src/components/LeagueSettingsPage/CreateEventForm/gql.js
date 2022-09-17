@@ -4,6 +4,8 @@ export const CREATE_EVENT = gql`
   mutation CreateEvent(
     $leagueId: ID!
     $name: String!
+    $country: String!
+    $region: String!
     $admissionCost: Int!
     $address: String
     $date: ISO8601DateTime!
@@ -12,6 +14,8 @@ export const CREATE_EVENT = gql`
       input: {
         leagueId: $leagueId
         name: $name
+        country: $country
+        region: $region
         admissionCost: $admissionCost
         address: $address
         date: $date
@@ -28,6 +32,8 @@ export const UPDATE_EVENT = gql`
   mutation UpdateEvent(
     $eventId: ID!
     $name: String!
+    $country: String!
+    $region: String!
     $admissionCost: Int!
     $address: String
     $date: ISO8601DateTime!
@@ -36,6 +42,8 @@ export const UPDATE_EVENT = gql`
       input: {
         eventId: $eventId
         name: $name
+        country: $country
+        region: $region
         admissionCost: $admissionCost
         address: $address
         date: $date

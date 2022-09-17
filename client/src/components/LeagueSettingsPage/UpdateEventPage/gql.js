@@ -9,6 +9,10 @@ export const GET_EVENT = gql`
       admissionCost
       flyerImageUrl
       date
+      location {
+        country
+        region
+      }
       league {
         id
       }

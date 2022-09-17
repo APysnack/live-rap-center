@@ -12,7 +12,7 @@ twitter = SocialMediaPlatform.create(name: "Twitter")
 SocialMediaPlatform.create(name: "SoundCloud")
 
 # creating users
-# note that a location model should be created when a user is created as shown below
+# IMPORTANT NOTE: a location model should be created when a user or event is created as shown below
 purelyDef = User.create(username: "PurelyDef", email: "apysnack@gmail.com", password: "password", is_verified: true, vip_status: true)
 Location.create(user_id: purelyDef.id)
 organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true, vip_status: true)
@@ -137,7 +137,9 @@ BattlerFollow.create(user_id: purelyDef.id, battler_id: battlerPatStay.id)
 BattlerFollow.create(user_id: purelyDef.id, battler_id: battler3rdDegree.id)
 
 lrcEvent1 = Event.create(name: "LRC 1", admission_cost: 20, league_id: lrc.id, address: "123 Street", date: Time.now)
+Location.create(event_id: lrcEvent1.id)
 lrcEvent3 = Event.create(name: "LRC 3", admission_cost: 50, league_id: lrc.id, address: "TBA", date: Time.now)
+Location.create(event_id: lrcEvent3.id)
 
 defVsPat = Battle.create(league_id: lrc.id, battle_status: :prospective)
 

@@ -11,11 +11,16 @@ module Types
       field :league, Types::Models::LeagueType, null: false
       field :battles, [Types::Models::BattleType], null: true
       field :flyer_image_url, String, null: true
+      field :location, Types::Models::LocationType, null: true
 
       def flyer_image_url
         if object.flyer_image.present?
           rails_blob_path(object.flyer_image, host: ENV["SERVER_URL"])
         end
+      end
+
+      def location
+        object.location
       end
     end
   end

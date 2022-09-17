@@ -2,6 +2,8 @@ module Mutations
     class UpdateEvent < BaseMutation
         argument :event_id, ID, required: true
         argument :admission_cost, Int, required: true
+        argument :country, String, required: true 
+        argument :region, String, required: true
         argument :address, String, required: false
         argument :name, String, required: true 
         argument :date, GraphQL::Types::ISO8601DateTime, required: false
@@ -15,6 +17,9 @@ module Mutations
                 event.address = input[:address]
                 event.name = input[:name]
                 event.date = input[:date]
+                event.location.region = input[:region]
+                event.location.country = input[:country]
+                event.location.save
                 event.save
                 return event
             end

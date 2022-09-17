@@ -7,7 +7,7 @@ import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadMo
 import SocialMediaForm from './SocialMediaForm/SocialMediaForm';
 import BattlerSettings from './BattlerSettings/BattlerSettings';
 import CreateCrewForm from './CreateCrewForm/CreateCrewForm';
-import LocationSelector from './LocationSelector/LocationSelector';
+import LocationSelector from '../SharedComponents/LocationSelector/LocationSelector';
 
 function UserSettingsPage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -64,7 +64,11 @@ function UserSettingsPage() {
         <BattlerSettings user={currentUser} battler={battler} />
       ) : null}
       <SocialMediaForm currentUser={currentUser} refetchUser={refetchUser} />
-      <LocationSelector user={currentUser} refetchUser={refetchUser} />
+      <LocationSelector
+        object={currentUser}
+        refetch={refetchUser}
+        type='user'
+      />
     </div>
   );
 }

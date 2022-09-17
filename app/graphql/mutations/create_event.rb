@@ -1,6 +1,8 @@
 module Mutations
     class CreateEvent < BaseMutation
         argument :league_id, ID, required: true
+        argument :country, String, required: true 
+        argument :region, String, required: true
         argument :admission_cost, Int, required: true
         argument :address, String, required: false
         argument :name, String, required: true 
@@ -16,6 +18,8 @@ module Mutations
                 name: input[:name],
                 date: input[:date],
             )
+
+            Location.create(event_id: event.id, country: input[:country], region: input[:region])
             return event
         end
     end

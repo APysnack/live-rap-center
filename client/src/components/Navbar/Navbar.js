@@ -33,6 +33,7 @@ function Navbar() {
             <NavbarLink to='/leagues'>Leagues</NavbarLink>
             <NavbarLink to='/battlers'>Battlers</NavbarLink>
             <NavbarLink to='/battles'>Battles</NavbarLink>
+            <NavbarLink to='/events'>Events</NavbarLink>
             {user?.email ? (
               <NavbarLink to='/settings'>Settings</NavbarLink>
             ) : null}
@@ -61,6 +62,12 @@ function Navbar() {
           </NavbarLinkWrapper>
           <NavbarLinkWrapper>
             <NavbarLinkExtended to='/battlers'>Battlers</NavbarLinkExtended>
+          </NavbarLinkWrapper>
+          <NavbarLinkWrapper>
+            <NavbarLinkExtended to='/battles'>Battles</NavbarLinkExtended>
+          </NavbarLinkWrapper>
+          <NavbarLinkWrapper>
+            <NavbarLinkExtended to='/events'>Events</NavbarLinkExtended>
           </NavbarLinkWrapper>
           {user?.email ? (
             <NavbarLinkWrapper>

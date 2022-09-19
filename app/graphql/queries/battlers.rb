@@ -3,8 +3,8 @@ module Queries
       description 'Fetch all battlers. Optional search text for filtering'
 
       argument :search_text, String, required: false
-      argument :rows_to_fetch, Integer, required: true
-      argument :first_page_to_fetch, Integer, required: true
+      argument :rows_to_fetch, Integer, required: false
+      argument :first_page_to_fetch, Integer, required: false
   
       type Types::Responses::BattlersResponseType, null: true
   

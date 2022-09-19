@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { SEARCH_BATTLERS } from './gql';
+import { GET_ALL_BATTLERS } from './gql';
 import Select from 'react-select';
 
 function BattlerSearchBox({
@@ -8,12 +8,9 @@ function BattlerSearchBox({
   selectedBattlers,
   setSelectedBattlers,
 }) {
-  const [searchText, setSearchText] = useState('');
   const [options, setOptions] = useState([]);
 
-  const { loading, data, refetch, error } = useQuery(SEARCH_BATTLERS, {
-    variables: { searchString: searchText },
-  });
+  const { loading, data } = useQuery(GET_ALL_BATTLERS);
 
   const handleSelect = (selection) => {
     const tempObj = { [componentNumber]: selection.value };
@@ -21,9 +18,9 @@ function BattlerSearchBox({
   };
 
   useEffect(() => {
-    if (data?.battlerSearch) {
+    if (data?.battlers?.battlers) {
       let battlersArray = [];
-      data.battlerSearch.map((battler) => {
+      data.battlers.battlers.map((battler) => {
         let tempObj = { label: battler.name, value: battler.id };
         battlersArray.push(tempObj);
       });

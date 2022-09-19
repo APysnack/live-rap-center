@@ -29,5 +29,6 @@ module Types
     field :create_event_flyer_image, mutation: Mutations::CreateEventFlyerImage
     field :add_battle_to_upcoming_event, mutation: Mutations::AddBattleToUpcomingEvent
     field :update_user_location, mutation: Mutations::UpdateUserLocation
+    field :create_crew_invitation, mutation: Mutations::CreateCrewInvitation
   end
 end

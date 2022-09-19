@@ -23,4 +23,12 @@ class User < ApplicationRecord
   has_many :battler_follows
   has_many :followed_battlers, through: :battler_follows, :source => :battler
   has_one :location
+
+  has_many :crew_invitations
+  # lets us alias the crews model as "potential leagues"
+  # this makes battler.potential_crews explicitly different from battler.crews
+  has_many :potential_crews, :through => :crew_invitations, 
+    :class_name => 'Crew', 
+    :foreign_key => 'crew_id',
+    :source => :crew
 end

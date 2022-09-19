@@ -3,6 +3,7 @@ import api from '../../api/chatApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Chat from '../SharedComponents/Chat/Chat';
 import { useSelector } from 'react-redux';
+import AddMemberBar from './AddMemberBar/AddMemberBar';
 
 function CrewChat({ cable }) {
   const location = useLocation();
@@ -73,6 +74,7 @@ function CrewChat({ cable }) {
 
   return (
     <div>
+      <AddMemberBar crewId={crewId} />
       <Chat messages={messages} title={title()} onSubmit={sendMessage} />
     </div>
   );

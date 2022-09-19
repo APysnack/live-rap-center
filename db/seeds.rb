@@ -15,6 +15,8 @@ SocialMediaPlatform.create(name: "SoundCloud")
 # IMPORTANT NOTE: a location model should be created when a user or event is created as shown below
 purelyDef = User.create(username: "PurelyDef", email: "apysnack@gmail.com", password: "password", is_verified: true, vip_status: true)
 Location.create(user_id: purelyDef.id)
+secondUserTest = User.create(username: "Test", email: "purleedef@gmail.com", password: "password", is_verified: true, vip_status: true)
+Location.create(user_id: secondUserTest.id)
 organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true, vip_status: true)
 Location.create(user_id: organik.id)
 smack = User.create(username: "Smack", email: "smack@gmail.com", password: "ultimaterapleague", is_verified: true)
@@ -28,10 +30,16 @@ UserRole.create(user_id: purelyDef.id, role_id: role_2.id)
 UserRole.create(user_id: purelyDef.id, role_id: role_3.id)
 UserRole.create(user_id: purelyDef.id, role_id: role_5.id)
 
+UserRole.create(user_id: secondUserTest.id, role_id: role.id)
+UserRole.create(user_id: secondUserTest.id, role_id: role_2.id)
+UserRole.create(user_id: secondUserTest.id, role_id: role_3.id)
+UserRole.create(user_id: secondUserTest.id, role_id: role_5.id)
+
 UserRole.create(user_id: organik.id, role_id: role.id)
 UserRole.create(user_id: organik.id, role_id: role_2.id)
 
 UserRole.create(user_id: patStay.id, role_id: role.id)
+
 
 # creating leagues
 lrc = League.create(league_name: "Live Rap Circle", league_url: "UCWseCA4XbP2PvjBox1u4C9g")
@@ -87,6 +95,9 @@ CrewChatUser.create(crew_chat_id:  testingCrewChat.id, user_id: organik.id)
 
 CrewChatMessage.create(crew_chat_id: testingCrewChat.id, user_id: organik.id, body: "hey")
 CrewChatMessage.create(crew_chat_id: testingCrewChat.id, user_id: purelyDef.id, body: "sup")
+
+#pending crew invitation
+CrewInvitation.create(user_id: secondUserTest.id, crew_id: testingCrew.id)
 
 # creating battles
 craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo", event_id: 1)

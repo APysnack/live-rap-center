@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_17_121816) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_19_122723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -184,6 +184,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_17_121816) do
     t.datetime "updated_at", null: false
     t.bigint "crew_id", null: false
     t.index ["crew_id"], name: "index_crew_chats_on_crew_id"
+  end
+
+  create_table "crew_invitations", force: :cascade do |t|
+    t.bigint "crew_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crew_id"], name: "index_crew_invitations_on_crew_id"
+    t.index ["user_id"], name: "index_crew_invitations_on_user_id"
   end
 
   create_table "crew_users", force: :cascade do |t|
@@ -410,6 +419,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_17_121816) do
   add_foreign_key "crew_chat_users", "crew_chats"
   add_foreign_key "crew_chat_users", "users"
   add_foreign_key "crew_chats", "crews"
+  add_foreign_key "crew_invitations", "crews"
+  add_foreign_key "crew_invitations", "users"
   add_foreign_key "crew_users", "crews"
   add_foreign_key "crew_users", "users"
   add_foreign_key "crews", "users"

@@ -1,10 +1,12 @@
 import { gql } from '@apollo/client';
 
-export const SEARCH_BATTLERS = gql`
-  query BattlerSearch($searchString: String!) {
-    battlerSearch(searchString: $searchString) {
-      id
-      name
+export const GET_ALL_BATTLERS = gql`
+  query Battlers {
+    battlers {
+      battlers {
+        id
+        name
+      }
     }
   }
 `;

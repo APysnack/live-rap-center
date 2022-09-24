@@ -15,7 +15,7 @@ SocialMediaPlatform.create(name: "SoundCloud")
 # IMPORTANT NOTE: a location model should be created when a user or event is created as shown below
 purelyDef = User.create(username: "PurelyDef", email: "apysnack@gmail.com", password: "password", is_verified: true, vip_status: true)
 Location.create(user_id: purelyDef.id)
-secondUserTest = User.create(username: "Test", email: "purleedef@gmail.com", password: "password", is_verified: true, vip_status: true)
+secondUserTest = User.create(username: "Real User For Testing", email: "purleedef@gmail.com", password: "password", is_verified: true, vip_status: true)
 Location.create(user_id: secondUserTest.id)
 organik = User.create(username: "Organik", email: "organik@gmail.com", password: "kingofthedot", is_verified: true, vip_status: true)
 Location.create(user_id: organik.id)

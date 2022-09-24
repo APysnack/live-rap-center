@@ -22,6 +22,7 @@ module Types
       field :followed_battler_ids, [ID], null: true
       field :crews, [Types::Models::CrewType], null: true
       field :location, Types::Models::LocationType, null: true
+      field :potential_crews, [Types::Models::CrewType], null: true
 
       def posts_count
         object.posts.size
@@ -55,6 +56,10 @@ module Types
 
       def crews
         object.crews
+      end
+
+      def potential_crews
+        object.potential_crews
       end
 
       def location

@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { GET_USER_BATTLER, GET_USER } from './gql';
 import { useQuery } from '@apollo/client';
-import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
-import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/SocialMediaContainer';
 import BattlerInfo from './BattlerInfo';
 import TopBattles from './TopBattles/TopBattles';
 import { Link } from 'react-router-dom';
 import { UserPageContainer } from './UserPage.styles';
 import FollowedBattles from './FollowedBattles/FollowedBattles';
+import UserInfo from './UserInfo';
 
 function UserPage({ callLogoutUser }) {
   // current redux state of the user
@@ -52,17 +51,13 @@ function UserPage({ callLogoutUser }) {
       {currentUser ? (
         <div>
           <div className='primary-content-container'>
-            <div className='user-info'>
-              <div>Username: {currentUser.username}</div>
-              <ImageUploadModal
-                type='profile picture'
-                refetch={refetchUser}
-                object={currentUser}
-              />
-              {Object.keys(user?.socials).length > 0 ? (
-                <SocialMediaContainer socials={user.socials} />
-              ) : null}
-            </div>
+            <UserInfo
+              currentUser={currentUser}
+              user={user}
+              battler={battler}
+              refetchUser={refetchUser}
+              refetchBattler={refetchBattler}
+            />
             {battler?.name ? (
               <BattlerInfo battler={battler} refetchBattler={refetchBattler} />
             ) : null}

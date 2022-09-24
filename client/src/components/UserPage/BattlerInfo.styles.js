@@ -22,12 +22,6 @@ export const BattlerInfoContainer = styled.div`
     background-color: black;
   }
 
-  .invite-icon {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1em;
-  }
-
   .button {
     width: 100%;
     background-color: black;

@@ -38,6 +38,10 @@ export const GET_USER = gql`
         crewChatId
         name
       }
+      potentialCrews {
+        id
+        name
+      }
     }
   }
 `;
@@ -66,6 +70,22 @@ export const DELETE_HOME_LEAGUE_FROM_BATTLER = gql`
   mutation deleteHomeLeagueFromBattler($battlerId: ID!) {
     deleteHomeLeagueFromBattler(input: { battlerId: $battlerId }) {
       id
+    }
+  }
+`;
+
+export const ADD_CREW_TO_USER = gql`
+  mutation addCrewToUser($userId: ID!, $crewId: ID!) {
+    addCrewToUser(input: { userId: $userId, crewId: $crewId }) {
+      id
+    }
+  }
+`;
+
+export const DELETE_CREW_INVITATION = gql`
+  mutation deleteCrewInvitation($userId: ID!, $crewId: ID!) {
+    deleteCrewInvitation(input: { userId: $userId, crewId: $crewId }) {
+      message
     }
   }
 `;

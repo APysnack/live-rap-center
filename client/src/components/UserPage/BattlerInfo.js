@@ -36,7 +36,6 @@ function BattlerInfo({ battler, refetchBattler }) {
   };
 
   useEffect(() => {
-    console.log(battler);
     if (battler?.battles) {
       // concatenates all battler's battles into idString
       // per youtube API docs, video ids format should be: "id1,id2,id3"
@@ -60,14 +59,6 @@ function BattlerInfo({ battler, refetchBattler }) {
 
   return (
     <BattlerInfoContainer>
-      {potentialLeagues?.length > 0 ? (
-        <LeagueInvitations
-          battler={battler}
-          potentialLeagues={potentialLeagues}
-          setPotentialLeagues={setPotentialLeagues}
-          refetchBattler={refetchBattler}
-        />
-      ) : null}
       {battler?.league ? (
         <HomeLeagueContainer>
           <div>Home league: {battler.league.leagueName}</div>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LeagueInvitationContainer = styled.div`
+export const InvitationContainer = styled.div`
   margin-top: 2vh;
   display: flex;
   justify-content: space-around;
@@ -8,9 +8,15 @@ export const LeagueInvitationContainer = styled.div`
   background-color: ${(props) => props.theme.body};
 `;
 
-export const InviteNotificationContainer = styled.div`
+export const InvitationModalContainer = styled.div`
   .invite-notification {
     color: red;
     margin-right: 0.2em;
+  }
+
+  .invite-icon {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
   }
 `;

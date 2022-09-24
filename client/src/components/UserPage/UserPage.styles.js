@@ -12,14 +12,4 @@ export const UserPageContainer = styled.div`
     width: 100vw;
     margin-bottom: 1.2em;
   }
-
-  .user-info {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid black;
-    border-radius: 20px;
-    padding: 0 5em 0 5em;
-    justify-content: space-around;
-    align-items: center;
-  }
 `;

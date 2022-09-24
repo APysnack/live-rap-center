@@ -30,5 +30,7 @@ module Types
     field :add_battle_to_upcoming_event, mutation: Mutations::AddBattleToUpcomingEvent
     field :update_user_location, mutation: Mutations::UpdateUserLocation
     field :create_crew_invitation, mutation: Mutations::CreateCrewInvitation
+    field :add_crew_to_user, mutation: Mutations::AddCrewToUser
+    field :delete_crew_invitation, mutation: Mutations::DeleteCrewInvitation
   end
 end

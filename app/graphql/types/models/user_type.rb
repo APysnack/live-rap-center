@@ -23,6 +23,7 @@ module Types
       field :crews, [Types::Models::CrewType], null: true
       field :location, Types::Models::LocationType, null: true
       field :potential_crews, [Types::Models::CrewType], null: true
+      field :selected_theme, String, null: true
 
       def posts_count
         object.posts.size

@@ -32,5 +32,6 @@ module Types
     field :create_crew_invitation, mutation: Mutations::CreateCrewInvitation
     field :add_crew_to_user, mutation: Mutations::AddCrewToUser
     field :delete_crew_invitation, mutation: Mutations::DeleteCrewInvitation
+    field :update_selected_theme, mutation: Mutations::UpdateSelectedTheme
   end
 end

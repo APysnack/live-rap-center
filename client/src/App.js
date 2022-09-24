@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useQuery } from '@apollo/client';
+import { GET_USER } from './gql';
 import { ThemeProvider } from 'styled-components';
-import { philadelphia } from './theme';
+import { darkTheme, philadelphia } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Homepage from './components/Homepage/Homepage';
@@ -25,8 +28,27 @@ import UpdateEventPage from './components/LeagueSettingsPage/UpdateEventPage/Upd
 import EventPage from './components/EventPage/EventPage';
 
 function App({ cable }) {
+  const [selectedTheme, setSelectedTheme] = useState(null);
+  const { user } = useSelector((state) => state.user.userState);
+  const { loading, data, refetch } = useQuery(GET_USER, {
+    skip: user?.id ? false : true,
+    variables: { id: user?.id },
+    onCompleted: (data) => setSelectedTheme(data?.user?.selectedTheme),
+  });
+
+  const getSelectedTheme = () => {
+    switch (selectedTheme) {
+      case 'darkTheme':
+        return darkTheme;
+      default:
+        return philadelphia;
+    }
+  };
+
+  if (loading) return 'Loading...';
+
   return (
-    <ThemeProvider theme={philadelphia}>
+    <ThemeProvider theme={getSelectedTheme()}>
       <Navbar />
       <Routes>
         <Route exact path='/' element={<Homepage />} />
@@ -40,7 +62,17 @@ function App({ cable }) {
         <Route exact path='/leagues' element={<ListLeaguesPage />} />
         <Route exact path='/battles' element={<ListBattlesPage />} />
         <Route exact path='/battlers' element={<ListBattlersPage />} />
-        <Route exact path='/settings' element={<UserSettingsPage />} />
+        <Route
+          exact
+          path='/settings'
+          element={
+            <UserSettingsPage
+              loading={loading}
+              user={data?.user ? data.user : null}
+              refetchUser={refetch}
+            />
+          }
+        />
         <Route exact path='/league-settings' element={<LeagueSettingsPage />} />
         <Route exact path='/battler/:battlerId' element={<BattlerPage />} />
         <Route

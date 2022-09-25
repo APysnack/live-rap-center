@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { CREATE_LEAGUE_INVITATION, GET_USER_LEAGUE } from "./gql";
-import { useMutation } from "@apollo/client";
-import { useQuery } from "@apollo/client";
-import BasicModal from "../SharedComponents/BasicModal";
+import React, { useEffect, useState } from 'react';
+import { CREATE_LEAGUE_INVITATION, GET_USER_LEAGUE } from './gql';
+import { useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import BasicModal from '../SharedComponents/BasicModal';
 
 function LeagueOwnerControls({ battler, leagueOwner, setFlashMessage }) {
   const [league, setLeague] = useState(null);
@@ -40,7 +40,7 @@ function LeagueOwnerControls({ battler, leagueOwner, setFlashMessage }) {
   useEffect(() => {
     if (invitationData) {
       if (invitationData.createLeagueInvitation) {
-        setFlashMessage("League Invitation Sent!");
+        setFlashMessage('League Invitation Sent!');
       } else {
         setFlashMessage(
           "You've already extended an invitation to this battler"
@@ -49,7 +49,7 @@ function LeagueOwnerControls({ battler, leagueOwner, setFlashMessage }) {
     }
   }, [invitationData]);
 
-  if (loading) return "Loading...";
+  if (loading) return 'Loading...';
 
   return (
     <div>
@@ -59,10 +59,9 @@ function LeagueOwnerControls({ battler, leagueOwner, setFlashMessage }) {
             <div>This battler already has a home league</div>
           ) : (
             <button onClick={sendLeagueInvitation}>
-              ADD THIS BATTLER TO YOUR HOME LEAGUE
+              ADD THIS BATTLER TO YOUR LEAGUE
             </button>
           )}
-          <div>BOOK THIS BATTLER FOR YOUR NEXT EVENT</div>
         </div>
       ) : (
         <div>

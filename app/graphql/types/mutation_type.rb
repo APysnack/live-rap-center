@@ -33,5 +33,6 @@ module Types
     field :add_crew_to_user, mutation: Mutations::AddCrewToUser
     field :delete_crew_invitation, mutation: Mutations::DeleteCrewInvitation
     field :update_selected_theme, mutation: Mutations::UpdateSelectedTheme
+    field :create_battler_booking_offer, mutation: Mutations::CreateBattlerBookingOffer
   end
 end

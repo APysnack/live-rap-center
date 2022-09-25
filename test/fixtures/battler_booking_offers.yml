@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  battler: one
+  league: one
+  number_of_rounds: 1
+  minutes_per_round: 1
+  amount_offered: 1
+  comments: MyText
+  date: 2022-09-25 14:46:29
+
+two:
+  battler: two
+  league: two
+  number_of_rounds: 1
+  minutes_per_round: 1
+  amount_offered: 1
+  comments: MyText
+  date: 2022-09-25 14:46:29

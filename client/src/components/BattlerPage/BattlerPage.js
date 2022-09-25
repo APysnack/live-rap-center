@@ -9,6 +9,8 @@ import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/Socia
 import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
 import { Avatar } from '@mui/material';
 import FollowBattlerButton from './FollowBattlerButton';
+import { Link } from 'react-router-dom';
+
 const { REACT_APP_SERVER_URL } = process.env;
 
 function BattlerPage() {
@@ -155,6 +157,23 @@ function BattlerPage() {
             leagueOwner={userViewingPageIsLeagueOwner ? user : null}
             setFlashMessage={setFlashMessage}
           />
+          {battler?.user?.isVerified ? (
+            <div>
+              {battler.bookingPrice ? (
+                <div>{`Rate per minute: $${battler.bookingPrice}`}</div>
+              ) : null}
+              <Link
+                to='/create-booking'
+                state={{
+                  booker: user,
+                  talent: battler,
+                  bookingType: 'battler',
+                }}
+              >
+                BOOK THIS BATTLER
+              </Link>
+            </div>
+          ) : null}
           {userViewingPageIsAdmin ? (
             <>
               <div>ADMIN ONLY: MODIFY BATTLER IMAGE</div>

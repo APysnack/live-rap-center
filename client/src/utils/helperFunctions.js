@@ -15,3 +15,7 @@ export const formatDate = (string, modifications) => {
   }
   return new Date(string).toLocaleDateString([], options);
 };
+
+export const removeNonNumerics = (value) => {
+  return value.replace(/[^0-9]+/g, '');
+};

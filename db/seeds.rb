@@ -40,6 +40,7 @@ UserRole.create(user_id: organik.id, role_id: role_2.id)
 
 UserRole.create(user_id: patStay.id, role_id: role.id)
 
+BattlerBookingOffer.create(battler_user_id: purelyDef.id, booker_user_id: secondUserTest.id, number_of_rounds: 1, minutes_per_round: 5, amount_offered: 500, comments: "N/A", date: Time.now)
 
 # creating leagues
 lrc = League.create(league_name: "Live Rap Circle", league_url: "UCWseCA4XbP2PvjBox1u4C9g")

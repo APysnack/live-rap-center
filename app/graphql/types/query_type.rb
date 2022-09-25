@@ -35,5 +35,6 @@ module Types
     field :awards, resolver: Queries::Awards
     field :crew, resolver: Queries::Crew
     field :crews, resolver: Queries::Crews
+    field :battler_booking_offers, resolver: Queries::BattlerBookingOffers
   end
 end

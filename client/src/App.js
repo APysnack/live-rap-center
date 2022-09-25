@@ -25,6 +25,7 @@ import CrewChat from './components/CrewChat/CrewChat';
 import ListEventsPage from './components/ListEventsPage/ListEventsPage';
 import ListSpacesPage from './components/ListSpacesPage/ListSpacesPage';
 import UpdateEventPage from './components/LeagueSettingsPage/UpdateEventPage/UpdateEventPage';
+import BookingPage from './components/BookingPage/BookingPage';
 import EventPage from './components/EventPage/EventPage';
 
 function App({ cable }) {
@@ -85,6 +86,7 @@ function App({ cable }) {
         <Route exact path='/spaces' element={<ListSpacesPage />} />
         <Route exact path='/update-event/' element={<UpdateEventPage />} />
         <Route exact path='/event/:eventId' element={<EventPage />} />
+        <Route exact path='/create-booking' element={<BookingPage />} />
       </Routes>
     </ThemeProvider>
   );

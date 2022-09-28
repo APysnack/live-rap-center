@@ -4,38 +4,24 @@ import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import BasicModal from '../SharedComponents/BasicModal';
 
-function LeagueOwnerControls({ battler, leagueOwner, setFlashMessage }) {
-  const [league, setLeague] = useState(null);
+function LeagueOwnerControls({ battler, league, setFlashMessage }) {
   const [createLeagueInvitation, { data: invitationData }] = useMutation(
     CREATE_LEAGUE_INVITATION
   );
   const [modalOpen, setModalOpen] = useState(false);
 
-  const { loading, data: leagueData } = useQuery(GET_USER_LEAGUE, {
-    skip: !leagueOwner?.league_ids,
-    variables: { id: leagueOwner?.league_ids[0] },
-  });
-
   const sendLeagueInvitation = () => {
-    if (leagueOwner != null) {
-      if (league?.id && battler.id) {
-        createLeagueInvitation({
-          variables: {
-            leagueId: league.id,
-            battlerId: battler.id,
-          },
-        });
-      }
+    if (league?.id && battler.id) {
+      createLeagueInvitation({
+        variables: {
+          leagueId: league.id,
+          battlerId: battler.id,
+        },
+      });
     } else {
       setModalOpen(true);
     }
   };
-
-  useEffect(() => {
-    if (leagueData?.league) {
-      setLeague(leagueData.league);
-    }
-  }, [leagueData]);
 
   useEffect(() => {
     if (invitationData) {
@@ -48,8 +34,6 @@ function LeagueOwnerControls({ battler, leagueOwner, setFlashMessage }) {
       }
     }
   }, [invitationData]);
-
-  if (loading) return 'Loading...';
 
   return (
     <div>

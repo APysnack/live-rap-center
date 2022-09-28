@@ -47,15 +47,6 @@ export const CREATE_LEAGUE_INVITATION = gql`
   }
 `;
 
-export const GET_USER_LEAGUE = gql`
-  query League($id: ID!) {
-    league(id: $id) {
-      id
-      leagueName
-    }
-  }
-`;
-
 export const CREATE_BATTLER_FOLLOW = gql`
   mutation createBattlerFollow($userId: ID!, $battlerId: ID!) {
     createBattlerFollow(input: { userId: $userId, battlerId: $battlerId }) {
@@ -77,6 +68,10 @@ export const GET_USER = gql`
     user(id: $id) {
       id
       followedBattlerIds
+      ownedLeagues {
+        id
+        leagueName
+      }
     }
   }
 `;

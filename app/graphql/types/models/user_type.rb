@@ -17,6 +17,7 @@ module Types
       field :roles, [Types::Models::RoleType], null: true
       field :battler, Types::Models::BattlerType, null: true
       field :leagues, [Types::Models::LeagueType], null: true
+      field :owned_leagues, [Types::Models::LeagueType], null: true
       field :profile_picture_url, String, null: true
       field :social_media_links, [Types::Models::SocialMediaLinkType], null: true
       field :followed_battler_ids, [ID], null: true
@@ -24,6 +25,7 @@ module Types
       field :location, Types::Models::LocationType, null: true
       field :potential_crews, [Types::Models::CrewType], null: true
       field :selected_theme, String, null: true
+      field :battler_booking_offers, [Types::Models::BattlerBookingOfferType], null: true
 
       def posts_count
         object.posts.size
@@ -47,6 +49,10 @@ module Types
         object.leagues
       end
 
+      def owned_leagues
+        object.owned_leagues
+      end
+
       def social_media_links
         object.social_media_links
       end
@@ -65,6 +71,10 @@ module Types
 
       def location
         object.location
+      end
+
+      def battler_booking_offers
+        BattlerBookingOffer.where("booker_user_id=? OR battler_user_id=?", object.id, object.id)
       end
     end
   end

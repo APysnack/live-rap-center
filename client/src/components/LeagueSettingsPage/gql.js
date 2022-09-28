@@ -1,16 +1,20 @@
 import { gql } from '@apollo/client';
 
-export const GET_USER_LEAGUE = gql`
-  query League($id: ID!) {
-    league(id: $id) {
+export const GET_USER_WITH_LEAGUES = gql`
+  query User($id: ID!) {
+    user(id: $id) {
       id
-      leagueName
-      logoUrl
-      upcomingEvents {
+      username
+      ownedLeagues {
         id
-        name
-        flyerImageUrl
-        date
+        leagueName
+        logoUrl
+        upcomingEvents {
+          id
+          name
+          flyerImageUrl
+          date
+        }
       }
     }
   }

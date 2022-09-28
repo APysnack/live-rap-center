@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get "crew-chat-message", to: "crew_chat_message#index"
   post "crew-chat-message", to: "crew_chat_message#new"
 
+  get "booking-chat-message", to: "booking_chat_message#index"
+  post "booking-chat-message", to: "booking_chat_message#new"
+
   post "login", to: "sessions#new"
   post "logout", to: "sessions#destroy"
 

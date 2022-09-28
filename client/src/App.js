@@ -52,7 +52,7 @@ function App({ cable }) {
     <ThemeProvider theme={getSelectedTheme()}>
       <Navbar />
       <Routes>
-        <Route exact path='/' element={<Homepage />} />
+        <Route exact path='/' element={<Homepage cable={cable} />} />
         <Route exact path='/login' element={<LoginPage />} />
         <Route exact path='/password-reset' element={<PasswordReset />} />
         <Route exact path='/password/reset/edit' element={<PasswordEdit />} />

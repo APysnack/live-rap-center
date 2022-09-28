@@ -40,7 +40,7 @@ UserRole.create(user_id: organik.id, role_id: role_2.id)
 
 UserRole.create(user_id: patStay.id, role_id: role.id)
 
-BattlerBookingOffer.create(battler_user_id: purelyDef.id, booker_user_id: secondUserTest.id, number_of_rounds: 1, minutes_per_round: 5, amount_offered: 500, comments: "N/A", date: Time.now)
+bookingOffer = BattlerBookingOffer.create(battler_user_id: purelyDef.id, booker_user_id: secondUserTest.id, number_of_rounds: 1, minutes_per_round: 5, amount_offered: 500, comments: "N/A", date: Time.now)
 
 # creating leagues
 lrc = League.create(league_name: "Live Rap Circle", league_url: "UCWseCA4XbP2PvjBox1u4C9g")
@@ -61,7 +61,7 @@ battlerReggieLoud = Battler.create(name: "Reginald Loud", league_id: lrc.id)
 battlerComa = Battler.create(name: "Coma")
 battlerCodes = Battler.create(name: "Codes")
 battlerSK = Battler.create(name: "SK")
-battler3rdDegree = Battler.create(name: "3rd Degree", league_id: lrc.id)
+battler3rdDegree = Battler.create(user_id: secondUserTest.id, name: "3rd Degree", league_id: lrc.id)
 battlerBrotherPhil = Battler.create(name: "Brother Phil")
 battlerBigAnt = Battler.create(name: "Big Ant")
 battlerPatStay = Battler.create(user_id: patStay.id, name: "Pat Stay", league_id: kotd.id)
@@ -99,6 +99,13 @@ CrewChatMessage.create(crew_chat_id: testingCrewChat.id, user_id: purelyDef.id, 
 
 #pending crew invitation
 CrewInvitation.create(user_id: secondUserTest.id, crew_id: testingCrew.id)
+
+bookingOfferChat = BookingChat.create(battler_booking_offer_id: bookingOffer.id)
+BookingChatUser.create(booking_chat_id: bookingOfferChat.id, user_id: purelyDef.id)
+BookingChatUser.create(booking_chat_id:  bookingOfferChat.id, user_id: secondUserTest.id)
+
+BookingChatMessage.create(booking_chat_id:  bookingOfferChat.id, user_id: secondUserTest.id, body: "i wanna book you")
+BookingChatMessage.create(booking_chat_id:  bookingOfferChat.id, user_id: purelyDef.id, body: "ok")
 
 # creating battles
 craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo", event_id: 1)

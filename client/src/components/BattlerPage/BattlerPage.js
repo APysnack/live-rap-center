@@ -152,15 +152,18 @@ function BattlerPage() {
           {Object.keys(battlerSocials).length > 0 ? (
             <SocialMediaContainer socials={battlerSocials} />
           ) : null}
-          <LeagueOwnerControls
-            battler={battler}
-            leagueOwner={userViewingPageIsLeagueOwner ? user : null}
-            setFlashMessage={setFlashMessage}
-          />
+
+          {currentUser?.user?.ownedLeagues?.length > 0 ? (
+            <LeagueOwnerControls
+              battler={battler}
+              league={currentUser.user.ownedLeagues[0]}
+              setFlashMessage={setFlashMessage}
+            />
+          ) : null}
           {battler?.user?.isVerified ? (
             <div>
               {battler.bookingPrice ? (
-                <div>{`Rate per minute: $${battler.bookingPrice}`}</div>
+                <div>{`Rate per minute: $${battler?.bookingPrice}`}</div>
               ) : null}
               <Link
                 to='/create-booking'

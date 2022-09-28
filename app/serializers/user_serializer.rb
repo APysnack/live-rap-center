@@ -16,11 +16,6 @@ class UserSerializer
     roles.concat(object.roles.map(&:name))
   end
 
-  attribute :league_ids do |object|
-    leagues = []
-    leagues.concat(object.leagues.map(&:id))
-  end
-
   attribute :voter_id do |object|
     object.voter_id
   end

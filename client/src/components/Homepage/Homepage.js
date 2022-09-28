@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import UserPage from '../UserPage/UserPage';
 
-function Homepage() {
+function Homepage({ cable }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ function Homepage() {
     <>
       {isLoading && 'Loading...'}
       {user?.email && isLoggedIn ? (
-        <UserPage callLogoutUser={callLogoutUser} />
+        <UserPage callLogoutUser={callLogoutUser} cable={cable} />
       ) : (
         'User is not logged in'
       )}

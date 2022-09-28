@@ -33,6 +33,13 @@ export const GET_USER = gql`
       id
       username
       profilePictureUrl
+      battlerBookingOffers {
+        id
+        chatId
+        battler {
+          username
+        }
+      }
       crews {
         id
         crewChatId

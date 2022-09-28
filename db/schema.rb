@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_25_184629) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,13 +92,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_25_184629) do
     t.bigint "booker_user_id"
     t.bigint "battler_user_id"
     t.integer "number_of_rounds"
-    t.integer "minutes_per_round"
     t.integer "amount_offered"
     t.text "comments"
     t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
+    t.decimal "minutes_per_round", precision: 3, scale: 1
     t.index ["battler_user_id"], name: "index_battler_booking_offers_on_battler_user_id"
     t.index ["booker_user_id"], name: "index_battler_booking_offers_on_booker_user_id"
   end
@@ -147,6 +147,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_25_184629) do
     t.integer "event_id"
     t.index ["event_id"], name: "index_battles_on_event_id"
     t.index ["league_id"], name: "index_battles_on_league_id"
+  end
+
+  create_table "booking_chat_messages", force: :cascade do |t|
+    t.text "body"
+    t.bigint "user_id", null: false
+    t.bigint "booking_chat_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_chat_id"], name: "index_booking_chat_messages_on_booking_chat_id"
+    t.index ["user_id"], name: "index_booking_chat_messages_on_user_id"
+  end
+
+  create_table "booking_chat_users", force: :cascade do |t|
+    t.bigint "booking_chat_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_chat_id"], name: "index_booking_chat_users_on_booking_chat_id"
+    t.index ["user_id"], name: "index_booking_chat_users_on_user_id"
+  end
+
+  create_table "booking_chats", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "battler_booking_offer_id", null: false
+    t.index ["battler_booking_offer_id"], name: "index_booking_chats_on_battler_booking_offer_id"
   end
 
   create_table "channel_messages", force: :cascade do |t|
@@ -426,6 +453,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_25_184629) do
   add_foreign_key "battlers", "leagues"
   add_foreign_key "battlers", "users"
   add_foreign_key "battles", "leagues"
+  add_foreign_key "booking_chat_messages", "booking_chats"
+  add_foreign_key "booking_chat_messages", "users"
+  add_foreign_key "booking_chat_users", "booking_chats"
+  add_foreign_key "booking_chat_users", "users"
+  add_foreign_key "booking_chats", "battler_booking_offers"
   add_foreign_key "channel_messages", "channels"
   add_foreign_key "channel_messages", "users"
   add_foreign_key "channel_users", "channels"

@@ -8,12 +8,14 @@ import { Link } from 'react-router-dom';
 import { UserPageContainer } from './UserPage.styles';
 import FollowedBattles from './FollowedBattles/FollowedBattles';
 import UserInfo from './UserInfo';
+import BookingChat from '../LeagueSettingsPage/BookingChat/BookingChat';
 
-function UserPage({ callLogoutUser }) {
+function UserPage({ callLogoutUser, cable }) {
   // current redux state of the user
   const { user } = useSelector((state) => state.user.userState);
   const [battler, setBattler] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [selectedBookingId, setSelectedBookingId] = useState(null);
 
   const {
     loading,
@@ -33,6 +35,10 @@ function UserPage({ callLogoutUser }) {
   );
 
   useEffect(() => {
+    console.log(selectedBookingId);
+  }, []);
+
+  useEffect(() => {
     if (battlerData?.battler) {
       setBattler(battlerData.battler);
     }
@@ -43,6 +49,10 @@ function UserPage({ callLogoutUser }) {
       setCurrentUser(userData.user);
     }
   }, [userData]);
+
+  const callMe = (bookingId) => {
+    setSelectedBookingId(bookingId);
+  };
 
   if (loading) return 'Loading...';
 
@@ -83,6 +93,18 @@ function UserPage({ callLogoutUser }) {
                 ))
               : 'bar'}
           </div>
+
+          {currentUser?.battlerBookingOffers?.length > 0
+            ? currentUser.battlerBookingOffers.map((booking) => (
+                <div key={booking.id} onClick={() => callMe(booking.id)}>
+                  {booking.battler.username}
+                </div>
+              ))
+            : null}
+
+          {selectedBookingId ? (
+            <BookingChat cable={cable} bookingId={selectedBookingId} />
+          ) : null}
 
           <div>B: Rank</div>
           <div>

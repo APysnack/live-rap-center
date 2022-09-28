@@ -9,6 +9,8 @@ module Types
         field :number_of_rounds, Integer, null: false
         field :minutes_per_round, Integer, null: false
         field :comments, String
+        field :chat_id, ID, null: false
+        field :status, Types::BookingStatusEnum, null: false
         field :date, GraphQL::Types::ISO8601DateTime, null: false
         field :created_at, GraphQL::Types::ISO8601DateTime, null: false
         field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
@@ -19,6 +21,10 @@ module Types
   
         def booker
           booker = object.booker_user
+        end
+
+        def chat_id
+          object.booking_chat_id
         end
       end
     end

@@ -11,6 +11,7 @@ import {
   NUMBER_OF_MINUTES_OPTIONS,
   NUMBER_OF_ROUNDS_OPTIONS,
 } from './Constants';
+import { useNavigate } from 'react-router-dom';
 
 function BattlerBookingForm({ battler, booker }) {
   const [createBattlerBookingOffer] = useMutation(CREATE_BATTLER_BOOKING_OFFER);
@@ -29,6 +30,7 @@ function BattlerBookingForm({ battler, booker }) {
   const handleTextInput = (event) => {
     setPriceOffer(removeNonNumerics(event.target.value));
   };
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     createBattlerBookingOffer({
@@ -41,7 +43,12 @@ function BattlerBookingForm({ battler, booker }) {
         comments: comment,
         bookingDate: selectedDate.toISOString(),
       },
+      onCompleted: directToBookingChat,
     });
+  };
+
+  const directToBookingChat = () => {
+    navigate('/league-settings');
   };
 
   return (

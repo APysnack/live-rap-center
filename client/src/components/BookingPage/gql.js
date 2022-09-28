@@ -5,7 +5,7 @@ export const CREATE_BATTLER_BOOKING_OFFER = gql`
     $battlerId: ID!
     $bookerUserId: ID!
     $numberOfRounds: Int!
-    $minutesPerRound: Int!
+    $minutesPerRound: Float!
     $amountOffered: Int!
     $comments: String
     $bookingDate: ISO8601DateTime!

@@ -3,7 +3,7 @@ module Mutations
         argument :battler_id, ID, required: true
         argument :booker_user_id, ID, required: true
         argument :number_of_rounds, Integer, required: true
-        argument :minutes_per_round, Integer, required: true
+        argument :minutes_per_round, Float, required: true
         argument :amount_offered, Integer, required: true
         argument :comments, String, required: false
         argument :booking_date, GraphQL::Types::ISO8601DateTime, required: false

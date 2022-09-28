@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_25_184629) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_160645) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,13 +92,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_25_184629) do
     t.bigint "booker_user_id"
     t.bigint "battler_user_id"
     t.integer "number_of_rounds"
-    t.integer "minutes_per_round"
     t.integer "amount_offered"
     t.text "comments"
     t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
+    t.decimal "minutes_per_round", precision: 3, scale: 1
     t.index ["battler_user_id"], name: "index_battler_booking_offers_on_battler_user_id"
     t.index ["booker_user_id"], name: "index_battler_booking_offers_on_booker_user_id"
   end

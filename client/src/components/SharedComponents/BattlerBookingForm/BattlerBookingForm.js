@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
-import { BattlerBookingFormContainer } from './BookingForm.styles';
+import { BattlerBookingFormContainer } from './BattlerBookingForm.styles';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
-import { removeNonNumerics } from '../../utils/helperFunctions';
-import { useMutation } from '@apollo/client';
-import { CREATE_BATTLER_BOOKING_OFFER } from './gql';
+import {
+  removeNonNumerics,
+  convertFloatToMinuteFormat,
+} from '../../../utils/helperFunctions';
 import {
   NUMBER_OF_MINUTES_OPTIONS,
   NUMBER_OF_ROUNDS_OPTIONS,
 } from './Constants';
-import { useNavigate } from 'react-router-dom';
 
-function BattlerBookingForm({ battler, booker }) {
-  const [createBattlerBookingOffer] = useMutation(CREATE_BATTLER_BOOKING_OFFER);
+function BattlerBookingForm({
+  battler,
+  onSubmit,
+  onDeny,
+  fullForm = true,
+  defaultData = {},
+}) {
   const [priceOffer, setPriceOffer] = useState(0);
   const [numberOfRounds, setNumberOfRounds] = useState(
     NUMBER_OF_ROUNDS_OPTIONS[2]
@@ -30,44 +35,58 @@ function BattlerBookingForm({ battler, booker }) {
   const handleTextInput = (event) => {
     setPriceOffer(removeNonNumerics(event.target.value));
   };
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (Object.keys(defaultData).length > 1) {
+      setNumberOfRounds({
+        label: defaultData.numberOfRounds.toString(),
+        value: defaultData.numberOfRounds,
+      });
+      setNumberOfMinutes({
+        label: convertFloatToMinuteFormat(defaultData.minutesPerRound),
+        value: defaultData.minutesPerRound,
+      });
+
+      setPriceOffer(defaultData.amountOffered);
+      setSelectedDate(moment(defaultData.date).toDate());
+    }
+  }, [defaultData]);
 
   const handleSubmit = () => {
-    createBattlerBookingOffer({
-      variables: {
-        battlerId: battler.id,
-        bookerUserId: booker.id,
-        numberOfRounds: numberOfRounds.value,
-        minutesPerRound: numberOfMinutes.value,
-        amountOffered: parseInt(priceOffer),
-        comments: comment,
-        bookingDate: selectedDate.toISOString(),
-      },
-      onCompleted: directToBookingChat,
-    });
+    onSubmit(
+      numberOfRounds.value,
+      numberOfMinutes.value,
+      parseInt(priceOffer),
+      comment,
+      selectedDate.toISOString()
+    );
   };
 
-  const directToBookingChat = () => {
-    navigate('/league-settings');
+  const handleDeny = () => {
+    onDeny();
   };
 
   return (
     <BattlerBookingFormContainer>
-      <div className='static-container'>
-        <div>Requesting to book {battler.name}</div>
-        {battler.bookingPrice ? (
-          <div className='field-container'>
-            <div>{`Suggested Price for ${
-              numberOfMinutes.value * numberOfRounds.value
-            } minutes: `}</div>
-            <div>{`$${
-              numberOfMinutes.value *
-              numberOfRounds.value *
-              battler.bookingPrice
-            }`}</div>
+      {fullForm ? (
+        <div className='static-container'>
+          <div>
+            Requesting to book {battler?.name ? battler.name : ' battler'}
           </div>
-        ) : null}
-      </div>
+          {battler.bookingPrice ? (
+            <div className='field-container'>
+              <div>{`Suggested Price for ${
+                numberOfMinutes.value * numberOfRounds.value
+              } minutes: `}</div>
+              <div>{`$${
+                numberOfMinutes.value *
+                numberOfRounds.value *
+                battler.bookingPrice
+              }`}</div>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className='field-container'>
         <div>Date: </div>
@@ -110,13 +129,22 @@ function BattlerBookingForm({ battler, booker }) {
           onChange={handleTextInput}
         ></input>
       </div>
-      <div className='field-container'>
-        <div>Additional Comments: </div>
-        <textarea
-          onChange={(event) => setComment(event.target.value)}
-        ></textarea>
-      </div>
-      <div onClick={handleSubmit}>Submit</div>
+      {fullForm ? (
+        <div className='field-container'>
+          <div>Additional Comments: </div>
+          <textarea
+            onChange={(event) => setComment(event.target.value)}
+          ></textarea>
+        </div>
+      ) : null}
+      {fullForm ? (
+        <div onClick={handleSubmit}>Submit</div>
+      ) : (
+        <div>
+          <div onClick={handleSubmit}>Accept</div>
+          <div onClick={handleDeny}>Deny</div>
+        </div>
+      )}
     </BattlerBookingFormContainer>
   );
 }

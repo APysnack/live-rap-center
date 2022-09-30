@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ChatContainer = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ export const MessageContainer = styled.div`
     padding: 1em;
     justify-content: space-between;
     margin: 0.5em;
-    width: 50vw;
+    max-width: 100%;
     border-radius: 15px;
   }
   .to {

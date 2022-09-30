@@ -8,6 +8,7 @@ module Types
         field :booker, Types::Models::UserType, null: false
         field :number_of_rounds, Integer, null: false
         field :minutes_per_round, Integer, null: false
+        field :amount_offered, Integer, null: false
         field :comments, String
         field :chat_id, ID, null: false
         field :status, Types::BookingStatusEnum, null: false

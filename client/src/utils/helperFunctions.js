@@ -19,3 +19,9 @@ export const formatDate = (string, modifications) => {
 export const removeNonNumerics = (value) => {
   return value.replace(/[^0-9]+/g, '');
 };
+
+export const convertFloatToMinuteFormat = (value) => {
+  const minutes = parseInt(Math.floor(value));
+  const seconds = ((value - Math.floor(value)) * 60).toString();
+  return `${minutes}:${seconds.length == 2 ? seconds : `${seconds}0`}`;
+};

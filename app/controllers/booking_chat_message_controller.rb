@@ -12,7 +12,7 @@ class BookingChatMessageController < ApplicationController
     end
 
     def index
-        @chat = BookingChat.find_by(battler_booking_offer_id: params[:id])
+        @chat = BookingChat.find_by(battler_booking_offer_id: chat_params[:id])
         @messages = BookingChatMessage.where(booking_chat_id: @chat.id).order(created_at: :desc)
 
         # data serialized to access username which is not directly on the BookingChatMessage object
@@ -30,5 +30,9 @@ class BookingChatMessageController < ApplicationController
 
     def message_params
         params.permit(:body, :battler_booking_offer_id, :user_id)
+    end
+
+    def chat_params
+      params.permit(:id)
     end
 end 

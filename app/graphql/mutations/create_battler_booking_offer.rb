@@ -11,7 +11,6 @@ module Mutations
         type Types::Models::BattlerBookingOfferType
 
         def resolve(input)
-            binding.pry 
             battler = Battler.find_by(id: input[:battler_id])
      
             if battler.present?

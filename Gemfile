@@ -25,6 +25,7 @@ gem "stimulus-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
+gem 'clockwork', '~> 3.0', '>= 3.0.1'
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
@@ -40,7 +41,6 @@ gem 'google-id-token'
 gem 'twitter', '~> 7.0'
 gem 'typhoeus', '~> 1.4'
 gem 'oauth', '~> 1.0'
-gem 'whenever', require: false
 gem 'will_paginate', '~> 3.3', '>= 3.3.1'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]

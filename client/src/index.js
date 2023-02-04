@@ -15,13 +15,13 @@ import actionCable from 'actioncable';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const CableApp = {};
-const actionCableEndpoint = 'ws://localhost:3001/cable';
+const actionCableEndpoint = 'ws://localhost:3000/cable';
 CableApp.cable = actionCable.createConsumer(actionCableEndpoint);
 
 let persistor = persistStore(store);
 
 const link = createUploadLink({
-  uri: 'http://localhost:3001/graphql',
+  uri: 'http://localhost:3000/graphql',
 });
 
 const client = new ApolloClient({

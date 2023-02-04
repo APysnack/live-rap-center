@@ -103,15 +103,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
     t.index ["booker_user_id"], name: "index_battler_booking_offers_on_booker_user_id"
   end
 
-  create_table "battler_followers", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "battler_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["battler_id"], name: "index_battler_followers_on_battler_id"
-    t.index ["user_id"], name: "index_battler_followers_on_user_id"
-  end
-
   create_table "battler_follows", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "battler_id", null: false
@@ -129,18 +120,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
     t.bigint "user_id"
     t.integer "booking_price", default: 0
     t.boolean "booking_price_enabled", default: false
-    t.decimal "score", precision: 5, scale: 1, default: "0.0"
+    t.decimal "score", precision: 4, scale: 1, default: "0.0"
     t.index ["league_id"], name: "index_battlers_on_league_id"
     t.index ["user_id"], name: "index_battlers_on_user_id"
   end
 
   create_table "battles", force: :cascade do |t|
+    t.bigint "league_id", null: false
     t.bigint "views"
     t.integer "rating"
     t.string "battle_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "league_id", null: false
     t.decimal "score", precision: 4, scale: 1, default: "0.0"
     t.datetime "closed_at"
     t.integer "battle_status", default: 1
@@ -174,31 +165,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
     t.datetime "updated_at", null: false
     t.bigint "battler_booking_offer_id", null: false
     t.index ["battler_booking_offer_id"], name: "index_booking_chats_on_battler_booking_offer_id"
-  end
-
-  create_table "channel_messages", force: :cascade do |t|
-    t.bigint "channel_id", null: false
-    t.bigint "user_id", null: false
-    t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["channel_id"], name: "index_channel_messages_on_channel_id"
-    t.index ["user_id"], name: "index_channel_messages_on_user_id"
-  end
-
-  create_table "channel_users", force: :cascade do |t|
-    t.bigint "channel_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["channel_id"], name: "index_channel_users_on_channel_id"
-    t.index ["user_id"], name: "index_channel_users_on_user_id"
-  end
-
-  create_table "channels", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "crew_chat_messages", force: :cascade do |t|
@@ -252,11 +218,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_crews_on_user_id"
-  end
-
-  create_table "event_battles", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -334,9 +295,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
   create_table "leagues", force: :cascade do |t|
     t.string "league_name"
     t.string "league_url"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "league_score"
+    t.index ["user_id"], name: "index_leagues_on_user_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -446,8 +409,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
   add_foreign_key "battler_battle_results", "battles"
   add_foreign_key "battler_battles", "battlers"
   add_foreign_key "battler_battles", "battles"
-  add_foreign_key "battler_followers", "battlers"
-  add_foreign_key "battler_followers", "users"
   add_foreign_key "battler_follows", "battlers"
   add_foreign_key "battler_follows", "users"
   add_foreign_key "battlers", "leagues"
@@ -458,10 +419,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
   add_foreign_key "booking_chat_users", "booking_chats"
   add_foreign_key "booking_chat_users", "users"
   add_foreign_key "booking_chats", "battler_booking_offers"
-  add_foreign_key "channel_messages", "channels"
-  add_foreign_key "channel_messages", "users"
-  add_foreign_key "channel_users", "channels"
-  add_foreign_key "channel_users", "users"
   add_foreign_key "crew_chat_messages", "crew_chats"
   add_foreign_key "crew_chat_messages", "users"
   add_foreign_key "crew_chat_users", "crew_chats"
@@ -484,6 +441,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_163312) do
   add_foreign_key "league_chats", "leagues"
   add_foreign_key "league_invitations", "battlers"
   add_foreign_key "league_invitations", "leagues"
+  add_foreign_key "leagues", "users"
   add_foreign_key "locations", "events"
   add_foreign_key "locations", "users"
   add_foreign_key "posts", "users"

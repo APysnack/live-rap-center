@@ -62,7 +62,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "live_rap_central_production"
   Rails.application.configure do
-    routes.default_url_options[:host] = 'localhost:3001'
+    routes.default_url_options[:host] = 'localhost:3000'
   end
   config.action_mailer.perform_caching = false
 

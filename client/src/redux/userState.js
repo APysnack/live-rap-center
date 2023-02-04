@@ -19,7 +19,7 @@ function assembleError(err) {
   return JSON.stringify(assembledError);
 }
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://localhost:3000';
 
 // FUNCTIONS TO BE EXECUTED
 export const registerUser = createAsyncThunk('user/registerUser', (payload) => {

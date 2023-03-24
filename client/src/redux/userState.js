@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+const { REACT_APP_SERVER_URL } = process.env;
 
 // UTILS
 function assembleResponse(res) {
@@ -19,26 +20,24 @@ function assembleError(err) {
   return JSON.stringify(assembledError);
 }
 
-const API_URL = 'http://localhost:3000';
-
 // FUNCTIONS TO BE EXECUTED
 export const registerUser = createAsyncThunk('user/registerUser', (payload) => {
   return axios
-    .post(`${API_URL}/signup`, payload)
+    .post(`${REACT_APP_SERVER_URL}/signup`, payload)
     .then((res) => assembleResponse(res))
     .catch((error) => assembleError(error));
 });
 
 export const loginUser = createAsyncThunk('user/loginUser', (payload) => {
   return axios
-    .post(`${API_URL}/login`, payload)
+    .post(`${REACT_APP_SERVER_URL}/login`, payload)
     .then((res) => assembleResponse(res))
     .catch((error) => console.log(error));
 });
 
 export const logoutUser = createAsyncThunk('user/logoutUser', (config) => {
   return axios
-    .delete(`${API_URL}/logout`, config)
+    .delete(`${REACT_APP_SERVER_URL}/logout`, config)
     .then((res) => assembleResponse(res))
     .catch((error) => error.message);
 });
@@ -47,7 +46,7 @@ export const updateProfilePicture = createAsyncThunk(
   'user/updateProfilePicture',
   (payload) => {
     return axios
-      .post(`${API_URL}/profile-picture`, payload)
+      .post(`${REACT_APP_SERVER_URL}/profile-picture`, payload)
       .then((res) => res.data)
       .catch((error) => error.message);
   }

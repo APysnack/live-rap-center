@@ -8,6 +8,7 @@ function LoginForm() {
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
 
   const handleSuccess = (response) => {
+    // returns google id token
     let payload = { token: response.credential };
     dispatch(loginUser(payload));
     setLoginErrorMessage('');

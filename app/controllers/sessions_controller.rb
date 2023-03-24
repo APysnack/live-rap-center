@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
                 status: {code: 200, message: 'Logged in sucessfully.'},
                 data: @hash,
             }, status: :ok
-          else
+        else
             render json: {
               status: {code: 200, message: 'Log in was unsuccessful'},
               data: nil

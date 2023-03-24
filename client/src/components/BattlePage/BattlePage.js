@@ -61,7 +61,7 @@ function BattlePage() {
   // fetches video from youtube API
   useEffect(() => {
     if (youtubeId) {
-      api.fetchYouTubeVideo(youtubeId, setYoutubeStats);
+      api.fetchYouTubeVideos(youtubeId, setYoutubeStats);
     }
   }, [youtubeId]);
 
@@ -83,7 +83,7 @@ function BattlePage() {
             allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;'
           ></iframe>
           {battle.battleStatus === 'open' &&
-          user.voter_id !== null &&
+          user?.voter_id !== null &&
           !userViewingPageIsInBattle ? (
             !userHasVoted ? (
               <VoteSubmissionPanel

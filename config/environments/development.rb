@@ -14,6 +14,9 @@ Rails.application.configure do
   # IMPORTANT!: this specifies to the mailer to send to the CLIENT address, not the server
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  config.hosts << "loadbalancer.liverapcenter.com"
+  config.host_authorization = { exclude: ->(request) { request.path =~ /healthcheck/ } }
+
   Rails.application.configure do
     routes.default_url_options[:host] = 'localhost:3000'
   end

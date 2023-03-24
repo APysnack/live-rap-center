@@ -27,5 +27,10 @@ Rails.application.routes.draw do
 
   get "spaces", to: "spaces#index"
 
+  get "video", to: "videos#fetch_video"
+  get "videos", to: "videos#fetch_videos"
+
+  get "healthcheck", to: "main#health_check"
+
   root "main#index"
 end

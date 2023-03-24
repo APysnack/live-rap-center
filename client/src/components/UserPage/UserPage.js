@@ -49,6 +49,7 @@ function UserPage({ callLogoutUser, cable }) {
 
   return (
     <UserPageContainer>
+      <div>hello</div>
       {currentUser ? (
         <div>
           <div className='primary-content-container'>

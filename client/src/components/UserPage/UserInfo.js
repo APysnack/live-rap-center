@@ -23,7 +23,7 @@ function UserInfo({ currentUser, user, refetchUser, battler, refetchBattler }) {
 
   return (
     <UserInfoContainer>
-      <div>Username: {currentUser.username}</div>
+      <div>{currentUser.username}</div>
       <ImageUploadModal
         type='profile picture'
         refetch={refetchUser}

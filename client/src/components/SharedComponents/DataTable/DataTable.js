@@ -8,7 +8,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableCellContent from './TableCellContent';
 import Toolbar from './Toolbar';
-import { DataTableContainer } from './DataTable.styles';
+import {
+  DataTableContainer,
+  ToolbarContainer,
+  TableBottom,
+} from './DataTable.styles';
 import Pagination from './Pagination';
 import { ROWS_TO_DISPLAY } from './Constants';
 
@@ -29,13 +33,16 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
   return (
     <DataTableContainer>
       {tableProps ? (
-        <TableContainer component={Paper}>
-          <Toolbar onSearch={tableProps.onSearch} />
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+        <TableContainer component={Paper} class='table-container'>
+          <ToolbarContainer>
+            <Toolbar onSearch={tableProps.onSearch} />
+          </ToolbarContainer>
+
+          <Table sx={{ minWidth: 650 }} aria-label='simple table' class='table'>
             <TableHead>
-              <TableRow>
+              <TableRow class='table-row'>
                 {tableProps.columns.map((column) => (
-                  <TableCell key={column.title}>
+                  <TableCell key={column.title} class='column-title'>
                     {column.title.toUpperCase()}
                   </TableCell>
                 ))}
@@ -46,12 +53,14 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
                 <TableRow
                   onClick={() => tableProps.onRowClick(rowData)}
                   key={i}
+                  class='table-row table-row-body'
                 >
                   {tableProps.columns.map((column) => (
                     <TableCell
                       key={`row-${column.title}-${i}`}
                       component='th'
                       scope='row'
+                      class='table-cell-content'
                     >
                       <TableCellContent
                         rowNumber={i}
@@ -66,14 +75,16 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
               ))}
             </TableBody>
           </Table>
-          <Pagination
-            vpt={vpt}
-            setVpt={setVpt}
-            rowData={tableProps.rowData}
-            setVisibleRows={setVisibleRows}
-            setVirtualFrame={setVirtualFrame}
-            totalDataCount={totalDataCount}
-          />
+          <TableBottom>
+            <Pagination
+              vpt={vpt}
+              setVpt={setVpt}
+              rowData={tableProps.rowData}
+              setVisibleRows={setVisibleRows}
+              setVirtualFrame={setVirtualFrame}
+              totalDataCount={totalDataCount}
+            />
+          </TableBottom>
         </TableContainer>
       ) : null}
     </DataTableContainer>

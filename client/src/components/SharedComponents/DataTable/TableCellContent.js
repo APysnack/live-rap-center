@@ -9,7 +9,9 @@ function TableCellContent({
   rowData,
 }) {
   const renderImage = () => {
-    return <Thumbnail type={column.accessor} object={rowData} />;
+    return (
+      <Thumbnail type={column.accessor} object={rowData} style={'table-cell'} />
+    );
   };
 
   const generateVersusTitle = () => {

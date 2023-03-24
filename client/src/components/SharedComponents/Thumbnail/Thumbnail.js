@@ -4,14 +4,15 @@ import { Avatar } from '@mui/material';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
-const IMAGE_WIDTH = 70;
-const IMAGE_HEIGHT = 70;
+const IMAGE_WIDTH = 80;
+const IMAGE_HEIGHT = 80;
 
 function Thumbnail({
   type,
   object,
   width = IMAGE_WIDTH,
   height = IMAGE_HEIGHT,
+  style = 'icon',
 }) {
   const YOUTUBE_IMAGE_URL = `https://i.ytimg.com/vi/${object.battleUrl}/hqdefault.jpg`;
 
@@ -33,11 +34,14 @@ function Thumbnail({
   };
 
   return (
-    <Avatar
-      src={getSourceFromType()}
-      sx={{ width: width, height: height }}
-      className='thumb-image'
-    />
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Avatar
+        src={getSourceFromType()}
+        sx={{ width: style === 'icon' ? IMAGE_WIDTH : '100%', height: height }}
+        className='thumb-image'
+        variant={style === 'icon' ? 'dot' : 'square'}
+      />
+    </div>
   );
 }
 

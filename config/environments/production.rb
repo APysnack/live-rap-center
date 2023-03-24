@@ -55,6 +55,9 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
+  config.hosts << "loadbalancer.liverapcenter.com"
+  config.host_authorization = { exclude: ->(request) { request.path =~ /healthcheck/ } }
+
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 

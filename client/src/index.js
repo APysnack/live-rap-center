@@ -13,15 +13,17 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import actionCable from 'actioncable';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+const { REACT_APP_SERVER_URL, REACT_APP_GOOGLE_CLIENT_ID } = process.env;
 
 const CableApp = {};
-const actionCableEndpoint = 'ws://localhost:3000/cable';
+
+const actionCableEndpoint = 'ws://' + REACT_APP_SERVER_URL.slice(7) + '/cable';
 CableApp.cable = actionCable.createConsumer(actionCableEndpoint);
 
 let persistor = persistStore(store);
 
 const link = createUploadLink({
-  uri: 'http://localhost:3000/graphql',
+  uri: REACT_APP_SERVER_URL + '/graphql',
 });
 
 const client = new ApolloClient({
@@ -35,7 +37,7 @@ root.render(
   <Router>
     <ApolloProvider client={client}>
       <Provider store={store}>
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+        <GoogleOAuthProvider clientId={REACT_APP_GOOGLE_CLIENT_ID}>
           <PersistGate loading={null} persistor={persistor}>
             <App cable={CableApp.cable} />
           </PersistGate>

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../../api/api';
-import LeagueInvitations from './LeagueInvitations';
 import {
   HomeLeagueContainer,
   BattlerInfoContainer,
 } from './BattlerInfo.styles';
 import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
 import { useMutation } from '@apollo/client';
+import api from '../../api/api';
 
 function BattlerInfo({ battler, refetchBattler }) {
   const [battlerStats, setBattlerStats] = useState({

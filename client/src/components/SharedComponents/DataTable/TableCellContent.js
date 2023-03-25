@@ -1,5 +1,15 @@
 import React from 'react';
 import Thumbnail from '../Thumbnail/Thumbnail';
+import Rating from '@mui/material/Rating';
+import Square from '@mui/icons-material/Square';
+import { styled } from '@mui/material/styles';
+import { RatingContainer } from './DataTable.styles';
+
+const StyledRating = styled(Rating)({
+  '& .MuiRating-iconFilled': {
+    color: '#ff6d75',
+  },
+});
 
 function TableCellContent({
   currentPage,
@@ -22,6 +32,29 @@ function TableCellContent({
     return str;
   };
 
+  const roundToDecimal = (number) => {
+    return Math.round((number / 10) * 2) / 2;
+  };
+
+  const renderStarRating = () => {
+    return (
+      <div>
+        <div>{rowData[column.accessor]}</div>
+        <StyledRating
+          name='customized-color'
+          defaultValue={roundToDecimal(rowData['score'])}
+          precision={0.5}
+          max={10}
+          sx={{
+            fontSize: '0.7rem',
+          }}
+          icon={<Square fontSize='inherit' />}
+          emptyIcon={<Square fontSize='inherit' />}
+        />
+      </div>
+    );
+  };
+
   const renderContent = () => {
     switch (column.behavior) {
       case 'enumerate':
@@ -30,6 +63,8 @@ function TableCellContent({
         return renderImage();
       case 'versus':
         return generateVersusTitle();
+      case 'star-rating':
+        return renderStarRating();
       default:
         return rowData[column.accessor];
     }

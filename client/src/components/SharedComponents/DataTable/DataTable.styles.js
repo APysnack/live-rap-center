@@ -53,6 +53,10 @@ export const TableBottom = styled.div`
   width: 80%;
 `;
 
+export const RatingContainer = styled.div`
+  width: 5px;
+`;
+
 // note this is for pagination.js don't use in datatable.js
 export const PaginationContainer = styled.div`
   display: flex;

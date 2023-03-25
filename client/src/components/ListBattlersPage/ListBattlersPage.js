@@ -31,7 +31,7 @@ function ListBattlersPage() {
     columns: [
       { title: 'rank', accessor: '', behavior: 'enumerate' },
       { title: 'image', accessor: 'battlerImage', behavior: 'image' },
-      { title: 'name', accessor: 'name' },
+      { title: 'name', accessor: 'name', behavior: 'star-rating' },
       { title: 'location', accessor: 'region' },
       { title: 'rating', accessor: 'score' },
     ],

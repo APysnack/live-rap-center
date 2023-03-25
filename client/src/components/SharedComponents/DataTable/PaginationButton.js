@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ROWS_TO_DISPLAY, PAGES_PER_FRAME } from './Constants';
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import DoubleArrow from '@mui/icons-material/DoubleArrow';
 
 function PaginationButton({ type, vpt, setVpt, totalDataCount }) {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -77,28 +80,29 @@ function PaginationButton({ type, vpt, setVpt, totalDataCount }) {
     }
   };
 
-  const generateButtonText = () => {
+  const generateIcon = () => {
     switch (type) {
       case 'prev':
-        return 'Previous';
+        return <KeyboardArrowRight style={{ transform: 'rotate(180deg)' }} />;
       case 'next':
-        return 'Next';
+        return <KeyboardArrowRight />;
       case 'to-first':
-        return 'First';
+        return <DoubleArrow style={{ transform: 'rotate(180deg)' }} />;
       case 'to-last':
-        return 'Last';
+        return <DoubleArrow />;
       default:
         return '';
     }
   };
 
   return (
-    <div
+    <IconButton
+      aria-label='next'
       className={`pagination-btn ${isDisabled ? 'disabled' : null}`}
       onClick={handleClick}
     >
-      {generateButtonText()}
-    </div>
+      {generateIcon()}
+    </IconButton>
   );
 }
 

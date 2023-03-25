@@ -7,6 +7,9 @@ export const DataTableContainer = styled.div`
     padding: 0.5em;
   }
 
+  font-size: 1.3em;
+  letter-spacing: 1px;
+
   .table {
     margin: 2em 0 0 0;
     width: 80%;
@@ -60,13 +63,13 @@ export const RatingContainer = styled.div`
 // note this is for pagination.js don't use in datatable.js
 export const PaginationContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   text-align: center;
   align-items: center;
 
   .pagination-btn {
     padding: 0.5em;
-    margin: 1.5em;
+    margin: 1.5em 0.5em 1.5em 0.5em;
     width: 5%;
     text-align: center;
     border-radius: 5px;
@@ -77,6 +80,11 @@ export const PaginationContainer = styled.div`
 
   .disabled {
     background-color: red;
+  }
+
+  .pagination-text {
+    color: white;
+    margin: 0 3em 0 3em;
   }
 `;
 

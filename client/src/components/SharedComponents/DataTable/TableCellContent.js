@@ -3,7 +3,6 @@ import Thumbnail from '../Thumbnail/Thumbnail';
 import Rating from '@mui/material/Rating';
 import Square from '@mui/icons-material/Square';
 import { styled } from '@mui/material/styles';
-import { RatingContainer } from './DataTable.styles';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -18,6 +17,11 @@ function TableCellContent({
   column,
   rowData,
 }) {
+  const enumerate = () => {
+    const number = (currentPage - 1) * rowsPerPage + (rowNumber + 1);
+    return number < 10 ? '0' + number : number;
+  };
+
   const renderImage = () => {
     return (
       <Thumbnail type={column.accessor} object={rowData} style={'table-cell'} />
@@ -58,7 +62,7 @@ function TableCellContent({
   const renderContent = () => {
     switch (column.behavior) {
       case 'enumerate':
-        return (currentPage - 1) * rowsPerPage + (rowNumber + 1);
+        return enumerate();
       case 'image':
         return renderImage();
       case 'versus':

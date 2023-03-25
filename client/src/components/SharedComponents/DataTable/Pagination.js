@@ -98,7 +98,6 @@ function Pagination({
 
   return (
     <PaginationContainer>
-      <div>Current page: {vpt.pageDisplayedInBrowser}</div>
       <PaginationButton
         type='to-first'
         vpt={vpt}
@@ -111,6 +110,9 @@ function Pagination({
         setVpt={setVpt}
         totalDataCount={totalDataCount}
       />
+      <div class='pagination-text'>
+        Current page: {vpt.pageDisplayedInBrowser}
+      </div>
       <PaginationButton
         type='next'
         vpt={vpt}

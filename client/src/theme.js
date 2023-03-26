@@ -1,25 +1,27 @@
 // NOTE: removing a theme after user selects it will cause a problem.
 
 export const philadelphia = {
-  primaryDark: '#004C54',
-  secondaryDark: '#046A38',
-  tertiaryDark: '#565A5C',
-  primaryLight: '#A5ACAF',
-  secondaryLight: '#ACC0C6',
-  tertiaryLight: '#565A5C',
-  black: '#000000',
-  white: '#FFFFFF',
-  fontFamily: 'Arial, Helvetica, sans-serif',
+  primary: '#3e3e42',
+  secondary: '#004C54',
+  tertiary: 'red',
+  black: 'red',
+  white: 'blue',
+  fontFamily: `'Avenir Next', 'Arial', 'Helvetica', 'Open Sans', 'Lato', sans-serif`,
+  backgroundColor: '#121212',
+  fontColor: 'white',
+  navbarColor: '#3e3e42',
+  headerFontColor: 'white',
 };
 
 export const darkTheme = {
-  primaryDark: 'red',
-  secondaryDark: 'blue',
-  tertiaryDark: 'red',
-  primaryLight: 'red',
-  secondaryLight: 'red',
-  tertiaryLight: 'blue',
+  primary: '#3e3e42',
+  secondary: '#004C54',
+  tertiary: 'red',
   black: 'red',
   white: 'blue',
-  fontFamily: 'Arial, Helvetica, sans-serif',
+  fontFamily: `'Avenir Next', 'Arial', 'Helvetica', 'Open Sans', 'Lato', sans-serif`,
+  backgroundColor: 'white',
+  fontColor: 'white',
+  navbarColor: '#3e3e42',
+  headerFontColor: 'white',
 };

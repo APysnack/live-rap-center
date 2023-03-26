@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { UserInfoContainer } from './UserInfo.styles';
 import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
 import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/SocialMediaContainer';
 import LeagueInvitations from './LeagueInvitations';
 import CrewInvitations from './CrewInvitations';
+import ContentStyleWrapper from '../SharedComponents/ContentContainer/ContentStyleWrapper';
 
 function UserInfo({ currentUser, user, refetchUser, battler, refetchBattler }) {
   const [potentialLeagues, setPotentialLeagues] = useState();
@@ -22,7 +22,7 @@ function UserInfo({ currentUser, user, refetchUser, battler, refetchBattler }) {
   }, [currentUser]);
 
   return (
-    <UserInfoContainer>
+    <ContentStyleWrapper>
       <div>{currentUser.username}</div>
       <ImageUploadModal
         type='profile picture'
@@ -46,7 +46,7 @@ function UserInfo({ currentUser, user, refetchUser, battler, refetchBattler }) {
       {Object.keys(user?.socials).length > 0 ? (
         <SocialMediaContainer socials={user.socials} />
       ) : null}
-    </UserInfoContainer>
+    </ContentStyleWrapper>
   );
 }
 

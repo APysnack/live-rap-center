@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_TOP_BATTLES } from './gql';
 import BattleLink from '../../SharedComponents/BattleLink/BattleLink';
-import { TopBattlesWrapper } from './TopBattles.styles';
+import ContentStyleWrapper from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 
 function TopBattles() {
   const { loading, data, error } = useQuery(GET_TOP_BATTLES, {
@@ -17,7 +17,7 @@ function TopBattles() {
 
   if (loading) return 'Loading...';
   return (
-    <TopBattlesWrapper>
+    <ContentStyleWrapper>
       <div>Top Battles this week</div>
       {data?.topBattles?.length > 0 ? (
         data.topBattles.map((battle) => (
@@ -26,7 +26,7 @@ function TopBattles() {
       ) : (
         <div>No battles that have finished voting in the last week</div>
       )}
-    </TopBattlesWrapper>
+    </ContentStyleWrapper>
   );
 }
 

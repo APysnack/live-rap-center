@@ -1,14 +1,14 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const NavbarContainer = styled.nav`
   width: 100%;
-  background-color: ${(props) => props.theme.black};
+  background-color: ${(props) => props.theme.navbarColor};
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   color: ${(props) => props.theme.white};
-  height: ${(props) => (props.extendNavbar ? "100vh" : "100px")};
+  height: ${(props) => (props.extendNavbar ? '100vh' : '100px')};
   @media (min-width: 700px) {
     height: 80px;
   }
@@ -23,7 +23,6 @@ export const LeftContainer = styled.div`
 export const RightContainer = styled.div`
   display: flex;
   align-items: center;
-  color: ${(props) => props.theme.white};
   width: 30%;
   justify-content: flex-end;
 `;

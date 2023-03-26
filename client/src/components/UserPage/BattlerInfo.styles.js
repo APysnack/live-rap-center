@@ -10,10 +10,6 @@ export const HomeLeagueContainer = styled.nav`
 `;
 
 export const BattlerInfoContainer = styled.div`
-  border: 2px solid black;
-  border-radius: 20px;
-  padding: 2em;
-
   .horizontal-line {
     color: black;
     height: 2px;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import { GET_USER } from './gql';
@@ -47,59 +47,61 @@ function App({ cable }) {
     }
   };
 
-  const GlobalAppStyles = styled.div`
-    font-family: 'Avenir Next', 'Arial', 'Helvetica', 'Open Sans', 'Lato',
-      sans-serif;
-  `;
+  useEffect(() => {
+    if (!loading) {
+      updateGlobalAppStyles();
+    }
+  }, [selectedTheme]);
+
+  const updateGlobalAppStyles = () => {
+    const userTheme = getSelectedTheme();
+    document.body.style.backgroundColor = userTheme.backgroundColor;
+    document.body.style.fontFamily = userTheme.fontFamily;
+    document.body.style.color = userTheme.fontColor;
+  };
 
   if (loading) return 'Loading...';
 
   return (
     <ThemeProvider theme={getSelectedTheme()}>
-      <GlobalAppStyles>
-        <Navbar />
-        <Routes>
-          <Route exact path='/' element={<Homepage cable={cable} />} />
-          <Route exact path='/login' element={<LoginPage />} />
-          <Route exact path='/password-reset' element={<PasswordReset />} />
-          <Route exact path='/password/reset/edit' element={<PasswordEdit />} />
-          <Route exact path='/admin-panel' element={<AdminPanel />} />
-          <Route exact path='/create-battle' element={<CreateBattlePage />} />
-          <Route exact path='/battle/:battleId' element={<BattlePage />} />
-          <Route exact path='/league/:leagueId' element={<LeaguePage />} />
-          <Route exact path='/leagues' element={<ListLeaguesPage />} />
-          <Route exact path='/battles' element={<ListBattlesPage />} />
-          <Route exact path='/battlers' element={<ListBattlersPage />} />
-          <Route
-            exact
-            path='/settings'
-            element={
-              <UserSettingsPage
-                loading={loading}
-                user={data?.user ? data.user : null}
-                refetchUser={refetch}
-              />
-            }
-          />
-          <Route
-            exact
-            path='/league-settings'
-            element={<LeagueSettingsPage />}
-          />
-          <Route exact path='/battler/:battlerId' element={<BattlerPage />} />
-          <Route
-            exact
-            path='/league-chat'
-            element={<LeagueChat cable={cable} />}
-          />
-          <Route exact path='/crew-chat' element={<CrewChat cable={cable} />} />
-          <Route exact path='/events' element={<ListEventsPage />} />
-          <Route exact path='/spaces' element={<ListSpacesPage />} />
-          <Route exact path='/update-event/' element={<UpdateEventPage />} />
-          <Route exact path='/event/:eventId' element={<EventPage />} />
-          <Route exact path='/create-booking' element={<BookingPage />} />
-        </Routes>
-      </GlobalAppStyles>
+      <Navbar />
+      <Routes>
+        <Route exact path='/' element={<Homepage cable={cable} />} />
+        <Route exact path='/login' element={<LoginPage />} />
+        <Route exact path='/password-reset' element={<PasswordReset />} />
+        <Route exact path='/password/reset/edit' element={<PasswordEdit />} />
+        <Route exact path='/admin-panel' element={<AdminPanel />} />
+        <Route exact path='/create-battle' element={<CreateBattlePage />} />
+        <Route exact path='/battle/:battleId' element={<BattlePage />} />
+        <Route exact path='/league/:leagueId' element={<LeaguePage />} />
+        <Route exact path='/leagues' element={<ListLeaguesPage />} />
+        <Route exact path='/battles' element={<ListBattlesPage />} />
+        <Route exact path='/battlers' element={<ListBattlersPage />} />
+        <Route
+          exact
+          path='/settings'
+          element={
+            <UserSettingsPage
+              loading={loading}
+              user={data?.user ? data.user : null}
+              refetchUser={refetch}
+            />
+          }
+        />
+        <Route exact path='/league-settings' element={<LeagueSettingsPage />} />
+        <Route exact path='/battler/:battlerId' element={<BattlerPage />} />
+        <Route
+          exact
+          path='/league-chat'
+          element={<LeagueChat cable={cable} />}
+        />
+        <Route exact path='/crew-chat' element={<CrewChat cable={cable} />} />
+        <Route exact path='/events' element={<ListEventsPage />} />
+        <Route exact path='/spaces' element={<ListSpacesPage />} />
+        <Route exact path='/update-event/' element={<UpdateEventPage />} />
+        <Route exact path='/event/:eventId' element={<EventPage />} />
+        <Route exact path='/create-booking' element={<BookingPage />} />
+      </Routes>
     </ThemeProvider>
   );
 }

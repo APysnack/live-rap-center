@@ -7,6 +7,7 @@ import {
 import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
 import { useMutation } from '@apollo/client';
 import api from '../../api/api';
+import ContentStyleWrapper from '../SharedComponents/ContentContainer/ContentStyleWrapper';
 
 function BattlerInfo({ battler, refetchBattler }) {
   const [battlerStats, setBattlerStats] = useState({
@@ -57,42 +58,44 @@ function BattlerInfo({ battler, refetchBattler }) {
   };
 
   return (
-    <BattlerInfoContainer>
-      {battler?.league ? (
-        <HomeLeagueContainer>
-          <div>Home league: {battler.league.leagueName}</div>
-          <Link
-            to='/league-chat'
-            state={{
-              leagueId: battler.league.id,
-              leagueName: battler.league.leagueName,
-            }}
-          >
-            League Chat
+    <ContentStyleWrapper>
+      <BattlerInfoContainer>
+        {battler?.league ? (
+          <HomeLeagueContainer>
+            <div>Home league: {battler.league.leagueName}</div>
+            <Link
+              to='/league-chat'
+              state={{
+                leagueId: battler.league.id,
+                leagueName: battler.league.leagueName,
+              }}
+            >
+              League Chat
+            </Link>
+            <button onClick={deleteHomeLeague}>Quit my home league</button>
+          </HomeLeagueContainer>
+        ) : (
+          <div>No Home league selected</div>
+        )}
+        <div className='horizontal-line' />
+        {battler.name}
+        {battler?.score ? <div>Current Score: {battler.score}</div> : null}
+        {
+          <div>
+            <div>Wins: {battler.record.wins}</div>
+            <div>Losses: {battler.record.losses}</div>
+          </div>
+        }
+        <div>Number of battles: {battler.battleCount}</div>
+        <div>Total Views: {battlerStats.totalViews}</div>
+        <div>Average Views: {battlerStats.avgViews}</div>
+        {battler?.id ? (
+          <Link to={`/battler/${battler.id}`}>
+            <div className='button'>Battler Page</div>
           </Link>
-          <button onClick={deleteHomeLeague}>Quit my home league</button>
-        </HomeLeagueContainer>
-      ) : (
-        <div>No Home league selected</div>
-      )}
-      <div className='horizontal-line' />
-      {battler.name}
-      {battler?.score ? <div>Current Score: {battler.score}</div> : null}
-      {
-        <div>
-          <div>Wins: {battler.record.wins}</div>
-          <div>Losses: {battler.record.losses}</div>
-        </div>
-      }
-      <div>Number of battles: {battler.battleCount}</div>
-      <div>Total Views: {battlerStats.totalViews}</div>
-      <div>Average Views: {battlerStats.avgViews}</div>
-      {battler?.id ? (
-        <Link to={`/battler/${battler.id}`}>
-          <div className='button'>Battler Page</div>
-        </Link>
-      ) : null}
-    </BattlerInfoContainer>
+        ) : null}
+      </BattlerInfoContainer>
+    </ContentStyleWrapper>
   );
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_FOLLOWED_BATTLES } from './gql';
 import BattleLink from '../../SharedComponents/BattleLink/BattleLink';
-import { FollowedBattlesWrapper } from './FollowedBattles.styles';
+import ContentStyleWrapper from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 
 const BATTLES_TO_RETRIEVE = 5;
 
@@ -23,7 +23,7 @@ function FollowedBattles({ userId }) {
 
   if (loading) return 'Loading...';
   return (
-    <FollowedBattlesWrapper>
+    <ContentStyleWrapper>
       <div>Battlers You Follow</div>
       {data?.followedBattles?.length > 0 ? (
         data.followedBattles.map((battle) => (
@@ -32,7 +32,7 @@ function FollowedBattles({ userId }) {
       ) : (
         <div>None of the battlers you follow have battles in the last week</div>
       )}
-    </FollowedBattlesWrapper>
+    </ContentStyleWrapper>
   );
 }
 

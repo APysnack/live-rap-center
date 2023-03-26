@@ -24,11 +24,12 @@ export const DataTableContainer = styled.div`
   }
 
   .column-title {
-    background-color: blue;
-    color: white;
+    background-color: ${(props) => props.theme.secondary};
+    color: ${(props) => props.theme.headerFontColor};
     font-weight: bold;
     font-size: 1.2em;
     text-align: center;
+    padding: 0.25em;
   }
 
   .table-row {
@@ -37,7 +38,7 @@ export const DataTableContainer = styled.div`
   }
 
   .table-row-body {
-    background-color: green;
+    background-color: ${(props) => props.theme.primary};
   }
 
   .table-cell {
@@ -51,8 +52,8 @@ export const DataTableContainer = styled.div`
   }
 `;
 
-export const TableBottom = styled.div`
-  background-color: red;
+export const TableFooter = styled.div`
+  background-color: ${(props) => props.theme.secondary};
   width: 80%;
 `;
 

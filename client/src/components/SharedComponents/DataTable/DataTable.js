@@ -11,7 +11,7 @@ import Toolbar from './Toolbar';
 import {
   DataTableContainer,
   ToolbarContainer,
-  TableBottom,
+  TableFooter,
 } from './DataTable.styles';
 import Pagination from './Pagination';
 import { ROWS_TO_DISPLAY } from './Constants';
@@ -75,7 +75,7 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
               ))}
             </TableBody>
           </Table>
-          <TableBottom>
+          <TableFooter>
             <Pagination
               vpt={vpt}
               setVpt={setVpt}
@@ -84,7 +84,7 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
               setVirtualFrame={setVirtualFrame}
               totalDataCount={totalDataCount}
             />
-          </TableBottom>
+          </TableFooter>
         </TableContainer>
       ) : null}
     </DataTableContainer>

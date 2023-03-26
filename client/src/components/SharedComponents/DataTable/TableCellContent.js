@@ -1,14 +1,7 @@
 import React from 'react';
 import Thumbnail from '../Thumbnail/Thumbnail';
-import Rating from '@mui/material/Rating';
 import Square from '@mui/icons-material/Square';
-import { styled } from '@mui/material/styles';
-
-const StyledRating = styled(Rating)({
-  '& .MuiRating-iconFilled': {
-    color: '#ff6d75',
-  },
-});
+import { StyledRating } from './DataTable.styles';
 
 function TableCellContent({
   currentPage,
@@ -42,19 +35,25 @@ function TableCellContent({
 
   const renderStarRating = () => {
     return (
-      <div>
-        <div>{rowData[column.accessor]}</div>
-        <StyledRating
-          name='customized-color'
-          defaultValue={roundToDecimal(rowData['score'])}
-          precision={0.5}
-          max={10}
-          sx={{
-            fontSize: '0.7rem',
-          }}
-          icon={<Square fontSize='inherit' />}
-          emptyIcon={<Square fontSize='inherit' />}
-        />
+      <StyledRating
+        name='customized-color'
+        defaultValue={roundToDecimal(rowData['score'])}
+        precision={0.5}
+        max={10}
+        sx={{
+          fontSize: '0.7rem',
+        }}
+        icon={<Square fontSize='inherit' />}
+        emptyIcon={<Square fontSize='inherit' />}
+      />
+    );
+  };
+
+  const contentContainer = () => {
+    return (
+      <div class={column.starRatingUnderneath ? 'cell-with-rating' : ''}>
+        {renderContent()}
+        {column.starRatingUnderneath ? renderStarRating() : null}
       </div>
     );
   };
@@ -67,13 +66,12 @@ function TableCellContent({
         return renderImage();
       case 'versus':
         return generateVersusTitle();
-      case 'star-rating':
-        return renderStarRating();
       default:
         return rowData[column.accessor];
     }
   };
-  return <div>{renderContent()}</div>;
+
+  return contentContainer();
 }
 
 export default TableCellContent;

@@ -37,7 +37,7 @@ function TableCellContent({
     return (
       <StyledRating
         name='customized-color'
-        defaultValue={7}
+        defaultValue={roundToDecimal(rowData['score'])}
         precision={0.5}
         max={10}
         sx={{

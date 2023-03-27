@@ -33,13 +33,35 @@ function Thumbnail({
     }
   };
 
+  const getStyleFromType = () => {
+    switch (type) {
+      case 'icon':
+        return { width: '100%', height: height };
+      case 'battleImage':
+        return { width: '100%', height: 100 };
+      default:
+        return { width: '100%', height: height };
+    }
+  };
+
+  const getVariantFromType = () => {
+    switch (type) {
+      case 'icon':
+        return 'dot';
+      case 'battleImage':
+        return 'square';
+      default:
+        return 'square';
+    }
+  };
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Avatar
         src={getSourceFromType()}
-        sx={{ width: style === 'icon' ? IMAGE_WIDTH : '100%', height: height }}
+        sx={getStyleFromType()}
         className='thumb-image'
-        variant={style === 'icon' ? 'dot' : 'square'}
+        variant={getVariantFromType()}
       />
     </div>
   );

@@ -24,12 +24,15 @@ function UserInfo({ currentUser, user, refetchUser, battler, refetchBattler }) {
 
   return (
     <ContentStyleWrapper width={800} height={400}>
-      <div>{currentUser.username}</div>
-      <ImageUploadModal
-        type='profile picture'
-        refetch={refetchUser}
-        object={currentUser}
-      />
+      <div className='user-name-image'>
+        <div>{currentUser.username}</div>
+        <ImageUploadModal
+          type='profile picture'
+          refetch={refetchUser}
+          object={currentUser}
+        />
+      </div>
+
       {potentialLeagues?.length > 0 ? (
         <LeagueInvitations
           battler={battler}

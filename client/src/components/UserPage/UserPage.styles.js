@@ -15,6 +15,13 @@ export const UserPageContainer = styled.div`
     margin-bottom: 1.2em;
   }
 
+  .user-name-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+  }
+
   .logout-button {
     background-color: ${(props) => props.theme.primaryContrast};
     padding: 0.5em 4em 0.5em 4em;

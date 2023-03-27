@@ -3,10 +3,6 @@ import SocialMediaLink from './SocialMediaLink';
 import { SocialMediaContainerWrapper } from './SocialMediaContainer.styles';
 
 function SocialMediaContainer({ socials }) {
-  React.useEffect(() => {
-    console.log(socials);
-  }, [socials]);
-
   return (
     <SocialMediaContainerWrapper>
       {socials.map((social, i) =>

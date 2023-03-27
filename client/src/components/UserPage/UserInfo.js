@@ -16,13 +16,14 @@ function UserInfo({ currentUser, user, refetchUser, battler, refetchBattler }) {
   }, [battler]);
 
   useEffect(() => {
+    console.log(currentUser.socialMediaLinks);
     if (currentUser?.potentialCrews) {
       setPotentialCrews(currentUser.potentialCrews);
     }
   }, [currentUser]);
 
   return (
-    <ContentStyleWrapper>
+    <ContentStyleWrapper width={800} height={400}>
       <div>{currentUser.username}</div>
       <ImageUploadModal
         type='profile picture'
@@ -44,7 +45,7 @@ function UserInfo({ currentUser, user, refetchUser, battler, refetchBattler }) {
         refetchUser={refetchUser}
       />
       {Object.keys(user?.socials).length > 0 ? (
-        <SocialMediaContainer socials={user.socials} />
+        <SocialMediaContainer socials={currentUser.socialMediaLinks} />
       ) : null}
     </ContentStyleWrapper>
   );

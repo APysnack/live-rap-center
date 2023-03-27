@@ -41,6 +41,7 @@ export const NavbarLinkContainer = styled.div`
 export const NavbarLink = styled(Link)`
   color: white;
   font-size: x-large;
+  font-weight: 600;
   text-decoration: none;
   margin: 10px;
   font-family: ${(props) => props.theme.fontFamily};

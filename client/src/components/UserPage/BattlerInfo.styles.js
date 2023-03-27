@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 
 export const HomeLeagueContainer = styled.nav`
-  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 2px solid black;
   margin: 1em;
 `;
 
@@ -18,15 +16,18 @@ export const BattlerInfoContainer = styled.div`
     background-color: black;
   }
 
-  .button {
+  .battler-page-button {
     width: 100%;
-    background-color: black;
-    color: white;
+    background-color: ${(props) => props.theme.primaryContrast};
+    color: ${(props) => props.theme.primary};
     padding: 0.5em 1.5em 0.5em 1.5em;
     border-radius: 5px;
-    border: 3px solid #088f8f;
     margin-top: 1em;
     align-items: center;
     text-align: center;
+  }
+
+  .battler-page-button:hover {
+    background-color: ${(props) => props.theme.tertiary};
   }
 `;

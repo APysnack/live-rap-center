@@ -1,13 +1,21 @@
-import React from "react";
-import SocialMediaLink from "./SocialMediaLink";
-import { SocialMediaContainerWrapper } from "./SocialMediaContainer.styles";
+import React from 'react';
+import SocialMediaLink from './SocialMediaLink';
+import { SocialMediaContainerWrapper } from './SocialMediaContainer.styles';
 
 function SocialMediaContainer({ socials }) {
+  React.useEffect(() => {
+    console.log(socials);
+  }, [socials]);
+
   return (
     <SocialMediaContainerWrapper>
-      {Object.keys(socials).map((keyName, i) =>
-        socials[keyName]?.url ? (
-          <SocialMediaLink key={i} type={keyName} url={socials[keyName].url} />
+      {socials.map((social, i) =>
+        social?.url ? (
+          <SocialMediaLink
+            key={i}
+            type={social.socialMediaPlatformName}
+            url={social.url}
+          />
         ) : null
       )}
     </SocialMediaContainerWrapper>

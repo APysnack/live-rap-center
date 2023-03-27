@@ -37,7 +37,7 @@ function TableCellContent({
     return (
       <StyledRating
         name='customized-color'
-        defaultValue={roundToDecimal(rowData['score'])}
+        defaultValue={7}
         precision={0.5}
         max={10}
         sx={{
@@ -45,6 +45,7 @@ function TableCellContent({
         }}
         icon={<Square fontSize='inherit' />}
         emptyIcon={<Square fontSize='inherit' />}
+        disabled={true}
       />
     );
   };

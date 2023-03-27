@@ -4,13 +4,16 @@ export const philadelphia = {
   primary: '#3e3e42',
   secondary: '#004C54',
   tertiary: '#39FF14',
-  black: 'red',
-  white: 'blue',
+  quaternary: 'red',
+  black: 'black',
+  white: 'white',
   fontFamily: `'Avenir Next', 'Arial', 'Helvetica', 'Open Sans', 'Lato', sans-serif`,
   backgroundColor: '#121212',
   fontColor: 'white',
-  navbarColor: '#3e3e42',
+  navbarColor: '#004C54',
   headerFontColor: 'white',
+  disabled: '#3e3e42',
+  primaryContrast: 'white',
 };
 
 export const darkTheme = {

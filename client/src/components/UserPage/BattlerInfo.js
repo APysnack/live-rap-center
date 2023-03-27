@@ -79,19 +79,20 @@ function BattlerInfo({ battler, refetchBattler }) {
         )}
         <div className='horizontal-line' />
         {battler.name}
+        <div>Number of battles: {battler.battleCount}</div>
         {battler?.score ? <div>Current Score: {battler.score}</div> : null}
         {
           <div>
-            <div>Wins: {battler.record.wins}</div>
-            <div>Losses: {battler.record.losses}</div>
+            <div>
+              Record: {battler.record.wins} - {battler.record.losses}
+            </div>
           </div>
         }
-        <div>Number of battles: {battler.battleCount}</div>
         <div>Total Views: {battlerStats.totalViews}</div>
         <div>Average Views: {battlerStats.avgViews}</div>
         {battler?.id ? (
           <Link to={`/battler/${battler.id}`}>
-            <div className='button'>Battler Page</div>
+            <div className='battler-page-button'>Battler Page</div>
           </Link>
         ) : null}
       </BattlerInfoContainer>

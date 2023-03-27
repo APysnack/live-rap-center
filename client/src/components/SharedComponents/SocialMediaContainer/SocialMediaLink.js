@@ -1,34 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {
   Facebook,
   Twitter,
   Instagram,
   Audiotrack,
   GraphicEq,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
+import { useTheme } from 'styled-components';
+import { LinkContainer } from './SocialMediaContainer.styles';
 
 function SocialMediaLink({ type, url }) {
+  const theme = useTheme();
+
+  const iconStyle = { fontSize: 30, color: theme.primary };
+
   return (
-    <div>
+    <LinkContainer>
       <a href={url}>
         {(() => {
           switch (type) {
-            case "Facebook":
-              return <Facebook sx={{ fontSize: 40 }} color="primary" />;
-            case "Instagram":
-              return <Instagram sx={{ fontSize: 40 }} color="primary" />;
-            case "Twitter":
-              return <Twitter sx={{ fontSize: 40 }} color="primary" />;
-            case "Tiktok":
-              return <Audiotrack sx={{ fontSize: 40 }} color="primary" />;
-            case "SoundCloud":
-              return <GraphicEq sx={{ fontSize: 40 }} color="primary" />;
+            case 'Facebook':
+              return <Facebook sx={iconStyle} />;
+            case 'Instagram':
+              return <Instagram sx={iconStyle} />;
+            case 'Twitter':
+              return <Twitter sx={iconStyle} />;
+            case 'Tiktok':
+              return <Audiotrack sx={iconStyle} />;
+            case 'SoundCloud':
+              return <GraphicEq sx={iconStyle} />;
             default:
               return null;
           }
         })()}
       </a>
-    </div>
+      <div>{url.split('/')[3]}</div>
+    </LinkContainer>
   );
 }
 

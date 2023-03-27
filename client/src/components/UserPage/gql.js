@@ -49,6 +49,10 @@ export const GET_USER = gql`
         id
         name
       }
+      socialMediaLinks {
+        socialMediaPlatformName
+        url
+      }
     }
   }
 `;

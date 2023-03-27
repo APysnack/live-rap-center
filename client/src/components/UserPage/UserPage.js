@@ -52,16 +52,22 @@ function UserPage({ callLogoutUser, cable }) {
       {currentUser ? (
         <div>
           <div className='primary-content-container'>
-            <UserInfo
-              currentUser={currentUser}
-              user={user}
-              battler={battler}
-              refetchUser={refetchUser}
-              refetchBattler={refetchBattler}
-            />
-            {battler?.name ? (
-              <BattlerInfo battler={battler} refetchBattler={refetchBattler} />
-            ) : null}
+            <div className='user-content-container'>
+              <UserInfo
+                currentUser={currentUser}
+                user={user}
+                battler={battler}
+                refetchUser={refetchUser}
+                refetchBattler={refetchBattler}
+              />
+              {battler?.name ? (
+                <BattlerInfo
+                  battler={battler}
+                  refetchBattler={refetchBattler}
+                />
+              ) : null}
+            </div>
+
             <TopBattles />
             <FollowedBattles userId={currentUser.id} />
           </div>
@@ -92,7 +98,7 @@ function UserPage({ callLogoutUser, cable }) {
             Alerts for Booking requests but needs to be more elaborate with
             immediate chat available
           </div>
-          <button style={{ color: 'red' }} onClick={callLogoutUser}>
+          <button className='logout-button' onClick={callLogoutUser}>
             Log out
           </button>
         </div>

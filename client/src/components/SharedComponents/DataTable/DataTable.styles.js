@@ -82,13 +82,23 @@ export const PaginationContainer = styled.div`
     width: 5%;
     text-align: center;
     border-radius: 5px;
-    background-color: #87cefa;
+    background-color: ${(props) => props.theme.primary};
     color: white;
     border: 2px solid black;
   }
 
+  .pagination-btn:hover {
+    background-color: ${(props) => props.theme.tertiary};
+  }
+
   .disabled {
-    background-color: red;
+    background-color: ${(props) => props.theme.disabled};
+    visibility: hidden;
+  }
+
+  .disabled:hover {
+    background-color: ${(props) => props.theme.disabled};
+    pointer-events: none;
   }
 
   .pagination-text {
@@ -111,5 +121,9 @@ export const TableRowStyle = {
 export const StyledRating = styled(Rating)`
   .MuiRating-iconFilled {
     color: ${(props) => props.theme.tertiary};
+  }
+
+  &.Mui-disabled {
+    opacity: 1 !important;
   }
 `;

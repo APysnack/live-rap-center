@@ -30,7 +30,12 @@ function ListBattlesPage() {
     columns: [
       { title: 'rank', accessor: '', behavior: 'enumerate' },
       { title: 'image', accessor: 'battleImage', behavior: 'image' },
-      { title: 'title', accessor: 'battlers', behavior: 'versus' },
+      {
+        title: 'title',
+        accessor: 'battlers',
+        behavior: 'versus',
+        starRatingUnderneath: true,
+      },
       { title: 'league name', accessor: 'leagueName' },
       { title: 'rating', accessor: 'score' },
     ],

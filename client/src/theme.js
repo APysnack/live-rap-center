@@ -3,7 +3,7 @@
 export const philadelphia = {
   primary: '#3e3e42',
   secondary: '#004C54',
-  tertiary: 'red',
+  tertiary: '#39FF14',
   black: 'red',
   white: 'blue',
   fontFamily: `'Avenir Next', 'Arial', 'Helvetica', 'Open Sans', 'Lato', sans-serif`,

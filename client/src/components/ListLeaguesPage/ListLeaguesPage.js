@@ -31,7 +31,7 @@ function ListLeaguesPage() {
     columns: [
       { title: 'rank', accessor: '', behavior: 'enumerate' },
       { title: 'image', accessor: 'leagueLogo', behavior: 'image' },
-      { title: 'name', accessor: 'leagueName' },
+      { title: 'name', accessor: 'leagueName', starRatingUnderneath: true },
       { title: 'rating', accessor: 'leagueScore' },
     ],
     rowData: data?.leagues?.leagues ? data.leagues.leagues : [],

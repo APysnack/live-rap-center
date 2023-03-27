@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Rating from '@mui/material/Rating';
 
 export const DataTableContainer = styled.div`
   .search-bar {
@@ -50,6 +51,13 @@ export const DataTableContainer = styled.div`
   .table-cell-content {
     border: black 2px solid;
   }
+
+  .cell-with-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+  }
 `;
 
 export const TableFooter = styled.div`
@@ -99,3 +107,9 @@ export const TableRowStyle = {
   backgroundColor: 'red',
   border: 'black',
 };
+
+export const StyledRating = styled(Rating)`
+  .MuiRating-iconFilled {
+    color: ${(props) => props.theme.tertiary};
+  }
+`;

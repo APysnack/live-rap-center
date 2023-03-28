@@ -37,13 +37,14 @@ function Thumbnail({
       case 'icon':
         return { width: '100%', height: height };
       case 'battleImage':
+      case 'battlerImage':
         return {
           width: '100%',
           height: '100%',
           position: 'absolute',
           top: 0,
           right: 0,
-          backgroundPosition: 'top center',
+          backgroundPosition: type === 'battleImage' ? 'top center' : undefined,
         };
       default:
         return { width: '100%', height: height };

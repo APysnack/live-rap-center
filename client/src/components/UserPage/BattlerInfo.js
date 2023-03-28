@@ -58,7 +58,7 @@ function BattlerInfo({ battler, refetchBattler }) {
   };
 
   return (
-    <ContentStyleWrapper>
+    <ContentStyleWrapper width={400}>
       <BattlerInfoContainer>
         {battler?.league ? (
           <HomeLeagueContainer>

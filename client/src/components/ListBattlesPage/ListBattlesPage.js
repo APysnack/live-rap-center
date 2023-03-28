@@ -47,7 +47,7 @@ function ListBattlesPage() {
         starRatingUnderneath: true,
         width: '20em',
       },
-      { title: 'league name', accessor: 'leagueName', width: '12em' },
+      { title: 'league', accessor: 'leagueName', width: '12em' },
       { title: 'rating', accessor: 'score', width: '5em' },
     ],
     rowData: data?.battles?.battles ? data.battles.battles : [],

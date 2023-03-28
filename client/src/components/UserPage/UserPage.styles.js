@@ -19,7 +19,6 @@ export const UserPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1em;
   }
 
   .logout-button {
@@ -37,4 +36,12 @@ export const UserPageContainer = styled.div`
   .user-content-container {
     display: flex;
   }
+`;
+
+export const NotificationsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 100%;
 `;

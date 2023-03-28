@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_TOP_BATTLES = gql`
   query TopBattles($battleCount: Int!, $dateRange: String!) {
@@ -11,6 +11,7 @@ export const GET_TOP_BATTLES = gql`
         id
         name
       }
+      leagueName
     }
   }
 `;

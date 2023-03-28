@@ -4,8 +4,8 @@ export const ContentContainer = styled.nav`
   display: flex;
   border: 3px solid black;
   border-radius: 20px;
-  padding: 0 5em 0 5em;
-  justify-content: space-around;
+  margin-right: 0.6em;
+  justify-content: space-evenly;
   align-items: center;
   background-color: ${(props) => props.theme.primary};
 `;

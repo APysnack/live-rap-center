@@ -4,10 +4,12 @@ import { GET_TOP_BATTLES } from './gql';
 import BattleLink from '../../SharedComponents/BattleLink/BattleLink';
 import ContentStyleWrapper from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 import { TopBattlesContainer } from './TopBattles.styles';
+import { BATTLES_TO_RETRIEVE, BACKGROUND_CONTAINER_WIDTH } from '../Constants';
+import UserPageHeadline from '../../SharedComponents/UserPageHeadlines/UserPageHeadline';
 
 function TopBattles() {
   const { loading, data, error } = useQuery(GET_TOP_BATTLES, {
-    variables: { battleCount: 5, dateRange: 'Weekly' },
+    variables: { battleCount: BATTLES_TO_RETRIEVE, dateRange: 'Weekly' },
   });
 
   React.useEffect(() => {
@@ -19,10 +21,12 @@ function TopBattles() {
   if (loading) return 'Loading...';
   return (
     <>
-      <div>Top Battles this week</div>
-      <ContentStyleWrapper width={1800}>
+      <UserPageHeadline
+        displayText={'TOP BATTLES THIS WEEK'}
+      ></UserPageHeadline>
+      <ContentStyleWrapper width={BACKGROUND_CONTAINER_WIDTH}>
         <TopBattlesContainer>
-          <div>
+          <div className='top-battles-container'>
             {data?.topBattles?.length > 0 ? (
               data.topBattles.map((battle) => (
                 <BattleLink key={battle.id} battle={battle} />

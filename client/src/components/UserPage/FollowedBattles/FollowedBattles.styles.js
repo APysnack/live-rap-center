@@ -8,7 +8,7 @@ export const FollowedBattlesContainer = styled.div`
   .followed-battles-container {
     display: flex;
     justify-content: space-between;
-    margin: 10px;
+    margin: 0 1em 0 1em;
     width: 100%;
   }
 `;

@@ -15,6 +15,7 @@ export const GET_FOLLOWED_BATTLES = gql`
         id
         name
       }
+      leagueName
     }
   }
 `;

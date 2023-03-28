@@ -1,7 +1,6 @@
 import React from 'react';
 import Thumbnail from '../Thumbnail/Thumbnail';
-import Square from '@mui/icons-material/Square';
-import { StyledRating } from './DataTable.styles';
+import StyledRating from '../../SharedComponents/StyledRating/StyledRating';
 
 function TableCellContent({
   currentPage,
@@ -30,30 +29,15 @@ function TableCellContent({
   const generateVersusTitle = () => {
     let str = '';
     rowData[column.accessor].forEach((data, i) =>
-      i % 2 === 1 ? (str += ` versus ${data.name}`) : (str += data.name)
+      i % 2 === 1
+        ? (str += ` VS ${data.name.toUpperCase()}`)
+        : (str += data.name.toUpperCase())
     );
     return str;
   };
 
-  const roundToDecimal = (number) => {
-    return Math.round((number / 10) * 2) / 2;
-  };
-
   const renderStarRating = () => {
-    return (
-      <StyledRating
-        name='customized-color'
-        defaultValue={roundToDecimal(rowData['score'])}
-        precision={0.5}
-        max={10}
-        sx={{
-          fontSize: '0.7rem',
-        }}
-        icon={<Square fontSize='inherit' />}
-        emptyIcon={<Square fontSize='inherit' />}
-        disabled={true}
-      />
-    );
+    return <StyledRating value={rowData['score']}></StyledRating>;
   };
 
   const renderContent = () => {
@@ -65,7 +49,9 @@ function TableCellContent({
       case 'versus':
         return generateVersusTitle();
       default:
-        return rowData[column.accessor];
+        return typeof rowData[column.accessor] === 'string'
+          ? rowData[column.accessor].toUpperCase()
+          : rowData[column.accessor];
     }
   };
 

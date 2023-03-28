@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Rating from '@mui/material/Rating';
 
 export const DataTableContainer = styled.div`
   .search-bar {
@@ -111,13 +110,3 @@ export const TableRowStyle = {
   backgroundColor: 'red',
   border: 'black',
 };
-
-export const StyledRating = styled(Rating)`
-  .MuiRating-iconFilled {
-    color: ${(props) => props.theme.tertiary};
-  }
-
-  &.Mui-disabled {
-    opacity: 1 !important;
-  }
-`;

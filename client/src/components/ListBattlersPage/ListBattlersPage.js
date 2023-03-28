@@ -29,11 +29,29 @@ function ListBattlersPage() {
 
   const tableProps = {
     columns: [
-      { title: 'rank', accessor: '', behavior: 'enumerate' },
-      { title: 'image', accessor: 'battlerImage', behavior: 'image' },
-      { title: 'name', accessor: 'name', starRatingUnderneath: true },
-      { title: 'location', accessor: 'region' },
-      { title: 'rating', accessor: 'score' },
+      {
+        title: 'rank',
+        accessor: '',
+        behavior: 'enumerate',
+        width: '10em',
+        height: '20em',
+      },
+      {
+        title: 'image',
+        accessor: 'battlerImage',
+        behavior: 'image',
+        width: '10em',
+        height: '20em',
+      },
+      {
+        title: 'name',
+        accessor: 'name',
+        starRatingUnderneath: true,
+        width: '10em',
+        height: '20em',
+      },
+      { title: 'location', accessor: 'region', width: '10em', height: '20em' },
+      { title: 'rating', accessor: 'score', width: '10em', height: '20em' },
     ],
     rowData: data?.battlers?.battlers ? data.battlers.battlers : [],
     onRowClick: handleRowClick,

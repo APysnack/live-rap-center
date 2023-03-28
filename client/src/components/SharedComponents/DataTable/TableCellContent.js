@@ -17,7 +17,13 @@ function TableCellContent({
 
   const renderImage = () => {
     return (
-      <Thumbnail type={column.accessor} object={rowData} style={'table-cell'} />
+      <div>
+        <Thumbnail
+          type={column.accessor}
+          object={rowData}
+          width={column.width}
+        />
+      </div>
     );
   };
 
@@ -50,15 +56,6 @@ function TableCellContent({
     );
   };
 
-  const contentContainer = () => {
-    return (
-      <div class={column.starRatingUnderneath ? 'cell-with-rating' : ''}>
-        {renderContent()}
-        {column.starRatingUnderneath ? renderStarRating() : null}
-      </div>
-    );
-  };
-
   const renderContent = () => {
     switch (column.behavior) {
       case 'enumerate':
@@ -70,6 +67,30 @@ function TableCellContent({
       default:
         return rowData[column.accessor];
     }
+  };
+
+  const contentContainer = () => {
+    return (
+      <div
+        className={
+          'table-cell' +
+          (column.starRatingUnderneath ? ' cell-with-rating' : '')
+        }
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {renderContent()}
+        {column.starRatingUnderneath ? renderStarRating() : null}
+      </div>
+    );
   };
 
   return contentContainer();

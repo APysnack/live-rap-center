@@ -18,20 +18,22 @@ function TopBattles() {
 
   if (loading) return 'Loading...';
   return (
-    <ContentStyleWrapper width={1800}>
-      <TopBattlesContainer>
-        <div>Top Battles this week</div>
-        <div>
-          {data?.topBattles?.length > 0 ? (
-            data.topBattles.map((battle) => (
-              <BattleLink key={battle.id} battle={battle} />
-            ))
-          ) : (
-            <div>No battles that have finished voting in the last week</div>
-          )}
-        </div>
-      </TopBattlesContainer>
-    </ContentStyleWrapper>
+    <>
+      <div>Top Battles this week</div>
+      <ContentStyleWrapper width={1800}>
+        <TopBattlesContainer>
+          <div>
+            {data?.topBattles?.length > 0 ? (
+              data.topBattles.map((battle) => (
+                <BattleLink key={battle.id} battle={battle} />
+              ))
+            ) : (
+              <div>No battles that have finished voting in the last week</div>
+            )}
+          </div>
+        </TopBattlesContainer>
+      </ContentStyleWrapper>
+    </>
   );
 }
 

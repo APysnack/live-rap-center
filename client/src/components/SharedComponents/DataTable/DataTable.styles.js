@@ -42,13 +42,7 @@ export const DataTableContainer = styled.div`
     background-color: ${(props) => props.theme.primary};
   }
 
-  .table-cell {
-    display: flex;
-    align-items: center;
-    background-color: green;
-  }
-
-  .table-cell-content {
+  .table-cell-content-wrapper {
     border: black 2px solid;
   }
 

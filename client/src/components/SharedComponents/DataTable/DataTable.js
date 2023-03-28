@@ -16,6 +16,8 @@ import {
 import Pagination from './Pagination';
 import { ROWS_TO_DISPLAY } from './Constants';
 
+const TABLE_CELL_HEIGHT = '5em';
+
 function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
   // controls managed by pagination component
   // array of data that is actively being displayed in table
@@ -60,7 +62,12 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
                       key={`row-${column.title}-${i}`}
                       component='th'
                       scope='row'
-                      class='table-cell-content'
+                      class='table-cell-content-wrapper'
+                      style={{
+                        width: column.width,
+                        height: TABLE_CELL_HEIGHT,
+                        position: 'relative',
+                      }}
                     >
                       <TableCellContent
                         rowNumber={i}

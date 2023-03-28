@@ -28,16 +28,27 @@ function ListBattlesPage() {
 
   const tableProps = {
     columns: [
-      { title: 'rank', accessor: '', behavior: 'enumerate' },
-      { title: 'image', accessor: 'battleImage', behavior: 'image' },
+      {
+        title: 'rank',
+        accessor: '',
+        behavior: 'enumerate',
+        width: '5em',
+      },
+      {
+        title: 'image',
+        accessor: 'battleImage',
+        behavior: 'image',
+        width: '20em',
+      },
       {
         title: 'title',
         accessor: 'battlers',
         behavior: 'versus',
         starRatingUnderneath: true,
+        width: '20em',
       },
-      { title: 'league name', accessor: 'leagueName' },
-      { title: 'rating', accessor: 'score' },
+      { title: 'league name', accessor: 'leagueName', width: '12em' },
+      { title: 'rating', accessor: 'score', width: '5em' },
     ],
     rowData: data?.battles?.battles ? data.battles.battles : [],
     onRowClick: handleRowClick,

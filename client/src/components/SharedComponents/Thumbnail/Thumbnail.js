@@ -12,7 +12,6 @@ function Thumbnail({
   object,
   width = IMAGE_WIDTH,
   height = IMAGE_HEIGHT,
-  style = 'icon',
 }) {
   const YOUTUBE_IMAGE_URL = `https://i.ytimg.com/vi/${object.battleUrl}/hqdefault.jpg`;
 
@@ -38,7 +37,14 @@ function Thumbnail({
       case 'icon':
         return { width: '100%', height: height };
       case 'battleImage':
-        return { width: '100%', height: 100 };
+        return {
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          backgroundPosition: 'top center',
+        };
       default:
         return { width: '100%', height: height };
     }
@@ -57,12 +63,32 @@ function Thumbnail({
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <Avatar
-        src={getSourceFromType()}
-        sx={getStyleFromType()}
-        className='thumb-image'
-        variant={getVariantFromType()}
-      />
+      {type === 'battleImage' ? (
+        <Avatar
+          sx={getStyleFromType()}
+          className='thumb-image'
+          variant={getVariantFromType()}
+        >
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              backgroundImage: `url(${getSourceFromType()})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center 33%',
+              backgroundRepeat: 'no-repeat',
+              position: 'absolute',
+            }}
+          />
+        </Avatar>
+      ) : (
+        <Avatar
+          src={getSourceFromType()}
+          sx={getStyleFromType()}
+          className='thumb-image'
+          variant={getVariantFromType()}
+        />
+      )}
     </div>
   );
 }

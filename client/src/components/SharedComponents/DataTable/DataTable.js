@@ -44,7 +44,7 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
             <TableHead>
               <TableRow class='table-row'>
                 {tableProps.columns.map((column) => (
-                  <TableCell key={column.title} class='column-title'>
+                  <TableCell key={column.title} class='column-title header-row'>
                     {column.title.toUpperCase()}
                   </TableCell>
                 ))}

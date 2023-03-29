@@ -32,6 +32,10 @@ export const DataTableContainer = styled.div`
     padding: 0.25em;
   }
 
+  .header-row {
+    background-color: ${(props) => props.theme.tableHeaders};
+  }
+
   .table-row {
     border: 2px solid black;
     align-items: center;
@@ -71,7 +75,7 @@ export const PaginationContainer = styled.div`
 
   .pagination-btn {
     padding: 0.5em;
-    margin: 1.5em 0.5em 1.5em 0.5em;
+    margin: 1em 0.5em 1em 0.5em;
     width: 5%;
     text-align: center;
     border-radius: 5px;

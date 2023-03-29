@@ -7,6 +7,7 @@ import { useMutation } from '@apollo/client';
 // first theme will be default in the select box
 const THEMES = [
   { value: 'philadelphia', label: 'Philadelphia' },
+  { value: 'frieza', label: 'Frieza' },
   { value: 'darkTheme', label: 'Dark Theme' },
 ];
 

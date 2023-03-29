@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import BookingChat from './BookingChat/BookingChat';
 import BasicModal from '../../SharedComponents/BasicModal';
+import BasicButton from '../../SharedComponents/Buttons/BasicButton';
 
 function ChatDropDown({ currentUser, cable }) {
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
-
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
 
   const updateSelectedBooking = (booking) => {
     setModalOpen(true);
@@ -17,8 +14,10 @@ function ChatDropDown({ currentUser, cable }) {
   };
 
   return (
-    <div>
-      <div onClick={() => setDropDownOpen(!dropDownOpen)}>BOOKING REQUESTS</div>
+    <BasicButton padding={'0.9em'} width={'16em'}>
+      <div onClick={() => setDropDownOpen(!dropDownOpen)}>
+        Booking - Needs Work
+      </div>
       <div>
         {dropDownOpen && currentUser?.battlerBookingOffers?.length > 0
           ? currentUser.battlerBookingOffers.map((booking) => (
@@ -39,7 +38,7 @@ function ChatDropDown({ currentUser, cable }) {
           <BookingChat cable={cable} booking={selectedBooking} />
         </BasicModal>
       </div>
-    </div>
+    </BasicButton>
   );
 }
 

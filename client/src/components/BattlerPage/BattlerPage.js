@@ -16,7 +16,6 @@ const { REACT_APP_SERVER_URL } = process.env;
 function BattlerPage() {
   let { battlerId } = useParams();
   const [flashMessage, setFlashMessage] = useState('');
-  const [battlerSocials, setBattlerSocials] = useState({});
   const [battler, setBattler] = useState(null);
   const [userViewingPageIsThisBattler, setUserViewingPageIsThisBattler] =
     useState(false);
@@ -77,19 +76,6 @@ function BattlerPage() {
       idString = idString.replace(/,\s*$/, '');
       api.fetchYouTubeVideos(idString, updateViews);
     }
-    if (battler?.user?.socialMediaLinks.length > 0) {
-      let newSocials = {};
-      battler.user.socialMediaLinks.map((social) => {
-        let tempObj = {
-          [social.socialMediaPlatformName]: {
-            platform_id: social.id,
-            url: social.url,
-          },
-        };
-        newSocials = { ...newSocials, ...tempObj };
-      });
-      setBattlerSocials({ ...newSocials });
-    }
   }, [battler]);
 
   const updateViews = (res) => {
@@ -149,8 +135,8 @@ function BattlerPage() {
             currentUser={currentUser?.user}
             refetchCurrentUser={refetchCurrentUser}
           />
-          {Object.keys(battlerSocials).length > 0 ? (
-            <SocialMediaContainer socials={battlerSocials} />
+          {battler?.user?.socialMediaLinks ? (
+            <SocialMediaContainer socials={battler?.user?.socialMediaLinks} />
           ) : null}
 
           {currentUser?.user?.ownedLeagues?.length > 0 ? (

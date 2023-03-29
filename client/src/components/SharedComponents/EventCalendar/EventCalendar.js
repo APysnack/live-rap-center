@@ -4,6 +4,7 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { EventCalendarContainer } from './EventCalendar.styles';
+import { useTheme } from 'styled-components';
 
 const localizer = momentLocalizer(moment);
 
@@ -17,6 +18,13 @@ function EventCalendar({
 }) {
   const [eventsList, setEventsList] = useState([]);
   const [visibleMonth, setVisibleMonth] = useState(moment());
+  const theme = useTheme();
+
+  const calendarStyle = {
+    width: '70vw',
+    height: '70vh',
+    backgroundColor: theme.primary,
+  };
 
   useEffect(() => {
     if (eventData?.events) {
@@ -70,12 +78,13 @@ function EventCalendar({
       </div>
 
       <Calendar
+        className='event-calendar'
         localizer={localizer}
         events={eventsList}
         startAccessor='start'
         endAccessor='end'
         showAllEvents={true}
-        style={{ height: 500 }}
+        style={calendarStyle}
         onSelectEvent={handleSelectEvent}
         toolbar={false}
         date={visibleMonth}

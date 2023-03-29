@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import { GET_USER } from './gql';
 import { ThemeProvider } from 'styled-components';
-import { darkTheme, philadelphia } from './theme';
+import { darkTheme, philadelphia, frieza } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Homepage from './components/Homepage/Homepage';
@@ -27,7 +27,6 @@ import ListSpacesPage from './components/ListSpacesPage/ListSpacesPage';
 import UpdateEventPage from './components/LeagueSettingsPage/UpdateEventPage/UpdateEventPage';
 import BookingPage from './components/BookingPage/BookingPage';
 import EventPage from './components/EventPage/EventPage';
-import styled from 'styled-components';
 
 function App({ cable }) {
   const [selectedTheme, setSelectedTheme] = useState(null);
@@ -42,6 +41,8 @@ function App({ cable }) {
     switch (selectedTheme) {
       case 'darkTheme':
         return darkTheme;
+      case 'frieza':
+        return frieza;
       default:
         return philadelphia;
     }

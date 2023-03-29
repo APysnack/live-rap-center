@@ -8,6 +8,7 @@ import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
 import { useMutation } from '@apollo/client';
 import api from '../../api/api';
 import ContentStyleWrapper from '../SharedComponents/ContentContainer/ContentStyleWrapper';
+import BasicButton from '../SharedComponents/Buttons/BasicButton';
 
 function BattlerInfo({ battler, refetchBattler }) {
   const [battlerStats, setBattlerStats] = useState({
@@ -58,7 +59,7 @@ function BattlerInfo({ battler, refetchBattler }) {
   };
 
   return (
-    <ContentStyleWrapper width={400}>
+    <ContentStyleWrapper width={'20vw'}>
       <BattlerInfoContainer>
         {battler?.league ? (
           <HomeLeagueContainer>
@@ -92,7 +93,7 @@ function BattlerInfo({ battler, refetchBattler }) {
         <div>Average Views: {battlerStats.avgViews}</div>
         {battler?.id ? (
           <Link to={`/battler/${battler.id}`}>
-            <div className='battler-page-button'>Battler Page</div>
+            <BasicButton padding='0.5em'>Battler Page</BasicButton>
           </Link>
         ) : null}
       </BattlerInfoContainer>

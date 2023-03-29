@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const HomeLeagueContainer = styled.nav`
+export const HomeLeagueContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,6 +8,10 @@ export const HomeLeagueContainer = styled.nav`
 `;
 
 export const BattlerInfoContainer = styled.div`
+  background-color: ${(props) => props.theme.formBackground};
+  padding: 2em;
+  border-radius: 10px;
+
   .horizontal-line {
     color: black;
     height: 2px;

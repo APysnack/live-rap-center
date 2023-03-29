@@ -10,7 +10,7 @@ export const InvitationContainer = styled.div`
 
 export const InvitationModalContainer = styled.div`
   .invite-notification {
-    color: red;
+    color: ${(props) => props.theme.alert};
     margin-right: 0.2em;
   }
 
@@ -18,5 +18,7 @@ export const InvitationModalContainer = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 1em;
+    background-color: red;
+    border-radius: 10px;
   }
 `;

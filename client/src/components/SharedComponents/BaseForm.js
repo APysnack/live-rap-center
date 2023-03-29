@@ -3,17 +3,18 @@
 // See BattlerSettingsFormFields with implementation including checkboxes that disable fields
 // ** can support multiple checkbox fields
 
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { FormWrapper } from "./BaseForm.styles";
-import CheckboxField from "./CheckboxField";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import { FormWrapper } from './BaseForm.styles';
+import CheckboxField from './CheckboxField';
 
 function BaseForm({
-  title = "Form Title",
-  submitText = "Submit",
+  title = 'Form Title',
+  submitText = 'Submit',
   initialValues,
   fieldArray,
   onSubmit,
+  width = '15vw',
 }) {
   const [checkboxStates, setCheckboxStates] = useState({});
 
@@ -32,11 +33,10 @@ function BaseForm({
   }, [fieldArray]);
 
   if (!Object.keys(initialValues).length > 0 || !fieldArray.length > 0)
-    return "Loading...";
+    return 'Loading...';
 
   return (
     <>
-      <h1>{title}</h1>
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -50,7 +50,8 @@ function BaseForm({
         }}
       >
         <Form>
-          <FormWrapper>
+          <FormWrapper style={{ width: width }}>
+            <div>{title}</div>
             {fieldArray.map((field) =>
               field.isCheckboxField ? (
                 <CheckboxField
@@ -66,11 +67,11 @@ function BaseForm({
                 />
               ) : (
                 <div key={field.id}>
-                  <label className="mb-6 block text-gray-700 text-sm font-bold mb-2">
+                  <label className='m-2 block text-sm font-bold mb-2'>
                     {field.displayedLabel}
                   </label>
                   <Field
-                    className="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     id={field.id}
                     name={field.name}
                     placeholder={field.placeholder}
@@ -79,10 +80,8 @@ function BaseForm({
                 </div>
               )
             )}
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
+
+            <button className='submit-button' type='submit'>
               {submitText}
             </button>
           </FormWrapper>

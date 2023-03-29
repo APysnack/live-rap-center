@@ -3,13 +3,11 @@ import { useSelector } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import { GET_USER } from './gql';
 import { ThemeProvider } from 'styled-components';
-import { darkTheme, philadelphia } from './theme';
+import { darkTheme, philadelphia, frieza } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Homepage from './components/Homepage/Homepage';
 import LoginPage from './components/LoginPage/LoginPage';
-import PasswordReset from './components/PasswordReset/PasswordReset';
-import PasswordEdit from './components/PasswordEdit/PasswordEdit';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import CreateBattlePage from './components/CreateBattlePage/CreateBattlePage';
 import BattlePage from './components/BattlePage/BattlePage';
@@ -27,7 +25,6 @@ import ListSpacesPage from './components/ListSpacesPage/ListSpacesPage';
 import UpdateEventPage from './components/LeagueSettingsPage/UpdateEventPage/UpdateEventPage';
 import BookingPage from './components/BookingPage/BookingPage';
 import EventPage from './components/EventPage/EventPage';
-import styled from 'styled-components';
 
 function App({ cable }) {
   const [selectedTheme, setSelectedTheme] = useState(null);
@@ -42,6 +39,8 @@ function App({ cable }) {
     switch (selectedTheme) {
       case 'darkTheme':
         return darkTheme;
+      case 'frieza':
+        return frieza;
       default:
         return philadelphia;
     }
@@ -68,8 +67,6 @@ function App({ cable }) {
       <Routes>
         <Route exact path='/' element={<Homepage cable={cable} />} />
         <Route exact path='/login' element={<LoginPage />} />
-        <Route exact path='/password-reset' element={<PasswordReset />} />
-        <Route exact path='/password/reset/edit' element={<PasswordEdit />} />
         <Route exact path='/admin-panel' element={<AdminPanel />} />
         <Route exact path='/create-battle' element={<CreateBattlePage />} />
         <Route exact path='/battle/:battleId' element={<BattlePage />} />

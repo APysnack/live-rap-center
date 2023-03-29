@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Facebook,
   Twitter,
@@ -7,7 +7,7 @@ import {
   GraphicEq,
 } from '@mui/icons-material';
 import { useTheme } from 'styled-components';
-import { LinkContainer } from './SocialMediaContainer.styles';
+import BasicButton from '../Buttons/BasicButton';
 
 function SocialMediaLink({ type, url }) {
   const theme = useTheme();
@@ -15,8 +15,8 @@ function SocialMediaLink({ type, url }) {
   const iconStyle = { fontSize: 30, color: theme.primary };
 
   return (
-    <LinkContainer>
-      <a href={url}>
+    <a href={url}>
+      <BasicButton padding='0.1em'>
         {(() => {
           switch (type) {
             case 'Facebook':
@@ -33,9 +33,10 @@ function SocialMediaLink({ type, url }) {
               return null;
           }
         })()}
-      </a>
-      <div>{url.split('/')[3]}</div>
-    </LinkContainer>
+
+        <div>{url.split('/')[3]}</div>
+      </BasicButton>
+    </a>
   );
 }
 

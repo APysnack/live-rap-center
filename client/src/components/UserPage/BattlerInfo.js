@@ -4,25 +4,15 @@ import {
   HomeLeagueContainer,
   BattlerInfoContainer,
 } from './BattlerInfo.styles';
-import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
-import { useMutation } from '@apollo/client';
 import api from '../../api/api';
 import ContentStyleWrapper from '../SharedComponents/ContentContainer/ContentStyleWrapper';
+import BasicButton from '../SharedComponents/Buttons/BasicButton';
 
-function BattlerInfo({ battler, refetchBattler }) {
+function BattlerInfo({ battler }) {
   const [battlerStats, setBattlerStats] = useState({
     totalViews: 0,
     avgViews: 0,
   });
-
-  const [deleteHomeLeagueFromBattler] = useMutation(
-    DELETE_HOME_LEAGUE_FROM_BATTLER,
-    {
-      onCompleted: refetchBattler,
-    }
-  );
-
-  const [potentialLeagues, setPotentialLeagues] = useState(null);
 
   const updateViews = (res) => {
     const totalViews = res.reduce(
@@ -46,19 +36,10 @@ function BattlerInfo({ battler, refetchBattler }) {
       idString = idString.replace(/,\s*$/, '');
       api.fetchYouTubeVideos(idString, updateViews);
     }
-    if (battler?.potentialLeagues?.length > 0) {
-      setPotentialLeagues(battler.potentialLeagues);
-    }
   }, [battler]);
 
-  const deleteHomeLeague = () => {
-    deleteHomeLeagueFromBattler({
-      variables: { battlerId: battler.id },
-    });
-  };
-
   return (
-    <ContentStyleWrapper width={400}>
+    <ContentStyleWrapper width={'20vw'}>
       <BattlerInfoContainer>
         {battler?.league ? (
           <HomeLeagueContainer>
@@ -72,7 +53,6 @@ function BattlerInfo({ battler, refetchBattler }) {
             >
               League Chat
             </Link>
-            <button onClick={deleteHomeLeague}>Quit my home league</button>
           </HomeLeagueContainer>
         ) : (
           <div>No Home league selected</div>
@@ -92,7 +72,7 @@ function BattlerInfo({ battler, refetchBattler }) {
         <div>Average Views: {battlerStats.avgViews}</div>
         {battler?.id ? (
           <Link to={`/battler/${battler.id}`}>
-            <div className='battler-page-button'>Battler Page</div>
+            <BasicButton padding='0.5em'>Battler Page</BasicButton>
           </Link>
         ) : null}
       </BattlerInfoContainer>

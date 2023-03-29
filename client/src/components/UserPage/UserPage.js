@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { UserPageContainer } from './UserPage.styles';
 import FollowedBattles from './FollowedBattles/FollowedBattles';
 import UserInfo from './UserInfo';
-import ChatDropDown from './ChatDropDown/ChatDropDown';
+import NewsContainer from './NewsContainer';
 
 function UserPage({ callLogoutUser, cable }) {
   // current redux state of the user
@@ -66,6 +66,13 @@ function UserPage({ callLogoutUser, cable }) {
                   refetchBattler={refetchBattler}
                 />
               ) : null}
+              <NewsContainer
+                currentUser={currentUser}
+                battler={battler}
+                refetchUser={refetchUser}
+                refetchBattler={refetchBattler}
+                cable={cable}
+              />
             </div>
 
             <TopBattles />
@@ -90,14 +97,7 @@ function UserPage({ callLogoutUser, cable }) {
                 ))
               : 'bar'}
           </div>
-
-          <ChatDropDown currentUser={currentUser} cable={cable} />
-
           <div>B: Rank</div>
-          <div>
-            Alerts for Booking requests but needs to be more elaborate with
-            immediate chat available
-          </div>
           <button className='logout-button' onClick={callLogoutUser}>
             Log out
           </button>

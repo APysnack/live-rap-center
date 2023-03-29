@@ -3,13 +3,14 @@ import BaseForm from '../../SharedComponents/BaseForm';
 import { crewNameField } from './CreateCrewFormFields';
 import { useMutation } from '@apollo/client';
 import { CREATE_CREW } from './gql';
+import SettingsGroup from '../../SharedComponents/SettingsGroup/SettingsGroup';
+
+const FORM_DIMENSION = 20;
 
 function CreateCrewForm({ user }) {
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
-
   const [createCrew, { data, loading, error }] = useMutation(CREATE_CREW);
-
   const addNewCrew = (values) => {
     createCrew({
       variables: { crewName: values.crewName, userId: user.id },
@@ -34,14 +35,21 @@ function CreateCrewForm({ user }) {
   if (error) return `Submission error ${error.message}`;
 
   return (
-    <div>
-      <BaseForm
-        initialValues={initialValues}
-        fieldArray={fieldArray}
-        onSubmit={addNewCrew}
-        title={''}
-      />
-    </div>
+    <SettingsGroup height={45} width={25}>
+      <div className='header'>Miscellaneous</div>
+      <div className='settings-content'>
+        <div className='form-container'>
+          <div className='subheading'>Create a crew</div>
+          <BaseForm
+            initialValues={initialValues}
+            fieldArray={fieldArray}
+            onSubmit={addNewCrew}
+            width={`${FORM_DIMENSION}vw`}
+            title=''
+          />
+        </div>
+      </div>
+    </SettingsGroup>
   );
 }
 

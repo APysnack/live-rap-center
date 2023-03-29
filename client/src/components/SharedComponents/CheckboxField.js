@@ -1,8 +1,8 @@
 // Checkbox field designed to disable a formik field when checked
 
-import React, { useState, useEffect } from "react";
-import { Checkbox } from "@mui/material";
-import { Field } from "formik";
+import React, { useState, useEffect } from 'react';
+import { Checkbox } from '@mui/material';
+import { Field } from 'formik';
 
 function CheckboxField({
   initialState,
@@ -27,21 +27,21 @@ function CheckboxField({
     <div>
       {!isChecked ? (
         <Field
-          className="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
           id={id}
           name={name}
           placeholder={placeholder}
-          type={"text"}
+          type={'text'}
           disabled={!isChecked}
           value={body}
         />
       ) : (
         <Field
-          className="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
           id={id}
           name={name}
           placeholder={placeholder}
-          type={"text"}
+          type={'text'}
         />
       )}
 

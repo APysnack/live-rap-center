@@ -5,5 +5,5 @@ export const crewNameField = {
   name: 'crewName',
   placeholder: 'Please enter the crew name',
   type: 'text',
-  displayedLabel: 'Crew Name',
+  displayedLabel: '',
 };

@@ -44,7 +44,7 @@ function LocationSelector({ object, refetch, type }) {
   }, [region]);
 
   return (
-    <div>
+    <>
       <CountryDropdown
         value={country}
         onChange={(value) => setCountry(value)}
@@ -54,7 +54,7 @@ function LocationSelector({ object, refetch, type }) {
         value={region}
         onChange={(value) => setRegion(value)}
       />
-    </div>
+    </>
   );
 }
 

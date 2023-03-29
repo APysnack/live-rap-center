@@ -8,20 +8,6 @@ export const EventCalendarContainer = styled.div`
   margin-bottom: 6em;
   color: ${(props) => props.theme.headerFontColor};
 
-  .filter-component {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1em;
-
-    select {
-      background-color: ${(props) => props.theme.primaryContrast};
-      color: ${(props) => props.theme.primary};
-      width: 15vw;
-    }
-  }
-
   .main-content {
     display: flex;
   }
@@ -45,11 +31,6 @@ export const EventCalendarContainer = styled.div`
     width: 95vw;
     height: 5vh;
   }
-  .header-content {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
 
   .month-text {
     font-size: 2em;
@@ -68,5 +49,26 @@ export const EventCalendarContainer = styled.div`
 
   .rbc-header {
     color: ${(props) => props.theme.primaryContrast};
+  }
+
+  .filter-component {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1em;
+
+    select {
+      background-color: ${(props) => props.theme.primaryContrast};
+      color: ${(props) => props.theme.primary};
+      width: 15vw;
+    }
+
+    .filter-text {
+      margin-top: 1em;
+      color: ${(props) => props.theme.primaryContrast};
+      font-size: 1.4em;
+      font-weight: 600;
+    }
   }
 `;

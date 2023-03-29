@@ -11,23 +11,23 @@ export const philadelphia = {
   headerFontColor: 'white',
   disabled: '#3e3e42',
   primaryContrast: 'white',
-  tableHeaders: '#004C54',
   alert: '#FF3131',
+  formBackground: '#2F3136',
 };
 
 export const frieza = {
   primary: '#EFF8F3',
-  secondary: '#39FF14',
+  secondary: '#381A4C',
   tertiary: '#39FF14',
   fontFamily: `'Avenir Next', 'Arial', 'Helvetica', 'Open Sans', 'Lato', sans-serif`,
   backgroundColor: '#9A67BC',
-  fontColor: '#381A4C',
+  fontColor: 'white',
   navbarColor: '#381A4C',
   headerFontColor: '#EFF8F3',
   disabled: '#3e3e42',
   primaryContrast: '#9A67BC',
-  tableHeaders: '#39FF14',
   alert: 'red',
+  formBackground: '#2F3136',
 };
 
 export const darkTheme = {
@@ -41,6 +41,6 @@ export const darkTheme = {
   headerFontColor: 'white',
   disabled: '#3e3e42',
   primaryContrast: 'white',
-  tableHeaders: '#004C54',
   alert: 'red',
+  formBackground: 'red',
 };

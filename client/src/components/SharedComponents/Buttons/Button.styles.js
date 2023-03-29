@@ -9,6 +9,7 @@ export const BasicButtonStyle = styled.div`
   border-radius: 6px;
   font-size: 0.9em;
   padding: 0.3em 0em 0.3em 0em;
+
   color: ${(props) => props.theme.primary};
 
   &:hover {

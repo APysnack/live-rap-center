@@ -33,7 +33,7 @@ export const DataTableContainer = styled.div`
   }
 
   .header-row {
-    background-color: ${(props) => props.theme.tableHeaders};
+    background-color: ${(props) => props.theme.secondary};
   }
 
   .table-row {

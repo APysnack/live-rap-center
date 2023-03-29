@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
-import BaseForm from "../../SharedComponents/BaseForm";
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_ALL_SOCIAL_PLATFORMS, UPDATE_SOCIALS } from "./gql";
+import React, { useEffect, useState, useRef } from 'react';
+import BaseForm from '../../SharedComponents/BaseForm';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_ALL_SOCIAL_PLATFORMS, UPDATE_SOCIALS } from './gql';
+import SettingsGroup from '../../SharedComponents/SettingsGroup/SettingsGroup';
 
 function SocialMediaForm({ currentUser, refetchUser }) {
   const [initialValues, setInitialValues] = useState({});
@@ -42,15 +43,15 @@ function SocialMediaForm({ currentUser, refetchUser }) {
         // field with the url
         let initialValue = userSocials[platform.name]
           ? userSocials[platform.name]
-          : "";
+          : '';
 
         let newField = {
           id: platform.id,
           initialValue: initialValue,
           name: platform.id,
-          placeholder: "Please enter your " + platform.name + " link",
-          type: "text",
-          displayedLabel: platform.name + " Link",
+          placeholder: 'Please enter your ' + platform.name + ' link',
+          type: 'text',
+          displayedLabel: platform.name + ' Link',
         };
 
         newValues[newField.id] = newField.initialValue;
@@ -60,7 +61,7 @@ function SocialMediaForm({ currentUser, refetchUser }) {
     }
   }, [userSocials, platformQuery, initialValues, fieldArray]);
 
-  const [flashMessage, setFlashMessage] = useState("");
+  const [flashMessage, setFlashMessage] = useState('');
 
   const updateSocialLinks = (values) => {
     let attributesArray = [];
@@ -96,26 +97,34 @@ function SocialMediaForm({ currentUser, refetchUser }) {
         newValues[link.socialMediaPlatformId] = link.url;
       });
       setInitialValues({ ...newValues });
-      setFlashMessage("Settings updated successfully!");
+      setFlashMessage('Settings updated successfully!');
     }
     if (error) {
       console.log(error);
     }
   }, [data, error]);
 
-  if (loading || platformQueryLoading) return "Loading...";
+  if (loading || platformQueryLoading) return 'Loading...';
   if (error) return `Submission error ${error.message}`;
 
   return (
-    <div>
-      {flashMessage ? <div>{flashMessage} added successfully</div> : null}
-      <BaseForm
-        initialValues={initialValues}
-        fieldArray={fieldArray}
-        onSubmit={updateSocialLinks}
-        title={""}
-      />
-    </div>
+    <SettingsGroup width={25} height={66}>
+      <div class='header'>Social Media Links</div>
+
+      <div className='settings-content'>
+        <div className='form-container'>
+          <div className='subheading'>Social Media Links</div>
+
+          {flashMessage ? <div>{flashMessage} added successfully</div> : null}
+          <BaseForm
+            initialValues={initialValues}
+            fieldArray={fieldArray}
+            onSubmit={updateSocialLinks}
+            title={''}
+          />
+        </div>
+      </div>
+    </SettingsGroup>
   );
 }
 

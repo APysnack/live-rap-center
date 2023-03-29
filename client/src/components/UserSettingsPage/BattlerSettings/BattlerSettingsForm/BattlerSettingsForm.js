@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import BaseForm from "../../../SharedComponents/BaseForm";
-import { bookingPriceField } from "./BattlerSettingsFormFields";
-import { useMutation } from "@apollo/client";
-import { UPDATE_BATTLER } from "./gql";
+import React, { useEffect, useState } from 'react';
+import BaseForm from '../../../SharedComponents/BaseForm';
+import { bookingPriceField } from './BattlerSettingsFormFields';
+import { useMutation } from '@apollo/client';
+import { UPDATE_BATTLER } from './gql';
 
 function BattlerSettingsForm({ user, battler }) {
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
 
   const [updateBattler, { data, loading, error }] = useMutation(UPDATE_BATTLER);
-  const [flashMessage, setFlashMessage] = useState("");
+  const [flashMessage, setFlashMessage] = useState('');
 
   // submits form data and changes the battler based on the user's submitted values
   const callUpdateBattler = (values) => {
     // ensures field is meant to be update & that booking price is a valid number
     if (values?.bookingPriceCheckbox) {
-      let bookingPrice = parseInt(values.bookingPrice.replace(/\D/g, ""));
+      let bookingPrice = parseInt(values.bookingPrice.replace(/\D/g, ''));
       if (!isNaN(bookingPrice)) {
         bookingPrice = Math.floor(bookingPrice);
         updateBattler({
@@ -70,7 +70,7 @@ function BattlerSettingsForm({ user, battler }) {
     }
   }, [battler]);
 
-  if (loading) return "Loading...";
+  if (loading) return 'Loading...';
   if (error) return `Submission error ${error.message}`;
 
   return (
@@ -80,7 +80,7 @@ function BattlerSettingsForm({ user, battler }) {
         initialValues={initialValues}
         fieldArray={fieldArray}
         onSubmit={callUpdateBattler}
-        title={"Edit Battler Settings"}
+        title={''}
       />
     </div>
   );

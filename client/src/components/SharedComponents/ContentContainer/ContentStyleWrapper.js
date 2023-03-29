@@ -7,6 +7,7 @@ function ContentStyleWrapper({
   height = 400,
   justifyContent = 'center',
   alignItems = 'center',
+  flexDirection = 'row',
 }) {
   return (
     <ContentContainer
@@ -15,6 +16,7 @@ function ContentStyleWrapper({
         height: height,
         justifyContent: justifyContent,
         alignItems: alignItems,
+        flexDirection: flexDirection,
       }}
     >
       {children}

@@ -139,21 +139,20 @@ function EventCalendar({
           height={'75vh'}
           alignItems='flex-start'
         >
-          <div className='header-content'>
-            <div className='filter-component'>
-              <div>Find Events Near You</div>
-              <CountryDropdown
-                value={selectedCountry}
-                onChange={(value) => setSelectedCountry(value)}
+          <div className='filter-component'>
+            <div className='filter-text'>Find Events Near You</div>
+            {/* TODO: set USA as default so country is never null */}
+            <CountryDropdown
+              value={selectedCountry}
+              onChange={(value) => setSelectedCountry(value)}
+            />
+            {selectedCountry ? (
+              <RegionDropdown
+                country={selectedCountry}
+                value={selectedRegion}
+                onChange={(value) => setSelectedRegion(value)}
               />
-              {selectedCountry ? (
-                <RegionDropdown
-                  country={selectedCountry}
-                  value={selectedRegion}
-                  onChange={(value) => setSelectedRegion(value)}
-                />
-              ) : null}
-            </div>
+            ) : null}
           </div>
         </ContentContainer>
       </div>

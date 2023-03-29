@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { UserPageContainer } from './UserPage.styles';
 import FollowedBattles from './FollowedBattles/FollowedBattles';
 import UserInfo from './UserInfo';
-import ChatDropDown from './ChatDropDown/ChatDropDown';
 import NewsContainer from './NewsContainer';
 
 function UserPage({ callLogoutUser, cable }) {

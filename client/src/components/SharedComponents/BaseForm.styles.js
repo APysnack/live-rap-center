@@ -1,17 +1,23 @@
 import styled from 'styled-components';
 
 export const FormWrapper = styled.div`
-  margin-top: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: ${(props) => props.theme.body};
-`;
+  .submit-button {
+    display: flex;
+    background-color: ${(props) => props.theme.primaryContrast};
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 6px;
+    font-size: 0.9em;
+    padding: 0.3em 0em 0.3em 0em;
+    width: 100%;
+    border: 2px solid black;
+    margin-top: 1em;
 
-export const FieldContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  width: 50vw;
+    color: ${(props) => props.theme.primary};
+
+    &:hover {
+      background-color: ${(props) => props.theme.tertiary};
+      cursor: pointer;
+    }
+  }
 `;

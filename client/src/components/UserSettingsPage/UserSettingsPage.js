@@ -5,8 +5,10 @@ import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadMo
 import SocialMediaForm from './SocialMediaForm/SocialMediaForm';
 import BattlerSettings from './BattlerSettings/BattlerSettings';
 import CreateCrewForm from './CreateCrewForm/CreateCrewForm';
-import LocationSelector from '../SharedComponents/LocationSelector/LocationSelector';
-import ThemeSelector from './ThemeSelector/ThemeSelector';
+import UserSettings from './UserSettingsForm/UserSettings';
+import { UserSettingsPageContainer } from './UserSettingsPage.styles';
+import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
+import SettingsGroup from '../SharedComponents/SettingsGroup/SettingsGroup';
 
 function UserSettingsPage({ user, loading, refetchUser }) {
   const [battler, setBattler] = useState(null);
@@ -33,25 +35,36 @@ function UserSettingsPage({ user, loading, refetchUser }) {
   if (loading) return 'Loading...';
 
   return (
-    <div>
-      UserSettingsPage
-      <CreateCrewForm user={currentUser} />
-      <ImageUploadModal
-        type='profile picture'
-        object={currentUser}
-        refetch={refetchUser}
-      />
-      {battler ? (
-        <BattlerSettings user={currentUser} battler={battler} />
-      ) : null}
-      <SocialMediaForm currentUser={currentUser} refetchUser={refetchUser} />
-      <LocationSelector
-        object={currentUser}
-        refetch={refetchUser}
-        type='user'
-      />
-      <ThemeSelector user={currentUser} refetchUser={refetchUser} />
-    </div>
+    <UserSettingsPageContainer>
+      <div className='content-wrapper'>
+        <div>
+          <ContentContainer
+            width={520}
+            height={180}
+            justifyContent={'flex-start'}
+          >
+            <ImageUploadModal
+              type='profile picture'
+              object={currentUser}
+              refetch={refetchUser}
+            />
+            <div>{currentUser?.username}</div>
+          </ContentContainer>
+          <SocialMediaForm
+            currentUser={currentUser}
+            refetchUser={refetchUser}
+          />
+        </div>
+        <div>
+          <UserSettings user={currentUser} refetchUser={refetchUser} />
+
+          <CreateCrewForm />
+        </div>
+        {battler ? (
+          <BattlerSettings user={currentUser} battler={battler} />
+        ) : null}
+      </div>
+    </UserSettingsPageContainer>
   );
 }
 

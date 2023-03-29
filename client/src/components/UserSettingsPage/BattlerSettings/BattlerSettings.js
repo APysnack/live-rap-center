@@ -5,6 +5,7 @@ import ConfirmationModal from '../../SharedComponents/ConfirmationModal/Confirma
 import { DELETE_HOME_LEAGUE_FROM_BATTLER } from './gql';
 import { useMutation } from '@apollo/client';
 import BattlerSettingsForm from './BattlerSettingsForm/BattlerSettingsForm';
+import SettingsGroup from '../../SharedComponents/SettingsGroup/SettingsGroup';
 
 function BattlerSettings({ user, battler }) {
   const [homeLeague, setHomeLeague] = useState(null);
@@ -36,17 +37,29 @@ function BattlerSettings({ user, battler }) {
   };
 
   return (
-    <div>
+    <SettingsGroup height={86} width={25}>
+      <div className='header'>Battler Settings</div>
       <div>
-        {homeLeague ? (
-          <HomeLeagueWrapper>
-            <div> Home League: {homeLeague}</div>
-            <Delete onClick={openModal} className='delete' />
-          </HomeLeagueWrapper>
-        ) : (
-          <div>No home league. You must be invited to join a home league</div>
-        )}
-        <BattlerSettingsForm user={user} battler={battler} />
+        <div className='settings-content'>
+          <div className='form-container'>
+            <div className='subheading'>Booking Price</div>
+            <BattlerSettingsForm user={user} battler={battler} />
+          </div>
+          <div className='form-container'>
+            <div className='subheading'>Leave home league</div>
+            {homeLeague ? (
+              <HomeLeagueWrapper>
+                <div>{homeLeague}</div>
+                <Delete onClick={openModal} className='delete' />
+              </HomeLeagueWrapper>
+            ) : (
+              <div>
+                <div>No home league.</div>
+                <div>You must be invited to join a home league</div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
       <ConfirmationModal
         isOpen={modalOpen}
@@ -54,7 +67,7 @@ function BattlerSettings({ user, battler }) {
         onConfirm={removeHomeLeague}
         onDeny={closeModal}
       />
-    </div>
+    </SettingsGroup>
   );
 }
 

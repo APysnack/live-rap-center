@@ -17,7 +17,7 @@ export const philadelphia = {
 
 export const frieza = {
   primary: '#EFF8F3',
-  secondary: '#004C54',
+  secondary: '#39FF14',
   tertiary: '#39FF14',
   fontFamily: `'Avenir Next', 'Arial', 'Helvetica', 'Open Sans', 'Lato', sans-serif`,
   backgroundColor: '#9A67BC',

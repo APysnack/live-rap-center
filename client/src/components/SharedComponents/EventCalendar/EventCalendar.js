@@ -6,6 +6,9 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { EventCalendarContainer } from './EventCalendar.styles';
 import { useTheme } from 'styled-components';
 
+import DoubleArrow from '@mui/icons-material/DoubleArrow';
+import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
+
 const localizer = momentLocalizer(moment);
 
 function EventCalendar({
@@ -23,7 +26,42 @@ function EventCalendar({
   const calendarStyle = {
     width: '70vw',
     height: '70vh',
-    backgroundColor: theme.primary,
+    backgroundColor: theme.secondary,
+    color: theme.primary,
+    fontWeight: '700',
+  };
+
+  const dayPropGetter = (date) => {
+    const dayStyle = {};
+    if (date < new Date()) {
+      dayStyle.backgroundColor = theme.primaryContrast;
+    } else {
+      dayStyle.backgroundColor = theme.primary;
+    }
+    return {
+      style: dayStyle,
+    };
+  };
+
+  const eventStyleGetter = (event) => {
+    const backgroundColor = theme.secondary;
+    // eventPropGetter and dayPropGetter are from react big calendar
+    // to change style based on type, add a type field to events (as show below)
+    // if (event.type === 'birthday') {
+    //   backgroundColor = 'blue';
+    // }
+
+    const style = {
+      backgroundColor: backgroundColor,
+      borderRadius: '5px',
+      color: 'white',
+      border: 'solid 1px black',
+      display: 'block',
+      boxShadow: '2px 2px 2px 1px rgba(0, 0, 0, 0.2)',
+    };
+    return {
+      style: style,
+    };
   };
 
   useEffect(() => {
@@ -60,38 +98,65 @@ function EventCalendar({
 
   return (
     <EventCalendarContainer>
-      <div className='toolbar'>
-        <CountryDropdown
-          value={selectedCountry}
-          onChange={(value) => setSelectedCountry(value)}
-        />
-        {selectedCountry ? (
-          <RegionDropdown
-            country={selectedCountry}
-            value={selectedRegion}
-            onChange={(value) => setSelectedRegion(value)}
+      <div className='month-paginator'>
+        <div className='paginator-items'>
+          <DoubleArrow
+            className='calendar-arrow'
+            style={{ transform: 'rotate(180deg)' }}
+            onClick={makePrevMonthVisible}
           />
-        ) : null}
-        <div>{moment(visibleMonth).format('MMMM')}</div>
-        <div onClick={makePrevMonthVisible}>Back</div>
-        <div onClick={makeNextMonthVisible}>Next</div>
+          <div className='month-text'>
+            {moment(visibleMonth).format('MMMM YYYY')}
+          </div>
+          <DoubleArrow
+            className='calendar-arrow'
+            onClick={makeNextMonthVisible}
+          />
+        </div>
       </div>
-
-      <Calendar
-        className='event-calendar'
-        localizer={localizer}
-        events={eventsList}
-        startAccessor='start'
-        endAccessor='end'
-        showAllEvents={true}
-        style={calendarStyle}
-        onSelectEvent={handleSelectEvent}
-        toolbar={false}
-        date={visibleMonth}
-        onNavigate={(date) => {
-          setVisibleMonth({ selectedDate: visibleMonth });
-        }}
-      />
+      <div className='main-content'>
+        <ContentContainer width='75vw' height='75vh'>
+          <Calendar
+            eventPropGetter={eventStyleGetter}
+            dayPropGetter={dayPropGetter}
+            className='event-calendar'
+            localizer={localizer}
+            events={eventsList}
+            startAccessor='start'
+            endAccessor='end'
+            showAllEvents={true}
+            style={calendarStyle}
+            onSelectEvent={handleSelectEvent}
+            toolbar={false}
+            date={visibleMonth}
+            onNavigate={(date) => {
+              setVisibleMonth({ selectedDate: visibleMonth });
+            }}
+          />
+        </ContentContainer>
+        <ContentContainer
+          width={'20vw'}
+          height={'75vh'}
+          alignItems='flex-start'
+        >
+          <div className='header-content'>
+            <div className='filter-component'>
+              <div>Find Events Near You</div>
+              <CountryDropdown
+                value={selectedCountry}
+                onChange={(value) => setSelectedCountry(value)}
+              />
+              {selectedCountry ? (
+                <RegionDropdown
+                  country={selectedCountry}
+                  value={selectedRegion}
+                  onChange={(value) => setSelectedRegion(value)}
+                />
+              ) : null}
+            </div>
+          </div>
+        </ContentContainer>
+      </div>
     </EventCalendarContainer>
   );
 }

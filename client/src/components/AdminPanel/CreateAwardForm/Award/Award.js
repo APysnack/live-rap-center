@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Delete } from '@mui/icons-material';
-import ConfirmationModal from '../../SharedComponents/ConfirmationModal/ConfirmationModal';
-import { DELETE_AWARD } from './gql';
+import ConfirmationModal from '../../../SharedComponents/ConfirmationModal/ConfirmationModal';
+import { DELETE_AWARD } from '../gql';
 import { useMutation } from '@apollo/client';
-import BasicModal from '../../SharedComponents/BasicModal';
-import UpdateAwardForm from './UpdateAwardForm.js/UpdateAwardForm';
-import { UPDATE_AWARD } from './gql';
+import BasicModal from '../../../SharedComponents/BasicModal';
+import UpdateAwardForm from '../UpdateAwardForm.js/UpdateAwardForm';
+import { UPDATE_AWARD } from '../gql';
+import { AwardContainer } from './Award.styles';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
@@ -71,15 +72,18 @@ function Award({ award, refetch }) {
     setUploadImageModalOpen(false);
   };
   return (
-    <div>
+    <AwardContainer>
       <div>{award.name}</div>
-      <img
-        src={REACT_APP_SERVER_URL + award.imageUrl}
-        onClick={() => setEditAwardModalOpen(true)}
-        width='30'
-        height='30'
-      />
-      <Delete onClick={openModal} className='delete' />
+      <div className='award-icon-container'>
+        <img
+          src={REACT_APP_SERVER_URL + award.imageUrl}
+          onClick={() => setEditAwardModalOpen(true)}
+          width='30'
+          height='30'
+        />
+        <Delete onClick={openModal} className='delete' />
+      </div>
+
       <ConfirmationModal
         isOpen={uploadImageModalOpen}
         onClose={closeModal}
@@ -92,7 +96,7 @@ function Award({ award, refetch }) {
       >
         <UpdateAwardForm award={award} onSubmit={(value) => editAward(value)} />
       </BasicModal>
-    </div>
+    </AwardContainer>
   );
 }
 

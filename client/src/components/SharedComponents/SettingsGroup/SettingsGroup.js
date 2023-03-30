@@ -8,7 +8,9 @@ function SettingsGroup({
   alignItems = 'flex-start',
   settingsProps,
   shadowWidth = 24,
+  shadowHeight = 50,
   headerWidth = 25,
+  scrollEnabled = false,
 }) {
   return (
     <ContentContainer
@@ -20,13 +22,21 @@ function SettingsGroup({
         <div className='header' style={{ width: `${headerWidth}vw` }}>
           {settingsProps.header}
         </div>
-        <div className='settings-content'>
+        <div
+          className='settings-content'
+          style={{
+            height: `${shadowHeight}vh`,
+          }}
+        >
           {settingsProps.components.map((component) => {
             return (
               <div
                 key={`${component.title}-element`}
                 className='form-container'
-                style={{ width: `${shadowWidth}vw` }}
+                style={{
+                  width: `${shadowWidth}vw`,
+                  overflow: scrollEnabled ? 'scroll' : null,
+                }}
               >
                 <div className='subheading'>{component.title}</div>
                 {component.component()}

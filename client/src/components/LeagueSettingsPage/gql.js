@@ -14,6 +14,14 @@ export const GET_USER_WITH_LEAGUES = gql`
           name
           flyerImageUrl
           date
+          address
+          admissionCost
+
+          location {
+            id
+            country
+            region
+          }
         }
       }
     }

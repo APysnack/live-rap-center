@@ -4,6 +4,12 @@ export const formatDate = (string, modifications) => {
     month: 'long',
     day: 'numeric',
   };
+  if (modifications.includes('short')) {
+    options = {
+      month: 'short',
+      day: '2-digit',
+    };
+  }
   if (modifications.includes('includeWeekday')) {
     options.weekday = 'long';
   }

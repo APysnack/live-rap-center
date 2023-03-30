@@ -52,7 +52,7 @@ function EditLeagueForm({ refetch, league }) {
   return (
     <SettingsGroup
       width={25}
-      height={40}
+      height={50}
       settingsProps={settingsProps}
     ></SettingsGroup>
   );

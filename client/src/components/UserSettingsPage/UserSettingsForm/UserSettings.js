@@ -52,28 +52,36 @@ function UserSettings({ user, refetchUser }) {
     }
   }, [user]);
 
+  const themeSelector = () => {
+    return (
+      <Select
+        styles={reactSelectStyles}
+        className='react-select-container'
+        options={THEMES}
+        value={selectedTheme}
+        onChange={(selection) => updateUserTheme(selection.value)}
+      />
+    );
+  };
+
+  const locationSelector = () => {
+    return <LocationSelector object={user} refetch={refetchUser} type='user' />;
+  };
+
+  const settingsProps = {
+    header: 'User Settings',
+    components: [
+      { title: 'Select a Theme', component: themeSelector },
+      { title: 'Select your location', component: locationSelector },
+    ],
+  };
+
   return (
-    <SettingsGroup width={25} height={40}>
-      <div className='header'>User Settings</div>
-
-      <div className='settings-content'>
-        <div className='form-container'>
-          <div className='subheading'>Select a Theme</div>
-          <Select
-            styles={reactSelectStyles}
-            className='react-select-container'
-            options={THEMES}
-            value={selectedTheme}
-            onChange={(selection) => updateUserTheme(selection.value)}
-          />
-        </div>
-
-        <div className='form-container'>
-          <div className='subheading'>Select your location</div>
-          <LocationSelector object={user} refetch={refetchUser} type='user' />
-        </div>
-      </div>
-    </SettingsGroup>
+    <SettingsGroup
+      width={25}
+      height={40}
+      settingsProps={settingsProps}
+    ></SettingsGroup>
   );
 }
 

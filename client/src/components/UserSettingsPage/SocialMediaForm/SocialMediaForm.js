@@ -107,24 +107,33 @@ function SocialMediaForm({ currentUser, refetchUser }) {
   if (loading || platformQueryLoading) return 'Loading...';
   if (error) return `Submission error ${error.message}`;
 
+  const socialMediaLinksContent = () => {
+    return (
+      <>
+        {flashMessage ? <div>{flashMessage} added successfully</div> : null}
+        <BaseForm
+          initialValues={initialValues}
+          fieldArray={fieldArray}
+          onSubmit={updateSocialLinks}
+          title={''}
+        />
+      </>
+    );
+  };
+
+  const settingsProps = {
+    header: 'Social Media',
+    components: [
+      { title: 'Social Media Links', component: socialMediaLinksContent },
+    ],
+  };
+
   return (
-    <SettingsGroup width={25} height={66}>
-      <div class='header'>Social Media Links</div>
-
-      <div className='settings-content'>
-        <div className='form-container'>
-          <div className='subheading'>Social Media Links</div>
-
-          {flashMessage ? <div>{flashMessage} added successfully</div> : null}
-          <BaseForm
-            initialValues={initialValues}
-            fieldArray={fieldArray}
-            onSubmit={updateSocialLinks}
-            title={''}
-          />
-        </div>
-      </div>
-    </SettingsGroup>
+    <SettingsGroup
+      width={25}
+      height={66}
+      settingsProps={settingsProps}
+    ></SettingsGroup>
   );
 }
 

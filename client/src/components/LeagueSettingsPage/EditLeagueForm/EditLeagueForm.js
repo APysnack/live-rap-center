@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import BaseForm from "../../SharedComponents/BaseForm";
-import { leagueNameField } from "./EditLeagueFormFields";
-import { UPDATE_LEAGUE_SETTINGS } from "./gql";
-import { useMutation } from "@apollo/client";
+import React, { useState, useEffect } from 'react';
+import BaseForm from '../../SharedComponents/BaseForm';
+import { leagueNameField } from './EditLeagueFormFields';
+import { UPDATE_LEAGUE_SETTINGS } from './gql';
+import { useMutation } from '@apollo/client';
+import SettingsGroup from '../../SharedComponents/SettingsGroup/SettingsGroup';
 
 function EditLeagueForm({ refetch, league }) {
   const [initialValues, setInitialValues] = useState({});
@@ -32,15 +33,28 @@ function EditLeagueForm({ refetch, league }) {
     }
   }, []);
 
-  return (
-    <div>
+  const editLeagueForm = () => {
+    return (
       <BaseForm
         initialValues={initialValues}
         fieldArray={fieldArray}
         onSubmit={updateLeague}
-        title={"Edit League Settings"}
+        title={''}
       />
-    </div>
+    );
+  };
+
+  const settingsProps = {
+    header: 'Your League',
+    components: [{ title: 'League Name', component: editLeagueForm }],
+  };
+
+  return (
+    <SettingsGroup
+      width={25}
+      height={40}
+      settingsProps={settingsProps}
+    ></SettingsGroup>
   );
 }
 

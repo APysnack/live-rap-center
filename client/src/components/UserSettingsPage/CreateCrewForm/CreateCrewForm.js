@@ -34,22 +34,29 @@ function CreateCrewForm({ user }) {
   if (loading) return 'Loading...';
   if (error) return `Submission error ${error.message}`;
 
+  const createCrewForm = () => {
+    return (
+      <BaseForm
+        initialValues={initialValues}
+        fieldArray={fieldArray}
+        onSubmit={addNewCrew}
+        width={`${FORM_DIMENSION}vw`}
+        title=''
+      />
+    );
+  };
+
+  const settingsProps = {
+    header: 'Miscellaneous',
+    components: [{ title: 'Create a crew', component: createCrewForm }],
+  };
+
   return (
-    <SettingsGroup height={45} width={25}>
-      <div className='header'>Miscellaneous</div>
-      <div className='settings-content'>
-        <div className='form-container'>
-          <div className='subheading'>Create a crew</div>
-          <BaseForm
-            initialValues={initialValues}
-            fieldArray={fieldArray}
-            onSubmit={addNewCrew}
-            width={`${FORM_DIMENSION}vw`}
-            title=''
-          />
-        </div>
-      </div>
-    </SettingsGroup>
+    <SettingsGroup
+      height={45}
+      width={25}
+      settingsProps={settingsProps}
+    ></SettingsGroup>
   );
 }
 

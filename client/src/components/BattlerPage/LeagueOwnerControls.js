@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { CREATE_LEAGUE_INVITATION, GET_USER_LEAGUE } from './gql';
+import { CREATE_LEAGUE_INVITATION } from './gql';
 import { useMutation } from '@apollo/client';
-import { useQuery } from '@apollo/client';
 import BasicModal from '../SharedComponents/BasicModal';
 
 function LeagueOwnerControls({ battler, league, setFlashMessage }) {

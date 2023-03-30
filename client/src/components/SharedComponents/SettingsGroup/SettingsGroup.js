@@ -3,10 +3,12 @@ import { SettingsContainer } from './SettingsGroup.styles';
 import ContentContainer from '../ContentContainer/ContentStyleWrapper';
 
 function SettingsGroup({
-  children,
   width = 32,
   height = 50,
   alignItems = 'flex-start',
+  settingsProps,
+  shadowWidth = 24,
+  headerWidth = 25,
 }) {
   return (
     <ContentContainer
@@ -14,7 +16,25 @@ function SettingsGroup({
       height={`${height}vh`}
       alignItems={alignItems}
     >
-      <SettingsContainer>{children}</SettingsContainer>
+      <SettingsContainer>
+        <div className='header' style={{ width: `${headerWidth}vw` }}>
+          {settingsProps.header}
+        </div>
+        <div className='settings-content'>
+          {settingsProps.components.map((component) => {
+            return (
+              <div
+                key={`${component.title}-element`}
+                className='form-container'
+                style={{ width: `${shadowWidth}vw` }}
+              >
+                <div className='subheading'>{component.title}</div>
+                {component.component()}
+              </div>
+            );
+          })}
+        </div>
+      </SettingsContainer>
     </ContentContainer>
   );
 }

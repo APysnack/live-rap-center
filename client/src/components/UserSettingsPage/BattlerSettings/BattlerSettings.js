@@ -36,31 +36,38 @@ function BattlerSettings({ user, battler }) {
     }
   };
 
-  return (
-    <SettingsGroup height={86} width={25}>
-      <div className='header'>Battler Settings</div>
-      <div>
-        <div className='settings-content'>
-          <div className='form-container'>
-            <div className='subheading'>Booking Price</div>
-            <BattlerSettingsForm user={user} battler={battler} />
-          </div>
-          <div className='form-container'>
-            <div className='subheading'>Leave home league</div>
-            {homeLeague ? (
-              <HomeLeagueWrapper>
-                <div>{homeLeague}</div>
-                <Delete onClick={openModal} className='delete' />
-              </HomeLeagueWrapper>
-            ) : (
-              <div>
-                <div>No home league.</div>
-                <div>You must be invited to join a home league</div>
-              </div>
-            )}
-          </div>
+  const battlerSettingsForm = () => {
+    return <BattlerSettingsForm user={user} battler={battler} />;
+  };
+
+  const homeLeagueSettings = () => {
+    if (homeLeague) {
+      return (
+        <HomeLeagueWrapper>
+          <div>{homeLeague}</div>
+          <Delete onClick={openModal} className='delete' />
+        </HomeLeagueWrapper>
+      );
+    } else {
+      return (
+        <div>
+          <div>No home league.</div>
+          <div>You must be invited to join a home league</div>
         </div>
-      </div>
+      );
+    }
+  };
+
+  const settingsProps = {
+    header: 'Battler Settings',
+    components: [
+      { title: 'Booking Price', component: battlerSettingsForm },
+      { title: 'Leave Home League', component: homeLeagueSettings },
+    ],
+  };
+
+  return (
+    <SettingsGroup height={86} width={25} settingsProps={settingsProps}>
       <ConfirmationModal
         isOpen={modalOpen}
         onClose={closeModal}

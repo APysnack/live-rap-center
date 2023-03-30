@@ -14,7 +14,6 @@ export const SettingsContainer = styled.div`
     border-radius: 6px;
     font-size: 0.9em;
     padding: 0.3em 0em 0.3em 0em;
-    width: 25vw;
     border: 2px solid black;
     font-size: 2em;
     font-weight: 500;
@@ -51,7 +50,6 @@ export const SettingsContainer = styled.div`
       background-color: ${(props) => props.theme.formBackground};
       border-radius: 10px;
       padding: 0.5em 1.4em 1.4em 1.4em;
-      width: 24vw;
 
       select {
         margin: 0.4em;

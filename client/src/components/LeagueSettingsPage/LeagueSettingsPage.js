@@ -4,9 +4,9 @@ import { GET_USER_WITH_LEAGUES } from './gql';
 import { useQuery } from '@apollo/client';
 import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
 import EditLeagueForm from './EditLeagueForm/EditLeagueForm';
-import CreateEventModal from './CreateEventForm/CreateEventModal';
-import EventLink from '../SharedComponents/EventLink/EventLink';
-import DeleteEventButton from './DeleteEventButton/DeleteEventButton';
+import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
+import EventSettings from './EventSettings/EventSettings';
+import { LeagueSettingsContainer } from './LeagueSettings.styles';
 
 function LeagueSettingsPage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -31,39 +31,24 @@ function LeagueSettingsPage() {
   }, [data]);
 
   return (
-    <div>
-      <div>Logged in as {currentUser?.username}</div>
-      {league ? (
-        <div>Modifying league settings for {league.leagueName}</div>
-      ) : null}
-      <ImageUploadModal type='league logo' object={league} refetch={refetch} />
-      <EditLeagueForm league={league} refetch={refetch} />
-      <CreateEventModal league={league} refetch={refetch} />
-
+    <LeagueSettingsContainer>
+      <EventSettings league={league} refetchLeague={refetch}></EventSettings>
       <div>
-        <div>Upcoming events</div>
-        {league?.upcomingEvents?.length > 0 ? (
-          <div>
-            {league.upcomingEvents.map((event) => (
-              <div key={event.id}>
-                <EventLink
-                  key={`event-link-${event.id}`}
-                  event={event}
-                  type='edit'
-                />
-                <DeleteEventButton
-                  key={`delete-event-${event.id}`}
-                  event={event}
-                  refetch={refetch}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div>No events currently planned</div>
-        )}
+        <ContentContainer
+          width={520}
+          height={180}
+          justifyContent={'flex-start'}
+        >
+          <ImageUploadModal
+            type='league logo'
+            object={league}
+            refetch={refetch}
+          />
+        </ContentContainer>
+
+        <EditLeagueForm league={league} refetch={refetch} />
       </div>
-    </div>
+    </LeagueSettingsContainer>
   );
 }
 

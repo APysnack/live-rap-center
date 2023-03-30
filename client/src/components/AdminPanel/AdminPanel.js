@@ -21,8 +21,8 @@ function AdminPanel() {
   const awardSettingsProps = {
     header: 'Awards',
     components: [
-      { title: 'Create an award', component: createAwardForm },
       { title: 'Assign an award', component: assignAwardForm },
+      { title: 'Create an award', component: createAwardForm },
     ],
   };
 
@@ -34,13 +34,16 @@ function AdminPanel() {
   return (
     <AdminPanelContainer>
       <SettingsGroup
-        width={45}
-        height={60}
+        width={35}
+        height={80}
+        scrollEnabled={true}
         settingsProps={awardSettingsProps}
+        shadowHeight={65}
+        shadowWidth={30}
       ></SettingsGroup>
       <SettingsGroup
         width={25}
-        height={60}
+        height={80}
         settingsProps={leagueSettingsProps}
       ></SettingsGroup>
     </AdminPanelContainer>

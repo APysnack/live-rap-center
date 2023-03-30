@@ -1,11 +1,7 @@
 import React from 'react';
 import { EventLinkContainer } from './EventLink.styles';
-import { Avatar } from '@mui/material';
 import { formatDate } from '../../../utils/helperFunctions';
-
-const { REACT_APP_SERVER_URL } = process.env;
-const THUMBNAIL_WIDTH = 100;
-const THUMBNAIL_HEIGHT = 100;
+import Sell from '@mui/icons-material/Sell';
 
 function EventLink({ event, type = 'view' }) {
   const eventDate = new Date(event.date);
@@ -18,6 +14,15 @@ function EventLink({ event, type = 'view' }) {
     }
   };
 
+  const getDate = (type) => {
+    const dateArray = formatDate(eventDate, ['short']).split(' ');
+    if (type === 'month') {
+      return dateArray[0];
+    } else {
+      return dateArray[1].padStart(2, '0');
+    }
+  };
+
   return (
     <EventLinkContainer
       to={eventPath()}
@@ -25,21 +30,21 @@ function EventLink({ event, type = 'view' }) {
         eventId: event.id,
       }}
     >
-      {event.flyerImageUrl ? (
-        <Avatar
-          src={REACT_APP_SERVER_URL + event.flyerImageUrl}
-          sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
-          className='eventFlyer'
-        />
-      ) : (
-        <Avatar
-          src={null}
-          sx={{ width: THUMBNAIL_WIDTH, height: THUMBNAIL_HEIGHT }}
-          className='eventFlyer'
-        />
-      )}
-      <div>{event.name}</div>
-      <div>{formatDate(eventDate, ['includeWeekday'])}</div>
+      <div className='event-container'>
+        <div className='date-container'>
+          <span className='day-text'>{getDate('day')}</span>
+          <span className='month-text'>{getDate('month')}</span>
+        </div>
+
+        <div className='event-details-container'>
+          <div className='event-name'>{event.name}</div>
+          <div>{event.address}</div>
+          <div className='icon-box'>
+            <Sell style={{ fontSize: '1em' }} />
+            {event.admissionCost.toFixed(2)}
+          </div>
+        </div>
+      </div>
     </EventLinkContainer>
   );
 }

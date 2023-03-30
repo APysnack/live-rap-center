@@ -3,27 +3,55 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Select from 'react-select';
 import { ASSIGN_AWARD, GET_AWARDS } from './gql';
 import { useQuery } from '@apollo/client';
 import { Formik, Field, Form } from 'formik';
 import { useMutation } from '@apollo/client';
+import { AssignAwardFormContainer } from './AssignAwardForm.styles';
+import { useTheme } from 'styled-components';
 
 function AssignAwardForm() {
-  const [awardId, setAwardId] = useState('');
-
   const { loading, data, refetch } = useQuery(GET_AWARDS);
   const [assignAward] = useMutation(ASSIGN_AWARD);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [menuOptions, setMenuOptions] = useState([]);
 
-  const handleChange = (event) => {
-    setAwardId(event.target.value);
+  const theme = useTheme();
+  const reactSelectStyles = {
+    control: (baseStyles) => ({
+      ...baseStyles,
+      backgroundColor: theme.primaryContrast,
+      color: theme.primary,
+      width: '17vw',
+    }),
+    menu: (baseStyles) => ({
+      ...baseStyles,
+      backgroundColor: theme.secondary,
+      color: theme.fontColor,
+    }),
+  };
+
+  useEffect(() => {
+    if (data?.awards?.length > 0) {
+      const options = data.awards.map(({ id, name }) => ({
+        value: id,
+        label: name,
+      }));
+      setMenuOptions(options);
+      setSelectedOption(options[0]);
+    }
+  }, [data]);
+
+  const handleChange = (newSelection) => {
+    setSelectedOption(newSelection);
   };
 
   const assignTo = (values) => {
-    if (awardId !== '' && values.recipientId !== '') {
+    if (selectedOption?.value !== '' && values.recipientId !== '') {
       assignAward({
         variables: {
-          awardId: awardId,
+          awardId: selectedOption.value,
           recipientId: values.recipientId,
         },
       });
@@ -33,24 +61,17 @@ function AssignAwardForm() {
   if (loading) return 'Loading...';
 
   return (
-    <div>
+    <AssignAwardFormContainer>
       {data?.awards?.length > 0 ? (
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>Awards</InputLabel>
             <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              value={awardId ? awardId : ''}
-              label='Award'
-              onChange={handleChange}
-            >
-              {data.awards.map((award) => (
-                <MenuItem key={award.id} value={award.id}>
-                  {award.name}
-                </MenuItem>
-              ))}
-            </Select>
+              styles={reactSelectStyles}
+              options={menuOptions}
+              value={selectedOption}
+              onChange={(selection) => handleChange(selection)}
+            ></Select>
           </FormControl>
         </Box>
       ) : null}
@@ -64,18 +85,17 @@ function AssignAwardForm() {
         }}
       >
         <Form>
-          <label htmlFor='recipientId'>
-            Recipient ID: Battler/League/Voter
-          </label>
           <Field
             id='recipientId'
             name='recipientId'
             placeholder='Enter recipient ID'
           />
-          <button type='submit'>Submit</button>
+          <button className='submit-button' type='submit'>
+            Submit
+          </button>
         </Form>
       </Formik>
-    </div>
+    </AssignAwardFormContainer>
   );
 }
 

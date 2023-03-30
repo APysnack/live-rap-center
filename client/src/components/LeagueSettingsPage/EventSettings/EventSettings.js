@@ -21,11 +21,6 @@ function EventSettings({ league, refetchLeague }) {
                   event={event}
                   type='edit'
                 />
-                <DeleteEventButton
-                  key={`delete-event-${event.id}`}
-                  event={event}
-                  refetch={refetchLeague}
-                />
               </div>
             ))}
           </div>
@@ -39,18 +34,19 @@ function EventSettings({ league, refetchLeague }) {
   const settingsProps = {
     header: 'Events',
     components: [
-      { title: 'Create an Event', component: createEventModal },
+      { title: '', component: createEventModal },
       { title: 'Upcoming Events', component: upcomingEvents },
     ],
   };
 
   return (
     <SettingsGroup
-      width={65}
-      height={59}
+      width={55}
+      height={70}
       shadowWidth={50}
-      headerWidth={65}
+      headerWidth={54}
       settingsProps={settingsProps}
+      scrollEnabled={true}
     ></SettingsGroup>
   );
 }

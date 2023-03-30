@@ -5,7 +5,7 @@ module Queries
       type [Types::Models::AwardType], null: true
   
       def resolve()
-        ::Award.all
+        ::Award.all.order(:award_type)
       end
     end
 end

@@ -11,8 +11,8 @@ function CreateAwardForm() {
 
   return (
     <div>
-      <ListAwards awards={data?.awards} refetch={refetch} />
       <ImageUploadModal type='award image' refetch={refetch} />
+      <ListAwards awards={data?.awards} refetch={refetch} />
     </div>
   );
 }

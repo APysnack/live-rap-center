@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
 export const AssignAwardFormContainer = styled.div`
+  margin-top: 1.3em;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.2em;
 
   .submit-button {
     width: 100%;
@@ -13,5 +17,9 @@ export const AssignAwardFormContainer = styled.div`
     margin-top: 1em;
     align-items: center;
     text-align: center;
+  }
+
+  input {
+    width: 100%;
   }
 `;

@@ -10,7 +10,6 @@ function SettingsGroup({
   shadowWidth = 24,
   shadowHeight = 50,
   headerWidth = 25,
-  scrollEnabled = false,
 }) {
   return (
     <ContentContainer
@@ -35,7 +34,7 @@ function SettingsGroup({
                 className='form-container'
                 style={{
                   width: `${shadowWidth}vw`,
-                  overflow: scrollEnabled ? 'scroll' : null,
+                  overflow: component.scrollEnabled ? 'scroll' : null,
                 }}
               >
                 <div className='subheading'>{component.title}</div>

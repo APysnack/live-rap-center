@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Avatar } from '@mui/material';
 import ChangeFileForm from './ChangeFileForm';
 import { ImageModalWrapper } from './ImageUploadModal.styles';
+import Add from '@mui/icons-material/Add';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
@@ -51,7 +52,10 @@ function ImageUploadModal({ type, refetch, object = null }) {
           className='profileImg'
         />
       ) : (
-        <div onClick={openImageModal}>Upload A New Award</div>
+        <div className='create-award-button' onClick={openImageModal}>
+          <div>Add Award</div>
+          <Add className='add'>Upload A New Award</Add>
+        </div>
       )}
 
       <ChangeFileForm

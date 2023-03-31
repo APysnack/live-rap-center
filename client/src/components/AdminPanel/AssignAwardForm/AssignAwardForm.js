@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from 'react-select';
 import { ASSIGN_AWARD, GET_AWARDS } from './gql';
@@ -23,7 +22,7 @@ function AssignAwardForm() {
       ...baseStyles,
       backgroundColor: theme.primaryContrast,
       color: theme.primary,
-      width: '17vw',
+      width: '14vw',
     }),
     menu: (baseStyles) => ({
       ...baseStyles,
@@ -65,7 +64,6 @@ function AssignAwardForm() {
       {data?.awards?.length > 0 ? (
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
-            <InputLabel id='demo-simple-select-label'>Awards</InputLabel>
             <Select
               styles={reactSelectStyles}
               options={menuOptions}

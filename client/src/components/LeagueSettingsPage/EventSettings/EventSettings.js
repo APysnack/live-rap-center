@@ -35,7 +35,11 @@ function EventSettings({ league, refetchLeague }) {
     header: 'Events',
     components: [
       { title: '', component: createEventModal },
-      { title: 'Upcoming Events', component: upcomingEvents },
+      {
+        title: 'Upcoming Events',
+        component: upcomingEvents,
+        scrollEnabled: true,
+      },
     ],
   };
 
@@ -46,7 +50,6 @@ function EventSettings({ league, refetchLeague }) {
       shadowWidth={50}
       headerWidth={54}
       settingsProps={settingsProps}
-      scrollEnabled={true}
     ></SettingsGroup>
   );
 }

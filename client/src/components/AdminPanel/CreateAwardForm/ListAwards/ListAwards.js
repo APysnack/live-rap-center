@@ -22,26 +22,28 @@ function ListAwards({ awards, refetch }) {
 
   return (
     <div>
-      <div>
-        <div>
-          <div>Uncategorized</div>
-          {filteredAwards['']?.map((award) => (
-            <Award key={award.id} award={award} refetch={refetch} />
-          ))}
-        </div>
-        <div>League Awards</div>
+      <div className='awards-container'>
+        <div className='award-type'>Uncategorized</div>
+        {filteredAwards['']?.map((award) => (
+          <Award key={award.id} award={award} refetch={refetch} />
+        ))}
+      </div>
+
+      <div className='awards-container'>
+        <div className='award-type'>League Awards</div>
         {filteredAwards['league_award']?.map((award) => (
           <Award key={award.id} award={award} refetch={refetch} />
         ))}
       </div>
-      <div>
-        <div>Battler Awards</div>
+
+      <div className='awards-container'>
+        <div className='award-type'>Battler Awards</div>
         {filteredAwards['battler_award']?.map((award) => (
           <Award key={award.id} award={award} refetch={refetch} />
         ))}
       </div>
-      <div>
-        <div>Voter Awards</div>
+      <div className='awards-container'>
+        <div className='award-type'>Voter Awards</div>
         {filteredAwards['voter_award']?.map((award) => (
           <Award key={award.id} award={award} refetch={refetch} />
         ))}

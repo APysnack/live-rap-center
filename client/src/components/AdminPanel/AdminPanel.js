@@ -21,30 +21,42 @@ function AdminPanel() {
   const awardSettingsProps = {
     header: 'Awards',
     components: [
-      { title: 'Assign an award', component: assignAwardForm },
-      { title: 'Create an award', component: createAwardForm },
+      {
+        title: 'Assign award to Battler/Voter/League ID',
+        component: assignAwardForm,
+      },
+      {
+        title: '',
+        component: createAwardForm,
+        scrollEnabled: true,
+      },
     ],
   };
 
   const leagueSettingsProps = {
     header: 'Leagues',
-    components: [{ title: 'Add a league', component: createLeagueForm }],
+    components: [
+      {
+        title: 'Add a league',
+        component: createLeagueForm,
+        scrollEnabled: true,
+      },
+    ],
   };
 
   return (
     <AdminPanelContainer>
       <SettingsGroup
-        width={35}
-        height={80}
-        scrollEnabled={true}
-        settingsProps={awardSettingsProps}
-        shadowHeight={65}
-        shadowWidth={30}
-      ></SettingsGroup>
-      <SettingsGroup
         width={25}
         height={80}
         settingsProps={leagueSettingsProps}
+      ></SettingsGroup>
+      <SettingsGroup
+        width={32}
+        height={80}
+        settingsProps={awardSettingsProps}
+        shadowHeight={65}
+        shadowWidth={30}
       ></SettingsGroup>
     </AdminPanelContainer>
   );

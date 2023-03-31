@@ -8,6 +8,30 @@ export const ImageModalWrapper = styled.div`
   .profileImg:hover {
     cursor: pointer;
   }
+
+  .create-award-button {
+    cursor: pointer;
+    width: 100%;
+    background-color: ${(props) => props.theme.secondary};
+    color: ${(props) => props.theme.fontColor};
+    padding: 1em 1.5em 1em 1.5em;
+    border-radius: 5px;
+    margin: 1em 0 1em 0;
+    border: 2px solid black;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    display: flex;
+    font-size: 1.4em;
+
+    &:hover {
+      background-color: ${(props) => props.theme.tertiary};
+    }
+
+    .add {
+      font-size: 1.5em;
+    }
+  }
 `;
 
 export const DropzoneWrapper = styled.div`

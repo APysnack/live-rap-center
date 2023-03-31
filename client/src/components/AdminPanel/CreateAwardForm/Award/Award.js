@@ -73,13 +73,13 @@ function Award({ award, refetch }) {
   };
   return (
     <AwardContainer>
-      <div>{award.name}</div>
+      <div className='award-name'>{award.name}</div>
       <div className='award-icon-container'>
         <img
           src={REACT_APP_SERVER_URL + award.imageUrl}
           onClick={() => setEditAwardModalOpen(true)}
-          width='30'
-          height='30'
+          width='40'
+          height='40'
         />
         <Delete onClick={openModal} className='delete' />
       </div>

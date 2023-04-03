@@ -10,6 +10,15 @@ import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadMo
 import { Avatar } from '@mui/material';
 import FollowBattlerButton from './FollowBattlerButton';
 import { Link } from 'react-router-dom';
+import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import {
+  BattlerPageContainer,
+  AdminPanel,
+  LeagueOwnerPanel,
+  BattlerStatContainer,
+  SocialMediaContentContainer,
+} from './BattlerPage.styles';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
@@ -17,8 +26,6 @@ function BattlerPage() {
   let { battlerId } = useParams();
   const [flashMessage, setFlashMessage] = useState('');
   const [battler, setBattler] = useState(null);
-  const [userViewingPageIsThisBattler, setUserViewingPageIsThisBattler] =
-    useState(false);
   const [userViewingPageIsLeagueOwner, setUserViewingPageIsLeagueOwner] =
     useState(false);
   const [battlerStats, setBattlerStats] = useState({
@@ -45,13 +52,6 @@ function BattlerPage() {
   useEffect(() => {
     if (data?.battler) {
       setBattler(data.battler);
-      if (
-        data.battler.user?.id &&
-        user?.id &&
-        parseInt(data.battler.user?.id) === parseInt(user?.id)
-      ) {
-        setUserViewingPageIsThisBattler(true);
-      }
     }
   }, [data]);
 
@@ -91,68 +91,103 @@ function BattlerPage() {
 
   if (loading) return 'Loading...';
 
-  return (
-    <>
-      <div>{flashMessage}</div>
-      {battler ? (
-        <div>
-          {userViewingPageIsThisBattler ? (
-            <div>This is your battler page</div>
-          ) : null}
-          <div>Battler Name: {battler.name}</div>
+  return battler ? (
+    <BattlerPageContainer>
+      <div className='user-details-container'>
+        <ContentContainer
+          flexDirection='column'
+          justifyContent='flex-start'
+          height={500}
+        >
+          <div className='battler-name-container header-container'>
+            <div>{battler.name}</div>
+            {battler?.user?.isVerified ? (
+              <VerifiedUserIcon
+                className='verified-icon'
+                style={{ fontSize: '0.8em' }}
+              />
+            ) : null}
+          </div>
+
           {battler?.user?.isVerified ? (
             <div>
-              <div>VERIFIED LRC USER</div>
               <Avatar
                 src={REACT_APP_SERVER_URL + battler.user.profilePictureUrl}
-                sx={{ width: 100, height: 100 }}
+                sx={{ width: 300, height: 300 }}
                 className='battlerImage'
+                variant={'rounded'}
               />
             </div>
           ) : (
             <div>
-              <div>USER NOT VERIFIED</div>
               <Avatar
                 src={REACT_APP_SERVER_URL + battler.image}
                 sx={{ width: 100, height: 100 }}
                 className='battlerImage'
+                variant={'square'}
               />
             </div>
           )}
-          {battler?.league?.leagueName ? (
-            <div>This battler represents {battler.league.leagueName}</div>
-          ) : (
-            <div>This battler has not confirmed a homeleague</div>
-          )}
-          <div>This battler's rating is {battler.score}</div>
-          <div>Number of Battles: {battler.battleCount}</div>
-          <div>Total Views: {battlerStats.totalViews}</div>
-          <div>Average Views: {battlerStats.avgViews}</div>
-          <div>Wins: {battler?.record?.wins}</div>
-          <div>Losses: {battler?.record?.losses}</div>
-          <FollowBattlerButton
-            battlerId={battlerId}
-            currentUser={currentUser?.user}
-            refetchCurrentUser={refetchCurrentUser}
-          />
-          {battler?.user?.socialMediaLinks ? (
-            <SocialMediaContainer socials={battler?.user?.socialMediaLinks} />
-          ) : null}
+        </ContentContainer>
+        <ContentContainer
+          flexDirection='column'
+          width={500}
+          height={500}
+          justifyContent='flex-start'
+        >
+          <BattlerStatContainer>
+            <div className='header-container'>
+              <div className='title-text'>Battler Stats</div>
+            </div>
+            {battler?.league?.leagueName ? (
+              <div>This battler represents {battler.league.leagueName}</div>
+            ) : (
+              <div className='no-league'>
+                This battler has not confirmed a homeleague
+              </div>
+            )}
+            <div className='stats-container'>
+              <div>Rating: {battler.score}</div>
+              <div>
+                Record: {battler?.record?.wins} - {battler?.record?.losses}
+              </div>
 
-          {currentUser?.user?.ownedLeagues?.length > 0 ? (
+              <div>Number of Battles: {battler.battleCount}</div>
+              <div>Total Views: {battlerStats.totalViews}</div>
+              <div>Average Views: {battlerStats.avgViews}</div>
+            </div>
+
+            <FollowBattlerButton
+              battlerId={battlerId}
+              currentUser={currentUser?.user}
+              refetchCurrentUser={refetchCurrentUser}
+            />
+          </BattlerStatContainer>
+        </ContentContainer>
+      </div>
+      <ContentContainer width={1200} height={1150}></ContentContainer>
+
+      {/* {currentUser?.user?.ownedLeagues?.length > 0 &&
+      battler?.user?.isVerified ? (
+        <ContentContainer>
+          <LeagueOwnerPanel>
+            <div className='header-container'>
+              <div className='title-text'>League Owner Options</div>
+            </div>
+
+            {battler.bookingPrice ? (
+              <div>{`Rate per minute: $${battler?.bookingPrice}`}</div>
+            ) : null}
             <LeagueOwnerControls
               battler={battler}
               league={currentUser.user.ownedLeagues[0]}
               setFlashMessage={setFlashMessage}
             />
-          ) : null}
-          {battler?.user?.isVerified ? (
+
             <div>
-              {battler.bookingPrice ? (
-                <div>{`Rate per minute: $${battler?.bookingPrice}`}</div>
-              ) : null}
               <Link
                 to='/create-booking'
+                className='lrc-button'
                 state={{
                   booker: user,
                   talent: battler,
@@ -162,20 +197,27 @@ function BattlerPage() {
                 BOOK THIS BATTLER
               </Link>
             </div>
-          ) : null}
-          {userViewingPageIsAdmin ? (
-            <>
-              <div>ADMIN ONLY: MODIFY BATTLER IMAGE</div>
-              <ImageUploadModal
-                type='battler image'
-                object={battler}
-                refetch={refetch}
-              />
-            </>
-          ) : null}
-        </div>
+          </LeagueOwnerPanel>
+        </ContentContainer>
       ) : null}
-    </>
+      {userViewingPageIsAdmin ? (
+        <ContentContainer>
+          <AdminPanel>
+            <div className='header-container'>
+              <div className='title-text'>Admin Options</div>
+            </div>
+            <ImageUploadModal
+              type='battler image'
+              object={battler}
+              refetch={refetch}
+            />
+            <div className='lrc-button'>MODIFY BATTLER IMAGE</div>
+          </AdminPanel>
+        </ContentContainer>
+      ) : null} */}
+    </BattlerPageContainer>
+  ) : (
+    <div>Battler not found</div>
   );
 }
 

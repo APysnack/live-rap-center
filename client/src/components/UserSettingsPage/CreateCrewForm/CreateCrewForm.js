@@ -11,7 +11,9 @@ function CreateCrewForm({ user }) {
   const [initialValues, setInitialValues] = useState({});
   const [fieldArray, setFieldArray] = useState([]);
   const [createCrew, { data, loading, error }] = useMutation(CREATE_CREW);
+
   const addNewCrew = (values) => {
+    console.log(user.id);
     createCrew({
       variables: { crewName: values.crewName, userId: user.id },
     });

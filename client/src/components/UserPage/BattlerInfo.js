@@ -6,7 +6,6 @@ import {
 } from './BattlerInfo.styles';
 import api from '../../api/api';
 import ContentStyleWrapper from '../SharedComponents/ContentContainer/ContentStyleWrapper';
-import BasicButton from '../SharedComponents/Buttons/BasicButton';
 
 function BattlerInfo({ battler }) {
   const [battlerStats, setBattlerStats] = useState({
@@ -71,8 +70,15 @@ function BattlerInfo({ battler }) {
         <div>Total Views: {battlerStats.totalViews}</div>
         <div>Average Views: {battlerStats.avgViews}</div>
         {battler?.id ? (
-          <Link to={`/battler/${battler.id}`}>
-            <BasicButton padding='0.5em'>Battler Page</BasicButton>
+          <Link
+            className='lrc-button'
+            style={{
+              marginTop: '1.75em',
+              padding: '0.5em 3em 0.5em 3em',
+            }}
+            to={`/battler/${battler.id}`}
+          >
+            <div>Battler Page</div>
           </Link>
         ) : null}
       </BattlerInfoContainer>

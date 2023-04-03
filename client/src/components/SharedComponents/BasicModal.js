@@ -14,13 +14,23 @@ const StyledBox = styled(Box)`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 40;
 `;
 
-const BasicModal = ({ isOpen, onClose, children, width = 600 }) => {
+// NOTE: to control styles from another file, use a NEW styled component wrapper as one of the children
+// see InvitationModalContent in InvitationModal.js for implementation
+
+const BasicModal = ({
+  isOpen,
+  onClose,
+  children,
+  modalClassName = 'basic-modal',
+  width = 600,
+}) => {
   return (
-    <Modal open={isOpen} onClose={onClose}>
-      <StyledBox width={width}>{children}</StyledBox>
+    <Modal open={isOpen} onClose={onClose} className='modal'>
+      <StyledBox width={width} className={modalClassName}>
+        {children}
+      </StyledBox>
     </Modal>
   );
 };

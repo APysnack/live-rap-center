@@ -58,7 +58,7 @@ function UserSettingsPage({ user, loading, refetchUser }) {
         <div>
           <UserSettings user={currentUser} refetchUser={refetchUser} />
 
-          <CreateCrewForm />
+          <CreateCrewForm user={currentUser} />
         </div>
         {battler ? (
           <BattlerSettings user={currentUser} battler={battler} />

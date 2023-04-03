@@ -42,7 +42,14 @@ export const DataTableContainer = styled.div`
   }
 
   .table-row-body {
+    cursor: pointer;
     background-color: ${(props) => props.theme.primary};
+    color: ${(props) => props.theme.primaryContrast};
+
+    &:hover {
+      background-color: ${(props) => props.theme.primaryContrast};
+      color: ${(props) => props.theme.primary};
+    }
   }
 
   .table-cell-content-wrapper {

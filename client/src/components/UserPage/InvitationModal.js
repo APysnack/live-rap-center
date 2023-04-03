@@ -4,8 +4,8 @@ import { Feedback as InviteNotification } from '@mui/icons-material';
 import {
   InvitationContainer,
   InvitationModalContainer,
+  InvitationModalContent,
 } from './InvitationModal.styles';
-import BasicButton from '../SharedComponents/Buttons/BasicButton';
 
 function InvitationModal({
   onAccept,
@@ -19,9 +19,13 @@ function InvitationModal({
     <InvitationModalContainer>
       {invitationList?.length > 0 ? (
         <div>
-          <BasicButton
-            padding={'0.5em'}
-            width={'16em'}
+          <div
+            className='lrc-button'
+            style={{
+              padding: '0.25em 1em 0.25em 1em',
+              gap: '0.5em',
+              width: '18em',
+            }}
             onClick={() => setModalOpen(true)}
           >
             <InviteNotification
@@ -29,18 +33,47 @@ function InvitationModal({
               fontSize='large'
             />
             <div>Pending {type} invites</div>
-          </BasicButton>
-          <BasicModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-            <div>Pending {type} Invitations</div>
-            {invitationList.map((invitation) => (
-              <InvitationContainer key={invitation.id}>
-                <div>
-                  {type === 'league' ? invitation.leagueName : invitation.name}
-                </div>
-                <button onClick={() => onAccept(invitation.id)}>Accept</button>
-                <button onClick={() => onDeny(invitation.id)}>Deny</button>
-              </InvitationContainer>
-            ))}
+          </div>
+
+          <BasicModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            modalClassName='invitation-modal'
+          >
+            <InvitationModalContent>
+              <div className='title'>Pending {type} Invitations</div>
+              {invitationList.map((invitation) => (
+                <InvitationContainer key={invitation.id}>
+                  <div>
+                    {type === 'league'
+                      ? invitation.leagueName
+                      : invitation.name}
+                  </div>
+                  <div className='buttons-container'>
+                    <button
+                      className='lrc-button'
+                      style={{
+                        padding: '0.25em 1em 0.25em 1em',
+                        width: '10em',
+                      }}
+                      onClick={() => onAccept(invitation.id)}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className='lrc-button'
+                      style={{
+                        padding: '0.25em 1em 0.25em 1em',
+                        width: '10em',
+                      }}
+                      onClick={() => onDeny(invitation.id)}
+                    >
+                      Deny
+                    </button>
+                  </div>
+                </InvitationContainer>
+              ))}
+            </InvitationModalContent>
           </BasicModal>
         </div>
       ) : null}

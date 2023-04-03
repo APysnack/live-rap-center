@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import BookingChat from './BookingChat/BookingChat';
 import BasicModal from '../../SharedComponents/BasicModal';
-import BasicButton from '../../SharedComponents/Buttons/BasicButton';
 
 function ChatDropDown({ currentUser, cable }) {
   const [dropDownOpen, setDropDownOpen] = useState(false);
@@ -14,7 +13,13 @@ function ChatDropDown({ currentUser, cable }) {
   };
 
   return (
-    <BasicButton padding={'0.9em'} width={'16em'}>
+    <div
+      className='lrc-button'
+      style={{
+        padding: '0.70em 0em 0.70em 0em',
+        width: '16em',
+      }}
+    >
       <div onClick={() => setDropDownOpen(!dropDownOpen)}>
         Booking - Needs Work
       </div>
@@ -38,7 +43,7 @@ function ChatDropDown({ currentUser, cable }) {
           <BookingChat cable={cable} booking={selectedBooking} />
         </BasicModal>
       </div>
-    </BasicButton>
+    </div>
   );
 }
 

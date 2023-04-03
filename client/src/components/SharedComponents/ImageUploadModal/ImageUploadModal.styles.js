@@ -11,10 +11,10 @@ export const ImageModalWrapper = styled.div`
 
   .create-award-button {
     cursor: pointer;
-    width: 100%;
+    width: 20em;
     background-color: ${(props) => props.theme.secondary};
     color: ${(props) => props.theme.fontColor};
-    padding: 1em 1.5em 1em 1.5em;
+    padding: 0.5em 1.5em 0.5em 1.5em;
     border-radius: 5px;
     margin: 1em 0 1em 0;
     border: 2px solid black;

@@ -7,7 +7,6 @@ import {
   GraphicEq,
 } from '@mui/icons-material';
 import { useTheme } from 'styled-components';
-import BasicButton from '../Buttons/BasicButton';
 
 function SocialMediaLink({ type, url }) {
   const theme = useTheme();
@@ -16,7 +15,14 @@ function SocialMediaLink({ type, url }) {
 
   return (
     <a href={url}>
-      <BasicButton padding='0.1em'>
+      <div
+        className='lrc-button'
+        style={{
+          padding: '0.25em 3em 0.25em 3em',
+          width: '12em',
+          gap: '2em',
+        }}
+      >
         {(() => {
           switch (type) {
             case 'Facebook':
@@ -35,7 +41,7 @@ function SocialMediaLink({ type, url }) {
         })()}
 
         <div>{url.split('/')[3]}</div>
-      </BasicButton>
+      </div>
     </a>
   );
 }

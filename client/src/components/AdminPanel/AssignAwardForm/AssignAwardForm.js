@@ -87,8 +87,9 @@ function AssignAwardForm() {
             id='recipientId'
             name='recipientId'
             placeholder='Enter recipient ID'
+            autocomplete='off'
           />
-          <button className='submit-button' type='submit'>
+          <button className='lrc-button form-submit-btn' type='submit'>
             Submit
           </button>
         </Form>

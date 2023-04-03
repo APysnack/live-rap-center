@@ -8,15 +8,10 @@ export const AssignAwardFormContainer = styled.div`
   flex-direction: column;
   gap: 1.2em;
 
-  .submit-button {
+  .form-submit-btn {
     width: 100%;
-    background-color: ${(props) => props.theme.primaryContrast};
-    color: ${(props) => props.theme.primary};
     padding: 0.5em 1.5em 0.5em 1.5em;
-    border-radius: 5px;
     margin-top: 1em;
-    align-items: center;
-    text-align: center;
   }
 
   input {

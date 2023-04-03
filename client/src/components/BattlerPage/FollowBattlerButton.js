@@ -55,12 +55,12 @@ function FollowBattlerButton({ battlerId, currentUser, refetchCurrentUser }) {
     }
   };
   return (
-    <div>
+    <div className='lrc-button' style={{ padding: '0.5em', width: '13em' }}>
       {flashMessage ? <div>{flashMessage}</div> : null}
       {userFollowsBattler ? (
-        <div onClick={handleFollowRequest}>UNFOLLOW THIS BATTLER</div>
+        <div onClick={handleFollowRequest}>Unfollow</div>
       ) : (
-        <div onClick={handleFollowRequest}>FOLLOW THIS BATTLER</div>
+        <div onClick={handleFollowRequest}>Follow</div>
       )}
     </div>
   );

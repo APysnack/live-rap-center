@@ -25,6 +25,7 @@ import ListSpacesPage from './components/ListSpacesPage/ListSpacesPage';
 import UpdateEventPage from './components/LeagueSettingsPage/UpdateEventPage/UpdateEventPage';
 import BookingPage from './components/BookingPage/BookingPage';
 import EventPage from './components/EventPage/EventPage';
+import GlobalStyle from './GlobalStyle';
 
 function App({ cable }) {
   const [selectedTheme, setSelectedTheme] = useState(null);
@@ -63,6 +64,7 @@ function App({ cable }) {
 
   return (
     <ThemeProvider theme={getSelectedTheme()}>
+      <GlobalStyle />
       <Navbar />
       <Routes>
         <Route exact path='/' element={<Homepage cable={cable} />} />

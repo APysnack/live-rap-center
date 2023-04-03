@@ -81,7 +81,7 @@ function BaseForm({
               )
             )}
 
-            <button className='submit-button' type='submit'>
+            <button className='lrc-button form-submit-btn' type='submit'>
               {submitText}
             </button>
           </FormWrapper>

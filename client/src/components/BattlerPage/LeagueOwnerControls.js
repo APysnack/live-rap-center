@@ -41,7 +41,7 @@ function LeagueOwnerControls({ battler, league, setFlashMessage }) {
           {battler?.league?.leagueName ? (
             <div>This battler already has a home league</div>
           ) : (
-            <button onClick={sendLeagueInvitation}>
+            <button className='lrc-button' onClick={sendLeagueInvitation}>
               ADD THIS BATTLER TO YOUR LEAGUE
             </button>
           )}

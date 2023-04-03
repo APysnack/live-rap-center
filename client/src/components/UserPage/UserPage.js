@@ -98,7 +98,14 @@ function UserPage({ callLogoutUser, cable }) {
               : 'bar'}
           </div>
           <div>B: Rank</div>
-          <button className='logout-button' onClick={callLogoutUser}>
+          <button
+            className='lrc-button'
+            style={{
+              padding: '0.25em 1em 0.25em 1em',
+              width: '10em',
+            }}
+            onClick={callLogoutUser}
+          >
             Log out
           </button>
         </div>

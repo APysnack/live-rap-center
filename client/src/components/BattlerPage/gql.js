@@ -15,7 +15,14 @@ export const GET_BATTLER = gql`
       }
       battles {
         id
+        thumbnail
         battleUrl
+        score
+        battlers {
+          id
+          name
+        }
+        leagueName
       }
       user {
         id

@@ -19,6 +19,7 @@ import {
   BattlerStatContainer,
   SocialMediaContentContainer,
 } from './BattlerPage.styles';
+import BattleLink from '../SharedComponents/BattleLink/BattleLink';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
@@ -67,6 +68,7 @@ function BattlerPage() {
 
   useEffect(() => {
     if (battler?.battles) {
+      console.log(battler.battles);
       // concatenates all battler's battles into idString
       // per youtube API docs, video ids format should be: ["id1,id2,id3"]
       var idString = battler.battles.reduce(
@@ -79,6 +81,7 @@ function BattlerPage() {
   }, [battler]);
 
   const updateViews = (res) => {
+    console.log(res);
     const totalViews = res.reduce(
       (accumulator, video) =>
         accumulator + parseInt(video.statistics.viewCount),
@@ -128,6 +131,10 @@ function BattlerPage() {
               />
             </div>
           )}
+          <SocialMediaContainer
+            socials={battler?.user?.socialMediaLinks}
+            iconsOnly={true}
+          />
         </ContentContainer>
         <ContentContainer
           flexDirection='column'
@@ -165,7 +172,13 @@ function BattlerPage() {
           </BattlerStatContainer>
         </ContentContainer>
       </div>
-      <ContentContainer width={1200} height={1150}></ContentContainer>
+      <ContentContainer width={1200} height={1150}>
+        {battler?.battles?.length > 0
+          ? battler.battles.map((battle) => {
+              return <BattleLink key={battle.id} battle={battle} />;
+            })
+          : null}
+      </ContentContainer>
 
       {/* {currentUser?.user?.ownedLeagues?.length > 0 &&
       battler?.user?.isVerified ? (

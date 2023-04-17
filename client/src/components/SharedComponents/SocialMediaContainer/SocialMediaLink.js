@@ -8,39 +8,50 @@ import {
 } from '@mui/icons-material';
 import { useTheme } from 'styled-components';
 
-function SocialMediaLink({ type, url }) {
+const buttonStyle = {
+  padding: '0.25em 3em 0.25em 3em',
+  width: '12em',
+  gap: '2em',
+};
+
+function SocialMediaLink({ type, url, iconOnly }) {
   const theme = useTheme();
 
-  const iconStyle = { fontSize: 30, color: theme.primary };
+  const iconStyle = {
+    fontSize: iconOnly ? 40 : 30,
+    color: iconOnly ? theme.primaryContrast : theme.primary,
+  };
+
+  const iconStyleWithHover = {
+    ...iconStyle,
+    '&:hover': {
+      color: theme.tertiary,
+    },
+  };
 
   return (
     <a href={url}>
       <div
-        className='lrc-button'
-        style={{
-          padding: '0.25em 3em 0.25em 3em',
-          width: '12em',
-          gap: '2em',
-        }}
+        className={iconOnly ? '' : 'lrc-button'}
+        style={iconOnly ? null : buttonStyle}
       >
         {(() => {
           switch (type) {
             case 'Facebook':
-              return <Facebook sx={iconStyle} />;
+              return <Facebook sx={iconStyleWithHover} />;
             case 'Instagram':
-              return <Instagram sx={iconStyle} />;
+              return <Instagram sx={iconStyleWithHover} />;
             case 'Twitter':
-              return <Twitter sx={iconStyle} />;
+              return <Twitter sx={iconStyleWithHover} />;
             case 'Tiktok':
-              return <Audiotrack sx={iconStyle} />;
+              return <Audiotrack sx={iconStyleWithHover} />;
             case 'SoundCloud':
-              return <GraphicEq sx={iconStyle} />;
+              return <GraphicEq sx={iconStyleWithHover} />;
             default:
               return null;
           }
         })()}
-
-        <div>{url.split('/')[3]}</div>
+        {iconOnly ? null : <div>{url.split('/')[3]}</div>}
       </div>
     </a>
   );

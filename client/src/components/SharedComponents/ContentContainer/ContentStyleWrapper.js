@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentContainer } from './ContentContainer.styles';
+import { ContentContainer, GridContainer } from './ContentContainer.styles';
 
 function ContentStyleWrapper({
   children,
@@ -8,8 +8,11 @@ function ContentStyleWrapper({
   justifyContent = 'center',
   alignItems = 'center',
   flexDirection = 'row',
+  grid = false,
 }) {
-  return (
+  return grid ? (
+    <GridContainer>{children}</GridContainer>
+  ) : (
     <ContentContainer
       style={{
         width: width,
@@ -17,6 +20,7 @@ function ContentStyleWrapper({
         justifyContent: justifyContent,
         alignItems: alignItems,
         flexDirection: flexDirection,
+        display: 'flex',
       }}
     >
       {children}

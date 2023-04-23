@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { CREATE_LEAGUE_INVITATION } from './gql';
 import { useMutation } from '@apollo/client';
 import BasicModal from '../SharedComponents/BasicModal';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function LeagueOwnerControls({ battler, league, setFlashMessage }) {
+  const { user } = useSelector((state) => state.user.userState);
+
   const [createLeagueInvitation, { data: invitationData }] = useMutation(
     CREATE_LEAGUE_INVITATION
   );
@@ -41,7 +45,11 @@ function LeagueOwnerControls({ battler, league, setFlashMessage }) {
           {battler?.league?.leagueName ? (
             <div>This battler already has a home league</div>
           ) : (
-            <button className='lrc-button' onClick={sendLeagueInvitation}>
+            <button
+              className='lrc-button'
+              style={{ padding: '0.5em', width: '20em' }}
+              onClick={sendLeagueInvitation}
+            >
               ADD THIS BATTLER TO YOUR LEAGUE
             </button>
           )}
@@ -58,6 +66,20 @@ function LeagueOwnerControls({ battler, league, setFlashMessage }) {
           You need to be logged in to do this. Sign up for an account today
         </div>
       </BasicModal>
+      <div>
+        <Link
+          to='/create-booking'
+          className='lrc-button'
+          style={{ padding: '0.5em', width: '20em' }}
+          state={{
+            booker: user,
+            talent: battler,
+            bookingType: 'battler',
+          }}
+        >
+          BOOK THIS BATTLER
+        </Link>
+      </div>
     </div>
   );
 }

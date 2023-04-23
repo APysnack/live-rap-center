@@ -48,22 +48,22 @@ export const BattlerPageContainer = styled.div`
   }
 `;
 
-export const AdminPanel = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
 export const LeagueOwnerPanel = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 0.3em;
 
   .title-text {
     font-size: 1.5em;
     font-weight: 600;
+  }
+
+  .header-container {
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+    width: 14em;
   }
 `;
 
@@ -82,23 +82,5 @@ export const BattlerStatContainer = styled.div`
     margin-top: 0.3em;
     margin-bottom: 0.5em;
     width: 14em;
-  }
-`;
-
-export const SocialMediaContentContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  .header-container {
-    margin-top: 0.3em;
-    margin-bottom: 0.5em;
-    width: 14em;
-  }
-
-  .title-text {
-    font-size: 1.5em;
-    font-weight: 600;
   }
 `;

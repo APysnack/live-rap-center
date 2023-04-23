@@ -8,7 +8,6 @@ function FollowBattlerButton({ battlerId, currentUser, refetchCurrentUser }) {
   const [userFollowsBattler, setUserFollowsBattler] = useState(false);
 
   useEffect(() => {
-    console.log('test');
     if (currentUser?.followedBattlerIds?.includes(battlerId)) {
       setUserFollowsBattler(true);
     } else {

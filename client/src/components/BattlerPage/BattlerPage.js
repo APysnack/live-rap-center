@@ -9,17 +9,15 @@ import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/Socia
 import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
 import { Avatar } from '@mui/material';
 import FollowBattlerButton from './FollowBattlerButton';
-import { Link } from 'react-router-dom';
 import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import {
   BattlerPageContainer,
-  AdminPanel,
   LeagueOwnerPanel,
   BattlerStatContainer,
-  SocialMediaContentContainer,
 } from './BattlerPage.styles';
 import BattleLink from '../SharedComponents/BattleLink/BattleLink';
+import UserPageHeadline from '../SharedComponents/UserPageHeadlines/UserPageHeadline';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
@@ -27,14 +25,10 @@ function BattlerPage() {
   let { battlerId } = useParams();
   const [flashMessage, setFlashMessage] = useState('');
   const [battler, setBattler] = useState(null);
-  const [userViewingPageIsLeagueOwner, setUserViewingPageIsLeagueOwner] =
-    useState(false);
   const [battlerStats, setBattlerStats] = useState({
     totalViews: 0,
     avgViews: 0,
   });
-  const [userViewingPageIsAdmin, setUserViewingPageIsAdmin] = useState(false);
-
   const { user } = useSelector((state) => state.user.userState);
 
   const { loading, data, refetch } = useQuery(GET_BATTLER, {
@@ -48,23 +42,15 @@ function BattlerPage() {
     }
   );
 
-  // makes gql query for a battler, if found
-  // sets this as the "battler" for this page
+  // NOTE/POSSIBLE TO DO!!!! ensure that this logic does not apply to ANY league owner, only owner of THIS league
+  const leaguePanelVisible =
+    currentUser?.user?.ownedLeagues?.length > 0 && battler?.user?.isVerified;
+
   useEffect(() => {
     if (data?.battler) {
       setBattler(data.battler);
     }
   }, [data]);
-
-  // NOTE/POSSIBLE TO DO!!!! ensure that this logic does not apply to ANY league owner, only owner of THIS league
-  useEffect(() => {
-    if (user?.roles?.includes('league owner')) {
-      setUserViewingPageIsLeagueOwner(true);
-    }
-    if (user?.roles?.includes('admin')) {
-      setUserViewingPageIsAdmin(true);
-    }
-  }, [user]);
 
   useEffect(() => {
     if (battler?.battles) {
@@ -101,6 +87,7 @@ function BattlerPage() {
           flexDirection='column'
           justifyContent='flex-start'
           height={500}
+          width={leaguePanelVisible ? 500 : 760}
         >
           <div className='battler-name-container header-container'>
             <div>{battler.name}</div>
@@ -131,14 +118,17 @@ function BattlerPage() {
               />
             </div>
           )}
-          <SocialMediaContainer
-            socials={battler?.user?.socialMediaLinks}
-            iconsOnly={true}
-          />
+
+          {battler?.user?.socialMediaLinks ? (
+            <SocialMediaContainer
+              socials={battler.user.socialMediaLinks}
+              iconsOnly={true}
+            />
+          ) : null}
         </ContentContainer>
         <ContentContainer
           flexDirection='column'
-          width={500}
+          width={leaguePanelVisible ? 500 : 760}
           height={500}
           justifyContent='flex-start'
         >
@@ -171,63 +161,40 @@ function BattlerPage() {
             />
           </BattlerStatContainer>
         </ContentContainer>
+        {leaguePanelVisible ? (
+          <ContentContainer
+            flexDirection='column'
+            justifyContent='flex-start'
+            width={500}
+            height={500}
+          >
+            <LeagueOwnerPanel>
+              <div className='header-container'>
+                <div className='title-text'>My League</div>
+              </div>
+
+              {battler.bookingPrice ? (
+                <div>{`Rate per minute: $${battler?.bookingPrice}`}</div>
+              ) : null}
+              <LeagueOwnerControls
+                battler={battler}
+                league={currentUser.user.ownedLeagues[0]}
+                setFlashMessage={setFlashMessage}
+              />
+            </LeagueOwnerPanel>
+          </ContentContainer>
+        ) : null}
       </div>
-      <ContentContainer width={1200} height={1150}>
+      <UserPageHeadline displayText={`${battler.name} Battles`.toUpperCase()} />
+      <ContentContainer grid={true}>
         {battler?.battles?.length > 0
           ? battler.battles.map((battle) => {
-              return <BattleLink key={battle.id} battle={battle} />;
+              return (
+                <BattleLink key={battle.id} battle={battle} size={'large'} />
+              );
             })
           : null}
       </ContentContainer>
-
-      {/* {currentUser?.user?.ownedLeagues?.length > 0 &&
-      battler?.user?.isVerified ? (
-        <ContentContainer>
-          <LeagueOwnerPanel>
-            <div className='header-container'>
-              <div className='title-text'>League Owner Options</div>
-            </div>
-
-            {battler.bookingPrice ? (
-              <div>{`Rate per minute: $${battler?.bookingPrice}`}</div>
-            ) : null}
-            <LeagueOwnerControls
-              battler={battler}
-              league={currentUser.user.ownedLeagues[0]}
-              setFlashMessage={setFlashMessage}
-            />
-
-            <div>
-              <Link
-                to='/create-booking'
-                className='lrc-button'
-                state={{
-                  booker: user,
-                  talent: battler,
-                  bookingType: 'battler',
-                }}
-              >
-                BOOK THIS BATTLER
-              </Link>
-            </div>
-          </LeagueOwnerPanel>
-        </ContentContainer>
-      ) : null}
-      {userViewingPageIsAdmin ? (
-        <ContentContainer>
-          <AdminPanel>
-            <div className='header-container'>
-              <div className='title-text'>Admin Options</div>
-            </div>
-            <ImageUploadModal
-              type='battler image'
-              object={battler}
-              refetch={refetch}
-            />
-            <div className='lrc-button'>MODIFY BATTLER IMAGE</div>
-          </AdminPanel>
-        </ContentContainer>
-      ) : null} */}
     </BattlerPageContainer>
   ) : (
     <div>Battler not found</div>

@@ -38,15 +38,23 @@ function SocialMediaLink({ type, url, iconOnly }) {
         {(() => {
           switch (type) {
             case 'Facebook':
-              return <Facebook sx={iconStyleWithHover} />;
+              return (
+                <Facebook sx={iconOnly ? iconStyleWithHover : iconStyle} />
+              );
             case 'Instagram':
-              return <Instagram sx={iconStyleWithHover} />;
+              return (
+                <Instagram sx={iconOnly ? iconStyleWithHover : iconStyle} />
+              );
             case 'Twitter':
-              return <Twitter sx={iconStyleWithHover} />;
+              return <Twitter sx={iconOnly ? iconStyleWithHover : iconStyle} />;
             case 'Tiktok':
-              return <Audiotrack sx={iconStyleWithHover} />;
+              return (
+                <Audiotrack sx={iconOnly ? iconStyleWithHover : iconStyle} />
+              );
             case 'SoundCloud':
-              return <GraphicEq sx={iconStyleWithHover} />;
+              return (
+                <GraphicEq sx={iconOnly ? iconStyleWithHover : iconStyle} />
+              );
             default:
               return null;
           }

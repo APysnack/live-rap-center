@@ -7,6 +7,10 @@ export const BattleLinkContainer = styled(Link)`
   justify-content: center;
   align-items: center;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+
+  transform: ${(props) => (props.size === 'medium' ? 'scale(0.97)' : 'none')};
 
   background-color: ${(props) => props.theme.primaryContrast};
   color: ${(props) => props.theme.primary};
@@ -20,21 +24,21 @@ export const BattleLinkContainer = styled(Link)`
 
   .thumbnail-container {
     position: relative;
-    width: 19.5vw;
-    height: 15em;
+    width: 100%;
+    padding-top: 56.25%;
     margin-bottom: 0.3em;
   }
 
   .title-container {
     width: 100%;
     display: flex;
-    font-size: 1.1em;
+    font-size: 1.2em;
     font-weight: bold;
     justify-content: center;
     align-items: center;
-
-    .battler-1 {
-      margin-left: 0.3em;
-    }
+    flex-wrap: wrap;
+    gap: 0.3em;
+    height: 3.5em;
+    overflow: hidden;
   }
 `;

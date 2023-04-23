@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux';
 import { GET_USER_BATTLER, GET_USER } from './gql';
 import { useQuery } from '@apollo/client';
 import BattlerInfo from './BattlerInfo';
-import TopBattles from './TopBattles/TopBattles';
 import { Link } from 'react-router-dom';
 import { UserPageContainer } from './UserPage.styles';
-import FollowedBattles from './FollowedBattles/FollowedBattles';
+import BattleRow from './BattleRow/BattleRow';
 import UserInfo from './UserInfo';
 import NewsContainer from './NewsContainer';
 
@@ -75,8 +74,8 @@ function UserPage({ callLogoutUser, cable }) {
               />
             </div>
 
-            <TopBattles />
-            <FollowedBattles userId={currentUser.id} />
+            <BattleRow type='topBattles' />
+            <BattleRow type='followedBattles' userId={currentUser.id} />
           </div>
 
           <div className='link-container'>

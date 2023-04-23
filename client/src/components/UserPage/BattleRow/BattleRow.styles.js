@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-export const TopBattlesContainer = styled.div`
+export const BattleRowContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 
-  .top-battles-container {
+  .battles-container {
     display: flex;
     justify-content: space-between;
     margin: 0 1em 0 1em;

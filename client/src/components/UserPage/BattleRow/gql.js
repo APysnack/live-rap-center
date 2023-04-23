@@ -19,3 +19,19 @@ export const GET_FOLLOWED_BATTLES = gql`
     }
   }
 `;
+
+export const GET_TOP_BATTLES = gql`
+  query TopBattles($battleCount: Int!, $dateRange: String!) {
+    topBattles(battleCount: $battleCount, dateRange: $dateRange) {
+      id
+      thumbnail
+      battleUrl
+      score
+      battlers {
+        id
+        name
+      }
+      leagueName
+    }
+  }
+`;

@@ -21,4 +21,11 @@ export const LeaguePageWrapper = styled.div`
     width: 10vw;
     justify-content: space-between;
   }
+
+  .league-logo-container {
+    background-color: red;
+    padding: 2em;
+    max-width: 200px;
+    max-height: 200px;
+  }
 `;

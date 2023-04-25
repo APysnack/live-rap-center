@@ -3,6 +3,8 @@ import CreateVoteForm from './CreateVoteForm/CreateVoteForm';
 import StarSelector from './StarSelector/StarSelector';
 import { useMutation } from '@apollo/client';
 import { CREATE_BATTLE_VOTE } from './gql';
+import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
+import { VotePanelContainer } from './VoteSubmissionPanel.styles';
 import _ from 'lodash';
 
 function VoteSubmissionPanel({ user, battle, refetchBattle }) {
@@ -112,18 +114,22 @@ function VoteSubmissionPanel({ user, battle, refetchBattle }) {
   return (
     <>
       {battle?.battlers?.length > 0 ? (
-        <div>
-          {battle.battlers.map((battler) => (
-            <StarSelector
-              key={battler.id}
-              battler={battler}
-              updateStarState={updateStarState}
-              updateCheckState={updateCheckState}
-              checkDisabled={disableChecks && !checkedState[battler.id]}
-            />
-          ))}
-          <CreateVoteForm onSubmit={submitVote} />
-        </div>
+        <ContentContainer width={1615}>
+          <VotePanelContainer>
+            <div className='star-selector-container'>
+              {battle.battlers.map((battler) => (
+                <StarSelector
+                  key={battler.id}
+                  battler={battler}
+                  updateStarState={updateStarState}
+                  updateCheckState={updateCheckState}
+                  checkDisabled={disableChecks && !checkedState[battler.id]}
+                />
+              ))}
+              <CreateVoteForm onSubmit={submitVote} />
+            </div>
+          </VotePanelContainer>
+        </ContentContainer>
       ) : null}
     </>
   );

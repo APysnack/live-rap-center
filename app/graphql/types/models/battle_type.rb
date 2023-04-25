@@ -16,6 +16,7 @@ module Types
       field :battle_status, Types::BattleStatusEnum, null: false
       field :score, Float, null: false
       field :league_name, String, null: true
+      field :league_logo, String, null: true
   
       def battlers
         object.battlers
@@ -37,6 +38,12 @@ module Types
 
       def league_name
         object.league.league_name || ''
+      end
+
+      def league_logo
+        if object.league.image.present?
+          rails_blob_path(object.league.image, host: ENV["SERVER_URL"])
+        end
       end
     end
   end

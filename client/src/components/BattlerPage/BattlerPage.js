@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import api from '../../api/api';
 import LeagueOwnerControls from './LeagueOwnerControls';
 import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/SocialMediaContainer';
-import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
 import { Avatar } from '@mui/material';
 import FollowBattlerButton from './FollowBattlerButton';
 import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
@@ -137,7 +136,12 @@ function BattlerPage() {
               <div className='title-text'>Battler Stats</div>
             </div>
             {battler?.league?.leagueName ? (
-              <div>This battler represents {battler.league.leagueName}</div>
+              <Avatar
+                src={REACT_APP_SERVER_URL + battler.league.logoUrl}
+                sx={{ width: 400, height: 100, marginBottom: '0.5em' }}
+                className='battlerImage'
+                variant={'square'}
+              />
             ) : (
               <div className='no-league'>
                 This battler has not confirmed a homeleague

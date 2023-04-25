@@ -34,16 +34,16 @@ function LeagueSettingsPage() {
     <LeagueSettingsContainer>
       <EventSettings league={league} refetchLeague={refetch}></EventSettings>
       <div>
-        <ContentContainer
-          width={520}
-          height={180}
-          justifyContent={'flex-start'}
-        >
+        <ContentContainer width={520} height={180} flexDirection='column'>
           <ImageUploadModal
             type='league logo'
             object={league}
             refetch={refetch}
+            variant={'rounded'}
           />
+          <div style={{ marginTop: '1em' }}>
+            Your logo should be 400px by 100px
+          </div>
         </ContentContainer>
 
         <EditLeagueForm league={league} refetch={refetch} />

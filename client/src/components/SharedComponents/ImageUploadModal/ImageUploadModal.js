@@ -7,7 +7,7 @@ import Add from '@mui/icons-material/Add';
 const { REACT_APP_SERVER_URL } = process.env;
 
 // object is an optional argument to modify the image for a particular instance
-function ImageUploadModal({ type, refetch, object = null }) {
+function ImageUploadModal({ type, refetch, variant, object = null }) {
   const [modelOpen, setModalOpen] = useState(false);
   const [imageSource, setImageSource] = useState('');
   const [dimensions, setDimensions] = useState({ width: 150, height: 150 });
@@ -19,6 +19,7 @@ function ImageUploadModal({ type, refetch, object = null }) {
         break;
       case 'league logo':
         setImageSource(REACT_APP_SERVER_URL + object?.logoUrl);
+        setDimensions({ width: 400, height: 100 });
         break;
       case 'battle thumbnail':
         setImageSource(REACT_APP_SERVER_URL + object?.thumbnail);
@@ -50,6 +51,7 @@ function ImageUploadModal({ type, refetch, object = null }) {
           sx={{ width: dimensions.width, height: dimensions.height }}
           onClick={openImageModal}
           className='profileImg'
+          variant={variant ? variant : 'circular'}
         />
       ) : (
         <div className='create-award-button' onClick={openImageModal}>

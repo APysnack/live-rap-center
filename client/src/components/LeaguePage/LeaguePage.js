@@ -31,8 +31,7 @@ function LeaguePage() {
             className='league-logo-image'
             type='leagueLogo'
             object={league}
-            width='200px'
-            height='200px'
+            fillParentContainer={false}
           />
           <div>League Score: {league.leagueScore}</div>
           <a href={`https://youtube.com/channel/${league.leagueUrl}`}>

@@ -12,6 +12,7 @@ function Thumbnail({
   object,
   width = IMAGE_WIDTH,
   height = IMAGE_HEIGHT,
+  fillParentContainer = true,
 }) {
   const YOUTUBE_IMAGE_URL = `https://i.ytimg.com/vi/${object.battleUrl}/hqdefault.jpg`;
 
@@ -36,16 +37,21 @@ function Thumbnail({
     switch (type) {
       case 'icon':
         return { width: '100%', height: height };
+      case 'leagueLogo':
       case 'battleImage':
       case 'battlerImage':
-        return {
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          backgroundPosition: type === 'battleImage' ? 'top center' : undefined,
-        };
+        return fillParentContainer
+          ? {
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              backgroundPosition:
+                type === 'battleImage' ? 'top center' : undefined,
+            }
+          : { width: '100%', height: height };
+
       default:
         return { width: '100%', height: height };
     }

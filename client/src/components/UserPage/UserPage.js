@@ -96,7 +96,6 @@ function UserPage({ callLogoutUser, cable }) {
                 ))
               : 'bar'}
           </div>
-          <div>B: Rank</div>
           <button
             className='lrc-button'
             style={{

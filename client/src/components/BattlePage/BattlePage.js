@@ -3,19 +3,15 @@ import { useParams } from 'react-router-dom';
 import { GET_BATTLE } from './gql';
 import { useQuery } from '@apollo/client';
 import api from '../../api/api';
-import ImageUploadModal from '../SharedComponents/ImageUploadModal/ImageUploadModal';
 import { useSelector } from 'react-redux';
 import VoteSubmissionPanel from './VoteSubmissionPanel/VoteSubmissionPanel';
 import { BattlePageContainer } from './BattlePage.styles';
 import VoteDetails from './VoteDetails/VoteDetails';
 import _ from 'lodash';
-
-const VIDEO_WIDTH = '480';
-const VIDEO_HEIGHT = '270';
+import BattleContainer from './BattleContainer';
 
 function BattlePage() {
   const { user } = useSelector((state) => state.user.userState);
-  const [userViewingPageIsAdmin, setUserViewingPageIsAdmin] = useState(false);
   const { battleId } = useParams();
   const [battle, setBattle] = useState({});
   const [youtubeStats, setYoutubeStats] = useState({});
@@ -37,9 +33,6 @@ function BattlePage() {
   };
 
   useEffect(() => {
-    if (user?.roles?.includes('admin')) {
-      setUserViewingPageIsAdmin(true);
-    }
     if (user && Object.keys(battle).length > 0) {
       checkIfUserIsInBattle(battle);
     }
@@ -71,17 +64,13 @@ function BattlePage() {
     <BattlePageContainer>
       {youtubeStats?.snippet ? (
         <div>
-          <div>{youtubeStats.snippet.title}</div>
-          <div>{youtubeStats.statistics.viewCount} views</div>
-          <div>{youtubeStats.statistics.likeCount} likes</div>
-          {/* add link to channel later */}
-          <div>{youtubeStats.snippet.channelId}</div>
-          <iframe
-            width={VIDEO_WIDTH}
-            height={VIDEO_HEIGHT}
-            src={'https://www.youtube.com/embed/' + youtubeId}
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;'
-          ></iframe>
+          <BattleContainer
+            className='battle-container'
+            stats={youtubeStats}
+            youtubeId={youtubeId}
+            battle={battle}
+          />
+
           {battle.battleStatus === 'open' &&
           user?.voter_id !== null &&
           !userViewingPageIsInBattle ? (
@@ -117,16 +106,6 @@ function BattlePage() {
                 />
               ))
             : null}
-          {userViewingPageIsAdmin ? (
-            <div>
-              <div>Edit Battle Thumbnail: Admin Only</div>
-              <ImageUploadModal
-                type='battle thumbnail'
-                object={battle}
-                refetch={refetch}
-              />
-            </div>
-          ) : null}
         </div>
       ) : (
         <div>Battle could not be found</div>

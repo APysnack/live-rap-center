@@ -87,16 +87,6 @@ function BattlePage() {
           ) : (
             ''
           )}
-
-          {battle?.battlers
-            ? Object.keys(battle.battlers).map((battler, i) =>
-                battle.battlers[battler]?.user?.username ? (
-                  <div key={i}>
-                    {battle.battlers[battler].user.username} is a user
-                  </div>
-                ) : null
-              )
-            : null}
           {battle?.battleVotes.length > 0 ? (
             <ContentContainer
               width={1600}

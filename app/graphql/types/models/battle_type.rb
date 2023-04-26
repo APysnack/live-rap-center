@@ -14,6 +14,7 @@ module Types
       field :thumbnail, String, null: true
       field :battle_votes, [Types::Models::BattleVoteType], null: false
       field :battle_status, Types::BattleStatusEnum, null: false
+      field :battle_winner, Types::Models::BattlerType, null: true
       field :score, Float, null: false
       field :league_name, String, null: true
       field :league, Types::Models::LeagueType, null: true
@@ -42,6 +43,10 @@ module Types
 
       def league
         object.league
+      end
+
+      def battle_winner
+        BattlerBattleResult.find_by(battle_id: object.id, outcome: :win).try(:battler)
       end
     end
   end

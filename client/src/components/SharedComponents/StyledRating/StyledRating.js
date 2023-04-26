@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledRatingContainer } from './StyledRating.styles';
 import Square from '@mui/icons-material/Square';
 
-function StyledRating({ value }) {
+function StyledRating({ value, fontSize = '0.7rem' }) {
   const roundToDecimal = (number) => {
     return Math.round((number / 10) * 2) / 2;
   };
@@ -14,7 +14,7 @@ function StyledRating({ value }) {
       precision={0.5}
       max={10}
       sx={{
-        fontSize: '0.7rem',
+        fontSize: fontSize,
       }}
       icon={<Square fontSize='inherit' />}
       emptyIcon={<Square fontSize='inherit' />}

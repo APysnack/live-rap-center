@@ -7,6 +7,9 @@ export const GET_BATTLE = gql`
       battleUrl
       thumbnail
       battleStatus
+      battleWinner {
+        id
+      }
       league {
         id
         logoUrl
@@ -14,6 +17,8 @@ export const GET_BATTLE = gql`
       battlers {
         id
         name
+        image
+        score
         user {
           id
           username
@@ -29,6 +34,7 @@ export const GET_BATTLE = gql`
           id
           value
           battlerName
+          battlerId
           outcome
         }
       }

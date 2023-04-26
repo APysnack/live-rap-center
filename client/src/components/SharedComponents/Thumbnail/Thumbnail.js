@@ -50,7 +50,7 @@ function Thumbnail({
               backgroundPosition:
                 type === 'battleImage' ? 'top center' : undefined,
             }
-          : { width: '100%', height: height };
+          : { width: width, height: height };
 
       default:
         return { width: '100%', height: height };

@@ -10,6 +10,13 @@ export const formatDate = (string, modifications) => {
       day: '2-digit',
     };
   }
+  if (modifications.includes('monthInNumbers')) {
+    options = {
+      month: '2-digit',
+      day: '2-digit',
+      year: '2-digit',
+    };
+  }
   if (modifications.includes('includeWeekday')) {
     options.weekday = 'long';
   }

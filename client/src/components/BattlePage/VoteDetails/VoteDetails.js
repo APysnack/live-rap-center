@@ -39,6 +39,7 @@ function VoteDetails({ vote, refetchBattle }) {
   return (
     <VoteDetailsActionsWrapper>
       {flashMessage ? <div>{flashMessage}</div> : null}
+      <div className='vote-detail-container'>{vote.voterName}</div>
       <VoteDetailsContainer>
         <div>{vote.comment}</div>
       </VoteDetailsContainer>
@@ -56,8 +57,6 @@ function VoteDetails({ vote, refetchBattle }) {
             </div>
           ))
         : null}
-
-      <div className='vote-detail-container'>{vote.voterName}</div>
       {userViewingPageIsAdmin ? (
         <Delete className='delete-icon' onClick={deleteVote}>
           DELETE

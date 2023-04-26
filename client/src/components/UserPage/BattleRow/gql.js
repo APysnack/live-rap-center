@@ -15,7 +15,10 @@ export const GET_FOLLOWED_BATTLES = gql`
         id
         name
       }
-      leagueName
+      league {
+        id
+        leagueName
+      }
     }
   }
 `;
@@ -31,7 +34,10 @@ export const GET_TOP_BATTLES = gql`
         id
         name
       }
-      leagueName
+      league {
+        id
+        leagueName
+      }
     }
   }
 `;

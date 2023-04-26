@@ -4,12 +4,19 @@ export const BattleRowContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
 
   .battles-container {
     display: flex;
-    justify-content: space-between;
-    margin: 0 1em 0 1em;
-    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    width: 83vw;
+    height: 24em;
+
+    .battle {
+      width: 25em;
+      height: 22em;
+    }
   }
 `;

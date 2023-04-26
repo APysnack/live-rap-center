@@ -56,7 +56,9 @@ function BattleRow({ type = 'topBattles', userId = null }) {
           <div className='battles-container'>
             {battles?.length > 0 ? (
               battles.map((battle) => (
-                <BattleLink key={battle.id} battle={battle} />
+                <div className='battle'>
+                  <BattleLink key={battle.id} battle={battle} />
+                </div>
               ))
             ) : (
               <div>

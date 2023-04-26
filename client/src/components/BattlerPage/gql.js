@@ -22,7 +22,10 @@ export const GET_BATTLER = gql`
           id
           name
         }
-        leagueName
+        league {
+          id
+          leagueName
+        }
       }
       user {
         id

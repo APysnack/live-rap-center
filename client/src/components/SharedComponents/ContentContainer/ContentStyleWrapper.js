@@ -9,12 +9,14 @@ function ContentStyleWrapper({
   alignItems = 'center',
   flexDirection = 'row',
   grid = false,
+  margin = '0 0 0 0',
 }) {
   return grid ? (
     <GridContainer>{children}</GridContainer>
   ) : (
     <ContentContainer
       style={{
+        margin: margin,
         width: width,
         height: height,
         justifyContent: justifyContent,

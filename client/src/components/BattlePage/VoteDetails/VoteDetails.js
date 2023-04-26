@@ -6,6 +6,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useMutation } from '@apollo/client';
 import { DELETE_BATTLE_VOTE } from './gql';
+import Delete from '@mui/icons-material/Delete';
 
 function VoteDetails({ vote, refetchBattle }) {
   const { user } = useSelector((state) => state.user.userState);
@@ -39,20 +40,28 @@ function VoteDetails({ vote, refetchBattle }) {
     <VoteDetailsActionsWrapper>
       {flashMessage ? <div>{flashMessage}</div> : null}
       <VoteDetailsContainer>
-        <div className='header'>
-          <div>vote from {vote.voterName} </div>
-          <div>comment: {vote.comment}</div>
-        </div>
-        {vote?.scores?.length > 0
-          ? vote.scores.map((score) => (
-              <div key={score.id}>
-                {score.battlerName} {score.outcome} {score.value}
-              </div>
-            ))
-          : null}
+        <div>{vote.comment}</div>
       </VoteDetailsContainer>
+
+      {vote?.scores?.length > 0
+        ? vote.scores.map((score) => (
+            <div
+              className={`vote-detail-container ${
+                score.outcome === 'win' ? 'winner' : ''
+              }`}
+              key={score.id}
+            >
+              <div className='battler-name'>{score.battlerName}</div>
+              <div className='battler-score'>{score.value}</div>
+            </div>
+          ))
+        : null}
+
+      <div className='vote-detail-container'>{vote.voterName}</div>
       {userViewingPageIsAdmin ? (
-        <div onClick={deleteVote}>DELETE VOTE</div>
+        <Delete className='delete-icon' onClick={deleteVote}>
+          DELETE
+        </Delete>
       ) : null}
     </VoteDetailsActionsWrapper>
   );

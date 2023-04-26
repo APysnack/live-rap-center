@@ -7,7 +7,10 @@ export const GET_BATTLE = gql`
       battleUrl
       thumbnail
       battleStatus
-      leagueLogo
+      league {
+        id
+        logoUrl
+      }
       battlers {
         id
         name

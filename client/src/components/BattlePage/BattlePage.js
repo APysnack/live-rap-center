@@ -5,10 +5,11 @@ import { useQuery } from '@apollo/client';
 import api from '../../api/api';
 import { useSelector } from 'react-redux';
 import VoteSubmissionPanel from './VoteSubmissionPanel/VoteSubmissionPanel';
-import { BattlePageContainer } from './BattlePage.styles';
+import { BattlePageContainer, VotesContainer } from './BattlePage.styles';
 import VoteDetails from './VoteDetails/VoteDetails';
 import _ from 'lodash';
 import BattleContainer from './BattleContainer';
+import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
 
 function BattlePage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -84,7 +85,7 @@ function BattlePage() {
               'You have already voted on this battle'
             )
           ) : (
-            'You do not have permissions to vote on this battle'
+            ''
           )}
 
           {battle?.battlers
@@ -96,16 +97,28 @@ function BattlePage() {
                 ) : null
               )
             : null}
+          {battle?.battleVotes.length > 0 ? (
+            <ContentContainer
+              width={1600}
+              flexDirection='column'
+              height={'100%'}
+              margin='0.25em 0 2em 0'
+            >
+              <VotesContainer>
+                <div className='header-container'>
+                  <div className='title-text'>Votes</div>
+                </div>
 
-          {battle?.battleVotes.length > 0
-            ? battle.battleVotes.map((vote) => (
-                <VoteDetails
-                  key={vote.id}
-                  vote={vote}
-                  refetchBattle={refetch}
-                />
-              ))
-            : null}
+                {battle.battleVotes.map((vote) => (
+                  <VoteDetails
+                    key={vote.id}
+                    vote={vote}
+                    refetchBattle={refetch}
+                  />
+                ))}
+              </VotesContainer>
+            </ContentContainer>
+          ) : null}
         </div>
       ) : (
         <div>Battle could not be found</div>

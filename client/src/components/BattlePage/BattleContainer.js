@@ -6,6 +6,7 @@ import {
 } from './BattlePage.styles';
 import { formatDate } from '../../utils/helperFunctions';
 import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const { REACT_APP_SERVER_URL } = process.env;
 const VIDEO_WIDTH = '960';
@@ -47,18 +48,18 @@ function BattleContainer({ stats, youtubeId, battle }) {
           <div>
             {stats?.snippet ? (
               <div>
-                <Avatar
-                  src={REACT_APP_SERVER_URL + battle.leagueLogo}
-                  sx={{ width: 400, height: 100 }}
-                  className='battlerImage'
-                  variant={'rounded'}
-                />
+                <Link to={`/league/${battle.league.id}`}>
+                  <Avatar
+                    src={REACT_APP_SERVER_URL + battle.league.logoUrl}
+                    sx={{ width: 400, height: 100 }}
+                    className='battlerImage'
+                    variant={'rounded'}
+                  />
+                </Link>
 
                 <div>{stats.snippet.title}</div>
                 <div>{stats.statistics.viewCount} views</div>
                 <div>{stats.statistics.likeCount} likes</div>
-                {/* add link to channel later */}
-                <div>{stats.snippet.channelId}</div>
                 <div>{formatDate(stats.snippet.publishedAt, [])}</div>
                 {battle.battlers.map((battler, i) => (
                   <Fragment key={battler.id}>

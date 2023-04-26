@@ -34,3 +34,13 @@ export const StyledBattleContainer = styled.div`
 export const BattleContentContainer = styled.div`
   display: flex;
 `;
+
+export const VotesContainer = styled.div`
+  .header-container {
+    margin: 0.25em;
+    width: 48em;
+  }
+  .title-text {
+    font-size: 2em;
+  }
+`;

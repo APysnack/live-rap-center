@@ -31,7 +31,7 @@ function BattleLink({ battle, size = 'medium' }) {
           'N/A'
         )}
       </div>
-      <div className='league-name-text'>{battle.leagueName}</div>
+      <div className='league-name-text'>{battle.league.leagueName}</div>
     </BattleLinkContainer>
   );
 }

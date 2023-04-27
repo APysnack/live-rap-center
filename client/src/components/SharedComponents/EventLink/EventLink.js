@@ -41,7 +41,7 @@ function EventLink({ event, type = 'view' }) {
           <div>{event.address}</div>
           <div className='icon-box'>
             <Sell style={{ fontSize: '1em' }} />
-            {event.admissionCost.toFixed(2)}
+            {event?.admissionCost?.toFixed(2)}
           </div>
         </div>
       </div>

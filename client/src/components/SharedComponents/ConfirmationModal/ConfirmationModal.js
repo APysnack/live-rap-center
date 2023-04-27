@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import BasicModal from "../BasicModal";
+import React, { useState } from 'react';
+import BasicModal from '../BasicModal';
 
 function ConfirmationModal({
   isOpen = false,
-  warning = "WARNING",
-  body = "Are you sure you want to commit this action?",
-  confirmText = "Confirm",
-  denyText = "Deny",
+  warning = 'WARNING',
+  body = 'Are you sure you want to commit this action?',
+  confirmText = 'Confirm',
+  denyText = 'Deny',
   onConfirm,
   onDeny,
   onClose,

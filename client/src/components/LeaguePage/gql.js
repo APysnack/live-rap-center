@@ -25,6 +25,8 @@ export const GET_LEAGUE = gql`
         name
         date
         flyerImageUrl
+        address
+        admissionCost
       }
     }
   }

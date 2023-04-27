@@ -4,13 +4,32 @@ export const HomeLeagueContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1em;
+
+  .league-chat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .league-chat-text {
+    margin-top: 2em;
+    margin-bottom: -2em;
+    font-weight: 600;
+    color: ${(props) => props.theme.fontColor};
+    letter-spacing: 1em;
+    font-size: 0.2em;
+  }
 `;
 
 export const BattlerInfoContainer = styled.div`
   background-color: ${(props) => props.theme.formBackground};
-  padding: 2em;
+  padding: 1em;
   border-radius: 10px;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   .horizontal-line {
     color: black;

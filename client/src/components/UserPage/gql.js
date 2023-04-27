@@ -14,6 +14,7 @@ export const GET_USER_BATTLER = gql`
       league {
         id
         leagueName
+        logoUrl
       }
       potentialLeagues {
         id

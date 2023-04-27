@@ -35,7 +35,7 @@ module Types
       end
 
       def league_score
-        object.league_score
+        object.league_score || 0
       end
     end
   end

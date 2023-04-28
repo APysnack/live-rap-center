@@ -30,10 +30,28 @@ export const SummaryContainer = styled.div`
   width: 100%;
   height: 100%;
 
+  .section-header {
+    margin: 1em 0 0.5em 0;
+    font-size: 2em;
+    padding: 0.5em;
+    border-radius: 10px;
+    width: 70%;
+    text-align: center;
+    background-color: ${(props) => props.theme.secondary};
+    border: 2px solid black;
+  }
+
+  .battles-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 95%;
+    gap: 10px 0;
+  }
+
   .league-header-container {
     background-color: ${(props) => props.theme.formBackground};
     display: flex;
-    width: 90%;
+    width: 95%;
     align-items: center;
     margin-bottom: 1em;
     border-radius: 10px;
@@ -100,9 +118,11 @@ export const SummaryContainer = styled.div`
     flex-direction: column;
     border-radius: 10px;
     background-color: ${(props) => props.theme.formBackground};
-    height: 75%;
-    width: 90%;
+    height: 80%;
+    width: 95%;
     gap: 0.5em;
+    overflow-y: scroll;
+    margin-bottom: 3em;
   }
 
   .lrc-button {

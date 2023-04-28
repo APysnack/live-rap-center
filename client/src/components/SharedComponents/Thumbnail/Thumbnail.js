@@ -19,9 +19,9 @@ function Thumbnail({
   const getSourceFromType = () => {
     switch (type) {
       case 'battleImage':
-        return object.thumbnail
-          ? REACT_APP_SERVER_URL + object.thumbnail
-          : YOUTUBE_IMAGE_URL;
+        console.log('IAMHERE');
+        console.log(YOUTUBE_IMAGE_URL);
+        return object.thumbnail ? YOUTUBE_IMAGE_URL : YOUTUBE_IMAGE_URL;
       case 'battlerImage':
         return object?.user?.profilePictureUrl
           ? REACT_APP_SERVER_URL + object.user.profilePictureUrl

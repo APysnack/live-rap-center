@@ -13,13 +13,6 @@ export const GET_LEAGUE = gql`
         name
         score
       }
-      battles {
-        id
-        battlers {
-          id
-          name
-        }
-      }
       upcomingEvents {
         id
         name
@@ -27,6 +20,31 @@ export const GET_LEAGUE = gql`
         flyerImageUrl
         address
         admissionCost
+      }
+    }
+  }
+`;
+
+export const GET_BATTLES = gql`
+  query Battles($leagueId: ID, $rowsToFetch: Int, $firstPageToFetch: Int!) {
+    battles(
+      leagueId: $leagueId
+      rowsToFetch: $rowsToFetch
+      firstPageToFetch: $firstPageToFetch
+    ) {
+      battles {
+        id
+        thumbnail
+        battleUrl
+        score
+        battlers {
+          id
+          name
+        }
+        league {
+          id
+          leagueName
+        }
       }
     }
   }

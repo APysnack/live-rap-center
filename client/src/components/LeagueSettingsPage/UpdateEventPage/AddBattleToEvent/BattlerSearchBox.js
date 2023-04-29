@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_BATTLERS } from './gql';
-import Select from 'react-select';
+import StyledSelect from '../../../SharedComponents/StyledSelect/StyledSelect';
 
 function BattlerSearchBox({
   componentNumber,
@@ -31,7 +31,7 @@ function BattlerSearchBox({
   if (loading) return 'Loading...';
 
   return (
-    <Select
+    <StyledSelect
       className='select-component'
       options={options}
       onChange={(input) => handleSelect(input)}

@@ -8,7 +8,6 @@ import CreateCrewForm from './CreateCrewForm/CreateCrewForm';
 import UserSettings from './UserSettingsForm/UserSettings';
 import { UserSettingsPageContainer } from './UserSettingsPage.styles';
 import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
-import SettingsGroup from '../SharedComponents/SettingsGroup/SettingsGroup';
 
 function UserSettingsPage({ user, loading, refetchUser }) {
   const [battler, setBattler] = useState(null);

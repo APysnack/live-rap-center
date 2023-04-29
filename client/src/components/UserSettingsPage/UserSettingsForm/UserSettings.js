@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
+import StyledSelect from '../../SharedComponents/StyledSelect/StyledSelect';
 import _ from 'lodash';
 import { UPDATE_SELECTED_THEME } from './gql';
 import { useMutation } from '@apollo/client';
 import SettingsGroup from '../../SharedComponents/SettingsGroup/SettingsGroup';
 import LocationSelector from '../../SharedComponents/LocationSelector/LocationSelector';
-import { useTheme } from 'styled-components';
 
 // first theme will be default in the select box
 const THEMES = [
@@ -17,21 +16,6 @@ const THEMES = [
 function UserSettings({ user, refetchUser }) {
   const [selectedTheme, setSelectedTheme] = useState(THEMES[0]);
   const [updateSelectedTheme] = useMutation(UPDATE_SELECTED_THEME);
-  const theme = useTheme();
-
-  const reactSelectStyles = {
-    control: (baseStyles) => ({
-      ...baseStyles,
-      backgroundColor: theme.primaryContrast,
-      color: theme.primary,
-      width: '17vw',
-    }),
-    menu: (baseStyles) => ({
-      ...baseStyles,
-      backgroundColor: theme.secondary,
-      color: theme.fontColor,
-    }),
-  };
 
   const updateUserTheme = (theme) => {
     updateSelectedTheme({
@@ -54,8 +38,7 @@ function UserSettings({ user, refetchUser }) {
 
   const themeSelector = () => {
     return (
-      <Select
-        styles={reactSelectStyles}
+      <StyledSelect
         className='react-select-container'
         options={THEMES}
         value={selectedTheme}

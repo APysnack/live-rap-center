@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../../../api/chatApi';
 import { useNavigate } from 'react-router-dom';
-import Chat from '../../../SharedComponents/Chat/Chat';
+import ChatForm from '../../../SharedComponents/ChatForm/ChatForm';
 import { useSelector } from 'react-redux';
 import { BookingChatContainer } from './BookingChat.styles';
 import BattlerBookingForm from '../../../SharedComponents/BattlerBookingForm/BattlerBookingForm';
@@ -122,7 +122,7 @@ function BookingChat({ cable, booking }) {
         defaultData={offer}
       />
       {messages?.length > 0 ? (
-        <Chat messages={messages} title={title()} onSubmit={sendMessage} />
+        <ChatForm messages={messages} title={title()} onSubmit={sendMessage} />
       ) : null}
     </BookingChatContainer>
   );

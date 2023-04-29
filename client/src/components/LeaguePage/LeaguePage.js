@@ -83,32 +83,35 @@ function LeaguePage() {
               </SummaryContainer>
             </ContentContainer>
             <div className='vertical-wrapper'>
-              <ContentContainer height={'33em'} width={700}>
-                <LeagueBattlersContainer>
-                  <div className='header-container'>Roster</div>
-                  <div className='roster-container'>
-                    {Object.keys(battlers).length > 0
-                      ? battlers.map((battler, i) => (
-                          <div
-                            className='league-battler-container'
-                            key={battler.id}
-                          >
-                            <div>{appendZero(i + 1)}</div>
-                            <div className='name-container'>
-                              <div>{battler.name}</div>
-                              <StyledRating
-                                value={battler.score}
-                                fontSize='0.6em'
-                              />
-                            </div>
+              {battlers.length > 0 ? (
+                <ContentContainer height={'33em'} width={700}>
+                  <LeagueBattlersContainer>
+                    <div className='header-container'>Roster</div>
+                    <div className='roster-container'>
+                      {Object.keys(battlers).length > 0
+                        ? battlers.map((battler, i) => (
+                            <div
+                              className='league-battler-container'
+                              key={battler.id}
+                            >
+                              <div>{appendZero(i + 1)}</div>
+                              <div className='name-container'>
+                                <div>{battler.name}</div>
+                                <StyledRating
+                                  value={battler.score}
+                                  fontSize='0.6em'
+                                />
+                              </div>
 
-                            <div>{battler.score}</div>
-                          </div>
-                        ))
-                      : 'No battlers for this league'}
-                  </div>
-                </LeagueBattlersContainer>
-              </ContentContainer>
+                              <div>{battler.score}</div>
+                            </div>
+                          ))
+                        : 'No battlers for this league'}
+                    </div>
+                  </LeagueBattlersContainer>
+                </ContentContainer>
+              ) : null}
+
               <ContentContainer flexDirection='column' width={700} height={600}>
                 <EventsContainer>
                   <div className='header-container'>Upcoming Events</div>

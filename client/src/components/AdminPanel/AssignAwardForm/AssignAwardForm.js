@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import Select from 'react-select';
 import { ASSIGN_AWARD, GET_AWARDS } from './gql';
 import { useQuery } from '@apollo/client';
 import { Formik, Field, Form } from 'formik';
 import { useMutation } from '@apollo/client';
 import { AssignAwardFormContainer } from './AssignAwardForm.styles';
 import { useTheme } from 'styled-components';
+import StyledSelect from '../../SharedComponents/StyledSelect/StyledSelect';
 
 function AssignAwardForm() {
   const { loading, data, refetch } = useQuery(GET_AWARDS);
@@ -64,12 +63,12 @@ function AssignAwardForm() {
       {data?.awards?.length > 0 ? (
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
-            <Select
+            <StyledSelect
               styles={reactSelectStyles}
               options={menuOptions}
               value={selectedOption}
               onChange={(selection) => handleChange(selection)}
-            ></Select>
+            ></StyledSelect>
           </FormControl>
         </Box>
       ) : null}

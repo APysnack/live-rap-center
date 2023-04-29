@@ -4,9 +4,9 @@ export const ChatContainer = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  align-items: center;
-  width: 70%;
-  height: 80%;
+  align-items: flex-start;
+  width: 95%;
+  height: 85%;
   border-radius: 10px;
   background-color: ${(props) => props.theme.formBackground};
 
@@ -16,7 +16,7 @@ export const ChatContainer = styled.div`
 
   .messages-window {
     margin-top: 1em;
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
@@ -50,43 +50,46 @@ export const MessagesWindow = styled.div`
   flex-direction: column-reverse;
 `;
 
-export const MessageContainer = styled.div`
-  width: 100%;
-  background-color: red;
-
-  .message {
-    display: flex;
-    padding: 1em;
-    justify-content: space-between;
-    margin: 0.5em;
-    max-width: 100%;
-    border-radius: 15px;
-  }
-  .to {
-    background-color: #1982fc;
-    color: white;
-  }
-  .from {
-    background-color: #d3d3d3;
-  }
-`;
-
 export const FormContainer = styled.form`
-  width: 70%;
+  margin-top: 1.2em;
+  width: 95%;
   display: flex;
   justify-content: center;
+  align-items: center;
 
   .message-container {
-    margin-top: 1em;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
   .input-field {
     padding: 0.7em;
-    width: 90%;
-    color: black;
+    width: 100%;
+    color: ${(props) => props.theme.fontColor};
+    border-radius: 2px;
+    background-color: ${(props) => props.theme.formBackground};
   }
+
+  .emoji-opener {
+    cursor: pointer;
+    font-size: 2em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 10px;
+  }
+`;
+
+export const EmojiPickerContainer = styled.div`
+  position: absolute;
+  top: -5px;
+  right: 0;
+  transform: translate(0, -100%);
 `;

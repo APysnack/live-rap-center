@@ -3,7 +3,7 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import { BattlerBookingFormContainer } from './BattlerBookingForm.styles';
 import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select';
+import StyledSelect from '../StyledSelect/StyledSelect';
 import {
   removeNonNumerics,
   convertFloatToMinuteFormat,
@@ -105,7 +105,7 @@ function BattlerBookingForm({
       </div>
       <div className='field-container'>
         <div>Number of rounds: </div>
-        <Select
+        <StyledSelect
           className='select-rounds'
           options={NUMBER_OF_ROUNDS_OPTIONS}
           value={numberOfRounds}
@@ -114,7 +114,7 @@ function BattlerBookingForm({
       </div>
       <div className='field-container'>
         <div>Minutes per round: </div>
-        <Select
+        <StyledSelect
           className='select-minutes'
           options={NUMBER_OF_MINUTES_OPTIONS}
           value={numberOfMinutes}

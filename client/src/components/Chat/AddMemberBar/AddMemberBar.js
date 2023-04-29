@@ -3,6 +3,7 @@ import UserSearchBox from './UserSearchBox/UserSearchBox';
 import { AddMemberBarContainer } from './AddMemberBar.styles';
 import { useMutation } from '@apollo/client';
 import { CREATE_CREW_INVITATION } from './gql';
+import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 
 function AddMemberBar({ crewId }) {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -30,11 +31,18 @@ function AddMemberBar({ crewId }) {
   };
 
   return (
-    <AddMemberBarContainer>
-      <div>{flashMessage}</div>
-      <UserSearchBox onSelect={(user) => setSelectedUser(user)} />
-      <div onClick={sendCrewInvitation}>Add User To Chat</div>
-    </AddMemberBarContainer>
+    <ContentContainer height={75} width={'50vw'}>
+      <AddMemberBarContainer>
+        <div>{flashMessage}</div>
+        <UserSearchBox
+          className='add-user'
+          onSelect={(user) => setSelectedUser(user)}
+        />
+        <div className='lrc-button' onClick={sendCrewInvitation}>
+          Add User
+        </div>
+      </AddMemberBarContainer>
+    </ContentContainer>
   );
 }
 

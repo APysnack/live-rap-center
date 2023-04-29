@@ -14,7 +14,14 @@ function Chat({ cable }) {
   );
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
       {location?.state?.crewId && (
         <AddMemberBar crewId={location.state.crewId} />
       )}

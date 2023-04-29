@@ -44,10 +44,11 @@ function BattlerInfo({ battler }) {
         {battler?.league ? (
           <HomeLeagueContainer>
             <Link
-              to='/league-chat'
+              to='/chat'
               state={{
                 leagueId: battler.league.id,
                 leagueName: battler.league.leagueName,
+                type: 'league',
               }}
             >
               <div className='league-chat-container'>

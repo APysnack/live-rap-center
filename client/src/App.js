@@ -18,8 +18,7 @@ import ListBattlersPage from './components/ListBattlersPage/ListBattlersPage';
 import UserSettingsPage from './components/UserSettingsPage/UserSettingsPage';
 import LeagueSettingsPage from './components/LeagueSettingsPage/LeagueSettingsPage';
 import BattlerPage from './components/BattlerPage/BattlerPage';
-import LeagueChat from './components/LeagueChat/LeagueChat';
-import CrewChat from './components/CrewChat/CrewChat';
+import Chat from './components/Chat/Chat';
 import ListEventsPage from './components/ListEventsPage/ListEventsPage';
 import ListSpacesPage from './components/ListSpacesPage/ListSpacesPage';
 import UpdateEventPage from './components/LeagueSettingsPage/UpdateEventPage/UpdateEventPage';
@@ -89,12 +88,7 @@ function App({ cable }) {
         />
         <Route exact path='/league-settings' element={<LeagueSettingsPage />} />
         <Route exact path='/battler/:battlerId' element={<BattlerPage />} />
-        <Route
-          exact
-          path='/league-chat'
-          element={<LeagueChat cable={cable} />}
-        />
-        <Route exact path='/crew-chat' element={<CrewChat cable={cable} />} />
+        <Route exact path='/chat' element={<Chat cable={cable} />} />
         <Route exact path='/events' element={<ListEventsPage />} />
         <Route exact path='/spaces' element={<ListSpacesPage />} />
         <Route exact path='/update-event/' element={<UpdateEventPage />} />

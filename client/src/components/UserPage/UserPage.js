@@ -85,10 +85,10 @@ function UserPage({ callLogoutUser, cable }) {
               ? currentUser.crews.map((crew) => (
                   <Link
                     key={crew.crewChatId}
-                    to='/crew-chat'
+                    to='/chat'
                     state={{
                       crewId: crew.crewChatId,
-                      crewName: 'Crew Chat',
+                      crewName: crew.name,
                     }}
                   >
                     {crew.name}

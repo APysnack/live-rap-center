@@ -41,11 +41,6 @@ export const GET_USER = gql`
           username
         }
       }
-      crews {
-        id
-        crewChatId
-        name
-      }
       potentialCrews {
         id
         name

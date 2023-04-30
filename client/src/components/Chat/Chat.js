@@ -3,30 +3,47 @@ import ChatForm from '../SharedComponents/ChatForm/ChatForm';
 import useChat from './UseChat';
 import { useLocation } from 'react-router-dom';
 import AddMemberBar from './AddMemberBar/AddMemberBar';
+import ChatSwitcher from './ChatSwitcher/ChatSwitcher';
+import { ChatContentsContainer } from './Chat.styles';
+import MembersList from './MembersList/MembersList';
 
 function Chat({ cable }) {
   const location = useLocation();
+  const isCrewChat = location?.state?.crewId;
+
+  const chatOwnerId = isCrewChat
+    ? location?.state?.crewId
+    : location?.state?.leagueId;
+
+  const chatTitle = isCrewChat
+    ? location?.state?.crewName
+    : location?.state?.leagueName;
+
   const { messages, title, sendMessage } = useChat(
     cable,
-    location?.state?.crewId ? 'crew' : 'league',
-    location?.state?.crewId || location?.state?.leagueId,
-    location?.state?.crewName || location?.state?.leagueName
+    isCrewChat ? 'crew' : 'league',
+    chatOwnerId,
+    chatTitle,
+    location
   );
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      {location?.state?.crewId && (
-        <AddMemberBar crewId={location.state.crewId} />
-      )}
+    <ChatContentsContainer>
+      <div>
+        <ChatSwitcher />
+      </div>
+
       <ChatForm messages={messages} title={title()} onSubmit={sendMessage} />
-    </div>
+
+      <div className='members-list-container'>
+        {isCrewChat && <AddMemberBar crewId={location.state.crewId} />}
+        <MembersList
+          chatOwnerId={chatOwnerId}
+          isCrewChat={isCrewChat}
+          location={location}
+        />
+      </div>
+    </ChatContentsContainer>
   );
 }
 

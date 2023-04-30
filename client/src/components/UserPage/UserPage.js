@@ -80,21 +80,6 @@ function UserPage({ callLogoutUser, cable }) {
 
           <div className='link-container'>
             <Link to='/spaces'>Link to Spaces</Link>
-
-            {currentUser.crews?.length > 0
-              ? currentUser.crews.map((crew) => (
-                  <Link
-                    key={crew.crewChatId}
-                    to='/chat'
-                    state={{
-                      crewId: crew.crewChatId,
-                      crewName: crew.name,
-                    }}
-                  >
-                    {crew.name}
-                  </Link>
-                ))
-              : 'bar'}
           </div>
           <button
             className='lrc-button'

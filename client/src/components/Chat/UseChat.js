@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import api from '../../api/chatApi';
 
-function useChat(cable, chatType, chatOwnerId, chatTitle) {
+function useChat(cable, chatType, chatOwnerId, chatTitle, location) {
   const [messages, setMessages] = useState([]);
   const { user } = useSelector((state) => state.user.userState);
-  const navigate = useNavigate();
 
   const sendMessage = (message) => {
     if (message !== '' && chatOwnerId) {
@@ -41,10 +39,8 @@ function useChat(cable, chatType, chatOwnerId, chatTitle) {
       } else {
         api.getCrewChatMessages(chatOwnerId, loadMessages);
       }
-    } else {
-      navigate('/login');
     }
-  }, [chatOwnerId, navigate]);
+  }, [chatOwnerId, location]);
 
   // handles socket connection for realtime updates
   useEffect(() => {
@@ -73,7 +69,7 @@ function useChat(cable, chatType, chatOwnerId, chatTitle) {
         subscription.unsubscribe();
       };
     }
-  }, [chatOwnerId, cable]);
+  }, [chatOwnerId, cable, location]);
 
   return {
     messages,

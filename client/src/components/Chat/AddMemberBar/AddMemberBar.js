@@ -31,7 +31,7 @@ function AddMemberBar({ crewId }) {
   };
 
   return (
-    <ContentContainer height={75} width={'50vw'}>
+    <ContentContainer height={150} width={'20vw'}>
       <AddMemberBarContainer>
         <div>{flashMessage}</div>
         <UserSearchBox

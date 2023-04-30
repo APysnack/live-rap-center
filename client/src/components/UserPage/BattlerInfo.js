@@ -6,6 +6,7 @@ import {
 } from './BattlerInfo.styles';
 import api from '../../api/api';
 import ContentStyleWrapper from '../SharedComponents/ContentContainer/ContentStyleWrapper';
+
 const { REACT_APP_SERVER_URL } = process.env;
 
 function BattlerInfo({ battler }) {

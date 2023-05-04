@@ -5,7 +5,12 @@ import { useLocation } from 'react-router-dom';
 import ImageUploadModal from '../../SharedComponents/ImageUploadModal/ImageUploadModal';
 import CreateEventForm from '../CreateEventForm/CreateEventForm';
 import AddBattleToEvent from './AddBattleToEvent/AddBattleToEvent';
-import { UpdateEventPageWrapper } from './UpdateEventPage.styles';
+import {
+  BattleListContainer,
+  UpdateEventPageWrapper,
+  FlyerUploadWrapper,
+} from './UpdateEventPage.styles';
+import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 
 function UpdateEventPage() {
   const [event, setEvent] = useState(null);
@@ -31,26 +36,60 @@ function UpdateEventPage() {
   return (
     <UpdateEventPageWrapper>
       {event ? (
-        <div>
-          <ImageUploadModal
-            type='event flyer'
-            object={event}
-            refetch={refetch}
-          />
-          <CreateEventForm event={event} refetch={refetch} type='update' />
-          {event?.battles
-            ? event.battles.map((battles, i) => (
-                <div key={i} className='battle-container'>
-                  <div>Battle {i + 1}</div>
-                  {battles.battlers.map((battler, i) => (
-                    <div key={battler.id}>
-                      {battler.name} {i % 2 === 0 ? 'versus' : null}
-                    </div>
-                  ))}
+        <div className='event-details-container'>
+          <div>
+            <ContentContainer width={850} height={810}>
+              <CreateEventForm event={event} refetch={refetch} type='update' />
+            </ContentContainer>
+            <ContentContainer width={850} height={300}>
+              <FlyerUploadWrapper>
+                <div className='flyer-text'>Upload flyer image</div>
+                <ImageUploadModal
+                  type='event flyer'
+                  object={event}
+                  refetch={refetch}
+                />
+              </FlyerUploadWrapper>
+            </ContentContainer>
+          </div>
+          <div>
+            <ContentContainer width={750} height={300}>
+              <AddBattleToEvent event={event} refetch={refetch} />
+            </ContentContainer>
+            <ContentContainer width={750} height={510}>
+              <BattleListContainer>
+                <div className='header-container'>Battles</div>
+                <div className='scroll-section'>
+                  {event?.battles
+                    ? event.battles.map((battles, i) => (
+                        <div key={i} className='battle-container'>
+                          {battles.battlers.map((battler, i) =>
+                            i % 2 === 0 ? (
+                              <>
+                                <div
+                                  className='battler-container'
+                                  key={battler.id}
+                                >
+                                  {battler.name.toUpperCase()}
+                                </div>
+                                <div className='versus'>VS</div>
+                              </>
+                            ) : (
+                              <div
+                                className='battler-container battler-container-right'
+                                key={battler.id}
+                              >
+                                {battler.name.toUpperCase()}
+                              </div>
+                            )
+                          )}
+                        </div>
+                      ))
+                    : null}
                 </div>
-              ))
-            : null}
-          <AddBattleToEvent event={event} refetch={refetch} />
+              </BattleListContainer>
+            </ContentContainer>
+          </div>
         </div>
       ) : null}
     </UpdateEventPageWrapper>

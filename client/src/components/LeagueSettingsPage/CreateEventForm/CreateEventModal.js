@@ -5,17 +5,25 @@ import BasicModal from '../../SharedComponents/BasicModal';
 
 function CreateEventModal({ league, refetch }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [flashMessage, setFlashMessage] = useState('');
   return (
     <CreateEventModalWrapper>
-      {flashMessage ? <div>{flashMessage}</div> : null}
-      <div onClick={() => setModalOpen(true)}>Create a new event</div>
-      <BasicModal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+      <div
+        className='lrc-button'
+        style={{ padding: '0.5em', width: '20%', marginBottom: '1.2em' }}
+        onClick={() => setModalOpen(true)}
+      >
+        Add New Event
+      </div>
+      <BasicModal
+        width={1100}
+        height={750}
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      >
         <CreateEventForm
           league={league}
           refetch={refetch}
           setModalOpen={setModalOpen}
-          setFlashMessage={setFlashMessage}
         />
       </BasicModal>
     </CreateEventModalWrapper>

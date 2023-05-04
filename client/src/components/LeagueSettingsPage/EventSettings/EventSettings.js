@@ -2,7 +2,6 @@ import React from 'react';
 import CreateEventModal from '../CreateEventForm/CreateEventModal';
 import SettingsGroup from '../../SharedComponents/SettingsGroup/SettingsGroup';
 import EventLink from '../../SharedComponents/EventLink/EventLink';
-import DeleteEventButton from '../DeleteEventButton/DeleteEventButton';
 
 function EventSettings({ league, refetchLeague }) {
   const createEventModal = () => {
@@ -34,12 +33,12 @@ function EventSettings({ league, refetchLeague }) {
   const settingsProps = {
     header: 'Events',
     components: [
-      { title: '', component: createEventModal },
       {
         title: 'Upcoming Events',
         component: upcomingEvents,
         scrollEnabled: true,
       },
+      { title: '', component: createEventModal, backgroundDisabled: true },
     ],
   };
 
@@ -48,6 +47,7 @@ function EventSettings({ league, refetchLeague }) {
       width={55}
       height={70}
       shadowWidth={50}
+      shadowHeight={58}
       headerWidth={54}
       settingsProps={settingsProps}
     ></SettingsGroup>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 import { useQuery } from '@apollo/client';
 import { GET_CREW } from './gql';
+import { MembersListContainer } from '../Chat.styles';
 
 function MembersList({ chatOwnerId, isCrewChat, location }) {
   const [members, setMembers] = useState([]);
@@ -23,13 +24,18 @@ function MembersList({ chatOwnerId, isCrewChat, location }) {
 
   return (
     <ContentContainer height={isCrewChat ? 600 : 750} width={'20vw'}>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <MembersListContainer>
+        <div className='header-container'>Members</div>
         {members.length > 0
           ? members.map((member) => {
-              return <div key={member.id}>{member.username}</div>;
+              return (
+                <div className='member-container' key={member.id}>
+                  {member.username}
+                </div>
+              );
             })
           : null}
-      </div>
+      </MembersListContainer>
     </ContentContainer>
   );
 }

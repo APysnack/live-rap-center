@@ -31,7 +31,9 @@ function SettingsGroup({
             return (
               <div
                 key={`${component.title}-element`}
-                className='form-container'
+                className={
+                  component?.backgroundDisabled ? '' : 'form-container'
+                }
                 style={{
                   width: `${shadowWidth}vw`,
                   overflow: component.scrollEnabled ? 'scroll' : null,

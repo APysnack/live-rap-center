@@ -24,6 +24,10 @@ function StyledSelect({ className, options, onChange, value }) {
       backgroundColor: isFocused ? theme.primaryContrast : null,
       color: isFocused ? theme.primary : null,
     }),
+    placeholder: (baseStyles) => ({
+      ...baseStyles,
+      color: theme.primary,
+    }),
   };
 
   return (

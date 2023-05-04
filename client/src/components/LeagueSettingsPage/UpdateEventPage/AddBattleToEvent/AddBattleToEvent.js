@@ -14,10 +14,6 @@ function AddBattleToEvent({ event, refetch }) {
     { onCompleted: refetch }
   );
 
-  React.useEffect(() => {
-    console.log(event);
-  }, []);
-
   const handleSubmit = () => {
     if (Object.keys(selectedBattlers).length === BATTLERS_PER_BATTLE) {
       addBattleToUpcomingEvent({

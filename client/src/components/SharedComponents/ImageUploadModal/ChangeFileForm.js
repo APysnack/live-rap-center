@@ -35,6 +35,8 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
   const [createAward, { data: awardData }] = useMutation(CREATE_AWARD);
 
   const onSubmit = async (file) => {
+    console.log('here');
+    console.log(type);
     if (type === 'profile picture') {
       createUserProfilePicture({
         variables: { userId: object?.id, name: fileName, image: file },
@@ -81,24 +83,6 @@ function ChangeFileForm({ isOpen, onClose, type, refetch, object }) {
   return (
     <BasicModal isOpen={isOpen} onClose={onClose}>
       <Dropzone onSubmit={onSubmit} />
-
-      {/* old code, can probably delete
-      
-      <form onSubmit={onSubmit}>
-        <div className='custom-file'>
-          <input
-            type='file'
-            className='custom-file-input'
-            id='customFile'
-            onChange={onChange}
-          />
-          <label className='custom-file-label' htmlFor='customFile'>
-            {fileName}
-          </label>
-        </div>
-
-        <input type='submit' value='Upload' />
-      </form> */}
     </BasicModal>
   );
 }

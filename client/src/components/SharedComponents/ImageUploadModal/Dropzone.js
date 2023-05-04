@@ -4,13 +4,14 @@ import { DropzoneWrapper } from './ImageUploadModal.styles';
 
 function Dropzone({ open, onSubmit }) {
   const onDrop = useCallback((acceptedFiles) => {
+    console.log(acceptedFiles);
     acceptedFiles.forEach((file) => {
       onSubmit(file);
     });
   }, []);
 
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
-    useDropzone({ onDrop, accept: { 'image/png': ['.png', '.jpeg'] } });
+    useDropzone({ onDrop, accept: { 'image/png': ['.png', '.jpeg', '.jpg'] } });
 
   return (
     <DropzoneWrapper {...getRootProps({ className: 'dropzone' })}>

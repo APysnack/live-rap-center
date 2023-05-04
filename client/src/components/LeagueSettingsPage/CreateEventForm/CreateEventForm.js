@@ -88,7 +88,6 @@ function CreateEventForm({
       let newValues = {};
       // sets keys for newValues
       if (event) {
-        console.log(event);
         newValues[eventNameField.id] = event.name;
         newValues[eventAdmissionField.id] = event.admissionCost;
         newValues[eventAddressField.id] = event.address;

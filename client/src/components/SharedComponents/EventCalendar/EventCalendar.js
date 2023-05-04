@@ -87,6 +87,7 @@ function EventCalendar({
         leagueName: event.league.leagueName,
         address: event.address,
         flyerImageUrl: event.flyerImageUrl,
+        admissionCost: event.admissionCost,
         allDay: true,
         start: event.date,
         end: event.date,
@@ -158,7 +159,6 @@ function EventCalendar({
         >
           <div className='filter-component'>
             <div className='filter-text'>Find Events Near You</div>
-            {/* TODO: set USA as default so country is never null */}
             <CountryDropdown
               value={selectedCountry}
               onChange={(value) => setSelectedCountry(value)}

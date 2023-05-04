@@ -10,6 +10,7 @@ import DoubleArrow from '@mui/icons-material/DoubleArrow';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 
 const localizer = momentLocalizer(moment);
+const todaysDate = new Date();
 
 function EventCalendar({
   eventData,
@@ -27,13 +28,12 @@ function EventCalendar({
     width: '70vw',
     height: '70vh',
     backgroundColor: theme.secondary,
-    color: theme.primary,
     fontWeight: '700',
   };
 
   const dayPropGetter = (date) => {
     const dayStyle = {};
-    if (date < new Date()) {
+    if (date < todaysDate) {
       dayStyle.backgroundColor = theme.primaryContrast;
     } else {
       dayStyle.backgroundColor = theme.primary;
@@ -131,6 +131,23 @@ function EventCalendar({
             date={visibleMonth}
             onNavigate={(date) => {
               setVisibleMonth({ selectedDate: visibleMonth });
+            }}
+            components={{
+              month: {
+                dateHeader: ({ date, label }) => {
+                  return (
+                    <h1
+                      style={
+                        date < todaysDate
+                          ? { color: theme.primary }
+                          : { color: theme.primaryContrast }
+                      }
+                    >
+                      {label}
+                    </h1>
+                  );
+                },
+              },
             }}
           />
         </ContentContainer>

@@ -32,16 +32,21 @@ function AddBattleToEvent({ event, refetch }) {
 
   return (
     <AddBattleToEventContainer>
-      {[...Array(BATTLERS_PER_BATTLE)].map((e, i) => (
-        <BattlerSearchBox
-          key={i}
-          className='search-box'
-          componentNumber={i}
-          selectedBattlers={selectedBattlers}
-          setSelectedBattlers={setSelectedBattlers}
-        />
-      ))}
-      <div onClick={handleSubmit}>Submit</div>
+      <div className='header-container'>Add Battle</div>
+      <div className='form-container'>
+        {[...Array(BATTLERS_PER_BATTLE)].map((e, i) => (
+          <BattlerSearchBox
+            key={i}
+            className='search-box'
+            componentNumber={i}
+            selectedBattlers={selectedBattlers}
+            setSelectedBattlers={setSelectedBattlers}
+          />
+        ))}
+        <div className='lrc-button' onClick={handleSubmit}>
+          Submit
+        </div>
+      </div>
     </AddBattleToEventContainer>
   );
 }

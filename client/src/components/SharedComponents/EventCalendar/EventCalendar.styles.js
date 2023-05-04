@@ -51,6 +51,10 @@ export const EventCalendarContainer = styled.div`
     color: ${(props) => props.theme.primaryContrast};
   }
 
+  .my-event-class {
+    color: red;
+  }
+
   .filter-component {
     display: flex;
     align-items: center;

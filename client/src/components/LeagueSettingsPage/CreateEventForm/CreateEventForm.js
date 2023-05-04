@@ -16,10 +16,10 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 function CreateEventForm({
   league,
   refetch,
-  setFlashMessage,
   setModalOpen,
   event = null,
   type,
+  title = 'New Event',
 }) {
   const [country, setCountry] = useState(
     event?.location?.country ? event.location.country : 'United States'
@@ -78,7 +78,6 @@ function CreateEventForm({
   const updateView = (data) => {
     if (!editingExistingEvent) {
       setModalOpen(false);
-      setFlashMessage('Event created successfully!');
       refetch();
     }
     window.location.reload();
@@ -113,36 +112,43 @@ function CreateEventForm({
 
   return (
     <CreateEventContainer>
-      <div className='datepicker-wrapper'>
-        <div>Select a Date:</div>
-        <DatePicker
-          selected={selectedDate}
-          showTimeSelect={true}
-          closeOnScroll={true}
-          className='event-datepicker'
-          calendarClassName='event-calendar'
-          dateFormat={'MMMM d, yyyy'}
-          onChange={(date) => setSelectedDate(date)}
-          minDate={moment().add(1, 'days').toDate()}
+      <div className='header-container'>{title}</div>
+      <div className='form-container'>
+        <div className='datepicker-wrapper'>
+          <div className='subheading'>Date and location</div>
+          <DatePicker
+            selected={selectedDate}
+            showTimeSelect={true}
+            closeOnScroll={true}
+            className='event-datepicker'
+            calendarClassName='event-calendar'
+            dateFormat={'MMMM d, yyyy'}
+            onChange={(date) => setSelectedDate(date)}
+            minDate={moment().add(1, 'days').toDate()}
+          />
+        </div>
+        <CountryDropdown
+          className='location-selector'
+          value={country}
+          onChange={(value) => setCountry(value)}
+        />
+        <RegionDropdown
+          className='location-selector'
+          country={country}
+          value={region}
+          onChange={(value) => setRegion(value)}
         />
       </div>
-      <CountryDropdown
-        className='location-selector'
-        value={country}
-        onChange={(value) => setCountry(value)}
-      />
-      <RegionDropdown
-        className='location-selector'
-        country={country}
-        value={region}
-        onChange={(value) => setRegion(value)}
-      />
-      <BaseForm
-        initialValues={initialValues}
-        fieldArray={fieldArray}
-        onSubmit={addNewEvent}
-        title={''}
-      />
+      <div className='form-container'>
+        <div className='subheading'>Event details</div>
+        <BaseForm
+          initialValues={initialValues}
+          fieldArray={fieldArray}
+          onSubmit={addNewEvent}
+          title={''}
+          width='25vw'
+        />
+      </div>
     </CreateEventContainer>
   );
 }

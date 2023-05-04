@@ -3,7 +3,7 @@ export const eventNameField = {
   id: 'eventName',
   initialValue: '',
   name: 'eventName',
-  placeholder: 'Please enter the event name',
+  placeholder: 'Event name',
   type: 'text',
   displayedLabel: 'Event Name',
 };
@@ -12,7 +12,7 @@ export const eventAddressField = {
   id: 'eventAddress',
   initialValue: '',
   name: 'eventAddress',
-  placeholder: 'Please enter the address of the event',
+  placeholder: 'Event address',
   type: 'text',
   displayedLabel: 'Event Address',
 };
@@ -21,7 +21,7 @@ export const eventAdmissionField = {
   id: 'eventAdmission',
   initialValue: '',
   name: 'eventAdmission',
-  placeholder: 'Please enter the cost of admission',
+  placeholder: 'Event admission (e.g. 20 for $20)',
   type: 'text',
   displayedLabel: 'Event Admission',
 };

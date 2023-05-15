@@ -13,6 +13,14 @@ export const GET_EVENT = gql`
         id
         leagueName
       }
+      battles {
+        id
+        battlers {
+          id
+          name
+          score
+        }
+      }
     }
   }
 `;

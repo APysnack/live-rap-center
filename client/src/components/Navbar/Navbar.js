@@ -34,6 +34,7 @@ function Navbar() {
             <NavbarLink to='/battlers'>Battlers</NavbarLink>
             <NavbarLink to='/battles'>Battles</NavbarLink>
             <NavbarLink to='/events'>Events</NavbarLink>
+            <NavbarLink to='/chat'>Chat</NavbarLink>
             {user?.email ? (
               <NavbarLink to='/settings'>Settings</NavbarLink>
             ) : null}

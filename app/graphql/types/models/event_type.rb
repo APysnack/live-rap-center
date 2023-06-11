@@ -15,7 +15,7 @@ module Types
 
       def flyer_image_url
         if object.flyer_image.present?
-          rails_blob_path(object.flyer_image, host: ENV["SERVER_URL"])
+          Rails.env.production? ? object.flyer_image.url : url_for(object.flyer_image)
         end
       end
 

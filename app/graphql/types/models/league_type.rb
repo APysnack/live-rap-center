@@ -26,7 +26,7 @@ module Types
 
       def logo_url
         if object.image.present?
-          rails_blob_path(object.image, host: ENV["SERVER_URL"])
+          Rails.env.production? ? object.image.url : url_for(object.image)
         end
       end
 

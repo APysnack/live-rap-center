@@ -14,8 +14,6 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Payments from '@mui/icons-material/Payments';
 import StyledRating from '../SharedComponents/StyledRating/StyledRating';
 
-const { REACT_APP_SERVER_URL } = process.env;
-
 const RATING_FONT_SIZE = '0.5em';
 
 function EventPage() {
@@ -30,7 +28,6 @@ function EventPage() {
   });
 
   useEffect(() => {
-    console.log(REACT_APP_SERVER_URL + data?.event?.flyerImageUrl);
     if (data?.event) {
       setEvent(data.event);
     }
@@ -91,7 +88,7 @@ function EventPage() {
               {event.flyerImageUrl ? (
                 <img
                   className='flyer-img'
-                  src={`${REACT_APP_SERVER_URL + event.flyerImageUrl}`}
+                  src={`${event.flyerImageUrl}`}
                   width={'325px'}
                 ></img>
               ) : (

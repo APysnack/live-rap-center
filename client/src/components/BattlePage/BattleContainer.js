@@ -18,7 +18,6 @@ import Lock from '@mui/icons-material/Lock';
 import LockOpen from '@mui/icons-material/LockOpen';
 import StyledRating from '../SharedComponents/StyledRating/StyledRating';
 
-const { REACT_APP_SERVER_URL } = process.env;
 const VIDEO_WIDTH = '960';
 const VIDEO_HEIGHT = '540';
 
@@ -106,7 +105,7 @@ function BattleContainer({ stats, youtubeId, battle }) {
               <div className='logo-container'>
                 <Link to={`/league/${battle.league.id}`}>
                   <Avatar
-                    src={REACT_APP_SERVER_URL + battle.league.logoUrl}
+                    src={battle.league.logoUrl}
                     sx={{ width: 400, height: 100 }}
                     className='battlerImage'
                     variant={'rounded'}

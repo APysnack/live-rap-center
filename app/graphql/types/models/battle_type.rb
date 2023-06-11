@@ -25,7 +25,7 @@ module Types
 
       def thumbnail
         if object.thumbnail.present?
-          rails_blob_path(object.thumbnail, host: ENV["SERVER_URL"])
+          Rails.env.production? ? object.thumbnail.url : url_for(object.thumbnail)
         end
       end
 

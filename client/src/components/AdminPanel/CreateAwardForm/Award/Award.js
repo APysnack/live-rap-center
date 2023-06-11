@@ -8,8 +8,6 @@ import UpdateAwardForm from '../UpdateAwardForm.js/UpdateAwardForm';
 import { UPDATE_AWARD } from '../gql';
 import { AwardContainer } from './Award.styles';
 
-const { REACT_APP_SERVER_URL } = process.env;
-
 // AwardTypeEnum must match acceptedTypeValues, including the order
 const AwardTypeEnum = {
   BATTLER: 'BATTLER',
@@ -76,7 +74,7 @@ function Award({ award, refetch }) {
       <div className='award-name'>{award.name}</div>
       <div className='award-icon-container'>
         <img
-          src={REACT_APP_SERVER_URL + award.imageUrl}
+          src={award.imageUrl}
           onClick={() => setEditAwardModalOpen(true)}
           width='40'
           height='40'

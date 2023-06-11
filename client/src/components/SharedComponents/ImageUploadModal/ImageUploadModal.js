@@ -4,8 +4,6 @@ import ChangeFileForm from './ChangeFileForm';
 import { ImageModalWrapper } from './ImageUploadModal.styles';
 import Add from '@mui/icons-material/Add';
 
-const { REACT_APP_SERVER_URL } = process.env;
-
 // object is an optional argument to modify the image for a particular instance
 function ImageUploadModal({ type, refetch, variant, object = null }) {
   const [modelOpen, setModalOpen] = useState(false);
@@ -15,20 +13,20 @@ function ImageUploadModal({ type, refetch, variant, object = null }) {
   useEffect(() => {
     switch (type) {
       case 'profile picture':
-        setImageSource(REACT_APP_SERVER_URL + object?.profilePictureUrl);
+        setImageSource(object?.profilePictureUrl);
         break;
       case 'league logo':
-        setImageSource(REACT_APP_SERVER_URL + object?.logoUrl);
+        setImageSource(object?.logoUrl);
         setDimensions({ width: 400, height: 100 });
         break;
       case 'battle thumbnail':
-        setImageSource(REACT_APP_SERVER_URL + object?.thumbnail);
+        setImageSource(object?.thumbnail);
         break;
       case 'battler image':
-        setImageSource(REACT_APP_SERVER_URL + object?.image);
+        setImageSource(object?.image);
         break;
       case 'event flyer':
-        setImageSource(REACT_APP_SERVER_URL + object?.flyerImageUrl);
+        setImageSource(object?.flyerImageUrl);
         break;
       default:
         setImageSource('');

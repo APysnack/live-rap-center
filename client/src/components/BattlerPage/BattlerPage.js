@@ -18,8 +18,6 @@ import {
 import BattleLink from '../SharedComponents/BattleLink/BattleLink';
 import UserPageHeadline from '../SharedComponents/UserPageHeadlines/UserPageHeadline';
 
-const { REACT_APP_SERVER_URL } = process.env;
-
 function BattlerPage() {
   let { battlerId } = useParams();
   const [flashMessage, setFlashMessage] = useState('');
@@ -101,7 +99,7 @@ function BattlerPage() {
           {battler?.user?.isVerified ? (
             <div>
               <Avatar
-                src={REACT_APP_SERVER_URL + battler.user.profilePictureUrl}
+                src={battler.user.profilePictureUrl}
                 sx={{ width: 300, height: 300 }}
                 className='battlerImage'
                 variant={'rounded'}
@@ -110,7 +108,7 @@ function BattlerPage() {
           ) : (
             <div>
               <Avatar
-                src={REACT_APP_SERVER_URL + battler.image}
+                src={battler.image}
                 sx={{ width: 100, height: 100 }}
                 className='battlerImage'
                 variant={'square'}
@@ -137,7 +135,7 @@ function BattlerPage() {
             </div>
             {battler?.league?.leagueName ? (
               <Avatar
-                src={REACT_APP_SERVER_URL + battler.league.logoUrl}
+                src={battler.league.logoUrl}
                 sx={{ width: 400, height: 100, marginBottom: '0.5em' }}
                 className='battlerImage'
                 variant={'square'}

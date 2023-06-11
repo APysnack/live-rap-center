@@ -2,8 +2,6 @@ import React from 'react';
 
 import { Avatar } from '@mui/material';
 
-const { REACT_APP_SERVER_URL } = process.env;
-
 const IMAGE_WIDTH = 80;
 const IMAGE_HEIGHT = 80;
 
@@ -22,12 +20,12 @@ function Thumbnail({
         return object.thumbnail ? YOUTUBE_IMAGE_URL : YOUTUBE_IMAGE_URL;
       case 'battlerImage':
         return object?.user?.profilePictureUrl
-          ? REACT_APP_SERVER_URL + object.user.profilePictureUrl
-          : REACT_APP_SERVER_URL + object.image;
+          ? object.user.profilePictureUrl
+          : object.image;
       case 'leagueLogo':
-        return object.logoUrl ? REACT_APP_SERVER_URL + object.logoUrl : null;
+        return object.logoUrl ? object.logoUrl : null;
       default:
-        return REACT_APP_SERVER_URL + object.image;
+        return object.image;
     }
   };
 

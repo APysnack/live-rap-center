@@ -7,8 +7,6 @@ import {
 import api from '../../api/api';
 import ContentStyleWrapper from '../SharedComponents/ContentContainer/ContentStyleWrapper';
 
-const { REACT_APP_SERVER_URL } = process.env;
-
 function BattlerInfo({ battler }) {
   const [battlerStats, setBattlerStats] = useState({
     totalViews: 0,
@@ -53,7 +51,7 @@ function BattlerInfo({ battler }) {
               }}
             >
               <div className='league-chat-container'>
-                <img src={REACT_APP_SERVER_URL + battler.league.logoUrl}></img>
+                <img src={battler.league.logoUrl}></img>
 
                 <div className='league-chat-text'>LEAGUE CHAT</div>
               </div>

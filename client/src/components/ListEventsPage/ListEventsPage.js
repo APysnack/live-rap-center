@@ -10,8 +10,6 @@ import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Payments from '@mui/icons-material/Payments';
 
-const { REACT_APP_SERVER_URL } = process.env;
-
 function ListEventsPage() {
   const [selectedCountry, setSelectedCountry] = useState('United States');
   const [selectedRegion, setSelectedRegion] = useState('');
@@ -50,7 +48,7 @@ function ListEventsPage() {
             {selectedEvent.flyerImageUrl ? (
               <img
                 className='flyer-img'
-                src={`${REACT_APP_SERVER_URL + selectedEvent.flyerImageUrl}`}
+                src={`${selectedEvent.flyerImageUrl}`}
                 width={'300px'}
               ></img>
             ) : (

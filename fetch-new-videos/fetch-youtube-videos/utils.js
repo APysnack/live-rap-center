@@ -2,9 +2,11 @@ const axios = require('axios');
 const { parseTitle } = require('./battleParser');
 
 const YT_CHANNEL_API = 'https://www.googleapis.com/youtube/v3/channels';
-const YT_API_KEY = 'AIzaSyBPDDrDXiwZum-aFEkE6112H2H61tHY91M';
 const YT_PLAYLIST_API = 'https://www.googleapis.com/youtube/v3/playlistItems';
 const YT_VIDEOS_API = 'https://www.googleapis.com/youtube/v3/videos';
+
+// USE ENV
+const YT_API_KEY = process.env.YT_API_KEY;
 
 const getBattlersFrom = (video) => {
   const videoTitle = video.snippet.title;
@@ -34,6 +36,7 @@ const fetchVideosFromPlaylist = async (playlistId, nextPageToken) => {
 
   try {
     const response = await axios.get(playlistApiUrl, options);
+    const nextPageToken = response?.data?.nextPageToken || null;
     const videos = response.data.items;
 
     const videosWithVsInTitle = filterByVersus(videos);
@@ -48,7 +51,7 @@ const fetchVideosFromPlaylist = async (playlistId, nextPageToken) => {
       contentDetails
     );
 
-    return filteredVideos;
+    return { videos: filteredVideos, nextPageToken: nextPageToken };
   } catch (error) {
     console.error(error);
     return error;

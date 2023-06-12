@@ -3,11 +3,11 @@
     {
       "type": "aws-sam",
       "request": "direct-invoke",
-      "name": "fetch-new-videos:HelloWorldFunction (nodejs14.x)",
+      "name": "fetch-new-videos:FetchYoutubeVideosFunction (nodejs14.x)",
       "invokeTarget": {
         "target": "template",
         "templatePath": "${workspaceFolder}/fetch-new-videos/template.yaml",
-        "logicalId": "HelloWorldFunction"
+        "logicalId": "FetchYoutubeVideosFunction"
       },
       "lambda": {
         "payload": {},
@@ -18,14 +18,14 @@
     {
       "type": "aws-sam",
       "request": "direct-invoke",
-      "name": "API fetch-new-videos:HelloWorldFunction (nodejs14.x)",
+      "name": "API fetch-new-videos:FetchYoutubeVideosFunction (nodejs14.x)",
       "invokeTarget": {
         "target": "api",
         "templatePath": "${workspaceFolder}/fetch-new-videos/template.yaml",
-        "logicalId": "HelloWorldFunction"
+        "logicalId": "FetchYoutubeVideosFunction"
       },
       "api": {
-        "path": "/hello",
+        "path": "/fetch-youtube-videos",
         "httpMethod": "get",
         "payload": {
           "json": {}

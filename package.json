@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/APysnack/live-rap-center#readme",
   "dependencies": {
+    "pg": "^8.11.0",
     "react-calendar": "^3.8.0",
     "react-scripts": "^5.0.1"
   }

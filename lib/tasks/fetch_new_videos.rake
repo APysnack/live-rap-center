@@ -4,6 +4,9 @@ require 'battle_parser'
 include BattleParser
 
 
+# this is no longer used - keeping it here in case I need it for local testing
+# production uses AWS Lambda to perform the same task
+
 # in the future, might be a good idea to rewrite this so we're fetching multiple channel ids rather than one at a time
 # programmed it this way because of the disconnect between how youtube api wants the info (as a CSV string) and the need
 # to extract league id and other information in a normal loop fashion. 

@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  fetch-new-videos
+
+  Sample SAM Template for fetch-new-videos
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 900
+    MemorySize: 128
+
+Resources:
+  FetchYoutubeVideosFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: fetch-youtube-videos/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Events:
+        FetchYoutubeVideos:
+          Type: Api
+          Properties:
+            Path: /fetch-youtube-videos
+            Method: get
+
+Outputs:
+  FetchYoutubeVideosApi:
+    Description: 'API Gateway endpoint URL for Prod stage for Fetch Youtube Videos function'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/fetch-youtube-videos/'
+  FetchYoutubeVideosFunction:
+    Description: 'Fetch Youtube Videos Lambda Function ARN'
+    Value: !GetAtt FetchYoutubeVideosFunction.Arn
+  FetchYoutubeVideosFunctionIamRole:
+    Description: 'Implicit IAM Role created for FetchYoutubeVideos function'
+    Value: !GetAtt FetchYoutubeVideosFunctionRole.Arn

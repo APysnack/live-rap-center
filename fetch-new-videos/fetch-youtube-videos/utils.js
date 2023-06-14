@@ -1,9 +1,10 @@
 const axios = require('axios');
 const { parseTitle } = require('./battleParser');
 
-const YT_API_KEY = 'AIzaSyAECzT9DaCEFyaVW2Sqf7n1gqOaVOaNaz8';
 const YT_VIDEOS_API = 'https://www.googleapis.com/youtube/v3/videos';
 const YT_SEARCH_API = 'https://www.googleapis.com/youtube/v3/search';
+
+const YT_API_KEY = process.env.YT_API_KEY;
 
 const getBattlersFrom = (video) => {
   const videoTitle = video.snippet.title;

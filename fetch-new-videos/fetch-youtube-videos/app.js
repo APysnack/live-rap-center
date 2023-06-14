@@ -15,11 +15,11 @@ const {
 
 exports.lambdaHandler = async (event, context) => {
   const client = new Client({
-    host: 'lrc-db.cckuob6xrxuf.us-east-1.rds.amazonaws.com',
-    port: 5432,
-    database: 'lrc-db',
-    user: 'postgres',
-    password: 'lrcAssurMvensnupDb1!23',
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
   });
 
   const createBattlesFor = async (client, videos, league) => {

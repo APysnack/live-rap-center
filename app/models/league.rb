@@ -1,4 +1,6 @@
 class League < ApplicationRecord
+  attribute :last_video_fetch_date, :date
+  
   has_many :battles
   has_many :battlers
   has_many :league_admins

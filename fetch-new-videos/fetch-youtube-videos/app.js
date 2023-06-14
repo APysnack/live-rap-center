@@ -1,8 +1,8 @@
 const { Client } = require('pg');
 const {
   getBattlersFrom,
-  fetchVideosFromPlaylist,
-  fetchPlaylistFor,
+  fetchVideosFromChannel,
+  formatDate,
 } = require('./utils');
 
 const {
@@ -10,22 +10,24 @@ const {
   createBattle,
   createBattler,
   createBattlerBattle,
+  initializeLeague,
 } = require('./pgFunctions');
 
 exports.lambdaHandler = async (event, context) => {
   const client = new Client({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    host: 'lrc-db.cckuob6xrxuf.us-east-1.rds.amazonaws.com',
+    port: 5432,
+    database: 'lrc-db',
+    user: 'postgres',
+    password: 'lrcAssurMvensnupDb1!23',
   });
 
   const createBattlesFor = async (client, videos, league) => {
     for (const video of videos) {
-      const battleUrl = video.snippet.resourceId.videoId;
+      const battleUrl = video.id.videoId;
       const battlerNames = getBattlersFrom(video);
-      if (battlerNames.length > 0) {
+
+      if (battlerNames?.length > 0) {
         let battlerObjects = [];
         const battleObject = await createBattle(client, league.id, battleUrl);
 
@@ -51,21 +53,30 @@ exports.lambdaHandler = async (event, context) => {
   try {
     await client.connect();
 
-    // TODO: Add videosInitialized: true to league model
-    // if false, we want to query and get ALL videos
-    // else, we need to figure out a way to add a time stamp so we dont fetch videos older than that time
-
-    const queryResult = await client.query('SELECT * FROM leagues;');
+    // NOTE: remember to pass event object when testing locally - as of now, start position should be
+    // in increments of 50 e.g. 0, 50, 100, etc. records to fetch should be 50
+    const queryResult = await client.query(
+      `SELECT * FROM leagues offset ${event.startPosition} limit ${event.recordsToFetch};`
+    );
     const leagues = queryResult.rows;
 
     for (const league of leagues) {
-      const fetchAllVideos = true;
+      let fetchAllVideos = false;
+
+      if (!league.videos_initialized) {
+        fetchAllVideos = true;
+        await initializeLeague(client, league.id);
+      }
+
       let nextPageToken = null;
       let newVideos = null;
 
       const channelId = league.league_url;
-      const playlistId = await fetchPlaylistFor(channelId);
-      const response = await fetchVideosFromPlaylist(playlistId, null);
+      const response = await fetchVideosFromChannel(
+        channelId,
+        null,
+        formatDate(league.last_video_fetch_date)
+      );
       nextPageToken = response.nextPageToken;
       newVideos = response.videos;
 
@@ -75,7 +86,7 @@ exports.lambdaHandler = async (event, context) => {
 
       if (fetchAllVideos === true) {
         while (nextPageToken !== null) {
-          const res = await fetchVideosFromPlaylist(playlistId, nextPageToken);
+          const res = await fetchVideosFromChannel(channelId, nextPageToken);
           nextPageToken = res.nextPageToken;
           newVideos = res.videos;
 

@@ -55,8 +55,9 @@ exports.lambdaHandler = async (event, context) => {
 
     // NOTE: remember to pass event object when testing locally
     const queryResult = await client.query(
-      `SELECT * FROM leagues offset ${event.startPosition} limit ${event.recordsToFetch};`
+      `SELECT * FROM leagues ORDER BY league_name ASC OFFSET ${event.startPosition} LIMIT ${event.recordsToFetch};`
     );
+
     const leagues = queryResult.rows;
 
     for (const league of leagues) {

@@ -2,8 +2,8 @@ const currentDate = new Date().toISOString();
 
 const findBattlerByName = async (client, battlerName) => {
   const query = {
-    text: 'SELECT * FROM battlers WHERE name ILIKE $1',
-    values: [`%${battlerName}%`],
+    text: 'SELECT * FROM battlers WHERE name = $1',
+    values: [battlerName],
   };
 
   try {

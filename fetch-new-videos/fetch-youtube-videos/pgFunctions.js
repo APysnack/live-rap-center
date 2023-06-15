@@ -2,7 +2,7 @@ const currentDate = new Date().toISOString();
 
 const findBattlerByName = async (client, battlerName) => {
   const query = {
-    text: 'SELECT * FROM battlers WHERE name = $1',
+    text: 'SELECT * FROM battlers WHERE name = $1 LIMIT 1',
     values: [battlerName],
   };
 
@@ -28,7 +28,7 @@ const createBattle = async (client, leagueId, battleUrl) => {
     const battleObject = result.rows[0];
     return battleObject;
   } catch (error) {
-    console.error(error);
+    console.error('Error trying to create battle' + error);
     throw error;
   }
 };

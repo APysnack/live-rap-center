@@ -65,8 +65,9 @@ exports.lambdaHandler = async (event, context) => {
 
       if (!league.videos_initialized) {
         fetchAllVideos = true;
-        await initializeLeague(client, league.id);
       }
+
+      await initializeLeague(client, league.id);
 
       let nextPageToken = null;
       let newVideos = null;

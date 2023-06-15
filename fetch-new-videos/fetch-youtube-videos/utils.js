@@ -90,7 +90,7 @@ const removeYouTubeShorts = (videos, contentDetails) => {
           videoContentDetails.contentDetails.duration.match(/PT(\d+)M/)[1]
         );
 
-        if (durationMinutes >= 8) {
+        if (durationMinutes >= 7) {
           return video;
         }
       }

@@ -10,7 +10,7 @@ function ListBattlesPage() {
   const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
 
-  const { data } = useQuery(GET_BATTLES, {
+  const { data, loading } = useQuery(GET_BATTLES, {
     variables: {
       searchText: searchText,
       rowsToFetch: CLIENT_MEMORY_LIMIT,
@@ -54,6 +54,8 @@ function ListBattlesPage() {
     onRowClick: handleRowClick,
     onSearch: updateSearchText,
   };
+
+  if (loading) return 'Loading...';
 
   return (
     <>

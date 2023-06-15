@@ -80,79 +80,83 @@ function BattleContainer({ stats, youtubeId, battle }) {
           </StyledBattleContainer>
         </ContentContainer>
         <ContentContainer width={600} height={750}>
-          {stats?.snippet ? (
-            <StyledStatsContainer>
-              <div className='battle-stats'>
-                <div className='stat-with-icon'>
-                  <CalendarMonth />
-                  <div>
-                    {formatDate(stats.snippet.publishedAt, ['monthInNumbers'])}
+          <StyledStatsContainer>
+            <div className='battle-stats'>
+              <div className='stat-with-icon'>
+                <CalendarMonth />
+                <div>
+                  {stats?.snippet
+                    ? formatDate(stats.snippet.publishedAt, ['monthInNumbers'])
+                    : '01/01/2000'}
+                </div>
+              </div>
+
+              <div className='stat-with-icon'>
+                <Visibility />
+                <div>
+                  {stats?.statistics ? stats.statistics.viewCount : '0'}
+                </div>
+              </div>
+
+              <div className='stat-with-icon'>
+                <ThumbUp />
+                <div>
+                  {stats?.statistics ? stats.statistics.likeCount : '0'}
+                </div>
+              </div>
+
+              {battle.battleStatus === 'closed' ? <Lock /> : <LockOpen />}
+            </div>
+            <div className='logo-container'>
+              <Link to={`/league/${battle.league.id}`}>
+                <Avatar
+                  src={battle.league.logoUrl}
+                  sx={{ width: 400, height: 100 }}
+                  className='battlerImage'
+                  variant={'rounded'}
+                />
+              </Link>
+            </div>
+
+            <div className='battle-results-panel'>
+              {battle.battlers.map((battler, i) => (
+                <BattlerLinkWrapper
+                  key={battler.id}
+                  className={`${
+                    battle.battleWinner?.id === battler.id
+                      ? 'battle-winner'
+                      : ''
+                  }`}
+                >
+                  <div className={`battler-${i} battler-title`}>
+                    <div>{battler.name.toUpperCase()}</div>
+                    {battler?.user?.isVerified ? (
+                      <VerifiedUserIcon
+                        className='verified-icon'
+                        style={{ fontSize: '1em' }}
+                      />
+                    ) : null}
                   </div>
-                </div>
-
-                <div className='stat-with-icon'>
-                  <Visibility />
-                  <div>{stats.statistics.viewCount}</div>
-                </div>
-
-                <div className='stat-with-icon'>
-                  <ThumbUp />
-                  <div>{stats.statistics.likeCount}</div>
-                </div>
-
-                {battle.battleStatus === 'closed' ? <Lock /> : <LockOpen />}
-              </div>
-              <div className='logo-container'>
-                <Link to={`/league/${battle.league.id}`}>
-                  <Avatar
-                    src={battle.league.logoUrl}
-                    sx={{ width: 400, height: 100 }}
-                    className='battlerImage'
-                    variant={'rounded'}
+                  <Thumbnail
+                    type='battlerImage'
+                    object={battler}
+                    fillParentContainer={false}
+                    width={'7em'}
+                    height={'7em'}
                   />
-                </Link>
-              </div>
-
-              <div className='battle-results-panel'>
-                {battle.battlers.map((battler, i) => (
-                  <BattlerLinkWrapper
-                    key={battler.id}
-                    className={`${
-                      battle.battleWinner?.id === battler.id
-                        ? 'battle-winner'
-                        : ''
+                  <StyledRating
+                    value={battler.score}
+                    fontSize='0.85em'
+                  ></StyledRating>
+                  <div className='votes-count'>
+                    {`${votesCount[battler.id]} ${
+                      votesCount[battler.id] === 1 ? 'vote' : 'votes'
                     }`}
-                  >
-                    <div className={`battler-${i} battler-title`}>
-                      <div>{battler.name.toUpperCase()}</div>
-                      {battler?.user?.isVerified ? (
-                        <VerifiedUserIcon
-                          className='verified-icon'
-                          style={{ fontSize: '1em' }}
-                        />
-                      ) : null}
-                    </div>
-                    <Thumbnail
-                      type='battlerImage'
-                      object={battler}
-                      fillParentContainer={false}
-                      width={'7em'}
-                      height={'7em'}
-                    />
-                    <StyledRating
-                      value={battler.score}
-                      fontSize='0.85em'
-                    ></StyledRating>
-                    <div className='votes-count'>
-                      {`${votesCount[battler.id]} ${
-                        votesCount[battler.id] === 1 ? 'vote' : 'votes'
-                      }`}
-                    </div>
-                  </BattlerLinkWrapper>
-                ))}
-              </div>
-            </StyledStatsContainer>
-          ) : null}
+                  </div>
+                </BattlerLinkWrapper>
+              ))}
+            </div>
+          </StyledStatsContainer>
         </ContentContainer>
       </BattleContentContainer>
     </>

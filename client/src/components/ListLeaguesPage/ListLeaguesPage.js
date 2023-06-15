@@ -9,7 +9,7 @@ function ListLeaguesPage() {
   const [virtualFrame, setVirtualFrame] = useState(null);
   const [searchText, setSearchText] = useState('');
 
-  const { data } = useQuery(GET_LEAGUES, {
+  const { data, loading } = useQuery(GET_LEAGUES, {
     variables: {
       searchText: searchText,
       rowsToFetch: CLIENT_MEMORY_LIMIT,
@@ -38,6 +38,8 @@ function ListLeaguesPage() {
     onRowClick: handleRowClick,
     onSearch: updateSearchText,
   };
+
+  if (loading) return 'Loading...';
 
   return (
     <>

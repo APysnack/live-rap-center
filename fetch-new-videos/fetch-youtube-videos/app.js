@@ -53,8 +53,7 @@ exports.lambdaHandler = async (event, context) => {
   try {
     await client.connect();
 
-    // NOTE: remember to pass event object when testing locally - as of now, start position should be
-    // in increments of 50 e.g. 0, 50, 100, etc. records to fetch should be 50
+    // NOTE: remember to pass event object when testing locally
     const queryResult = await client.query(
       `SELECT * FROM leagues offset ${event.startPosition} limit ${event.recordsToFetch};`
     );
@@ -67,17 +66,17 @@ exports.lambdaHandler = async (event, context) => {
         fetchAllVideos = true;
       }
 
-      await initializeLeague(client, league.id);
-
       let nextPageToken = null;
       let newVideos = null;
 
       const channelId = league.league_url;
+
       const response = await fetchVideosFromChannel(
         channelId,
         null,
         formatDate(league.last_video_fetch_date)
       );
+
       nextPageToken = response.nextPageToken;
       newVideos = response.videos;
 
@@ -96,6 +95,8 @@ exports.lambdaHandler = async (event, context) => {
           }
         }
       }
+
+      await initializeLeague(client, league.id);
     }
 
     const response = {

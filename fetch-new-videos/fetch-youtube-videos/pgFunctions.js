@@ -67,8 +67,8 @@ const createBattlerBattle = async (client, battleId, battlerId) => {
 
 const initializeLeague = async (client, leagueId) => {
   const updateQuery = {
-    text: 'UPDATE leagues SET videos_initialized = true, last_video_fetch_date = $2 WHERE id = $1;',
-    values: [leagueId, currentDate],
+    text: 'UPDATE leagues SET videos_initialized = true, last_video_fetch_date = $1 WHERE id = $2;',
+    values: [currentDate, leagueId],
   };
 
   try {

@@ -60,6 +60,7 @@ describe('parseTitle', function () {
     expect(result).to.deep.equal(expectedOutput);
   });
 
+  // league name following symbol
   it('should parse KING BROOK vs PURELYDEF - iBattleTV correctly', function () {
     const input = 'KING BROOK vs PURELYDEF - iBattleTV';
     const expectedOutput = ['KING BROOK', 'PURELYDEF'];
@@ -69,6 +70,7 @@ describe('parseTitle', function () {
     expect(result).to.deep.equal(expectedOutput);
   });
 
+  // hosted by
   it('should parse RemyD vs Coma hosted by Pat Stay correctly', function () {
     const input = 'RemyD vs Coma hosted by Pat Stay';
     const expectedOutput = ['RemyD', 'Coma'];
@@ -78,6 +80,7 @@ describe('parseTitle', function () {
     expect(result).to.deep.equal(expectedOutput);
   });
 
+  // tag team ampersands
   it('should parse HOMESKOOL & LORD GIOVANNI vs KANG & CASHIS CLAY - iBattleTV (House of Lords vs Chain Gang) correctly', function () {
     const input =
       'HOMESKOOL & LORD GIOVANNI vs KANG & CASHIS CLAY - iBattleTV (House of Lords vs Chain Gang)';
@@ -93,10 +96,100 @@ describe('parseTitle', function () {
     expect(result).to.deep.equal(expectedOutput);
   });
 
+  // tag team "and"
   it('should parse  SHOWTIME BATTLE ARENA: RASHAAD THA GOD AND LA FROSS VS OSIRIS AND KI HOSTED BY FOO correctly', function () {
     const input =
       'SHOWTIME BATTLE ARENA: RASHAAD THA GOD AND LA FROSS VS OSIRIS AND KI - HOSTED BY FOO';
     const expectedOutput = ['RASHAAD THA GOD', 'LA FROSS', 'OSIRIS', 'KI'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  // includes "battle"
+  it('should parse REAL NAME BRANDON vs PATRON battle correctly', function () {
+    const input = 'REAL NAME BRANDON vs PATRON battle';
+    const expectedOutput = ['REAL NAME BRANDON', 'PATRON'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  // includes "rap battle right side"
+  it('should parse REAL NAME BRANDON vs PATRON rap battle correctly', function () {
+    const input = 'REAL NAME BRANDON vs PATRON rap battle';
+    const expectedOutput = ['REAL NAME BRANDON', 'PATRON'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  // includes "rap battle left side"
+  it('should parse RAP BATTLE REAL NAME BRANDON vs PATRON correctly', function () {
+    const input = 'RAP BATTLE REAL NAME BRANDON vs PATRON rap battle';
+    const expectedOutput = ['REAL NAME BRANDON', 'PATRON'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  // co-host
+  it('should parse 413 Battle League - Uno Lavoz vs 3SK co-host Chilla Jones correctly', function () {
+    const input = '413 Battle League - Uno Lavoz vs 3SK co-host Chilla Jones';
+    const expectedOutput = ['Uno Lavoz', '3SK'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  // parentheses
+  it('should parse 413 Battle League - JeFFrey (CT) vs Flash da Gator (MA) hosted by Lush One', function () {
+    const input =
+      '413 Battle League - JeFFrey (CT) vs Flash da Gator (MA) hosted by Lush One';
+    const expectedOutput = ['JeFFrey', 'Flash da Gator'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  it('should parse 40 B.A.R.R.S vs CHETTA QOTR presented by BABS BUNNY & VAGUE', function () {
+    const input = '40 B.A.R.R.S vs CHETTA QOTR presented by BABS BUNNY & VAGUE';
+    const expectedOutput = ['40 B.A.R.R.S', 'CHETTA'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  it('413 Battle League Presents Cityy Towers vs 3SK', function () {
+    const input = '413 Battle League Presents Cityy Towers vs 3SK';
+    const expectedOutput = ['Cityy Towers', '3SK'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  // html encoded
+  it('should parse  Battleground Dallas "THE REAFFIRMATION"- STREET CAMMO VS G NUTTY', function () {
+    const input =
+      ' Battleground Dallas &#34;THE REAFFIRMATION&#34;- STREET CAMMO VS G NUTTY';
+    const expectedOutput = ['STREET CAMMO', 'G NUTTY'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  it('AHAT Rap Battles Aries vs TBG(tryout)', function () {
+    const input = 'AHAT Rap Battles Aries vs TBG(tryout)';
+    const expectedOutput = ['Aries', 'TBG'];
 
     const result = parseTitle(input);
 

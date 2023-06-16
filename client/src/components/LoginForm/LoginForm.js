@@ -22,10 +22,14 @@ function LoginForm() {
 
   return (
     // still need to implement form validation
-    <div>
-      <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+    <>
+      <GoogleLogin
+        onSuccess={handleSuccess}
+        onError={handleError}
+        width={200}
+      />
       {loginErrorMessage !== '' ? <div>{loginErrorMessage}</div> : null}
-    </div>
+    </>
   );
 }
 

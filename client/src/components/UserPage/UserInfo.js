@@ -9,7 +9,7 @@ function UserInfo({ currentUser, user, refetchUser, battler, refetchBattler }) {
     <ContentStyleWrapper width={'20vw'}>
       <div>
         <div className='user-name-image'>
-          <div>{currentUser.username}</div>
+          <div className='username'>{currentUser.username}</div>
           <ImageUploadModal
             type='profile picture'
             refetch={refetchUser}

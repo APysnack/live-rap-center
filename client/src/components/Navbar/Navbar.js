@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   LeftContainer,
@@ -15,7 +16,7 @@ import {
   NavbarLinkWrapper,
 } from './Navbar.styles';
 
-import LogoImg from '../../images/Logo.svg';
+const logoUrl = 'https://lrc-public-files.s3.amazonaws.com/lrc-logo-red.png';
 
 function Navbar() {
   const { user } = useSelector((state) => state.user.userState);
@@ -25,18 +26,25 @@ function Navbar() {
     <NavbarContainer extendNavbar={extendNavbar}>
       <NavbarInnerContainer>
         <LeftContainer>
+          <Link to='/'>
+            <Logo src={logoUrl} />
+          </Link>
+        </LeftContainer>
+        <RightContainer>
           <NavbarLinkContainer>
             <HamburgerButton onClick={() => setExtendNavbar(!extendNavbar)}>
               &#8801;
             </HamburgerButton>
-            <NavbarLink to='/'>Home</NavbarLink>
             <NavbarLink to='/leagues'>Leagues</NavbarLink>
             <NavbarLink to='/battlers'>Battlers</NavbarLink>
             <NavbarLink to='/battles'>Battles</NavbarLink>
             <NavbarLink to='/events'>Events</NavbarLink>
-            <NavbarLink to='/chat'>Chat</NavbarLink>
+
             {user?.email ? (
-              <NavbarLink to='/settings'>Settings</NavbarLink>
+              <>
+                <NavbarLink to='/chat'>Chat</NavbarLink>
+                <NavbarLink to='/settings'>Settings</NavbarLink>
+              </>
             ) : null}
             {user?.roles.includes('league owner') ? (
               <NavbarLink to='/league-settings' user={user}>
@@ -48,9 +56,6 @@ function Navbar() {
               <NavbarLink to='/admin-panel'>Administrator</NavbarLink>
             ) : null}
           </NavbarLinkContainer>
-        </LeftContainer>
-        <RightContainer>
-          <Logo src={LogoImg} />
         </RightContainer>
       </NavbarInnerContainer>
       {extendNavbar && (

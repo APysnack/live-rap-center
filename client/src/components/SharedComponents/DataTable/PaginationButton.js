@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { ROWS_TO_DISPLAY, PAGES_PER_FRAME } from './Constants';
 import IconButton from '@mui/material/IconButton';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import DoubleArrow from '@mui/icons-material/DoubleArrow';
+import {
+  RightDoubleArrow,
+  LeftDoubleArrow,
+  RightSingleArrow,
+  LeftSingleArrow,
+} from './DataTable.styles';
 
 function PaginationButton({ type, vpt, setVpt, totalDataCount }) {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -83,13 +87,13 @@ function PaginationButton({ type, vpt, setVpt, totalDataCount }) {
   const generateIcon = () => {
     switch (type) {
       case 'prev':
-        return <KeyboardArrowRight style={{ transform: 'rotate(180deg)' }} />;
+        return <LeftSingleArrow />;
       case 'next':
-        return <KeyboardArrowRight />;
+        return <RightSingleArrow />;
       case 'to-first':
-        return <DoubleArrow style={{ transform: 'rotate(180deg)' }} />;
+        return <LeftDoubleArrow />;
       case 'to-last':
-        return <DoubleArrow />;
+        return <RightDoubleArrow />;
       default:
         return '';
     }

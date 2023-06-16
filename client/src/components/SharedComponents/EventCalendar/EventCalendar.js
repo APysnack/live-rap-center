@@ -11,6 +11,7 @@ import ContentContainer from '../../SharedComponents/ContentContainer/ContentSty
 
 const localizer = momentLocalizer(moment);
 const todaysDate = new Date();
+todaysDate.setDate(todaysDate.getDate() - 1); // Set to yesterday's date
 
 function EventCalendar({
   eventData,

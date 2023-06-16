@@ -52,9 +52,6 @@ end
 # assigning league admins
 LeagueAdmin.create(league_id: lrc.id, user_id: purelyDef.id)
 
-# creating battlers
-battlerPurelyDef = Battler.create(user_id: purelyDef.id, name: "PurelyDef")
-
 # creating chat components
 lrcChat = LeagueChat.create(league_id: lrc.id)
 LeagueChatUser.create(league_chat_id:  lrcChat.id, user_id: purelyDef.id)

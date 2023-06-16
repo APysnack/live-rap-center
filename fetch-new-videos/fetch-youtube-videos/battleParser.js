@@ -1,8 +1,12 @@
+const { keywords } = require('./keywords');
+const he = require('he');
+
 function parseTitle(title) {
   let battlers;
-  const tagMatchObj = isTagTeamMatch(title);
+  const decodedTitle = he.decode(title);
+  const tagMatchObj = isTagTeamMatch(decodedTitle);
   if (tagMatchObj.isTagMatch) {
-    battlers = tagTeamDefaultFormat(title, tagMatchObj.delimiter);
+    battlers = tagTeamDefaultFormat(decodedTitle, tagMatchObj.delimiter);
   } else {
     battlers = defaultFormat(title);
   }
@@ -15,9 +19,12 @@ function parseTitle(title) {
 // kings vs queens smack battle battler1 vs battler2
 const defaultFormat = (input) => {
   const [leftSide, rightSide] = splitStringByVs(input);
-  const leftName = splitLeft(leftSide);
+  let leftName = splitLeft(leftSide);
   let rightName = splitRight(rightSide);
-  rightName = removeHost(rightName);
+  rightName = removeKeywords(rightName, 'right');
+  leftName = removeKeywords(leftName, 'left');
+  rightName = removeParentheses(rightName);
+  leftName = removeParentheses(leftName);
 
   return [leftName, rightName];
 };
@@ -73,11 +80,22 @@ const splitRight = (inputString) => {
   return result[0];
 };
 
-// sanitizes right side e.g. Coma - HOSTED BY PAT STAY
-const removeHost = (inputString) => {
-  const regex = /HOSTED/i;
-  const result = inputString.split(regex);
-  return result[0].trim();
+// returns only words before or after a key word e.g. COMA HOSTED BY
+// see keywords.js for list of keywords
+const removeKeywords = (inputString, titleSide) => {
+  const regexPattern = new RegExp(`(${keywords.join('|')})`, 'i');
+  const result = inputString.split(regexPattern);
+
+  if (titleSide === 'left') {
+    return result[result.length - 1].trim();
+  } else {
+    return result[0].trim();
+  }
+};
+
+const removeParentheses = (inputString) => {
+  const regex = /\([^)]*\)/g;
+  return inputString.replace(regex, '').trim();
 };
 
 const isTagTeamMatch = (inputString) => {

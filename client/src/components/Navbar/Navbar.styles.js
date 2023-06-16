@@ -14,17 +14,18 @@ export const NavbarContainer = styled.nav`
   }
 `;
 
-export const LeftContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 70%;
-`;
-
 export const RightContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 30%;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  width: 92%;
+`;
+
+export const LeftContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 8%;
+  justify-content: flex-start;
 `;
 
 export const NavbarInnerContainer = styled.div`
@@ -77,12 +78,6 @@ export const NavbarLinkExtended = styled(Link)`
 export const Logo = styled.img`
   max-width: 150px;
   max-height: 150px;
-  margin-top: 35px;
-  margin-right: 50px;
-  border: none;
-  background: transparent;
-  background-color: transparent;
-  border-radius: 15px;
 `;
 
 export const HamburgerButton = styled.button`

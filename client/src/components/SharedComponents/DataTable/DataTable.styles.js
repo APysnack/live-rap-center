@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { DoubleArrow } from '@mui/icons-material';
+import { KeyboardArrowRight } from '@mui/icons-material';
 
 export const DataTableContainer = styled.div`
   .search-bar {
@@ -121,3 +123,21 @@ export const TableRowStyle = {
   backgroundColor: 'red',
   border: 'black',
 };
+
+export const LeftDoubleArrow = styled(DoubleArrow)`
+  transform: rotate(180deg);
+  color: ${(props) => props.theme.primaryContrast};
+`;
+
+export const RightDoubleArrow = styled(DoubleArrow)`
+  color: ${(props) => props.theme.primaryContrast};
+`;
+
+export const RightSingleArrow = styled(KeyboardArrowRight)`
+  color: ${(props) => props.theme.primaryContrast};
+`;
+
+export const LeftSingleArrow = styled(KeyboardArrowRight)`
+  transform: rotate(180deg);
+  color: ${(props) => props.theme.primaryContrast};
+`;

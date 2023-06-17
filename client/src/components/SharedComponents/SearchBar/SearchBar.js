@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import debounce from 'lodash.debounce';
+import { SearchBarInput } from './SearchBar.styles';
 
 const DEBOUNCE_DELAY = 600;
 
@@ -14,12 +15,12 @@ function SearchBar({ onSearch }) {
   );
   return (
     <div>
-      <input
+      <SearchBarInput
         className='search-bar'
         type='text'
         onChange={(e) => debouncedSearch(e.target.value)}
         placeholder='Search'
-      ></input>
+      ></SearchBarInput>
     </div>
   );
 }

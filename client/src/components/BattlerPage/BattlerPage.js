@@ -35,7 +35,7 @@ function BattlerPage() {
   const { data: currentUser, refetch: refetchCurrentUser } = useQuery(
     GET_USER,
     {
-      variables: { id: user.id },
+      variables: { id: user?.id },
     }
   );
 
@@ -180,7 +180,7 @@ function BattlerPage() {
               ) : null}
               <LeagueOwnerControls
                 battler={battler}
-                league={currentUser.user.ownedLeagues[0]}
+                league={currentUser?.user?.ownedLeagues[0]}
                 setFlashMessage={setFlashMessage}
               />
             </LeagueOwnerPanel>

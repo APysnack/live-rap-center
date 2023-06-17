@@ -48,16 +48,8 @@ function App({ cable }) {
 
   useEffect(() => {
     if (!loading) {
-      updateGlobalAppStyles();
     }
   }, [selectedTheme]);
-
-  const updateGlobalAppStyles = () => {
-    const userTheme = getSelectedTheme();
-    document.body.style.backgroundColor = userTheme.backgroundColor;
-    document.body.style.fontFamily = userTheme.fontFamily;
-    document.body.style.color = userTheme.fontColor;
-  };
 
   if (loading) return 'Loading...';
 

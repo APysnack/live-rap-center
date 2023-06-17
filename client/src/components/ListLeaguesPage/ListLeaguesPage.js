@@ -39,8 +39,6 @@ function ListLeaguesPage() {
     onSearch: updateSearchText,
   };
 
-  if (loading) return 'Loading...';
-
   return (
     <>
       <DataTable

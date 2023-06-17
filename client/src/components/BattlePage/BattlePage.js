@@ -72,7 +72,7 @@ function BattlePage() {
         />
 
         {battle.battleStatus === 'open' &&
-        user?.voter_id !== null &&
+        user?.voter_id &&
         !userViewingPageIsInBattle ? (
           !userHasVoted ? (
             <VoteSubmissionPanel
@@ -86,7 +86,7 @@ function BattlePage() {
         ) : (
           ''
         )}
-        {battle?.battleVotes.length > 0 ? (
+        {battle?.battleVotes?.length > 0 ? (
           <ContentContainer
             width={1600}
             flexDirection='column'

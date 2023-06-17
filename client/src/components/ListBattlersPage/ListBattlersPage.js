@@ -56,8 +56,6 @@ function ListBattlersPage() {
     onSearch: updateSearchText,
   };
 
-  if (loading) return 'Loading...';
-
   return (
     <BattlerListContainer>
       <DataTable

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const UserPageContainer = styled.div`
+  overflow-x: hidden;
+
   .link-container {
     display: flex;
     flex-direction: column;

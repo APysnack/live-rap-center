@@ -1,4 +1,4 @@
-// NOTE: removing a theme after user selects it will cause a problem.
+// NOTE: removing a theme from db after user selects it will cause a problem.
 
 export const philadelphia = {
   primary: '#3e3e42',

@@ -121,8 +121,12 @@ export const SummaryContainer = styled.div`
     height: 80%;
     width: 95%;
     gap: 0.5em;
-    overflow-y: scroll;
     margin-bottom: 3em;
+    overflow: hidden;
+  }
+
+  .info-container:hover {
+    overflow-y: scroll;
   }
 
   .lrc-button {
@@ -163,9 +167,13 @@ export const EventsContainer = styled.div`
     background-color: ${(props) => props.theme.formBackground};
     height: 75%;
     width: 95%;
-    overflow: scroll;
     padding: 1em;
     border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .form-background {
+    overflow-y: scroll;
   }
 `;
 

@@ -32,6 +32,33 @@ const GlobalStyle = createGlobalStyle`
 
     color: ${(props) => props.theme.fontColor};
   }
+
+  body {
+    background-color: ${(props) => props.theme.backgroundColor};
+    color: ${(props) => props.theme.fontColor};
+    color: ${(props) => props.theme.fontFamily};
+  }
+
+
+  scrollbar-width: thin;
+  scrollbar-color: #777 #555;
+
+  ::-webkit-scrollbar {
+    width: 0.5vw;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #5555;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  
 `;
 
 export default GlobalStyle;

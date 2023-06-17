@@ -22,6 +22,33 @@ function EventSettings({ league, refetchLeague }) {
                 />
               </div>
             ))}
+            {league.upcomingEvents.map((event) => (
+              <div key={event.id}>
+                <EventLink
+                  key={`event-link-${event.id}`}
+                  event={event}
+                  type='edit'
+                />
+              </div>
+            ))}
+            {league.upcomingEvents.map((event) => (
+              <div key={event.id}>
+                <EventLink
+                  key={`event-link-${event.id}`}
+                  event={event}
+                  type='edit'
+                />
+              </div>
+            ))}
+            {league.upcomingEvents.map((event) => (
+              <div key={event.id}>
+                <EventLink
+                  key={`event-link-${event.id}`}
+                  event={event}
+                  type='edit'
+                />
+              </div>
+            ))}
           </div>
         ) : (
           <div>No events currently planned</div>

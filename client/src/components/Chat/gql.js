@@ -20,3 +20,16 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const GET_CHAT_MESSAGES = gql`
+  query ChatMessages($chatId: ID) {
+    chatMessages(chatId: $chatId) {
+      id
+      body
+      user {
+        id
+        username
+      }
+    }
+  }
+`;

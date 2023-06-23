@@ -15,8 +15,11 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 const { REACT_APP_SERVER_URL, REACT_APP_GOOGLE_CLIENT_ID } = process.env;
 
 const CableApp = {};
+// just a reminder that passing params for websocket connect/disconnect should be in this format
+// wss://rryb81ha6j.execute-api.us-east-1.amazonaws.com/production/?userId=123
+const actionCableEndpoint =
+  'wss://g6o3z78gfb.execute-api.us-east-1.amazonaws.com/production';
 
-const actionCableEndpoint = 'ws://' + REACT_APP_SERVER_URL.slice(7) + '/cable';
 CableApp.cable = actionCable.createConsumer(actionCableEndpoint);
 
 let persistor = persistStore(store);

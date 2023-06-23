@@ -1,6 +1,8 @@
 const { Client } = require('pg');
 const AWS = require('aws-sdk');
-const currentDate = new Date().toISOString();
+const { createChatMessage } = require('./utils');
+
+const SOCKET_ENDPOINT = process.env.SOCKET_ENDPOINT;
 
 exports.lambdaHandler = async (event, context) => {
   const pgClient = new Client({
@@ -11,40 +13,26 @@ exports.lambdaHandler = async (event, context) => {
     password: process.env.DB_PASSWORD,
   });
 
-  async function createChatMessage(client, chatType, crewChatId, userId, body) {
-    let query;
-
-    if (chatType === 'crew') {
-      query =
-        'INSERT INTO crew_chat_messages (crew_chat_id, user_id, body, created_at, updated_at) VALUES ($1, $2, $3, $4, $5)';
-    }
-    try {
-      const values = [crewChatId, userId, body, currentDate, currentDate];
-      await client.query(query, values);
-    } catch (err) {
-      console.error('Failed to create crew chat message:', err);
-    }
-  }
-
   try {
-    // look into faster alternatives. DynamoDB? Elasticache? RDS Proxy?
     await pgClient.connect();
 
-    const awsClient = new AWS.ApiGatewayManagementApi({
-      endpoint:
-        'https://qss6jdd0w6.execute-api.us-east-1.amazonaws.com/production',
+    const gatewayClient = new AWS.ApiGatewayManagementApi({
+      endpoint: SOCKET_ENDPOINT,
     });
+
     const incomingMessage = JSON.parse(event.body);
     const chatType = incomingMessage.chatType;
     const chatId = incomingMessage.chatId;
     const userId = incomingMessage.userId;
     const body = incomingMessage.message;
     const username = incomingMessage.userName;
+    let connectionIds;
 
+    // async function to add message to the RDS DB but we don't wait on
+    // it since it doesn't affect the socket broadcast
     createChatMessage(pgClient, chatType, chatId, userId, body);
 
-    // basically ducktyping a message here, so the variable names should be
-    // rails snakecase convention to match message in database
+    // basically ducktyping a message here
     const messageToBroadcast = JSON.stringify({
       message: {
         body: body,
@@ -52,15 +40,24 @@ exports.lambdaHandler = async (event, context) => {
       },
     });
 
-    let query;
+    const dynamoDbClient = new AWS.DynamoDB.DocumentClient();
+    const params = {
+      TableName: 'ChatConnections',
+      IndexName: 'ChatIndex',
+      KeyConditionExpression: 'chat_type = :chatType AND chat_id = :chatId',
+      ExpressionAttributeValues: {
+        ':chatType': chatType,
+        ':chatId': chatId,
+      },
+      ProjectionExpression: 'connection_id',
+    };
 
-    if (chatType === 'crew') {
-      query = `SELECT connection_id FROM crew_chat_connections WHERE crew_chat_id = $1`;
+    try {
+      const result = await dynamoDbClient.query(params).promise();
+      connectionIds = result.Items.map((item) => item.connection_id);
+    } catch (err) {
+      console.log('Failed to get connectionIds from DynamoDB table');
     }
-
-    const values = [chatId];
-    const result = await pgClient.query(query, values);
-    const connectionIds = result.rows.map((row) => row.connection_id);
 
     const broadcastPromises = connectionIds.map(async (connectionId) => {
       const params = {
@@ -69,7 +66,7 @@ exports.lambdaHandler = async (event, context) => {
       };
 
       try {
-        await awsClient.postToConnection(params).promise();
+        await gatewayClient.postToConnection(params).promise();
       } catch (err) {
         console.log(`Skipping invalid connection ID: ${connectionId}`);
       }

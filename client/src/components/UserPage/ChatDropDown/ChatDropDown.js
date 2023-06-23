@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BookingChat from './BookingChat/BookingChat';
 import BasicModal from '../../SharedComponents/BasicModal';
 
-function ChatDropDown({ currentUser, cable }) {
+function ChatDropDown({ currentUser }) {
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -40,7 +40,7 @@ function ChatDropDown({ currentUser, cable }) {
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
         >
-          <BookingChat cable={cable} booking={selectedBooking} />
+          <BookingChat booking={selectedBooking} />
         </BasicModal>
       </div>
     </div>

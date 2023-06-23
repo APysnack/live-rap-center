@@ -6,13 +6,7 @@ import { NotificationsContainer } from './UserPage.styles';
 import FlexContainer from '../SharedComponents/FlexContainer/FlexContainer';
 import ChatDropDown from './ChatDropDown/ChatDropDown';
 
-function NewsContainer({
-  currentUser,
-  battler,
-  refetchBattler,
-  refetchUser,
-  cable,
-}) {
+function NewsContainer({ currentUser, battler, refetchBattler, refetchUser }) {
   const [potentialLeagues, setPotentialLeagues] = useState();
   const [potentialCrews, setPotentialCrews] = useState();
 
@@ -46,7 +40,7 @@ function NewsContainer({
             setPotentialCrews={setPotentialCrews}
             refetchUser={refetchUser}
           />
-          <ChatDropDown currentUser={currentUser} cable={cable} />
+          <ChatDropDown currentUser={currentUser} />
         </FlexContainer>
       </NotificationsContainer>
     </ContentStyleWrapper>

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { BookingChatContainer } from './BookingChat.styles';
 import BattlerBookingForm from '../../../SharedComponents/BattlerBookingForm/BattlerBookingForm';
 
-function BookingChat({ cable, booking }) {
+function BookingChat({ booking }) {
   const { user } = useSelector((state) => state.user.userState);
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
@@ -41,35 +41,32 @@ function BookingChat({ cable, booking }) {
   // handles socket connection for realtime updates
   useEffect(() => {
     if (booking.id) {
-      const paramsToSend = {
-        // The key here needs to be "channel" and should have the camelcase naming convention in rails e.g. conversation_channel.rb
-        channel: 'BookingChatChannel',
-        id: booking.id,
-      };
-
-      const handlers = {
-        received(data) {
-          if (data.type === 'booking_chat_message') {
-            setMessages([data, ...messages]);
-          } else if (data.type === 'battler_booking_offer') {
-            console.log('HERE');
-            console.log(data);
-            loadOffer(data.attributes);
-          }
-        },
-        connected() {
-          console.log('connected');
-        },
-        disconnected() {
-          console.log('disconnected');
-        },
-      };
-
-      const subscription = cable.subscriptions.create(paramsToSend, handlers);
-
-      return function cleanup() {
-        subscription.unsubscribe();
-      };
+      // TODO: switch out for new websocket implementation
+      // const paramsToSend = {
+      //   // The key here needs to be "channel" and should have the camelcase naming convention in rails e.g. conversation_channel.rb
+      //   channel: 'BookingChatChannel',
+      //   id: booking.id,
+      // };
+      // const handlers = {
+      //   received(data) {
+      //     if (data.type === 'booking_chat_message') {
+      //       setMessages([data, ...messages]);
+      //     } else if (data.type === 'battler_booking_offer') {
+      //       console.log('HERE');
+      //       console.log(data);
+      //       loadOffer(data.attributes);
+      //     }
+      //   },
+      //   connected() {
+      //     console.log('connected');
+      //   },
+      //   disconnected() {
+      //     console.log('disconnected');
+      //   },
+      // };
+      // return function cleanup() {
+      //   subscription.unsubscribe();
+      // };
     }
   }, [messages, booking.id]);
 

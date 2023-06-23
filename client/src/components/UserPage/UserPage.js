@@ -9,7 +9,7 @@ import BattleRow from './BattleRow/BattleRow';
 import UserInfo from './UserInfo';
 import NewsContainer from './NewsContainer';
 
-function UserPage({ callLogoutUser, cable }) {
+function UserPage({ callLogoutUser }) {
   // current redux state of the user
   const { user } = useSelector((state) => state.user.userState);
   const [battler, setBattler] = useState(null);
@@ -70,7 +70,6 @@ function UserPage({ callLogoutUser, cable }) {
                 battler={battler}
                 refetchUser={refetchUser}
                 refetchBattler={refetchBattler}
-                cable={cable}
               />
             </div>
 

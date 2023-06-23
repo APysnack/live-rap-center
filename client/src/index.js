@@ -10,17 +10,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import store from './redux/configureStore';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import actionCable from 'actioncable';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 const { REACT_APP_SERVER_URL, REACT_APP_GOOGLE_CLIENT_ID } = process.env;
-
-const CableApp = {};
-// just a reminder that passing params for websocket connect/disconnect should be in this format
-// wss://rryb81ha6j.execute-api.us-east-1.amazonaws.com/production/?userId=123
-const actionCableEndpoint =
-  'wss://g6o3z78gfb.execute-api.us-east-1.amazonaws.com/production';
-
-CableApp.cable = actionCable.createConsumer(actionCableEndpoint);
 
 let persistor = persistStore(store);
 
@@ -41,7 +32,7 @@ root.render(
       <Provider store={store}>
         <GoogleOAuthProvider clientId={REACT_APP_GOOGLE_CLIENT_ID}>
           <PersistGate loading={null} persistor={persistor}>
-            <App cable={CableApp.cable} />
+            <App />
           </PersistGate>
         </GoogleOAuthProvider>
       </Provider>

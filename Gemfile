@@ -59,7 +59,7 @@ gem "bootsnap", require: false
 
 gem 'dotenv-rails', '~> 2.7', '>= 2.7.6'
 gem 'graphql'
-gem 'rack-cors', require: 'rack/cors' 
+gem 'rack-cors'
 
 # Use Sass to process CSS
 # gem "sassc-rails"

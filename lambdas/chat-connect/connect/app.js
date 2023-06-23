@@ -1,46 +1,51 @@
-const { Client } = require('pg');
+const AWS = require('aws-sdk');
 const currentDate = new Date().toISOString();
+const TABLE_NAME = 'ChatConnections';
 
 exports.lambdaHandler = async (event, context) => {
-  const client = new Client({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-  });
+  const dynamodb = new AWS.DynamoDB.DocumentClient();
+  const eventType = event['requestContext']['eventType'];
+  const connectionId = event['requestContext']['connectionId'];
 
-  try {
-    await client.connect();
+  if (eventType === 'CONNECT') {
+    try {
+      const userId = event['queryStringParameters']['userId'];
+      const chatId = event['queryStringParameters']['chatId'];
+      const chatType = event['queryStringParameters']['chatType'];
 
-    // note: AWS disconnect doesn't have access to url params and is not 100%
-    // reliable in when it gets invoked. Remove connections with a script every n hours
+      const params = {
+        TableName: TABLE_NAME,
+        Item: {
+          user_id: userId,
+          chat_id: chatId,
+          chat_type: chatType,
+          connection_id: connectionId,
+          created_at: currentDate,
+        },
+      };
 
-    // parameterized query should protect against injection
-    // but may want to add additional sanitization in the future
-    const userId = parseInt(event['queryStringParameters']['userId']);
-    const chatId = parseInt(event['queryStringParameters']['chatId']);
-    const chatType = event['queryStringParameters']['chatType'];
-    const connectionId = event['requestContext']['connectionId'];
-    let query = '';
-    if (chatType === 'crew') {
-      query =
-        'INSERT INTO crew_chat_connections (user_id, crew_chat_id, connection_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5)';
+      await dynamodb.put(params).promise();
+      return { statusCode: 200 };
+    } catch (err) {
+      console.error('Failed to send message:', err);
+      return err;
     }
+  }
+  // per AWS Docs disconnect doesn't always work. still need a script to remove orphaned connectionIDs
+  else {
+    try {
+      const params = {
+        TableName: TABLE_NAME,
+        Key: {
+          connection_id: connectionId,
+        },
+      };
 
-    await client.query(query, [
-      userId,
-      chatId,
-      connectionId,
-      currentDate,
-      currentDate,
-    ]);
-
-    return { statusCode: 200 };
-  } catch (err) {
-    console.error('Failed to send message:', err);
-    return err;
-  } finally {
-    await client.end();
+      await dynamodb.delete(params).promise();
+      return { statusCode: 200 };
+    } catch (err) {
+      console.error('Failed to remove item:', err);
+      return err;
+    }
   }
 };

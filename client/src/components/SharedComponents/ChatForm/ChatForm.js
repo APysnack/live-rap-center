@@ -7,6 +7,7 @@ import {
 } from './Chat.styles';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 import EmojiPicker from 'emoji-picker-react';
+import { v4 as uuidv4 } from 'uuid';
 
 function ChatForm({ messages, onSubmit }) {
   const [newMessage, setNewMessage] = useState('');
@@ -49,7 +50,7 @@ function ChatForm({ messages, onSubmit }) {
           {messages?.length > 0
             ? messages.map((message) => (
                 <ChatMessage
-                  key={message.id}
+                  key={uuidv4()}
                   message={message}
                   className='chat-message'
                 />

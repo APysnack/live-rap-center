@@ -10,14 +10,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import store from './redux/configureStore';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import actionCable from 'actioncable';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 const { REACT_APP_SERVER_URL, REACT_APP_GOOGLE_CLIENT_ID } = process.env;
-
-const CableApp = {};
-
-const actionCableEndpoint = 'ws://' + REACT_APP_SERVER_URL.slice(7) + '/cable';
-CableApp.cable = actionCable.createConsumer(actionCableEndpoint);
 
 let persistor = persistStore(store);
 
@@ -38,7 +32,7 @@ root.render(
       <Provider store={store}>
         <GoogleOAuthProvider clientId={REACT_APP_GOOGLE_CLIENT_ID}>
           <PersistGate loading={null} persistor={persistor}>
-            <App cable={CableApp.cable} />
+            <App />
           </PersistGate>
         </GoogleOAuthProvider>
       </Provider>

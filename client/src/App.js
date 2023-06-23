@@ -26,7 +26,7 @@ import BookingPage from './components/BookingPage/BookingPage';
 import EventPage from './components/EventPage/EventPage';
 import GlobalStyle from './GlobalStyle';
 
-function App({ cable }) {
+function App() {
   const [selectedTheme, setSelectedTheme] = useState(null);
   const { user } = useSelector((state) => state.user.userState);
   const { loading, data, refetch } = useQuery(GET_USER, {
@@ -58,7 +58,7 @@ function App({ cable }) {
       <GlobalStyle />
       <Navbar />
       <Routes>
-        <Route exact path='/' element={<Homepage cable={cable} />} />
+        <Route exact path='/' element={<Homepage />} />
         <Route exact path='/login' element={<LoginPage />} />
         <Route exact path='/admin-panel' element={<AdminPanel />} />
         <Route exact path='/create-battle' element={<CreateBattlePage />} />
@@ -80,7 +80,7 @@ function App({ cable }) {
         />
         <Route exact path='/league-settings' element={<LeagueSettingsPage />} />
         <Route exact path='/battler/:battlerId' element={<BattlerPage />} />
-        <Route exact path='/chat' element={<Chat cable={cable} />} />
+        <Route exact path='/chat' element={<Chat />} />
         <Route exact path='/events' element={<ListEventsPage />} />
         <Route exact path='/spaces' element={<ListSpacesPage />} />
         <Route exact path='/update-event/' element={<UpdateEventPage />} />

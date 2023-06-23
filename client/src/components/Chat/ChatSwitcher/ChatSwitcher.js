@@ -6,9 +6,25 @@ import { Link } from 'react-router-dom';
 import { ChatLinkContainer } from '../Chat.styles';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 
-function ChatSwitcher() {
+function ChatSwitcher({ chatOwnerId, chatTitle, isCrewChat }) {
   const { user } = useSelector((state) => state.user.userState);
   const [currentUser, setCurrentUser] = useState(null);
+  const [activeChat, setActiveChat] = useState({
+    chatOwnerId,
+    chatTitle,
+    isCrewChat,
+  });
+
+  const isActiveLink = (chatId, chatName) => {
+    if (
+      activeChat.chatOwnerId === chatId &&
+      chatName === activeChat.chatTitle
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const {
     loading,
@@ -18,6 +34,10 @@ function ChatSwitcher() {
     skip: user?.id ? false : true,
     variables: { id: user?.id },
   });
+
+  useEffect(() => {
+    setActiveChat({ chatOwnerId, chatTitle, isCrewChat });
+  }, [chatOwnerId, chatTitle, isCrewChat]);
 
   useEffect(() => {
     if (userData?.user) {
@@ -33,7 +53,9 @@ function ChatSwitcher() {
         <ChatLinkContainer>
           {currentUser?.battler?.league ? (
             <Link
-              className='chat-link'
+              className={`chat-link ${
+                activeChat.isCrewChat ? 'active-chat' : ''
+              }`}
               to='/chat'
               state={{
                 leagueId: currentUser.battler.league.id,
@@ -44,19 +66,25 @@ function ChatSwitcher() {
               {currentUser.battler.league.leagueName.toUpperCase()}
             </Link>
           ) : null}
-          {currentUser.crews.map((crew) => (
-            <Link
-              className='chat-link'
-              key={crew.crewChatId}
-              to='/chat'
-              state={{
-                crewId: crew.crewChatId,
-                crewName: crew.name,
-              }}
-            >
-              {crew.name.toUpperCase()}
-            </Link>
-          ))}
+          {currentUser.crews.map((crew) =>
+            isActiveLink(crew.crewChatId, crew.name) ? (
+              <div key={crew.crewChatId} className='chat-link active-chat'>
+                {crew.name.toUpperCase()}
+              </div>
+            ) : (
+              <Link
+                className='chat-link'
+                key={crew.crewChatId}
+                to='/chat'
+                state={{
+                  crewId: crew.crewChatId,
+                  crewName: crew.name,
+                }}
+              >
+                {crew.name.toUpperCase()}
+              </Link>
+            )
+          )}
         </ChatLinkContainer>
       ) : (
         'bar'

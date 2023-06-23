@@ -7,7 +7,7 @@ import ChatSwitcher from './ChatSwitcher/ChatSwitcher';
 import { ChatContentsContainer } from './Chat.styles';
 import MembersList from './MembersList/MembersList';
 
-function Chat({ cable }) {
+function Chat() {
   const location = useLocation();
   const isCrewChat = location?.state?.crewId;
 
@@ -20,7 +20,6 @@ function Chat({ cable }) {
     : location?.state?.leagueName;
 
   const { messages, title, sendMessage } = useChat(
-    cable,
     isCrewChat ? 'crew' : 'league',
     chatOwnerId,
     chatTitle,
@@ -30,7 +29,11 @@ function Chat({ cable }) {
   return (
     <ChatContentsContainer>
       <div>
-        <ChatSwitcher />
+        <ChatSwitcher
+          chatTitle={chatTitle}
+          chatOwnerId={chatOwnerId}
+          isCrewChat={isCrewChat}
+        />
       </div>
 
       <ChatForm messages={messages} title={title()} onSubmit={sendMessage} />

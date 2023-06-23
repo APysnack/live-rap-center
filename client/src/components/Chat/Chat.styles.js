@@ -18,6 +18,12 @@ export const ChatLinkContainer = styled.div`
     padding: 1em;
     width: 80%;
     border-radius: 10px;
+    user-select: none;
+  }
+
+  .active-chat {
+    background-color: red !important;
+    cursor: pointer;
   }
 `;
 

@@ -7,5 +7,4 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  channel_prefix: live_rap_central_production
+  url: redis://lrc-redis.wh99gu.clustercfg.use1.cache.amazonaws.com:6379/1

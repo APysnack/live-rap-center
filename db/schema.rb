@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_13_104712) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_22_172811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -165,6 +165,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_13_104712) do
     t.datetime "updated_at", null: false
     t.bigint "battler_booking_offer_id", null: false
     t.index ["battler_booking_offer_id"], name: "index_booking_chats_on_battler_booking_offer_id"
+  end
+
+  create_table "crew_chat_connections", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "crew_chat_id", null: false
+    t.string "connection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crew_chat_id"], name: "index_crew_chat_connections_on_crew_chat_id"
+    t.index ["user_id"], name: "index_crew_chat_connections_on_user_id"
   end
 
   create_table "crew_chat_messages", force: :cascade do |t|
@@ -421,6 +431,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_13_104712) do
   add_foreign_key "booking_chat_users", "booking_chats"
   add_foreign_key "booking_chat_users", "users"
   add_foreign_key "booking_chats", "battler_booking_offers"
+  add_foreign_key "crew_chat_connections", "crew_chats"
+  add_foreign_key "crew_chat_connections", "users"
   add_foreign_key "crew_chat_messages", "crew_chats"
   add_foreign_key "crew_chat_messages", "users"
   add_foreign_key "crew_chat_users", "crew_chats"

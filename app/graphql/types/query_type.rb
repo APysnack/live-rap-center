@@ -36,5 +36,6 @@ module Types
     field :crew, resolver: Queries::Crew
     field :crews, resolver: Queries::Crews
     field :battler_booking_offers, resolver: Queries::BattlerBookingOffers
+    field :chat_messages, resolver: Queries::ChatMessages
   end
 end

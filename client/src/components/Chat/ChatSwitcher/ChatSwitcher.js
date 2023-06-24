@@ -16,10 +16,6 @@ function ChatSwitcher({ chatOwnerId, chatTitle, isCrewChat }) {
     isCrewChat,
   });
 
-  useEffect(() => {
-    console.log(activeChat);
-  }, [isCrewChat]);
-
   const isActiveLink = (chatId, chatName) => {
     if (
       activeChat.chatOwnerId === chatId &&

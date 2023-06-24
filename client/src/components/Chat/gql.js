@@ -22,8 +22,8 @@ export const GET_USER = gql`
 `;
 
 export const GET_CHAT_MESSAGES = gql`
-  query ChatMessages($chatId: ID) {
-    chatMessages(chatId: $chatId) {
+  query ChatMessages($chatId: ID!, $chatType: String!) {
+    chatMessages(chatId: $chatId, chatType: $chatType) {
       id
       body
       user {

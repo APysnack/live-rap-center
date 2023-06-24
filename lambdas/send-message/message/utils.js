@@ -1,6 +1,6 @@
-const currentDate = new Date().toISOString();
-
 async function createChatMessage(client, chatType, chatId, userId, body) {
+  // do not move this to the global scope. new timestamps must be generated for each creation
+  const currentDate = new Date().toISOString();
   let query;
 
   if (chatType === 'crew') {

@@ -6,6 +6,7 @@ import {
   PAGES_PER_FRAME,
 } from './Constants';
 import PaginationButton from './PaginationButton';
+import useViewType from '../../../utils/useViewType';
 
 function Pagination({
   rowData,
@@ -16,6 +17,7 @@ function Pagination({
   setVpt,
 }) {
   const componentIsMounted = useRef(false);
+  const viewType = useViewType();
 
   useEffect(() => {
     setVirtualFrame(vpt.currentDisplayedFrame);
@@ -111,7 +113,7 @@ function Pagination({
         totalDataCount={totalDataCount}
       />
       <div class='pagination-text'>
-        Current page: {vpt.pageDisplayedInBrowser}
+        {viewType === 'mobile' ? null : `Page: ${vpt.pageDisplayedInBrowser}`}
       </div>
       <PaginationButton
         type='next'

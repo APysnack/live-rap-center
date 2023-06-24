@@ -1,10 +1,15 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../../globalConstants';
 
 export const ContentContainer = styled.div`
   border: 3px solid black;
   border-radius: 20px;
   margin-right: 0.6em;
   background-color: ${(props) => props.theme.primary};
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    width: 90% !important;
+  }
 `;
 
 export const GridContainer = styled.div`

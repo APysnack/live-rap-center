@@ -1,9 +1,12 @@
 import React from 'react';
 import SearchBar from '../SearchBar/SearchBar';
+import useViewType from '../../../utils/useViewType';
 
 function Toolbar({ onSearch }) {
+  const viewType = useViewType();
+
   return (
-    <div>
+    <div style={viewType === 'mobile' ? { width: '100%' } : null}>
       <SearchBar onSearch={onSearch} />
     </div>
   );

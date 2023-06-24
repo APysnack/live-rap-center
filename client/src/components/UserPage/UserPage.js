@@ -75,21 +75,20 @@ function UserPage({ callLogoutUser }) {
 
             <BattleRow type='topBattles' />
             <BattleRow type='followedBattles' userId={currentUser.id} />
+            <button
+              className='lrc-button'
+              style={{
+                padding: '0.25em 1em 0.25em 1em',
+                width: '10em',
+              }}
+              onClick={callLogoutUser}
+            >
+              Log out
+            </button>
+            <div className='link-container'>
+              <Link to='/spaces'>Coming Soon(?): Spaces</Link>
+            </div>
           </div>
-
-          <div className='link-container'>
-            <Link to='/spaces'>Link to Spaces</Link>
-          </div>
-          <button
-            className='lrc-button'
-            style={{
-              padding: '0.25em 1em 0.25em 1em',
-              width: '10em',
-            }}
-            onClick={callLogoutUser}
-          >
-            Log out
-          </button>
         </div>
       ) : (
         <div>no user</div>

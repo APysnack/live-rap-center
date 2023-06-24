@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { DoubleArrow } from '@mui/icons-material';
 import { KeyboardArrowRight } from '@mui/icons-material';
+import { MOBILE_VIEW_WIDTH } from '../../../globalConstants';
 
 export const DataTableContainer = styled.div`
   .search-bar {
@@ -15,6 +16,10 @@ export const DataTableContainer = styled.div`
   .table {
     margin: 2em 0 0 0;
     width: 80%;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      width: 95%;
+    }
   }
 
   .table-container {
@@ -69,6 +74,10 @@ export const DataTableContainer = styled.div`
 export const TableFooter = styled.div`
   background-color: ${(props) => props.theme.secondary};
   width: 80%;
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    width: 95%;
+  }
 `;
 
 export const RatingContainer = styled.div`
@@ -81,16 +90,21 @@ export const PaginationContainer = styled.div`
   justify-content: center;
   text-align: center;
   align-items: center;
+  padding: 1em;
 
   .pagination-btn {
     padding: 0.5em;
-    margin: 1em 0.5em 1em 0.5em;
-    width: 5%;
+    width: 4.5em;
     text-align: center;
     border-radius: 5px;
+    margin-right: 1em;
     background-color: ${(props) => props.theme.primary};
     color: white;
     border: 2px solid black;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      margin: 0;
+    }
   }
 
   .pagination-btn:hover {
@@ -110,6 +124,15 @@ export const PaginationContainer = styled.div`
   .pagination-text {
     color: white;
     margin: 0 3em 0 3em;
+    user-select: none;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      margin: 0;
+    }
+  }
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    gap: 0.3em;
   }
 `;
 
@@ -117,6 +140,10 @@ export const ToolbarContainer = styled.div`
   width: 80%;
   display: flex;
   justify-content: flex-end;
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    width: 95%;
+  }
 `;
 
 export const TableRowStyle = {

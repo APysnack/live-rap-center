@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../globalConstants';
 
 export const UserPageContainer = styled.div`
   overflow-x: hidden;
@@ -40,6 +41,13 @@ export const UserPageContainer = styled.div`
 
   .user-content-container {
     display: flex;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `;
 

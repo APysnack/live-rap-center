@@ -9,7 +9,7 @@ import MembersList from './MembersList/MembersList';
 
 function Chat() {
   const location = useLocation();
-  const isCrewChat = location?.state?.crewId;
+  const isCrewChat = location?.state?.crewId !== undefined;
 
   const chatOwnerId = isCrewChat
     ? location?.state?.crewId

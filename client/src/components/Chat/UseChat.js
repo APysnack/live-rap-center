@@ -12,8 +12,10 @@ function useChat(chatType, chatOwnerId, chatTitle, location) {
 
   const { data } = useQuery(GET_CHAT_MESSAGES, {
     variables: {
-      chatId: chatOwnerId,
+      chatType: 'league',
+      chatId: 1,
     },
+
     onCompleted: (data) => setMessages(data.chatMessages),
   });
 

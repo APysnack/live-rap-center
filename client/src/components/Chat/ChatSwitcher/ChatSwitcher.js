@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { ChatLinkContainer } from '../Chat.styles';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
+import { v4 as uuidv4 } from 'uuid';
 
 function ChatSwitcher({ chatOwnerId, chatTitle, isCrewChat }) {
   const { user } = useSelector((state) => state.user.userState);
@@ -14,6 +15,10 @@ function ChatSwitcher({ chatOwnerId, chatTitle, isCrewChat }) {
     chatTitle,
     isCrewChat,
   });
+
+  useEffect(() => {
+    console.log(activeChat);
+  }, [isCrewChat]);
 
   const isActiveLink = (chatId, chatName) => {
     if (
@@ -52,19 +57,23 @@ function ChatSwitcher({ chatOwnerId, chatTitle, isCrewChat }) {
       {currentUser?.crews?.length > 0 ? (
         <ChatLinkContainer>
           {currentUser?.battler?.league ? (
-            <Link
-              className={`chat-link ${
-                activeChat.isCrewChat ? 'active-chat' : ''
-              }`}
-              to='/chat'
-              state={{
-                leagueId: currentUser.battler.league.id,
-                leagueName: currentUser.battler.league.leagueName,
-                type: 'league',
-              }}
-            >
-              {currentUser.battler.league.leagueName.toUpperCase()}
-            </Link>
+            activeChat.isCrewChat ? (
+              <Link
+                className='chat-link'
+                to='/chat'
+                state={{
+                  leagueId: currentUser.battler.league.id,
+                  leagueName: currentUser.battler.league.leagueName,
+                  type: 'league',
+                }}
+              >
+                {currentUser.battler.league.leagueName.toUpperCase()}
+              </Link>
+            ) : (
+              <div key={uuidv4()} className='chat-link active-chat'>
+                {currentUser.battler.league.leagueName.toUpperCase()}
+              </div>
+            )
           ) : null}
           {currentUser.crews.map((crew) =>
             isActiveLink(crew.crewChatId, crew.name) ? (

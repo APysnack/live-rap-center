@@ -63,6 +63,10 @@ module Types
 
       def crews
         object.crews
+          .joins(:crew_chat)
+          .joins("LEFT JOIN crew_chat_messages ON crew_chats.id = crew_chat_messages.crew_chat_id")
+          .group("crews.id")
+          .order("COUNT(crew_chat_messages.id) DESC")
       end
 
       def potential_crews

@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 function ChatMessage({ message, className }) {
-  console.log(message);
   const { user } = useSelector((state) => state.user.userState);
   const messageType =
     message.user.id.toString() === user.id.toString() ? 'to' : 'from';

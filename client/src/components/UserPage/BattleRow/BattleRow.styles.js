@@ -15,7 +15,7 @@ export const BattleRowContainer = styled.div`
     height: 24em;
 
     .battle {
-      width: 25em;
+      width: 30em;
       height: 22em;
     }
   }

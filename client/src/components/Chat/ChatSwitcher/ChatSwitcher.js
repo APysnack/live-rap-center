@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { GET_USER } from '../gql';
-import { useQuery } from '@apollo/client';
+
 import { Link } from 'react-router-dom';
 import { ChatLinkContainer } from '../Chat.styles';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 import { v4 as uuidv4 } from 'uuid';
 
-function ChatSwitcher({ chatOwnerId, chatTitle, isCrewChat }) {
-  const { user } = useSelector((state) => state.user.userState);
-  const [currentUser, setCurrentUser] = useState(null);
+function ChatSwitcher({ currentUser, chatOwnerId, chatTitle, isCrewChat }) {
   const [activeChat, setActiveChat] = useState({
     chatOwnerId,
     chatTitle,
@@ -27,26 +23,11 @@ function ChatSwitcher({ chatOwnerId, chatTitle, isCrewChat }) {
     }
   };
 
-  const {
-    loading,
-    data: userData,
-    refetch: refetchUser,
-  } = useQuery(GET_USER, {
-    skip: user?.id ? false : true,
-    variables: { id: user?.id },
-  });
-
   useEffect(() => {
-    setActiveChat({ chatOwnerId, chatTitle, isCrewChat });
-  }, [chatOwnerId, chatTitle, isCrewChat]);
-
-  useEffect(() => {
-    if (userData?.user) {
-      setCurrentUser(userData.user);
+    if (chatOwnerId) {
+      setActiveChat({ chatOwnerId, chatTitle, isCrewChat });
     }
-  }, [userData]);
-
-  if (loading) return 'Loading...';
+  }, [chatOwnerId, chatTitle, isCrewChat]);
 
   return (
     <ContentContainer height={'80vh'} width={'17vw'}>

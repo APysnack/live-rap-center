@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatForm from '../SharedComponents/ChatForm/ChatForm';
 import useChat from './UseChat';
 import { useLocation } from 'react-router-dom';
@@ -8,22 +8,62 @@ import { ChatContentsContainer } from './Chat.styles';
 import MembersList from './MembersList/MembersList';
 import useViewType from '../../utils/useViewType';
 import { useSwipeable } from 'react-swipeable';
+import { useSelector } from 'react-redux';
+import { GET_USER } from './gql';
+import { useQuery } from '@apollo/client';
 
 const mobileViews = ['switcher', 'chat', 'members'];
 
 function Chat() {
   const location = useLocation();
   const viewType = useViewType();
+
+  const { user } = useSelector((state) => state.user.userState);
+  const [currentUser, setCurrentUser] = useState(null);
   const [mobileView, setMobileView] = useState(mobileViews[1]);
-  const isCrewChat = location?.state?.crewId !== undefined;
 
-  const chatOwnerId = isCrewChat
-    ? location?.state?.crewId
-    : location?.state?.leagueId;
+  const [isCrewChat, setIsCrewChat] = useState(null);
+  const [chatOwnerId, setChatOwnerId] = useState(null);
+  const [chatTitle, setChatTitle] = useState(null);
 
-  const chatTitle = isCrewChat
-    ? location?.state?.crewName
-    : location?.state?.leagueName;
+  const {
+    loading,
+    data: userData,
+    refetch: refetchUser,
+  } = useQuery(GET_USER, {
+    skip: user?.id ? false : true,
+    variables: { id: user?.id },
+  });
+
+  useEffect(() => {
+    if (userData?.user) {
+      setCurrentUser(userData.user);
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (location.state === null) {
+      if (currentUser?.battler?.league) {
+        setIsCrewChat(false);
+        setChatOwnerId(currentUser.battler.league.id);
+        setChatTitle(currentUser.battler.league.leagueName);
+      } else if (currentUser?.crews?.length > 0) {
+        setIsCrewChat(true);
+        setChatOwnerId(currentUser.crews[0].id);
+        setChatTitle(currentUser.crews[0].name);
+      }
+    } else {
+      if (location?.state?.crewId !== undefined) {
+        setIsCrewChat(true);
+        setChatOwnerId(location?.state?.crewId);
+        setChatTitle(location?.state?.crewName);
+      } else {
+        setIsCrewChat(false);
+        setChatOwnerId(location?.state?.leagueId);
+        setChatTitle(location?.state?.leagueName);
+      }
+    }
+  }, [location, currentUser]);
 
   const { messages, title, sendMessage } = useChat(
     isCrewChat ? 'crew' : 'league',
@@ -53,11 +93,15 @@ function Chat() {
     onSwipedRight: handleSwipeRight,
   });
 
+  if (loading) return 'Loading...';
+
   return (
     <div {...swipeHandlers}>
       <ChatContentsContainer>
         {viewType !== 'mobile' || mobileView === 'switcher' ? (
           <ChatSwitcher
+            user={user}
+            currentUser={currentUser}
             chatTitle={chatTitle}
             chatOwnerId={chatOwnerId}
             isCrewChat={isCrewChat}
@@ -74,7 +118,7 @@ function Chat() {
 
         {viewType !== 'mobile' || mobileView === 'members' ? (
           <div className='members-list-container'>
-            {isCrewChat && <AddMemberBar crewId={location.state.crewId} />}
+            {isCrewChat ? <AddMemberBar crewId={chatOwnerId} /> : null}
             <MembersList
               chatOwnerId={chatOwnerId}
               isCrewChat={isCrewChat}

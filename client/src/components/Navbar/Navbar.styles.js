@@ -11,7 +11,7 @@ export const NavbarContainer = styled.nav`
   justify-content: center;
   align-items: center;
   color: ${(props) => props.theme.white};
-  height: ${(props) => (props.extendNavbar ? '100vh' : '100px')};
+  height: ${(props) => (props.extendNavbar ? null : '100px')};
 
   @media (max-width: ${MOBILE_VIEW_WIDTH}) {
     justify-content: flex-start;

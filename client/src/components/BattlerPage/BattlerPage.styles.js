@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../globalConstants';
 
 export const BattlerPageContainer = styled.div`
   display: flex;
@@ -9,6 +10,13 @@ export const BattlerPageContainer = styled.div`
 
   .user-details-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      flex-direction: column;
+    }
   }
 
   .battler-name-container {
@@ -24,6 +32,9 @@ export const BattlerPageContainer = styled.div`
 
     .verified-icon {
       color: ${(props) => props.theme.primaryContrast};
+    }
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      width: 95%;
     }
   }
   .no-league {

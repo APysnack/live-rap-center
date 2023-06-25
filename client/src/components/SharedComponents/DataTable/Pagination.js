@@ -100,12 +100,15 @@ function Pagination({
 
   return (
     <PaginationContainer>
-      <PaginationButton
-        type='to-first'
-        vpt={vpt}
-        setVpt={setVpt}
-        totalDataCount={totalDataCount}
-      />
+      {viewType === 'mobile' ? null : (
+        <PaginationButton
+          type='to-first'
+          vpt={vpt}
+          setVpt={setVpt}
+          totalDataCount={totalDataCount}
+        />
+      )}
+
       <PaginationButton
         type='prev'
         vpt={vpt}
@@ -121,12 +124,14 @@ function Pagination({
         setVpt={setVpt}
         totalDataCount={totalDataCount}
       />
-      <PaginationButton
-        type='to-last'
-        vpt={vpt}
-        setVpt={setVpt}
-        totalDataCount={totalDataCount}
-      />
+      {viewType === 'mobile' ? null : (
+        <PaginationButton
+          type='to-last'
+          vpt={vpt}
+          setVpt={setVpt}
+          totalDataCount={totalDataCount}
+        />
+      )}
     </PaginationContainer>
   );
 }

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../globalConstants';
 
 export const ChatLinkContainer = styled.div`
   display: flex;
@@ -22,7 +23,8 @@ export const ChatLinkContainer = styled.div`
   }
 
   .active-chat {
-    background-color: red !important;
+    background-color: ${(props) => props.theme.secondary};
+    border: 2px solid black;
     cursor: pointer;
   }
 `;
@@ -38,6 +40,10 @@ export const ChatContentsContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      width: 95%;
+    }
   }
 `;
 

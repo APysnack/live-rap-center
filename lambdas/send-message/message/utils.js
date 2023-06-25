@@ -11,8 +11,19 @@ async function createChatMessage(client, chatType, chatId, userId, body) {
       'INSERT INTO league_chat_messages (league_chat_id, user_id, body, created_at, updated_at) VALUES ($1, $2, $3, $4, $5)';
   }
   try {
-    const values = [chatId, userId, body, currentDate, currentDate];
-    await client.query(query, values);
+    console.log('INSERTING INTO DB');
+    const values = [
+      Number(chatId),
+      Number(userId),
+      body,
+      currentDate,
+      currentDate,
+    ];
+    console.log('VALUES ARE');
+    console.log(values);
+    console.log(chatType);
+    const res = await client.query(query, values);
+    console.log(res);
   } catch (err) {
     console.error('Failed to create crew chat message:', err);
   }

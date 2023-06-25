@@ -8,7 +8,7 @@ export const ContentContainer = styled.div`
   background-color: ${(props) => props.theme.primary};
 
   @media (max-width: ${MOBILE_VIEW_WIDTH}) {
-    width: 90% !important;
+    width: 95% !important;
   }
 `;
 
@@ -25,4 +25,8 @@ export const GridContainer = styled.div`
   align-items: center;
   gap: 1.5em;
   grid-column-gap: 1em;
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    width: 95% !important;
+  }
 `;

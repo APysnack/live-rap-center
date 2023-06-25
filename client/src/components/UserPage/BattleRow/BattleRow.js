@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_FOLLOWED_BATTLES, GET_TOP_BATTLES } from './gql';
 import BattleLink from '../../SharedComponents/BattleLink/BattleLink';
@@ -6,8 +6,21 @@ import ContentStyleWrapper from '../../SharedComponents/ContentContainer/Content
 import { BATTLES_TO_RETRIEVE, BACKGROUND_CONTAINER_WIDTH } from '../Constants';
 import UserPageHeadline from '../../SharedComponents/UserPageHeadlines/UserPageHeadline';
 import { BattleRowContainer } from './BattleRow.styles';
+import useViewType from '../../../utils/useViewType';
 
 function BattleRow({ type = 'topBattles', userId = null }) {
+  const viewType = useViewType();
+
+  const [battlesToRetrieveCount, setBattlesToRetreiveCount] = useState(4);
+
+  useEffect(() => {
+    if (viewType === 'mobile') {
+      setBattlesToRetreiveCount(1);
+    } else {
+      setBattlesToRetreiveCount(4);
+    }
+  }, [viewType]);
+
   const getQuery = () => {
     switch (type) {
       case 'followedBattles':
@@ -15,7 +28,7 @@ function BattleRow({ type = 'topBattles', userId = null }) {
           query: GET_FOLLOWED_BATTLES,
           variables: {
             userId: 1,
-            battleCount: BATTLES_TO_RETRIEVE,
+            battleCount: battlesToRetrieveCount,
             dateRange: 'Weekly',
           },
         };
@@ -23,7 +36,7 @@ function BattleRow({ type = 'topBattles', userId = null }) {
         return {
           query: GET_TOP_BATTLES,
           variables: {
-            battleCount: BATTLES_TO_RETRIEVE,
+            battleCount: battlesToRetrieveCount,
             dateRange: 'Weekly',
           },
         };

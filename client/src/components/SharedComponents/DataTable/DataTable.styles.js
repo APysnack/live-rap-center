@@ -103,7 +103,8 @@ export const PaginationContainer = styled.div`
     border: 2px solid black;
 
     @media (max-width: ${MOBILE_VIEW_WIDTH}) {
-      margin: 0;
+      margin: 0 0.5em 0 0.5em;
+      width: 6em;
     }
   }
 

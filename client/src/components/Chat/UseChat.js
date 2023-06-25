@@ -10,10 +10,10 @@ function useChat(chatType, chatOwnerId, chatTitle, location) {
   const [messages, setMessages] = useState([]);
   const { user } = useSelector((state) => state.user.userState);
 
-  const { data } = useQuery(GET_CHAT_MESSAGES, {
+  const { refetch } = useQuery(GET_CHAT_MESSAGES, {
     variables: {
       chatType: chatType,
-      chatId: 1,
+      chatId: chatOwnerId,
     },
 
     onCompleted: (data) => setMessages(data.chatMessages),
@@ -45,6 +45,7 @@ function useChat(chatType, chatOwnerId, chatTitle, location) {
       socketRef.current = socket;
 
       socket.onopen = () => {
+        refetch();
         console.log(`WebSocket connection to ${chatOwnerId} established.`);
       };
       socket.onclose = () => {

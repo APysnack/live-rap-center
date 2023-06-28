@@ -31,6 +31,7 @@ function EventCalendar({
     height: '70vh',
     backgroundColor: theme.secondary,
     fontWeight: '700',
+    marginTop: viewType === 'mobile' ? '1em' : '',
   };
 
   const dayPropGetter = (date) => {

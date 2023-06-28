@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { commentField } from "./CreateVoteFormFields";
-import BaseForm from "../../../SharedComponents/BaseForm";
+import React, { useState, useEffect } from 'react';
+import { commentField } from './CreateVoteFormFields';
+import BaseForm from '../../../SharedComponents/BaseForm';
 
 function CreateVoteForm({ onSubmit }) {
   const [initialValues, setInitialValues] = useState({});
@@ -21,12 +21,14 @@ function CreateVoteForm({ onSubmit }) {
   }, []);
 
   return (
-    <BaseForm
-      initialValues={initialValues}
-      fieldArray={fieldArray}
-      onSubmit={onSubmit}
-      title={""}
-    />
+    <div className='form-width-control'>
+      <BaseForm
+        initialValues={initialValues}
+        fieldArray={fieldArray}
+        onSubmit={onSubmit}
+        title={''}
+      />
+    </div>
   );
 }
 

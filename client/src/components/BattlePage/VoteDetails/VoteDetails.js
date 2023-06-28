@@ -40,9 +40,6 @@ function VoteDetails({ vote, refetchBattle }) {
     <VoteDetailsActionsWrapper>
       {flashMessage ? <div>{flashMessage}</div> : null}
       <div className='vote-detail-container'>{vote.voterName}</div>
-      <VoteDetailsContainer>
-        <div>{vote.comment}</div>
-      </VoteDetailsContainer>
 
       {vote?.scores?.length > 0
         ? vote.scores.map((score) => (
@@ -57,6 +54,9 @@ function VoteDetails({ vote, refetchBattle }) {
             </div>
           ))
         : null}
+      <VoteDetailsContainer>
+        <div>{vote.comment}</div>
+      </VoteDetailsContainer>
       {userViewingPageIsAdmin ? (
         <Delete className='delete-icon' onClick={deleteVote}>
           DELETE

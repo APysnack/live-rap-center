@@ -1,6 +1,12 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../../globalConstants';
 
 export const VotePanelContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   .star-selector-container {
     display: flex;
     align-items: center;
@@ -37,6 +43,20 @@ export const VotePanelContainer = styled.div`
 
     .selected {
       border: 3px solid ${(props) => props.theme.tertiary};
+    }
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      flex-direction: column;
+      margin-top: 1em;
+      width: 95%;
+
+      .star-selector {
+        width: 100%;
+      }
+
+      .form-width-control {
+        width: 80%;
+      }
     }
   }
 `;

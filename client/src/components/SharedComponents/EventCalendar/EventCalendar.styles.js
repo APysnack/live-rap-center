@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../../globalConstants';
 
 export const EventCalendarContainer = styled.div`
   display: flex;
@@ -7,9 +8,15 @@ export const EventCalendarContainer = styled.div`
   flex-direction: column;
   margin-bottom: 6em;
   color: ${(props) => props.theme.headerFontColor};
-
   .main-content {
     display: flex;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
   }
 
   .month-paginator {
@@ -66,6 +73,10 @@ export const EventCalendarContainer = styled.div`
       background-color: ${(props) => props.theme.primaryContrast};
       color: ${(props) => props.theme.primary};
       width: 15vw;
+
+      @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+        width: 60%;
+      }
     }
 
     .filter-text {

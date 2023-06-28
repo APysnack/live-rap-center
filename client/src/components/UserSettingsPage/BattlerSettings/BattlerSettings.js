@@ -62,7 +62,7 @@ function BattlerSettings({ user, battler }) {
     header: 'Battler Settings',
     components: [
       { title: 'Booking Price', component: battlerSettingsForm },
-      { title: 'Leave Home League', component: homeLeagueSettings },
+      { title: 'Quit Home League', component: homeLeagueSettings },
     ],
   };
 

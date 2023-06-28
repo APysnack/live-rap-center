@@ -9,6 +9,8 @@ import { EventInfoContainer } from './ListEventsPages.styles';
 import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Payments from '@mui/icons-material/Payments';
+import { Close } from '@mui/icons-material';
+import useViewType from '../../utils/useViewType';
 
 function ListEventsPage() {
   const [selectedCountry, setSelectedCountry] = useState('United States');
@@ -18,6 +20,7 @@ function ListEventsPage() {
   const { loading, data } = useQuery(GET_ALL_EVENTS, {
     variables: { country: selectedCountry, region: selectedRegion },
   });
+  const viewType = useViewType();
 
   const handleSelectEvent = (event) => {
     setSelectedEvent(event);
@@ -37,19 +40,23 @@ function ListEventsPage() {
         setSelectedRegion={setSelectedRegion}
       />
       <BasicModal
-        width={800}
-        height={700}
+        width={viewType === 'mobile' ? '100vw' : 800}
+        height={viewType === 'mobile' ? '100vh' : 700}
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
       >
         <EventInfoContainer>
+          <div className='close-modal-btn' onClick={() => setModalOpen(false)}>
+            <Close style={{ marginTop: '0.2em' }} />
+          </div>
+
           <div className='header-container'>{selectedEvent.leagueName}</div>
           <Link className='link-container' to={`/event/${selectedEvent.id}`}>
             {selectedEvent.flyerImageUrl ? (
               <img
                 className='flyer-img'
                 src={`${selectedEvent.flyerImageUrl}`}
-                width={'300px'}
+                width={viewType === 'mobile' ? '220px' : '300px'}
               ></img>
             ) : (
               <div className='flyer-img'>This event does not have a flyer</div>

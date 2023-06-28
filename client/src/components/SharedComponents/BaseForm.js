@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { FormWrapper } from './BaseForm.styles';
 import CheckboxField from './CheckboxField';
+import useViewType from '../../utils/useViewType';
 
 function BaseForm({
   title = 'Form Title',
@@ -17,6 +18,7 @@ function BaseForm({
   width = '15vw',
 }) {
   const [checkboxStates, setCheckboxStates] = useState({});
+  const viewType = useViewType();
 
   useEffect(() => {
     let checkBoxFields = {};
@@ -50,7 +52,9 @@ function BaseForm({
         }}
       >
         <Form>
-          <FormWrapper style={{ width: width }}>
+          <FormWrapper
+            style={{ width: useViewType === 'desktop' ? width : '100%' }}
+          >
             <div>{title}</div>
             {fieldArray.map((field) =>
               field.isCheckboxField ? (

@@ -9,6 +9,8 @@ export const ContentContainer = styled.div`
 
   @media (max-width: ${MOBILE_VIEW_WIDTH}) {
     width: 95% !important;
+    height: fit-content !important;
+    padding-bottom: 2em;
   }
 `;
 

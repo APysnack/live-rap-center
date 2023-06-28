@@ -7,6 +7,7 @@ import { BATTLES_TO_RETRIEVE, BACKGROUND_CONTAINER_WIDTH } from '../Constants';
 import UserPageHeadline from '../../SharedComponents/UserPageHeadlines/UserPageHeadline';
 import { BattleRowContainer } from './BattleRow.styles';
 import useViewType from '../../../utils/useViewType';
+import Loading from '../../SharedComponents/Loading/Loading';
 
 function BattleRow({ type = 'topBattles', userId = null }) {
   const viewType = useViewType();
@@ -50,7 +51,7 @@ function BattleRow({ type = 'topBattles', userId = null }) {
     variables: queryData.variables,
   });
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   const battles =
     type === 'followedBattles' ? data.followedBattles : data.topBattles;

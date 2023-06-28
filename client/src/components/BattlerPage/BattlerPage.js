@@ -17,6 +17,7 @@ import {
 } from './BattlerPage.styles';
 import BattleLink from '../SharedComponents/BattleLink/BattleLink';
 import UserPageHeadline from '../SharedComponents/UserPageHeadlines/UserPageHeadline';
+import Loading from '../SharedComponents/Loading/Loading';
 
 function BattlerPage() {
   let { battlerId } = useParams();
@@ -75,7 +76,7 @@ function BattlerPage() {
     setBattlerStats({ ...stats });
   };
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return battler ? (
     <BattlerPageContainer>

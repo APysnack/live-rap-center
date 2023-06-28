@@ -11,6 +11,7 @@ import { useSwipeable } from 'react-swipeable';
 import { useSelector } from 'react-redux';
 import { GET_USER } from './gql';
 import { useQuery } from '@apollo/client';
+import Loading from '../SharedComponents/Loading/Loading';
 
 const mobileViews = ['switcher', 'chat', 'members'];
 
@@ -93,7 +94,7 @@ function Chat() {
     onSwipedRight: handleSwipeRight,
   });
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <div {...swipeHandlers}>

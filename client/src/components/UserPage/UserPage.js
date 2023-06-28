@@ -8,6 +8,7 @@ import { UserPageContainer } from './UserPage.styles';
 import BattleRow from './BattleRow/BattleRow';
 import UserInfo from './UserInfo';
 import NewsContainer from './NewsContainer';
+import Loading from '../SharedComponents/Loading/Loading';
 
 function UserPage({ callLogoutUser }) {
   // current redux state of the user
@@ -44,7 +45,7 @@ function UserPage({ callLogoutUser }) {
     }
   }, [userData]);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <UserPageContainer>
@@ -91,7 +92,7 @@ function UserPage({ callLogoutUser }) {
           </div>
         </div>
       ) : (
-        <div>no user</div>
+        <Loading />
       )}
     </UserPageContainer>
   );

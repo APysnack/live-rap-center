@@ -4,6 +4,7 @@ import { crewNameField } from './CreateCrewFormFields';
 import { useMutation } from '@apollo/client';
 import { CREATE_CREW } from './gql';
 import SettingsGroup from '../../SharedComponents/SettingsGroup/SettingsGroup';
+import Loading from '../../SharedComponents/Loading/Loading';
 
 const FORM_DIMENSION = 20;
 
@@ -33,7 +34,7 @@ function CreateCrewForm({ user }) {
     }
   }, []);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
   if (error) return `Submission error ${error.message}`;
 
   const createCrewForm = () => {

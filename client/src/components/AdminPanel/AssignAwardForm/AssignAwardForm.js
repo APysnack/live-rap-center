@@ -8,6 +8,7 @@ import { useMutation } from '@apollo/client';
 import { AssignAwardFormContainer } from './AssignAwardForm.styles';
 import { useTheme } from 'styled-components';
 import StyledSelect from '../../SharedComponents/StyledSelect/StyledSelect';
+import Loading from '../../SharedComponents/Loading/Loading';
 
 function AssignAwardForm() {
   const { loading, data, refetch } = useQuery(GET_AWARDS);
@@ -56,7 +57,7 @@ function AssignAwardForm() {
     }
   };
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <AssignAwardFormContainer>

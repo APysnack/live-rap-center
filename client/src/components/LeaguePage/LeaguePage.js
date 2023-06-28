@@ -9,11 +9,10 @@ import {
   LeagueBattlersContainer,
 } from './LeaguePage.styles';
 import EventLink from '../SharedComponents/EventLink/EventLink';
-import Thumbnail from '../SharedComponents/Thumbnail/Thumbnail';
 import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
-import YouTube from '@mui/icons-material/YouTube';
 import StyledRating from '../SharedComponents/StyledRating/StyledRating';
 import BattleLink from '../SharedComponents/BattleLink/BattleLink';
+import Loading from '../SharedComponents/Loading/Loading';
 
 function LeaguePage() {
   let { leagueId } = useParams();
@@ -49,7 +48,7 @@ function LeaguePage() {
     }
   }, [battleData]);
 
-  if (loading || battlesLoading) return 'Loading...';
+  if (loading || battlesLoading) return <Loading />;
   return (
     <LeaguePageWrapper>
       {league?.leagueName ? (

@@ -8,6 +8,7 @@ import CreateCrewForm from './CreateCrewForm/CreateCrewForm';
 import UserSettings from './UserSettingsForm/UserSettings';
 import { UserSettingsPageContainer } from './UserSettingsPage.styles';
 import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
+import Loading from '../SharedComponents/Loading/Loading';
 
 function UserSettingsPage({ user, loading, refetchUser }) {
   const [battler, setBattler] = useState(null);
@@ -31,7 +32,7 @@ function UserSettingsPage({ user, loading, refetchUser }) {
     }
   }, [data]);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <UserSettingsPageContainer>

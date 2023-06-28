@@ -8,6 +8,7 @@ import { Formik, Form, Field } from 'formik';
 import { FormWrapper } from './BaseForm.styles';
 import CheckboxField from './CheckboxField';
 import useViewType from '../../utils/useViewType';
+import Loading from './Loading/Loading';
 
 function BaseForm({
   title = 'Form Title',
@@ -35,7 +36,7 @@ function BaseForm({
   }, [fieldArray]);
 
   if (!Object.keys(initialValues).length > 0 || !fieldArray.length > 0)
-    return 'Loading...';
+    return <Loading />;
 
   return (
     <>

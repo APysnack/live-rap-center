@@ -25,6 +25,7 @@ import UpdateEventPage from './components/LeagueSettingsPage/UpdateEventPage/Upd
 import BookingPage from './components/BookingPage/BookingPage';
 import EventPage from './components/EventPage/EventPage';
 import GlobalStyle from './GlobalStyle';
+import Loading from './components/SharedComponents/Loading/Loading';
 
 function App() {
   const [selectedTheme, setSelectedTheme] = useState(null);
@@ -46,12 +47,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    if (!loading) {
-    }
-  }, [selectedTheme]);
-
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <ThemeProvider theme={getSelectedTheme()}>

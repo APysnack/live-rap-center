@@ -13,6 +13,7 @@ import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Payments from '@mui/icons-material/Payments';
 import StyledRating from '../SharedComponents/StyledRating/StyledRating';
+import Loading from '../SharedComponents/Loading/Loading';
 
 const RATING_FONT_SIZE = '0.5em';
 
@@ -33,7 +34,7 @@ function EventPage() {
     }
   }, [data]);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <EventPageWrapper>

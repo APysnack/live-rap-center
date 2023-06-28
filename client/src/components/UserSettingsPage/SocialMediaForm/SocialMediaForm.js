@@ -3,6 +3,7 @@ import BaseForm from '../../SharedComponents/BaseForm';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ALL_SOCIAL_PLATFORMS, UPDATE_SOCIALS } from './gql';
 import SettingsGroup from '../../SharedComponents/SettingsGroup/SettingsGroup';
+import Loading from '../../SharedComponents/Loading/Loading';
 
 function SocialMediaForm({ currentUser, refetchUser }) {
   const [initialValues, setInitialValues] = useState({});
@@ -101,7 +102,7 @@ function SocialMediaForm({ currentUser, refetchUser }) {
     }
   }, [data, error]);
 
-  if (loading || platformQueryLoading) return 'Loading...';
+  if (loading || platformQueryLoading) return <Loading />;
   if (error) return `Submission error ${error.message}`;
 
   const socialMediaLinksContent = () => {

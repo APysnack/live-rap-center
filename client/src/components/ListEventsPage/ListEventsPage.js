@@ -11,6 +11,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Payments from '@mui/icons-material/Payments';
 import { Close } from '@mui/icons-material';
 import useViewType from '../../utils/useViewType';
+import Loading from '../SharedComponents/Loading/Loading';
 
 function ListEventsPage() {
   const [selectedCountry, setSelectedCountry] = useState('United States');
@@ -27,7 +28,7 @@ function ListEventsPage() {
     setModalOpen(true);
   };
 
-  if (loading) return 'Loading..';
+  if (loading) return <Loading />;
 
   return (
     <div>

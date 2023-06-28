@@ -79,6 +79,7 @@ function ListBattlersPage() {
         tableProps={tableProps}
         setVirtualFrame={setVirtualFrame}
         totalDataCount={data?.battlers?.tableRowCount}
+        loading={loading}
       />
     </BattlerListContainer>
   );

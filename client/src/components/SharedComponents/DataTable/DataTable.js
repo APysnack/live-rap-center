@@ -15,10 +15,12 @@ import {
 } from './DataTable.styles';
 import Pagination from './Pagination';
 import { ROWS_TO_DISPLAY } from './Constants';
+import { animateScroll } from 'react-scroll';
+import Loading from '../Loading/Loading';
 
 const TABLE_CELL_HEIGHT = '5em';
 
-function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
+function DataTable({ tableProps, setVirtualFrame, totalDataCount, loading }) {
   // controls managed by pagination component
   // array of data that is actively being displayed in table
   const [visibleRows, setVisibleRows] = useState([]);
@@ -31,6 +33,17 @@ function DataTable({ tableProps, setVirtualFrame, totalDataCount }) {
     nextVirtualPage: 1,
     pageDisplayedInBrowser: 1,
   });
+
+  useEffect(() => {
+    if (vpt.pageDisplayedInBrowser > 1) {
+      animateScroll.scrollToBottom({
+        duration: 0,
+        delay: 0,
+      });
+    }
+  }, [loading, vpt.pageDisplayedInBrowser]);
+
+  if (loading) return <Loading />;
 
   return (
     <DataTableContainer>

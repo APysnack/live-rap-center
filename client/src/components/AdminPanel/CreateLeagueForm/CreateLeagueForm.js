@@ -3,6 +3,7 @@ import BaseForm from '../../SharedComponents/BaseForm';
 import { leagueNameField, leagueUrlField } from './CreateLeagueFormFields';
 import { useMutation } from '@apollo/client';
 import { CREATE_LEAGUE } from './gql';
+import Loading from '../../SharedComponents/Loading/Loading';
 
 function CreateLeagueForm() {
   const [initialValues, setInitialValues] = useState({});
@@ -42,7 +43,7 @@ function CreateLeagueForm() {
     }
   }, []);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
   if (error) return `Submission error ${error.message}`;
 
   return (

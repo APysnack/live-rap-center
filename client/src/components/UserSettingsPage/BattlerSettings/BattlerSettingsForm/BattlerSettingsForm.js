@@ -3,6 +3,7 @@ import BaseForm from '../../../SharedComponents/BaseForm';
 import { bookingPriceField } from './BattlerSettingsFormFields';
 import { useMutation } from '@apollo/client';
 import { UPDATE_BATTLER } from './gql';
+import Loading from '../../../SharedComponents/Loading/Loading';
 
 function BattlerSettingsForm({ user, battler }) {
   const [initialValues, setInitialValues] = useState({});
@@ -70,7 +71,7 @@ function BattlerSettingsForm({ user, battler }) {
     }
   }, [battler]);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
   if (error) return `Submission error ${error.message}`;
 
   return (

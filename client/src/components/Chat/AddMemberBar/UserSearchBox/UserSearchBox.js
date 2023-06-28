@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_USERS } from '../gql';
 import StyledSelect from '../../../SharedComponents/StyledSelect/StyledSelect';
+import Loading from '../../../SharedComponents/Loading/Loading';
 
 function UserSearchBox({ onSelect, className = 'select-component' }) {
   const [options, setOptions] = useState([]);
@@ -18,7 +19,7 @@ function UserSearchBox({ onSelect, className = 'select-component' }) {
     }
   }, [data]);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <StyledSelect className={className} options={options} onChange={onSelect} />

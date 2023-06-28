@@ -78,6 +78,7 @@ function ListBattlesPage() {
         tableProps={tableProps}
         setVirtualFrame={setVirtualFrame}
         totalDataCount={data?.battles?.tableRowCount}
+        loading={loading}
       />
     </>
   );

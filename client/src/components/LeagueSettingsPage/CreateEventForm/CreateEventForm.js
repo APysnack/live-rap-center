@@ -12,6 +12,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { CreateEventContainer } from './CreateEvent.styles';
 import moment from 'moment';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import Loading from '../../SharedComponents/Loading/Loading';
 
 function CreateEventForm({
   league,
@@ -107,7 +108,7 @@ function CreateEventForm({
     }
   }, []);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <CreateEventContainer>

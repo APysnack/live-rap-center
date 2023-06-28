@@ -10,6 +10,7 @@ import VoteDetails from './VoteDetails/VoteDetails';
 import _ from 'lodash';
 import BattleContainer from './BattleContainer';
 import ContentContainer from '../SharedComponents/ContentContainer/ContentStyleWrapper';
+import Loading from '../SharedComponents/Loading/Loading';
 
 function BattlePage() {
   const { user } = useSelector((state) => state.user.userState);
@@ -59,7 +60,7 @@ function BattlePage() {
     }
   }, [youtubeId]);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <BattlePageContainer>

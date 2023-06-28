@@ -3,11 +3,12 @@ import ImageUploadModal from '../../SharedComponents/ImageUploadModal/ImageUploa
 import { GET_AWARDS } from './gql';
 import { useQuery } from '@apollo/client';
 import ListAwards from './ListAwards/ListAwards';
+import Loading from '../../SharedComponents/Loading/Loading';
 
 function CreateAwardForm() {
   const { loading, data, refetch } = useQuery(GET_AWARDS);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <div>

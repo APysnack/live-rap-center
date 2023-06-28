@@ -73,6 +73,7 @@ function ListLeaguesPage() {
         tableProps={tableProps}
         setVirtualFrame={setVirtualFrame}
         totalDataCount={data?.leagues?.tableRowCount}
+        loading={loading}
       />
     </>
   );

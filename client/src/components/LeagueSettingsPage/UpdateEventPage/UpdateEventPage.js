@@ -11,6 +11,7 @@ import {
   FlyerUploadWrapper,
 } from './UpdateEventPage.styles';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
+import Loading from '../../SharedComponents/Loading/Loading';
 
 function UpdateEventPage() {
   const [event, setEvent] = useState(null);
@@ -31,7 +32,7 @@ function UpdateEventPage() {
     }
   }, [data]);
 
-  if (loading) return 'Loading...';
+  if (loading) return <Loading />;
 
   return (
     <UpdateEventPageWrapper>

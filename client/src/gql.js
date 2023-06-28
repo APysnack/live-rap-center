@@ -16,8 +16,6 @@ export const GET_USER = gql`
         socialMediaPlatformName
         url
       }
-      hasLeague
-      hasCrew
     }
   }
 `;

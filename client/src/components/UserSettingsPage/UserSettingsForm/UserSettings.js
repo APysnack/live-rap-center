@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StyledSelect from '../../SharedComponents/StyledSelect/StyledSelect';
 import _ from 'lodash';
 import { UPDATE_SELECTED_THEME } from './gql';
@@ -27,7 +27,7 @@ function UserSettings({ user, refetchUser }) {
     });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user?.selectedTheme) {
       const selectedThemeIndex = _.findIndex(THEMES, (theme) => {
         return user.selectedTheme === theme.value;
@@ -38,12 +38,14 @@ function UserSettings({ user, refetchUser }) {
 
   const themeSelector = () => {
     return (
-      <StyledSelect
-        className='react-select-container'
-        options={THEMES}
-        value={selectedTheme}
-        onChange={(selection) => updateUserTheme(selection.value)}
-      />
+      <div className='form-width-control'>
+        <StyledSelect
+          className='react-select-container'
+          options={THEMES}
+          value={selectedTheme}
+          onChange={(selection) => updateUserTheme(selection.value)}
+        />
+      </div>
     );
   };
 

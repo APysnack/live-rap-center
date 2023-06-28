@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../globalConstants';
 
 export const EventInfoContainer = styled.div`
   display: flex;
@@ -12,6 +13,17 @@ export const EventInfoContainer = styled.div`
     margin: 0.5em 0 0.5em 0;
     padding: 0.3em;
     width: 50%;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      width: 70%;
+    }
+  }
+
+  .close-modal-btn {
+    cursor: pointer;
+    width: 98%;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .flyer-img {
@@ -39,10 +51,16 @@ export const EventInfoContainer = styled.div`
 
       .address {
         width: 70%;
+        height: 100%;
       }
       .admission {
         width: 30%;
+        height: 100%;
       }
+    }
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      width: 90%;
     }
   }
 

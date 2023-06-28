@@ -38,13 +38,15 @@ function CreateCrewForm({ user }) {
 
   const createCrewForm = () => {
     return (
-      <BaseForm
-        initialValues={initialValues}
-        fieldArray={fieldArray}
-        onSubmit={addNewCrew}
-        width={`${FORM_DIMENSION}vw`}
-        title=''
-      />
+      <div className='form-width-control'>
+        <BaseForm
+          initialValues={initialValues}
+          fieldArray={fieldArray}
+          onSubmit={addNewCrew}
+          width={`${FORM_DIMENSION}vw`}
+          title=''
+        />
+      </div>
     );
   };
 

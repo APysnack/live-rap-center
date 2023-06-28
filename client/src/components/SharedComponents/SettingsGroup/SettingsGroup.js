@@ -8,7 +8,6 @@ function SettingsGroup({
   alignItems = 'flex-start',
   settingsProps,
   shadowWidth = 24,
-  shadowHeight = 50,
   headerWidth = 25,
 }) {
   return (
@@ -21,12 +20,7 @@ function SettingsGroup({
         <div className='header' style={{ width: `${headerWidth}vw` }}>
           {settingsProps.header}
         </div>
-        <div
-          className='settings-content'
-          style={{
-            height: `${shadowHeight}vh`,
-          }}
-        >
+        <div className='settings-content'>
           {settingsProps.components.map((component) => {
             return (
               <div

@@ -36,7 +36,7 @@ function UserSettingsPage({ user, loading, refetchUser }) {
   return (
     <UserSettingsPageContainer>
       <div className='content-wrapper'>
-        <div>
+        <div className='cc-wrapper'>
           <ContentContainer
             width={520}
             height={180}
@@ -54,14 +54,16 @@ function UserSettingsPage({ user, loading, refetchUser }) {
             refetchUser={refetchUser}
           />
         </div>
-        <div>
+        <div className='cc-wrapper'>
           <UserSettings user={currentUser} refetchUser={refetchUser} />
 
           <CreateCrewForm user={currentUser} />
         </div>
-        {battler ? (
-          <BattlerSettings user={currentUser} battler={battler} />
-        ) : null}
+        <div className='cc-wrapper'>
+          {battler ? (
+            <BattlerSettings user={currentUser} battler={battler} />
+          ) : null}
+        </div>
       </div>
     </UserSettingsPageContainer>
   );

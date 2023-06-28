@@ -61,8 +61,6 @@ function SocialMediaForm({ currentUser, refetchUser }) {
     }
   }, [userSocials, platformQuery, initialValues, fieldArray]);
 
-  const [flashMessage, setFlashMessage] = useState('');
-
   const updateSocialLinks = (values) => {
     let attributesArray = [];
 
@@ -97,7 +95,6 @@ function SocialMediaForm({ currentUser, refetchUser }) {
         newValues[link.socialMediaPlatformId] = link.url;
       });
       setInitialValues({ ...newValues });
-      setFlashMessage('Settings updated successfully!');
     }
     if (error) {
       console.log(error);
@@ -109,23 +106,20 @@ function SocialMediaForm({ currentUser, refetchUser }) {
 
   const socialMediaLinksContent = () => {
     return (
-      <>
-        {flashMessage ? <div>{flashMessage} added successfully</div> : null}
+      <div className='form-width-control'>
         <BaseForm
           initialValues={initialValues}
           fieldArray={fieldArray}
           onSubmit={updateSocialLinks}
           title={''}
         />
-      </>
+      </div>
     );
   };
 
   const settingsProps = {
     header: 'Social Media',
-    components: [
-      { title: 'Social Media Links', component: socialMediaLinksContent },
-    ],
+    components: [{ title: '', component: socialMediaLinksContent }],
   };
 
   return (

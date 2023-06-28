@@ -1,10 +1,17 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../../globalConstants';
 
 export const SettingsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    width: 100%;
+    height: auto !important;
+    min-height: auto !important;
+  }
 
   .header {
     display: flex;
@@ -20,15 +27,24 @@ export const SettingsContainer = styled.div`
     margin-top: 0.4em;
 
     color: ${(props) => props.theme.fontColor};
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      font-size: 1.5em;
+      width: 90% !important;
+    }
   }
 
   .settings-content {
     margin-top: 0.8em;
-    height: 25vh;
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 0.7em;
+    height: auto !important;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      width: 100%;
+    }
 
     .subheading {
       font-size: 1.2em;
@@ -43,6 +59,10 @@ export const SettingsContainer = styled.div`
       margin: 1em;
     }
 
+    .form-width-control {
+      width: 75%;
+    }
+
     .form-container {
       display: flex;
       align-items: center;
@@ -54,6 +74,10 @@ export const SettingsContainer = styled.div`
       select {
         margin: 0.4em;
         width: 20em;
+      }
+
+      @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+        width: 95% !important;
       }
     }
   }

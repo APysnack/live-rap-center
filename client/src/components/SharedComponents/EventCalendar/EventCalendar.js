@@ -5,7 +5,6 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { EventCalendarContainer } from './EventCalendar.styles';
 import { useTheme } from 'styled-components';
-
 import DoubleArrow from '@mui/icons-material/DoubleArrow';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 
@@ -14,6 +13,7 @@ const todaysDate = new Date();
 todaysDate.setDate(todaysDate.getDate() - 1); // Set to yesterday's date
 
 function EventCalendar({
+  viewType,
   eventData,
   handleSelectEvent,
   selectedCountry,
@@ -23,10 +23,11 @@ function EventCalendar({
 }) {
   const [eventsList, setEventsList] = useState([]);
   const [visibleMonth, setVisibleMonth] = useState(moment());
+
   const theme = useTheme();
 
   const calendarStyle = {
-    width: '70vw',
+    width: viewType === 'mobile' ? '95%' : '70vw',
     height: '70vh',
     backgroundColor: theme.secondary,
     fontWeight: '700',
@@ -116,6 +117,7 @@ function EventCalendar({
           />
         </div>
       </div>
+
       <div className='main-content'>
         <ContentContainer width='75vw' height='75vh'>
           <Calendar
@@ -153,9 +155,10 @@ function EventCalendar({
             }}
           />
         </ContentContainer>
+
         <ContentContainer
           width={'20vw'}
-          height={'75vh'}
+          height={viewType === 'mobile' ? '10em' : '75vh'}
           alignItems='flex-start'
         >
           <div className='filter-component'>

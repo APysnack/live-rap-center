@@ -17,12 +17,26 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import Lock from '@mui/icons-material/Lock';
 import LockOpen from '@mui/icons-material/LockOpen';
 import StyledRating from '../SharedComponents/StyledRating/StyledRating';
+import useViewType from '../../utils/useViewType';
 
-const VIDEO_WIDTH = '960';
-const VIDEO_HEIGHT = '540';
+const DESKTOP_VIDEO_DIMESIONS = { width: '960', height: '540' };
+const MOBILE_VIDEO_DIMENSIONS = { width: '450', height: '400' };
 
 function BattleContainer({ stats, youtubeId, battle }) {
   const [votesCount, setVotesCount] = useState({});
+  const [videoDimensions, setVideoDimensions] = useState(
+    DESKTOP_VIDEO_DIMESIONS
+  );
+
+  const viewType = useViewType();
+
+  useEffect(() => {
+    if (viewType === 'mobile') {
+      setVideoDimensions(MOBILE_VIDEO_DIMENSIONS);
+    } else if (viewType === 'desktop') {
+      setVideoDimensions(DESKTOP_VIDEO_DIMESIONS);
+    }
+  }, [viewType]);
 
   useEffect(() => {
     if (battle?.battleVotes) {
@@ -74,8 +88,8 @@ function BattleContainer({ stats, youtubeId, battle }) {
             ) : null}
 
             <iframe
-              width={VIDEO_WIDTH}
-              height={VIDEO_HEIGHT}
+              width={videoDimensions.width}
+              height={videoDimensions.height}
               src={'https://www.youtube.com/embed/' + youtubeId}
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;'
             ></iframe>
@@ -129,8 +143,8 @@ function BattleContainer({ stats, youtubeId, battle }) {
                     key={battler.id}
                     className={`${
                       battle.battleWinner?.id === battler.id
-                        ? 'battle-winner'
-                        : ''
+                        ? 'battle-winner battler-panel'
+                        : 'battler-panel'
                     }`}
                   >
                     <div className={`battler-${i} battler-title`}>

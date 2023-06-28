@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../globalConstants';
 
 export const BattlePageContainer = styled.div`
   display: flex;
@@ -10,6 +11,7 @@ export const BattlePageContainer = styled.div`
 export const StyledBattleContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
 
   .title-text {
@@ -27,21 +29,50 @@ export const StyledBattleContainer = styled.div`
 
   .header-container {
     margin: 0.5em 0em 0.5em 0em;
+    height: 2em;
     width: 100%;
+  }
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    .title-text {
+      font-size: 0.6em;
+    }
   }
 `;
 
 export const BattleContentContainer = styled.div`
   display: flex;
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
 `;
 
 export const VotesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
   .header-container {
     margin: 0.25em;
     width: 48em;
   }
   .title-text {
     font-size: 2em;
+  }
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    .header-container {
+      width: 100%;
+    }
+    .title-text {
+      font-size: 1em;
+    }
   }
 `;
 
@@ -72,7 +103,7 @@ export const StyledStatsContainer = styled.div`
 
   .battle-results-panel {
     display: flex;
-    gap: 3em;
+    gap: 2em;
     margin: 1.5em;
     width: 100%;
     align-items: center;
@@ -86,16 +117,33 @@ export const StyledStatsContainer = styled.div`
       margin-bottom: 0.5em;
       text-align: center;
     }
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      gap: 1em;
+    }
   }
 
   .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: ${(props) => props.theme.formBackground};
     padding: 1.5em 4em 1.5em 4em;
     border-radius: 10px;
+
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      width: 95%;
+    }
   }
 
   .battle-winner {
     border: 2px solid ${(props) => props.theme.tertiary};
+  }
+
+  .battler-panel {
+    @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+      width: 45%;
+    }
   }
 `;
 

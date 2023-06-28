@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MOBILE_VIEW_WIDTH } from '../../../globalConstants';
 
 export const VoteDetailsContainer = styled.div`
   display: flex;
@@ -13,6 +14,11 @@ export const VoteDetailsContainer = styled.div`
   height: 10em;
   width: 30vw;
   margin: 1em 0 0.5em 0;
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    width: 95%;
+    height: auto;
+  }
 `;
 
 export const VoteDetailsActionsWrapper = styled.div`
@@ -57,6 +63,22 @@ export const VoteDetailsActionsWrapper = styled.div`
     color: ${(props) => props.theme.primaryContrast};
     &:hover {
       color: ${(props) => props.theme.tertiary};
+    }
+  }
+
+  @media (max-width: ${MOBILE_VIEW_WIDTH}) {
+    flex-direction: column;
+    .vote-detail-container {
+      width: 95%;
+      height: 5em;
+    }
+
+    .battler-score {
+      font-size: 1em;
+    }
+
+    .delete-icon {
+      height: 1em;
     }
   }
 `;

@@ -63,52 +63,46 @@ function BattlePage() {
 
   return (
     <BattlePageContainer>
-      <div>
-        <BattleContainer
-          className='battle-container'
-          stats={youtubeStats}
-          youtubeId={youtubeId}
-          battle={battle}
-        />
+      <BattleContainer
+        className='battle-container'
+        stats={youtubeStats}
+        youtubeId={youtubeId}
+        battle={battle}
+      />
 
-        {battle.battleStatus === 'open' &&
-        user?.voter_id &&
-        !userViewingPageIsInBattle ? (
-          !userHasVoted ? (
-            <VoteSubmissionPanel
-              user={user}
-              battle={battle}
-              refetchBattle={refetch}
-            />
-          ) : (
-            'You have already voted on this battle'
-          )
+      {battle.battleStatus === 'open' &&
+      user?.voter_id &&
+      !userViewingPageIsInBattle ? (
+        !userHasVoted ? (
+          <VoteSubmissionPanel
+            user={user}
+            battle={battle}
+            refetchBattle={refetch}
+          />
         ) : (
-          ''
-        )}
-        {battle?.battleVotes?.length > 0 ? (
-          <ContentContainer
-            width={1600}
-            flexDirection='column'
-            height={'100%'}
-            margin='0.25em 0 2em 0'
-          >
-            <VotesContainer>
-              <div className='header-container'>
-                <div className='title-text'>Votes</div>
-              </div>
+          'You have already voted on this battle'
+        )
+      ) : (
+        ''
+      )}
+      {battle?.battleVotes?.length > 0 ? (
+        <ContentContainer
+          width={1600}
+          flexDirection='column'
+          height={'100%'}
+          margin='0.25em 0 2em 0'
+        >
+          <VotesContainer>
+            <div className='header-container'>
+              <div className='title-text'>Votes</div>
+            </div>
 
-              {battle.battleVotes.map((vote) => (
-                <VoteDetails
-                  key={vote.id}
-                  vote={vote}
-                  refetchBattle={refetch}
-                />
-              ))}
-            </VotesContainer>
-          </ContentContainer>
-        ) : null}
-      </div>
+            {battle.battleVotes.map((vote) => (
+              <VoteDetails key={vote.id} vote={vote} refetchBattle={refetch} />
+            ))}
+          </VotesContainer>
+        </ContentContainer>
+      ) : null}
     </BattlePageContainer>
   );
 }

@@ -38,6 +38,7 @@ function ListEventsPage() {
         setSelectedCountry={setSelectedCountry}
         selectedRegion={selectedRegion}
         setSelectedRegion={setSelectedRegion}
+        viewType={viewType}
       />
       <BasicModal
         width={viewType === 'mobile' ? '100vw' : 800}

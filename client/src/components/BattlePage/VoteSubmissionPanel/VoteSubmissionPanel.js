@@ -59,33 +59,6 @@ function VoteSubmissionPanel({ user, battle, refetchBattle }) {
     return Object.values(obj).reduce((prev, current) => prev + current, 0);
   };
 
-  // should this be deleted?
-  const voteCompleted = (formData) => {
-    if (
-      disableChecks === true &&
-      formData.comment !== '' &&
-      Object.keys(starState).length > 1 &&
-      allMetricsCompleted()
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const allMetricsCompleted = () => {
-    let metricsCompleted = true;
-    battle.battlers.map((battler) => {
-      if (
-        starState[battler.id]['lyricism'] == null ||
-        starState[battler.id]['performance'] == null
-      ) {
-        metricsCompleted = false;
-      }
-    });
-    return metricsCompleted;
-  };
-
   // tracks the star ratings for each battler
   const updateStarState = (battlerId, value, metric) => {
     var newState = {};

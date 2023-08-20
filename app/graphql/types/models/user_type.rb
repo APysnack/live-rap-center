@@ -10,6 +10,7 @@ module Types
       field :email, String, null: false
       field :password_digest, String
       field :is_verified, Boolean, null: false
+      field :is_initialized, Boolean, null: false
       field :created_at, GraphQL::Types::ISO8601DateTime, null: false
       field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
       field :posts, [Types::Models::PostType], null: true

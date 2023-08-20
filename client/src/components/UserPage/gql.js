@@ -34,6 +34,7 @@ export const GET_USER = gql`
       id
       username
       profilePictureUrl
+      isInitialized
       battlerBookingOffers {
         id
         chatId
@@ -93,6 +94,25 @@ export const DELETE_CREW_INVITATION = gql`
   mutation deleteCrewInvitation($userId: ID!, $crewId: ID!) {
     deleteCrewInvitation(input: { userId: $userId, crewId: $crewId }) {
       message
+    }
+  }
+`;
+
+export const GET_ALL_BATTLERS = gql`
+  query Battlers($fetchAll: Boolean) {
+    battlers(fetchAll: $fetchAll) {
+      battlers {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const INITIALIZE_USER = gql`
+  mutation InitializeUser($userId: ID!, $battlerId: ID) {
+    initializeUser(input: { userId: $userId, battlerId: $battlerId }) {
+      id
     }
   }
 `;

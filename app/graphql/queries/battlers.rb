@@ -5,11 +5,14 @@ module Queries
       argument :search_text, String, required: false
       argument :rows_to_fetch, Integer, required: false
       argument :first_page_to_fetch, Integer, required: false
+      argument :fetch_all, Boolean, required: false
   
       type Types::Responses::BattlersResponseType, null: true
   
-      def resolve(search_text: nil, first_page_to_fetch: nil, rows_to_fetch: nil)
+      def resolve(search_text: nil, first_page_to_fetch: nil, rows_to_fetch: nil, fetch_all: false)
         battlers = ::Battler.all
+        return { battlers: battlers.order(score: :desc, created_at: :asc) } if fetch_all
+
         if search_text.present?
           battlers = battlers.where("lower(name) LIKE ?", "%#{search_text.downcase}%")
         end

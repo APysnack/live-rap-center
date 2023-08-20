@@ -5,11 +5,8 @@ default: &default
 
 development:
   <<: *default
-  host: <%= ENV.fetch('AWS_RDS_HOST') %>
-  username: <%= ENV.fetch('AWS_RDS_USERNAME') %>
-  password: <%= ENV.fetch('AWS_RDS_PASSWORD') %>
-  database: <%= ENV.fetch('AWS_RDS_NAME') %>
-  port: <%= ENV.fetch('AWS_RDS_PORT') %>
+  database: lrc_development
+  timeout: 5000
 
 production:
   <<: *default

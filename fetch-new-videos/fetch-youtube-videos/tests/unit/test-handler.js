@@ -1,7 +1,11 @@
 'use strict';
 
 const chai = require('chai');
-const { parseTitle, isTagTeamMatch } = require('../../battleParser');
+const {
+  parseTitle,
+  isTagTeamMatch,
+  isTripleThreatMatch,
+} = require('../../battleParser');
 const expect = chai.expect;
 
 describe('parseTitle', function () {
@@ -187,9 +191,30 @@ describe('parseTitle', function () {
     expect(result).to.deep.equal(expectedOutput);
   });
 
-  it('AHAT Rap Battles Aries vs TBG(tryout)', function () {
+  it('should parse AHAT Rap Battles Aries vs TBG(tryout)', function () {
     const input = 'AHAT Rap Battles Aries vs TBG(tryout)';
     const expectedOutput = ['Aries', 'TBG'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  it('It should parse A vs B vs C correctly', function () {
+    const input =
+      'Face Off Battle League: PastLyfe vs SK vs Rames the Last Pharoah';
+
+    const expectedOutput = ['PastLyfe', 'SK', 'Rames the Last Pharoah'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  it('It should parse KINGS VS QUEENS: A vs B correctly', function () {
+    const input = 'URL PRESENTS KINGS VS QUEENS: ARSONAL VS OFFICIAL';
+
+    const expectedOutput = ['ARSONAL', 'OFFICIAL'];
 
     const result = parseTitle(input);
 
@@ -221,6 +246,27 @@ describe('isTagTeamMatch', function () {
     const expectedOutput = { isTagMatch: true, delimiter: 'AND' };
 
     const result = isTagTeamMatch(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+});
+
+describe('isTripleThreatMatch', function () {
+  it('should return true if more than 1 instance of VS', function () {
+    const input =
+      'Face Off Battle League: PastLyfe vs SK vs Rames the Last Pharoah';
+    const expectedOutput = true;
+
+    const result = isTripleThreatMatch(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+
+  it('should return false if less than 2 instances of vs', function () {
+    const input = 'RemyD AND Pat Stay vs Coma and Richard Cranium';
+    const expectedOutput = false;
+
+    const result = isTripleThreatMatch(input);
 
     expect(result).to.deep.equal(expectedOutput);
   });

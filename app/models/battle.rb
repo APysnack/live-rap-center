@@ -1,4 +1,6 @@
 class Battle < ApplicationRecord
+  validates :battle_url, uniqueness: true
+  
   belongs_to :user, optional: true
   belongs_to :event, optional: true
   belongs_to :league

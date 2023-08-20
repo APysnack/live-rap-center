@@ -3,20 +3,25 @@ const he = require('he');
 
 function parseTitle(title) {
   let battlers;
-  const decodedTitle = he.decode(title);
+
+  // youtube passes ampersands as &amp; so we need to decode them
+  let decodedTitle = he.decode(title);
+  decodedTitle = sanitizeString(decodedTitle);
+
   const tagMatchObj = isTagTeamMatch(decodedTitle);
+  const isTripleThreat = isTripleThreatMatch(decodedTitle);
+
   if (tagMatchObj.isTagMatch) {
     battlers = tagTeamDefaultFormat(decodedTitle, tagMatchObj.delimiter);
+  } else if (isTripleThreat) {
+    battlers = tripleThreatDefaultFormat(decodedTitle);
   } else {
-    battlers = defaultFormat(title);
+    battlers = defaultFormat(decodedTitle);
   }
   return battlers;
 }
 
 // format: "battler1 vs battler2" with any other symbols preceding or following
-// known failures:
-// "battler1 vs battler2: rap battle" because of symbol in name
-// kings vs queens smack battle battler1 vs battler2
 const defaultFormat = (input) => {
   const [leftSide, rightSide] = splitStringByVs(input);
   let leftName = splitLeft(leftSide);
@@ -40,6 +45,16 @@ const tagTeamDefaultFormat = (input, delimiter) => {
   const battler4 = splitRight(rightNames[1]);
 
   return [battler1, battler2, battler3, battler4];
+};
+
+const tripleThreatDefaultFormat = (input) => {
+  const [leftSide, middle, rightSide] = splitStringByVsTriple(input);
+  const leftName = splitLeft(leftSide);
+  const rightName = splitRight(rightSide);
+  let middleName = splitLeft(middle);
+  middleName = splitRight(middle);
+
+  return [leftName, middleName, rightName];
 };
 
 // splits BATTLER A VS BATTLER B into ["battler a", "battler b"]
@@ -66,6 +81,17 @@ const splitStringByVs = (inputString) => {
   return ['', ''];
 };
 
+const splitStringByVsTriple = (inputString) => {
+  const pattern = /(.*?)(?:\s*VS\s*)(.*?)(?:\s*VS\s*|-VS-|VS)(.*)/i;
+  const matchResult = inputString.match(pattern);
+
+  if (matchResult !== null) {
+    const [, firstPart, secondPart, thirdPart] = matchResult;
+    return [firstPart.trim(), secondPart.trim(), thirdPart.trim()];
+  }
+  return ['', '', ''];
+};
+
 // removes any preceding league names, etc. from battler a
 const splitLeft = (inputString) => {
   const pattern = /(\W\s)/;
@@ -78,6 +104,20 @@ const splitRight = (inputString) => {
   const pattern = /(\s\W)/;
   const result = inputString.split(pattern);
   return result[0];
+};
+
+// all problematic substrings in the array are removed from the
+// title e.g. kings vs queens adds a misleading 'vs' to the title
+const sanitizeString = (inputString) => {
+  const stringsToRemove = ['kings vs queens'];
+  let sanitizedString = inputString;
+
+  for (const substring of stringsToRemove) {
+    const regex = new RegExp(substring, 'gi');
+    sanitizedString = sanitizedString.replace(regex, '');
+  }
+
+  return sanitizedString;
 };
 
 // returns only words before or after a key word e.g. COMA HOSTED BY
@@ -98,6 +138,7 @@ const removeParentheses = (inputString) => {
   return inputString.replace(regex, '').trim();
 };
 
+// delimiter used to further split PurelyDef & Refractor as opposed to PurelyDef and Refractor
 const isTagTeamMatch = (inputString) => {
   const ampersandCount = (inputString.match(/&/g) || []).length;
   if (ampersandCount >= 2) {
@@ -112,7 +153,13 @@ const isTagTeamMatch = (inputString) => {
   return { isTagMatch: false, delimiter: '' };
 };
 
+const isTripleThreatMatch = (inputString) => {
+  const vsCount = (inputString.match(/VS/gi) || []).length;
+  return vsCount === 2;
+};
+
 module.exports = {
   parseTitle,
   isTagTeamMatch,
+  isTripleThreatMatch,
 };

@@ -1,3 +1,5 @@
+// after the parser splits the battle into two battlers,
+// removes the following keywords from the battler's name if they appear
 const keywords = [
   'HOSTED',
   'COHOST',

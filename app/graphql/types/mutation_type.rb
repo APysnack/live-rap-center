@@ -34,5 +34,6 @@ module Types
     field :delete_crew_invitation, mutation: Mutations::DeleteCrewInvitation
     field :update_selected_theme, mutation: Mutations::UpdateSelectedTheme
     field :create_battler_booking_offer, mutation: Mutations::CreateBattlerBookingOffer
+    field :initialize_user, mutation: Mutations::InitializeUser
   end
 end

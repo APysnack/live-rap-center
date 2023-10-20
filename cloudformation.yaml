@@ -1,0 +1,605 @@
+Parameters:
+  ECSClusterName:
+    Type: String
+    Default: lrc_cluster
+
+  SubnetIDs:
+    Type: CommaDelimitedList
+    Default: subnet-08b088db5e5e5bd5c,subnet-04773d1d2fedc094e
+
+  VpcID:
+    Type: String
+    Default: vpc-01623dfaa04cd0df8
+
+  LoadBalancerName:
+    Type: String
+    Default: lrc-load-balancer
+
+Resources:
+  LoadBalancerSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for the load balancer
+      VpcId: !Ref VpcID
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 0.0.0.0/0
+
+  # TODO: replace ecs_to_db security group with an SG that allows traffic from this SG and attach it to the db
+  ServiceSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for the service
+      VpcId: !Ref VpcID
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          SourceSecurityGroupId: !GetAtt LoadBalancerSG.GroupId
+
+  ECSCluster:
+    Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: lrc_cluster
+      CapacityProviders:
+        - FARGATE
+
+  ECSExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: ECSExecutionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: AdminPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+
+  ECSTaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      Family: launch_lrc_container
+      NetworkMode: awsvpc
+      ExecutionRoleArn: !GetAtt ECSExecutionRole.Arn
+      Cpu: '1024'
+      Memory: '3072'
+      RequiresCompatibilities:
+        - FARGATE
+      ContainerDefinitions:
+        - Name: server
+          Image: 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
+          Cpu: 1024
+          Memory: 3072
+          PortMappings:
+            - ContainerPort: 3000
+              HostPort: 3000
+              Protocol: tcp
+          Essential: true
+          Environment:
+            - Name: RAILS_LOG_TO_STDOUT
+              Value: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/RAILS_LOG_TO_STDOUT
+          Secrets:
+            - Name: RAILS_ENV
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/RAILS_ENV
+            - Name: AWS_RDS_HOST
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_HOST
+            - Name: AWS_RDS_USERNAME
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_USERNAME
+            - Name: AWS_RDS_PASSWORD
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_PASSWORD
+            - Name: AWS_RDS_NAME
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_NAME
+            - Name: AWS_RDS_PORT
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_PORT
+            - Name: VOTES_UNTIL_BATTLE_CLOSED
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/VOTES_UNTIL_BATTLE_CLOSED
+            - Name: SERVER_URL
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/SERVER_URL
+            - Name: YT_VIDEO_API
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_VIDEO_API
+            - Name: YT_CHANNEL_API
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_CHANNEL_API
+            - Name: YT_PLAYLIST_API
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_PLAYLIST_API
+            - Name: TWITTER_BEARER_TOKEN
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/TWITTER_BEARER_TOKEN
+            - Name: YT_API_KEY
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_API_KEY
+
+  ECSService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSClusterName
+      CapacityProviderStrategy:
+        - CapacityProvider: FARGATE
+          Base: 0
+          Weight: 1
+      TaskDefinition: !Ref ECSTaskDefinition
+      ServiceName: lrc-server-svc
+      SchedulingStrategy: REPLICA
+      DesiredCount: 1
+      LoadBalancers:
+        - ContainerName: server
+          ContainerPort: 3000
+          LoadBalancerName: !Ref AWS::NoValue
+          TargetGroupArn: !Ref TargetGroup
+      HealthCheckGracePeriodSeconds: '60'
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups:
+            - !GetAtt ServiceSG.GroupId
+          Subnets: !Ref SubnetIDs
+      PlatformVersion: LATEST
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 100
+        DeploymentCircuitBreaker:
+          Enable: true
+          Rollback: true
+      DeploymentController:
+        Type: ECS
+      ServiceConnectConfiguration:
+        Enabled: false
+      Tags: []
+      EnableECSManagedTags: true
+    DependsOn:
+      - Listener
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Type: application
+      Name: lrc-load-balancer
+      SecurityGroups:
+        - !GetAtt LoadBalancerSG.GroupId
+      Subnets: !Ref SubnetIDs
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckPath: /healthcheck
+      Name: lrc-target-group
+      Port: 80
+      Protocol: HTTP
+      TargetType: ip
+      HealthCheckProtocol: HTTP
+      VpcId: !Ref VpcID
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: '443'
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: 'arn:aws:acm:us-east-1:655948565243:certificate/0105b726-dbc5-460a-a3e0-02435f050418'
+
+  AutoScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: '3'
+      MinCapacity: '1'
+      ResourceId: 'service/lrc_cluster/lrc-server-svc'
+      RoleARN: 'arn:aws:iam::655948565243:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService'
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+    DependsOn:
+      - ECSService
+
+  AutoScalingPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: lrcPolicy
+      PolicyType: TargetTrackingScaling
+      ResourceId: 'service/lrc_cluster/lrc-server-svc'
+      ScalingTargetId: !Ref AutoScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        TargetValue: '50'
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+
+  LoadBalancerRoute:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: 'Z02616981L01DPKMGQGTT' # ID for LRC's hosted zone
+      Name: 'loadbalancer.liverapcenter.com'
+      Type: 'A'
+      AliasTarget:
+        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
+        DNSName: !GetAtt LoadBalancer.DNSName
+
+  CodePipelineBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: lrc-codepipeline-artifacts
+
+  # CodeDeployApplication:
+  #   Type: AWS::CodeDeploy::Application
+  #   Properties:
+  #     ApplicationName: lrc-app
+
+  # CodeDeployDeploymentGroup:
+  #   Type: AWS::CodeDeploy::DeploymentGroup
+  #   Properties:
+  #     ApplicationName: !Ref CodeDeployApplication
+  #     DeploymentGroupName: lrc-deployment-group
+  #     ServiceRoleArn: !GetAtt CodeDeployRole.Arn
+  #     AutoScalingGroups:
+  #       - !Ref ProjectFaultASG
+  #     DeploymentConfigName: CodeDeployDefault.AllAtOnce
+  #     LoadBalancerInfo:
+  #       TargetGroupInfoList:
+  #         - Name: !GetAtt EC2TargetGroup.TargetGroupName
+  #     DeploymentStyle:
+  #       DeploymentOption: WITH_TRAFFIC_CONTROL
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: lrc-build-test
+      Description: lrc codebuild project
+      Source:
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:5.0
+        ImagePullCredentialsType: CODEBUILD
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: AWS_DEFAULT_REGION
+            Value: us-east-1
+          - Name: AWS_ACCOUNT_ID
+            Value: 655948565243
+          - Name: IMAGE_TAG
+            Value: latest
+          - Name: IMAGE_REPO_NAME
+            Value: lrc_server
+      Artifacts:
+        Type: CODEPIPELINE
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
+          GroupName: lrc-build-logs
+          StreamName: lrc-build-log-stream
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LRCCodeBuildRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: DescribeSecurityGroupsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:DescribeSecurityGroups
+                  - ec2:DescribeSecurityGroupReferences
+                  - ec2:DescribeSecurityGroupRules
+                  - ec2:DescribeSubnets
+                  - ec2:CreateNetworkInterface
+                  - ec2:DescribeDhcpOptions
+                  - ec2:DescribeNetworkInterfaces
+                  - ec2:DeleteNetworkInterface
+                  - ec2:DescribeVpcs
+                Resource: '*'
+        - PolicyName: ECRPermissionsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:CompleteLayerUpload
+                  - ecr:GetAuthorizationToken
+                  - ecr:InitiateLayerUpload
+                  - ecr:PutImage
+                  - ecr:UploadLayerPart
+                Resource: '*'
+
+  CodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LRCCodePipelineRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - cloudformation.amazonaws.com
+                - elasticbeanstalk.amazonaws.com
+                - ec2.amazonaws.com
+                - ecs-tasks.amazonaws.com
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  CodePipelinePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: policy
+      Roles:
+        - Ref: CodePipelineRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - iam:PassRole
+            Resource: '*'
+            Effect: Allow
+            Condition:
+              StringEqualsIfExists:
+                iam:PassedToService:
+                  - cloudformation.amazonaws.com
+                  - elasticbeanstalk.amazonaws.com
+                  - ec2.amazonaws.com
+                  - ecs-tasks.amazonaws.com
+          - Action:
+              - codecommit:CancelUploadArchive
+              - codecommit:GetBranch
+              - codecommit:GetCommit
+              - codecommit:GetRepository
+              - codecommit:GetUploadArchiveStatus
+              - codecommit:UploadArchive
+            Resource: '*'
+            Effect: Allow
+          - Action:
+              - codedeploy:CreateDeployment
+              - codedeploy:GetApplication
+              - codedeploy:GetApplicationRevision
+              - codedeploy:GetDeployment
+              - codedeploy:GetDeploymentConfig
+              - codedeploy:RegisterApplicationRevision
+            Resource: '*'
+            Effect: Allow
+          - Action:
+              - codestar-connections:UseConnection
+            Resource: '*'
+            Effect: Allow
+          - Action:
+              - elasticbeanstalk:*
+              - ec2:*
+              - elasticloadbalancing:*
+              - autoscaling:*
+              - cloudwatch:*
+              - s3:*
+              - sns:*
+              - cloudformation:*
+              - rds:*
+              - sqs:*
+              - ecs:*
+            Resource: '*'
+            Effect: Allow
+          - Action:
+              - lambda:InvokeFunction
+              - lambda:ListFunctions
+            Resource: '*'
+            Effect: Allow
+          - Action:
+              - opsworks:CreateDeployment
+              - opsworks:DescribeApps
+              - opsworks:DescribeCommands
+              - opsworks:DescribeDeployments
+              - opsworks:DescribeInstances
+              - opsworks:DescribeStacks
+              - opsworks:UpdateApp
+              - opsworks:UpdateStack
+            Resource: '*'
+            Effect: Allow
+          - Action:
+              - cloudformation:CreateStack
+              - cloudformation:DeleteStack
+              - cloudformation:DescribeStacks
+              - cloudformation:UpdateStack
+              - cloudformation:CreateChangeSet
+              - cloudformation:DeleteChangeSet
+              - cloudformation:DescribeChangeSet
+              - cloudformation:ExecuteChangeSet
+              - cloudformation:SetStackPolicy
+              - cloudformation:ValidateTemplate
+            Resource: '*'
+            Effect: Allow
+          - Action:
+              - codebuild:BatchGetBuilds
+              - codebuild:StartBuild
+              - codebuild:BatchGetBuildBatches
+              - codebuild:StartBuildBatch
+            Resource: '*'
+            Effect: Allow
+          - Effect: Allow
+            Action:
+              - devicefarm:ListProjects
+              - devicefarm:ListDevicePools
+              - devicefarm:GetRun
+              - devicefarm:GetUpload
+              - devicefarm:CreateUpload
+              - devicefarm:ScheduleRun
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - servicecatalog:ListProvisioningArtifacts
+              - servicecatalog:CreateProvisioningArtifact
+              - servicecatalog:DescribeProvisioningArtifact
+              - servicecatalog:DeleteProvisioningArtifact
+              - servicecatalog:UpdateProduct
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - cloudformation:ValidateTemplate
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - ecr:DescribeImages
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - states:DescribeExecution
+              - states:DescribeStateMachine
+              - states:StartExecution
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - appconfig:StartDeployment
+              - appconfig:StopDeployment
+              - appconfig:GetDeployment
+            Resource: '*'
+
+  MyCodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      RestartExecutionOnUpdate: true
+      Name: lrc-test-pipeline
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref CodePipelineBucket
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Version: 1
+                Provider: CodeStarSourceConnection
+              Configuration:
+                ConnectionArn: 'arn:aws:codestar-connections:us-east-1:655948565243:connection/c047b5b5-7cb2-46ae-ae4c-95e3fb4ed1d8'
+                FullRepositoryId: 'APysnack/live-rap-center'
+                BranchName: 'main'
+                DetectChanges: true
+              OutputArtifacts:
+                - Name: SourceArtifact
+        - Name: Build
+          Actions:
+            - Name: BuildAction
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              # TODO: ProjectName is hardcoded
+              Configuration:
+                ProjectName: lrc-build-test
+              InputArtifacts:
+                - Name: SourceArtifact
+              OutputArtifacts:
+                - Name: BuildArtifact
+        # - Name: Deploy
+        #   Actions:
+        #     - Name: pf-deploy
+        #       ActionTypeId:
+        #         Category: Deploy
+        #         Owner: AWS
+        #         Version: 1
+        #         Provider: CodeDeploy
+        #       Configuration:
+        #         ApplicationName: lrc-app
+        #         DeploymentGroupName: lrc-deployment-group
+        #       InputArtifacts:
+        #         - Name: BuildArtifact
+
+  CodeBuildPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: CodeBuildPolicy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Resource: '*'
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              - logs:CreateLogStream
+              - s3:PutObject
+              - s3:GetObject
+              - s3:GetObjectVersion
+              - s3:GetBucketAcl
+              - s3:GetBucketLocation
+              - codebuild:CreateReportGroup
+              - codebuild:CreateReport
+              - codebuild:UpdateReport
+              - codebuild:BatchPutTestCases
+              - codebuild:BatchPutCodeCoverages
+              - ec2:DescribeSecurityGroups
+              - ec2:DescribeSecurityGroupReferences
+              - ec2:DescribeSecurityGroupRules
+              - ec2:DescribeSubnets
+              - ec2:CreateNetworkInterface
+              - ec2:DescribeDhcpOptions
+              - ec2:DescribeNetworkInterfaces
+              - ec2:DeleteNetworkInterface
+              - ec2:DescribeVpcs
+              - ec2:DescribeInstances
+              - ec2:DescribeKeyPairs
+              - ec2:DescribeRouteTables
+              - ec2:DescribeNetworkAcls
+              - ec2:CreateTags
+      Roles:
+        - !Ref CodeBuildRole
+
+  # CodeDeployRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     RoleName: CodeDeployRole
+  #     AssumeRolePolicyDocument:
+  #       Version: '2012-10-17'
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service:
+  #               - codedeploy.amazonaws.com
+  #           Action:
+  #             - sts:AssumeRole
+  #     ManagedPolicyArns:
+  #       - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+
+  # CodeDeployPolicy:
+  #   Type: AWS::IAM::Policy
+  #   Properties:
+  #     PolicyName: CodeDeployPolicy
+  #     Roles:
+  #       - !Ref CodeDeployRole
+  #     PolicyDocument:
+  #       Version: '2012-10-17'
+  #       Statement:
+  #         - Effect: Allow
+  #           Action:
+  #             - ec2:RunInstances
+  #             - ec2:CreateTags
+  #             - iam:PassRole
+  #           Resource: '*'

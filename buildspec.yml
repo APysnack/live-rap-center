@@ -5,10 +5,7 @@ phases:
     commands:
       - cd $CODEBUILD_SRC_DIR/client
       - yarn install
-      - echo "REACT_APP_SERVER_URL=$REACT_APP_SERVER_URL" > .env
-      - echo "REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID" >> .env
-      - echo "REACT_APP_GATEWAY_SOCKET_URL=$REACT_APP_GATEWAY_SOCKET_URL" >> .env
-      - echo "PORT=$PORT" >> .env
+      - echo -e "REACT_APP_SERVER_URL=$REACT_APP_SERVER_URL\nREACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID\nREACT_APP_GATEWAY_SOCKET_URL=$REACT_APP_GATEWAY_SOCKET_URL\nPORT=$PORT" > .env
       - cd $CODEBUILD_SRC_DIR
       - aws	ecr	get-login-password	--region	$AWS_DEFAULT_REGION	|	docker	login	--username	AWS	--password-stdin	$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME

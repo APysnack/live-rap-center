@@ -1,14 +1,12 @@
 version: 0.2
 
-env:
-  variables:
-    REACT_APP_SERVER_URL: $REACT_APP_SERVER_URL
-    REACT_APP_GOOGLE_CLIENT_ID: $REACT_APP_GOOGLE_CLIENT_ID
-    REACT_APP_GATEWAY_SOCKET_URL: $REACT_APP_GATEWAY_SOCKET_URL
 phases:
   pre_build:
     commands:
       - cd $CODEBUILD_SRC_DIR/client
+      - export REACT_APP_SERVER_URL=$REACT_APP_SERVER_URL
+      - export REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID
+      - export REACT_APP_GATEWAY_SOCKET_URL=$REACT_APP_GATEWAY_SOCKET_URL
       - yarn install
       - yarn update
       - cd $CODEBUILD_SRC_DIR

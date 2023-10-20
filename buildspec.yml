@@ -9,7 +9,7 @@ phases:
       - docker build --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server .
   post_build:
     commands:
-      - docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc:latest
+      - docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
       - printf '[{"name":"%s","imageUri":"%s"}]' "$IMAGE_REPO_NAME" "655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest" > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json

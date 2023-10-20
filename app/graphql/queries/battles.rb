@@ -15,7 +15,7 @@ module Queries
           battles = battles.joins(:battlers, :league).where("lower(battlers.name) LIKE ? OR lower(leagues.league_name) LIKE ?", "%#{search_text.downcase}%", "%#{search_text.downcase}%")
         end
         if rows_to_fetch.present?
-          return { battles: battles.paginate(page: first_page_to_fetch, per_page: 1).order(score: :desc, created_at: :asc) }
+          return { battles: battles.paginate(page: first_page_to_fetch, per_page: 2).order(score: :desc, created_at: :asc) }
         else
           if league_id.present?
             return { battles: battles.order(created_at: :asc).where(league_id: league_id).limit(20) }

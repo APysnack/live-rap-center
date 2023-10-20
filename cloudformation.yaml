@@ -85,7 +85,7 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       ContainerDefinitions:
-        - Name: server
+        - Name: lrc_server
           Image: 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
           Cpu: 1024
           Memory: 3072

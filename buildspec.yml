@@ -10,7 +10,6 @@ phases:
   post_build:
     commands:
       - docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
-      - ls
-      - printf '[{"name":"lrc_server","imageUri":"655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest"}]' > imagedefinitions.json
+      - printf '[{"name":"server","imageUri":"655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest"}]' > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json

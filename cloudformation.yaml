@@ -84,6 +84,7 @@ Resources:
       Memory: '3072'
       RequiresCompatibilities:
         - FARGATE
+      # name must match the "name" in buildspec.yml imagedefinitions.json
       ContainerDefinitions:
         - Name: lrc_server
           Image: 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest

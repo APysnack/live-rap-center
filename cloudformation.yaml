@@ -294,8 +294,6 @@ Resources:
             Value: https://loadbalancer.liverapcenter.com
           - Name: REACT_APP_GOOGLE_CLIENT_ID
             Value: 663794386212-nc788e9q2plahisjo63vo352vlplocpe.apps.googleusercontent.com
-          - Name: PORT
-            Value: 4000
           - Name: REACT_APP_GATEWAY_SOCKET_URL
             Value: wss://r5gucpaple.execute-api.us-east-1.amazonaws.com/production
       Artifacts:

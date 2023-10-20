@@ -517,19 +517,21 @@ Resources:
                 - Name: SourceArtifact
               OutputArtifacts:
                 - Name: BuildArtifact
-        # - Name: Deploy
-        #   Actions:
-        #     - Name: pf-deploy
-        #       ActionTypeId:
-        #         Category: Deploy
-        #         Owner: AWS
-        #         Version: 1
-        #         Provider: CodeDeploy
-        #       Configuration:
-        #         ApplicationName: lrc-app
-        #         DeploymentGroupName: lrc-deployment-group
-        #       InputArtifacts:
-        #         - Name: BuildArtifact
+        - Name: Deploy
+          Actions:
+            - Name: ECSDeploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: 1
+                Provider: ECS
+              Configuration:
+                ClusterName: !Ref ECSCluster
+                ServiceName: !Ref ECSService
+                FileName: imagedefinitions.json
+                DeploymentTimeout: 15
+              InputArtifacts:
+                - Name: BuildArtifact
 
   CodeBuildPolicy:
     Type: AWS::IAM::Policy

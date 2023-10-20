@@ -95,6 +95,13 @@ Resources:
               HostPort: 3000
               Protocol: tcp
           Essential: true
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/launch_lrc_container
+              awslogs-region: us-east-1
+              awslogs-stream-prefix: ecs
+              awslogs-create-group: 'true'
           Environment:
             - Name: RAILS_LOG_TO_STDOUT
               Value: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/RAILS_LOG_TO_STDOUT
@@ -125,6 +132,8 @@ Resources:
               ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/TWITTER_BEARER_TOKEN
             - Name: YT_API_KEY
               ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_API_KEY
+            - Name: SECRET_KEY_BASE
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/SECRET_KEY_BASE
 
   ECSService:
     Type: AWS::ECS::Service
@@ -139,7 +148,8 @@ Resources:
       SchedulingStrategy: REPLICA
       DesiredCount: 1
       LoadBalancers:
-        - ContainerName: server
+        # TODO: reference lrc_server in container definitions
+        - ContainerName: lrc_server
           ContainerPort: 3000
           LoadBalancerName: !Ref AWS::NoValue
           TargetGroupArn: !Ref TargetGroup

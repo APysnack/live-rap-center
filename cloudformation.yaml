@@ -274,6 +274,7 @@ Resources:
       Description: lrc codebuild project
       Source:
         Type: CODEPIPELINE
+      # TODO: Param store for env vars
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL

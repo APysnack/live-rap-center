@@ -10,6 +10,8 @@ phases:
   build:
     commands:
       - cd $CODEBUILD_SRC_DIR/client
+      - ls
+      - cat .env
       - yarn install
       - yarn update
       - cd $CODEBUILD_SRC_DIR

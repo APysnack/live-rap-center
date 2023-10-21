@@ -43,7 +43,7 @@ function Navbar() {
             <HamburgerButton onClick={() => setExtendNavbar(!extendNavbar)}>
               &#8801;
             </HamburgerButton>
-            <NavbarLink to='/leagues'>League</NavbarLink>
+            <NavbarLink to='/leagues'>Leagues</NavbarLink>
             <NavbarLink to='/battlers'>Battlers</NavbarLink>
             <NavbarLink to='/battles'>Battles</NavbarLink>
 

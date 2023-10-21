@@ -13,8 +13,6 @@ phases:
       - echo REACT_APP_SERVER_URL=${REACT_APP_SERVER_URL} >> .env.production
       - echo REACT_APP_GOOGLE_CLIENT_ID=${REACT_APP_GOOGLE_CLIENT_ID} >> .env.production
       - echo REACT_APP_GATEWAY_SOCKET_URL=${REACT_APP_GATEWAY_SOCKET_URL} >> .env.production
-      - ls
-      - cat .env.production
       - yarn install
       - yarn update
       - cd $CODEBUILD_SRC_DIR

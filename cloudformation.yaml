@@ -132,6 +132,9 @@ Resources:
               ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/TWITTER_BEARER_TOKEN
             - Name: YT_API_KEY
               ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_API_KEY
+            - Name: SECRET_KEY_BASE
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/SECRET_KEY_BASE
+
   ECSService:
     Type: AWS::ECS::Service
     Properties:

@@ -10,6 +10,9 @@ phases:
   build:
     commands:
       - cd $CODEBUILD_SRC_DIR/client
+      - echo REACT_APP_SERVER_URL=${REACT_APP_SERVER_URL} >> .env
+      - echo REACT_APP_GOOGLE_CLIENT_ID=${REACT_APP_GOOGLE_CLIENT_ID} >> .env
+      - echo REACT_APP_GATEWAY_SOCKET_URL=${REACT_APP_GATEWAY_SOCKET_URL} >> .env
       - ls
       - cat .env
       - yarn install

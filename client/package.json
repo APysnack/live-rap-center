@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://loadbalancer.liverapcenter.com",
   "dependencies": {
     "@apollo/client": "^3.6.5",
     "@date-io/date-fns": "1.x",

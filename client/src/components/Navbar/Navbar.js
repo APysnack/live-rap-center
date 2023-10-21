@@ -44,7 +44,7 @@ function Navbar() {
               &#8801;
             </HamburgerButton>
             <NavbarLink to='/leagues'>Leagues</NavbarLink>
-            <NavbarLink to='/battlers'>Battlers</NavbarLink>
+            <NavbarLink to='/battlers'>Battlers Change</NavbarLink>
             <NavbarLink to='/battles'>Battles</NavbarLink>
 
             {user?.email ? (

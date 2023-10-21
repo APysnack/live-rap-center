@@ -16,7 +16,7 @@ module Queries
         if search_text.present?
           battlers = battlers.where("lower(name) LIKE ?", "%#{search_text.downcase}%")
         end
-        return { battlers: battlers.paginate(page: first_page_to_fetch, per_page: 1).order(score: :desc, created_at: :asc) }
+        return { battlers: battlers.paginate(page: first_page_to_fetch, per_page: rows_to_fetch).order(score: :desc, created_at: :asc) }
       end
     end
 end

@@ -588,7 +588,7 @@ Resources:
             # TODO: replace HeaderValue
             OriginCustomHeaders:
               - HeaderName: X-LiveRapCircle-Header
-                HeaderValue: placeholderValue
+                HeaderValue: placeholderValues
         Enabled: true
         HttpVersion: http2and3
         Aliases:

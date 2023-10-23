@@ -13,6 +13,9 @@ phases:
       - echo REACT_APP_SERVER_URL=${REACT_APP_SERVER_URL} >> .env.production
       - echo REACT_APP_GOOGLE_CLIENT_ID=${REACT_APP_GOOGLE_CLIENT_ID} >> .env.production
       - echo REACT_APP_GATEWAY_SOCKET_URL=${REACT_APP_GATEWAY_SOCKET_URL} >> .env.production
+      - echo AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} >> .env.production
+      - echo S3_BUCKET_NAME=${S3_BUCKET_NAME} >> .env.production
+      - echo CLOUDFRONT_ID=${CLOUDFRONT_ID} >> .env.production
       - yarn install
       - yarn update
       - cd $CODEBUILD_SRC_DIR

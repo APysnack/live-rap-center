@@ -15,6 +15,10 @@ Parameters:
     Type: String
     Default: lrc-load-balancer
 
+  AWSDefaultRegion:
+    Type: String
+    Default: us-east-1
+
 Resources:
   LoadBalancerSG:
     Type: AWS::EC2::SecurityGroup
@@ -35,7 +39,7 @@ Resources:
           ToPort: 3000
           CidrIp: 0.0.0.0/0
 
-  # TODO: replace ecs_to_db security group with an SG that allows traffic from this SG and attach it to the db
+    # TODO: replace ecs_to_db security group with an SG that allows traffic from this SG and attach it to the db
   ServiceSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -99,7 +103,7 @@ Resources:
             LogDriver: awslogs
             Options:
               awslogs-group: /ecs/launch_lrc_container
-              awslogs-region: us-east-1
+              awslogs-region: !Ref AWSDefaultRegion
               awslogs-stream-prefix: ecs
               awslogs-create-group: 'true'
           Environment:
@@ -153,7 +157,7 @@ Resources:
           ContainerPort: 3000
           LoadBalancerName: !Ref AWS::NoValue
           TargetGroupArn: !Ref TargetGroup
-      HealthCheckGracePeriodSeconds: '60'
+      HealthCheckGracePeriodSeconds: 60
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
@@ -203,7 +207,7 @@ Resources:
         - Type: forward
           TargetGroupArn: !Ref TargetGroup
       LoadBalancerArn: !Ref LoadBalancer
-      Port: '443'
+      Port: 443
       Protocol: HTTPS
       Certificates:
         - CertificateArn: 'arn:aws:acm:us-east-1:655948565243:certificate/0105b726-dbc5-460a-a3e0-02435f050418'
@@ -211,8 +215,8 @@ Resources:
   AutoScalingTarget:
     Type: AWS::ApplicationAutoScaling::ScalableTarget
     Properties:
-      MaxCapacity: '3'
-      MinCapacity: '1'
+      MaxCapacity: 3
+      MinCapacity: 1
       ResourceId: 'service/lrc_cluster/lrc-server-svc'
       RoleARN: 'arn:aws:iam::655948565243:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService'
       ScalableDimension: ecs:service:DesiredCount
@@ -228,7 +232,7 @@ Resources:
       ResourceId: 'service/lrc_cluster/lrc-server-svc'
       ScalingTargetId: !Ref AutoScalingTarget
       TargetTrackingScalingPolicyConfiguration:
-        TargetValue: '50'
+        TargetValue: 50
         PredefinedMetricSpecification:
           PredefinedMetricType: ECSServiceAverageCPUUtilization
 
@@ -247,26 +251,6 @@ Resources:
     Properties:
       BucketName: lrc-codepipeline-artifacts
 
-  # CodeDeployApplication:
-  #   Type: AWS::CodeDeploy::Application
-  #   Properties:
-  #     ApplicationName: lrc-app
-
-  # CodeDeployDeploymentGroup:
-  #   Type: AWS::CodeDeploy::DeploymentGroup
-  #   Properties:
-  #     ApplicationName: !Ref CodeDeployApplication
-  #     DeploymentGroupName: lrc-deployment-group
-  #     ServiceRoleArn: !GetAtt CodeDeployRole.Arn
-  #     AutoScalingGroups:
-  #       - !Ref ProjectFaultASG
-  #     DeploymentConfigName: CodeDeployDefault.AllAtOnce
-  #     LoadBalancerInfo:
-  #       TargetGroupInfoList:
-  #         - Name: !GetAtt EC2TargetGroup.TargetGroupName
-  #     DeploymentStyle:
-  #       DeploymentOption: WITH_TRAFFIC_CONTROL
-
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -274,7 +258,7 @@ Resources:
       Description: lrc codebuild project
       Source:
         Type: CODEPIPELINE
-      # TODO: Param store for env vars
+      # TODO: use param store for env vars
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -283,9 +267,9 @@ Resources:
         PrivilegedMode: true
         EnvironmentVariables:
           - Name: AWS_DEFAULT_REGION
-            Value: us-east-1
+            Value: !Ref AWSDefaultRegion
           - Name: AWS_ACCOUNT_ID
-            Value: 655948565243
+            Value: '655948565243'
           - Name: IMAGE_TAG
             Value: latest
           - Name: IMAGE_REPO_NAME
@@ -296,6 +280,10 @@ Resources:
             Value: 663794386212-nc788e9q2plahisjo63vo352vlplocpe.apps.googleusercontent.com
           - Name: REACT_APP_GATEWAY_SOCKET_URL
             Value: wss://r5gucpaple.execute-api.us-east-1.amazonaws.com/production
+          - Name: S3_BUCKET_NAME
+            Value: !Ref StaticWebsiteBucket
+          - Name: CLOUDFRONT_ID
+            Value: !GetAtt CloudFrontDistribution.Id
       Artifacts:
         Type: CODEPIPELINE
       LogsConfig:
@@ -381,7 +369,7 @@ Resources:
     Properties:
       PolicyName: policy
       Roles:
-        - Ref: CodePipelineRole
+        - !Ref CodePipelineRole
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -397,28 +385,6 @@ Resources:
                   - ec2.amazonaws.com
                   - ecs-tasks.amazonaws.com
           - Action:
-              - codecommit:CancelUploadArchive
-              - codecommit:GetBranch
-              - codecommit:GetCommit
-              - codecommit:GetRepository
-              - codecommit:GetUploadArchiveStatus
-              - codecommit:UploadArchive
-            Resource: '*'
-            Effect: Allow
-          - Action:
-              - codedeploy:CreateDeployment
-              - codedeploy:GetApplication
-              - codedeploy:GetApplicationRevision
-              - codedeploy:GetDeployment
-              - codedeploy:GetDeploymentConfig
-              - codedeploy:RegisterApplicationRevision
-            Resource: '*'
-            Effect: Allow
-          - Action:
-              - codestar-connections:UseConnection
-            Resource: '*'
-            Effect: Allow
-          - Action:
               - elasticbeanstalk:*
               - ec2:*
               - elasticloadbalancing:*
@@ -433,11 +399,21 @@ Resources:
             Resource: '*'
             Effect: Allow
           - Action:
+              - codecommit:CancelUploadArchive
+              - codecommit:GetBranch
+              - codecommit:GetCommit
+              - codecommit:GetRepository
+              - codecommit:GetUploadArchiveStatus
+              - codecommit:UploadArchive
+              - codestar-connections:UseConnection
+              - codedeploy:CreateDeployment
+              - codedeploy:GetApplication
+              - codedeploy:GetApplicationRevision
+              - codedeploy:GetDeployment
+              - codedeploy:GetDeploymentConfig
+              - codedeploy:RegisterApplicationRevision
               - lambda:InvokeFunction
               - lambda:ListFunctions
-            Resource: '*'
-            Effect: Allow
-          - Action:
               - opsworks:CreateDeployment
               - opsworks:DescribeApps
               - opsworks:DescribeCommands
@@ -446,9 +422,6 @@ Resources:
               - opsworks:DescribeStacks
               - opsworks:UpdateApp
               - opsworks:UpdateStack
-            Resource: '*'
-            Effect: Allow
-          - Action:
               - cloudformation:CreateStack
               - cloudformation:DeleteStack
               - cloudformation:DescribeStacks
@@ -459,51 +432,30 @@ Resources:
               - cloudformation:ExecuteChangeSet
               - cloudformation:SetStackPolicy
               - cloudformation:ValidateTemplate
-            Resource: '*'
-            Effect: Allow
-          - Action:
               - codebuild:BatchGetBuilds
               - codebuild:StartBuild
               - codebuild:BatchGetBuildBatches
               - codebuild:StartBuildBatch
-            Resource: '*'
-            Effect: Allow
-          - Effect: Allow
-            Action:
               - devicefarm:ListProjects
               - devicefarm:ListDevicePools
               - devicefarm:GetRun
               - devicefarm:GetUpload
               - devicefarm:CreateUpload
               - devicefarm:ScheduleRun
-            Resource: '*'
-          - Effect: Allow
-            Action:
               - servicecatalog:ListProvisioningArtifacts
               - servicecatalog:CreateProvisioningArtifact
               - servicecatalog:DescribeProvisioningArtifact
               - servicecatalog:DeleteProvisioningArtifact
               - servicecatalog:UpdateProduct
-            Resource: '*'
-          - Effect: Allow
-            Action:
               - cloudformation:ValidateTemplate
-            Resource: '*'
-          - Effect: Allow
-            Action:
               - ecr:DescribeImages
-            Resource: '*'
-          - Effect: Allow
-            Action:
               - states:DescribeExecution
               - states:DescribeStateMachine
               - states:StartExecution
-            Resource: '*'
-          - Effect: Allow
-            Action:
               - appconfig:StartDeployment
               - appconfig:StopDeployment
               - appconfig:GetDeployment
+            Effect: Allow
             Resource: '*'
 
   MyCodePipeline:
@@ -522,7 +474,7 @@ Resources:
               ActionTypeId:
                 Category: Source
                 Owner: AWS
-                Version: 1
+                Version: '1'
                 Provider: CodeStarSourceConnection
               Configuration:
                 ConnectionArn: 'arn:aws:codestar-connections:us-east-1:655948565243:connection/c047b5b5-7cb2-46ae-ae4c-95e3fb4ed1d8'
@@ -539,7 +491,7 @@ Resources:
                 Owner: AWS
                 Version: 1
                 Provider: CodeBuild
-              # TODO: ProjectName is hardcoded
+                # TODO: ProjectName is hardcoded
               Configuration:
                 ProjectName: lrc-build-test
               InputArtifacts:
@@ -552,7 +504,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 1
+                Version: '1'
                 Provider: ECS
               Configuration:
                 ClusterName: !Ref ECSCluster
@@ -565,6 +517,8 @@ Resources:
   CodeBuildPolicy:
     Type: AWS::IAM::Policy
     Properties:
+      Roles:
+        - !Ref CodeBuildRole
       PolicyName: CodeBuildPolicy
       PolicyDocument:
         Version: '2012-10-17'
@@ -600,37 +554,101 @@ Resources:
               - ec2:DescribeRouteTables
               - ec2:DescribeNetworkAcls
               - ec2:CreateTags
-      Roles:
-        - !Ref CodeBuildRole
 
-  # CodeDeployRole:
-  #   Type: AWS::IAM::Role
-  #   Properties:
-  #     RoleName: CodeDeployRole
-  #     AssumeRolePolicyDocument:
-  #       Version: '2012-10-17'
-  #       Statement:
-  #         - Effect: Allow
-  #           Principal:
-  #             Service:
-  #               - codedeploy.amazonaws.com
-  #           Action:
-  #             - sts:AssumeRole
-  #     ManagedPolicyArns:
-  #       - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+  StaticWebsiteBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: liverapcenter-static-website
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+            BucketKeyEnabled: true
 
-  # CodeDeployPolicy:
-  #   Type: AWS::IAM::Policy
-  #   Properties:
-  #     PolicyName: CodeDeployPolicy
-  #     Roles:
-  #       - !Ref CodeDeployRole
-  #     PolicyDocument:
-  #       Version: '2012-10-17'
-  #       Statement:
-  #         - Effect: Allow
-  #           Action:
-  #             - ec2:RunInstances
-  #             - ec2:CreateTags
-  #             - iam:PassRole
-  #           Resource: '*'
+  CloudFrontOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Description: Default Origin Access Control
+        Name: OriginAccessControl
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  CloudFrontDistribution:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        Origins:
+          - Id: StaticWebsiteBucket
+            DomainName: !GetAtt StaticWebsiteBucket.DomainName
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+            OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
+            # TODO: replace HeaderValue
+            OriginCustomHeaders:
+              - HeaderName: X-LiveRapCircle-Header
+                HeaderValue: placeholderValue
+        Enabled: true
+        HttpVersion: http2and3
+        Aliases:
+          - liverapcenter.com
+        DefaultRootObject: /index.html
+        IPV6Enabled: true
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          AcmCertificateArn: arn:aws:acm:us-east-1:655948565243:certificate/70e0acd5-f72e-4c50-984b-1e194d99a38f
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 10
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+          CachedMethods:
+            - GET
+            - HEAD
+          TargetOriginId: StaticWebsiteBucket
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+
+  StaticWebsiteBucketPolicy:
+    DependsOn:
+      - CloudFrontDistribution
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref StaticWebsiteBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Id: 'LRCStaticWebsiteBucketPolicy'
+        Statement:
+          - Sid: 'AllowCloudFrontServicePrincipal'
+            Effect: Allow
+            Principal:
+              Service: 'cloudfront.amazonaws.com'
+            Action: 's3:GetObject'
+            Resource: !Sub 'arn:aws:s3:::${StaticWebsiteBucket}/*'
+            Condition:
+              StringEquals:
+                'aws:SourceArn': !Sub 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}'
+
+  DNSRecord:
+    DependsOn: CloudFrontDistribution
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: 'Z02616981L01DPKMGQGTT' # ID for lrc's hosted zone
+      Name: 'liverapcenter.com'
+      Type: 'A'
+      AliasTarget:
+        # CloudFront specific value
+        HostedZoneId: Z2FDTNDATAQYW2
+        DNSName: !GetAtt CloudFrontDistribution.DomainName

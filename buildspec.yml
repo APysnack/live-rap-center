@@ -3,7 +3,11 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - DOCKERHUB_PASSWORD=$(aws ssm get-parameter --name arn:aws:ssm:$AWS_DEFAULT_REGION:parameter/live-rap-center/prod/DOCKERHUB_PASSWORD --query "Parameter.Value" --output text | base64 -d)
+      - DOCKERHUB_USERNAME=$(aws ssm get-parameter --name arn:aws:ssm:$AWS_DEFAULT_REGION:parameter/live-rap-center/prod/DOCKERHUB_USERNAME --query "Parameter.Value" --output text | base64 -d)
+      - echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
       - aws	ecr	get-login-password	--region	$AWS_DEFAULT_REGION	|	docker	login	--username	AWS	--password-stdin	$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - echo testing output from $DOCKERHUB_USERNAME
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
       - COMMIT_HASH=$(echo	$CODEBUILD_RESOLVED_SOURCE_VERSION	|	cut	-c	1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -19,12 +23,12 @@ phases:
       - yarn install
       - yarn update
       - cd $CODEBUILD_SRC_DIR
-      - docker	build	--platform	linux/amd64	--tag	$REPOSITORY_URI:latest	.
-      - docker	tag	$REPOSITORY_URI:latest	$REPOSITORY_URI:$IMAGE_TAG
+      - docker build --platform linux/amd64	--tag	$REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest	$REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - docker	push	$REPOSITORY_URI:latest
-      - docker	push	$REPOSITORY_URI:$IMAGE_TAG
-      - printf	'[{"name":"%s","imageUri":"%s"}]'	"$IMAGE_REPO_NAME"	"$REPOSITORY_URI:$IMAGE_TAG"	>	imagedefinitions.json
+      - docker push	$REPOSITORY_URI:latest
+      - docker push	$REPOSITORY_URI:$IMAGE_TAG
+      - printf '[{"name":"%s","imageUri":"%s"}]'	"$IMAGE_REPO_NAME"	"$REPOSITORY_URI:$IMAGE_TAG"	>	imagedefinitions.json
 artifacts:
   files: imagedefinitions.json

@@ -3,8 +3,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - DOCKERHUB_PASSWORD=$(aws ssm get-parameter --name arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/live-rap-center/prod/DOCKERHUB_PASSWORD --query "Parameter.Value" --output text | base64 -d)
-      - DOCKERHUB_USERNAME=$(aws ssm get-parameter --name arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/live-rap-center/prod/DOCKERHUB_USERNAME --query "Parameter.Value" --output text | base64 -d)
+      - DOCKERHUB_PASSWORD=$(aws ssm get-parameter --name arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/live-rap-center/prod/DOCKERHUB_PASSWORD --with-decryption --query "Parameter.Value" --output text)
+      - DOCKERHUB_USERNAME=$(aws ssm get-parameter --name arn:aws:ssm:$AWS_DEFAULT_REGION:$AWS_ACCOUNT_ID:parameter/live-rap-center/prod/DOCKERHUB_USERNAME --with-decryption --query "Parameter.Value" --output text)
       - echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
       - aws	ecr	get-login-password	--region	$AWS_DEFAULT_REGION	|	docker	login	--username	AWS	--password-stdin	$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - echo testing output $DOCKERHUB_USERNAME

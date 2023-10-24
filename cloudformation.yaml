@@ -489,23 +489,7 @@ Resources:
               Service: codebuild.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: DescribeSecurityGroupsPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - ec2:DescribeSecurityGroups
-                  - ec2:DescribeSecurityGroupReferences
-                  - ec2:DescribeSecurityGroupRules
-                  - ec2:DescribeSubnets
-                  - ec2:CreateNetworkInterface
-                  - ec2:DescribeDhcpOptions
-                  - ec2:DescribeNetworkInterfaces
-                  - ec2:DeleteNetworkInterface
-                  - ec2:DescribeVpcs
-                Resource: '*'
-        - PolicyName: ECRPermissionsPolicy
+        - PolicyName: ECRS3PermissionsPolicy
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -517,16 +501,10 @@ Resources:
                   - ecr:InitiateLayerUpload
                   - ecr:PutImage
                   - ecr:UploadLayerPart
-                Resource: '*'
-              - Effect: Allow
-                Action:
                   - s3:ListBucket
                   - s3:GetObject
                   - s3:PutObject
                   - s3:DeleteObject
-                Resource: '*'
-              - Effect: Allow
-                Action:
                   - cloudfront:CreateInvalidation
                 Resource: '*'
 
@@ -719,6 +697,10 @@ Resources:
               - s3:GetObjectVersion
               - s3:GetBucketAcl
               - s3:GetBucketLocation
+              - ssm:GetParameter
+              - ssm:GetParameters
+              - ssm:GetParametersByPath
+              - kms:Decrypt
               - codebuild:CreateReportGroup
               - codebuild:CreateReport
               - codebuild:UpdateReport

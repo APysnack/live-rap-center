@@ -13,7 +13,7 @@ module Queries
         if search_text.present?
           leagues = leagues.where("lower(league_name) LIKE ?", "%#{search_text.downcase}%")
         end
-        return { leagues: leagues.paginate(page: first_page_to_fetch, per_page: 2).order('league_score desc NULLS LAST') }
+        return { leagues: leagues.paginate(page: first_page_to_fetch, per_page: rows_to_fetch).order('league_score desc NULLS LAST') }
       end
     end
 end

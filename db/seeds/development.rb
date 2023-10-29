@@ -2,9 +2,10 @@
 # creating roles
 role = Role.create(name: "battler")
 role_2 = Role.create(name: "league owner")
-role_3 = Role.create(name: "film maker")
+role_3 = Role.create(name: "videographer")
 role_4 = Role.create(name: "voter")
 role_5 = Role.create(name: "admin")
+role_6 = Role.create(name: "fan")
 
 # creating SocialMediaPlatforms
 fb = SocialMediaPlatform.create(name: "Facebook")

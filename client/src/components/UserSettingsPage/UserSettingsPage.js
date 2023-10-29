@@ -43,12 +43,25 @@ function UserSettingsPage({ user, loading, refetchUser }) {
             height={180}
             justifyContent={'flex-start'}
           >
-            <ImageUploadModal
-              type='profile picture'
-              object={currentUser}
-              refetch={refetchUser}
-            />
-            <div>{currentUser?.username}</div>
+            <div className='name-and-photo-container'>
+              <ImageUploadModal
+                type='profile picture'
+                object={currentUser}
+                refetch={refetchUser}
+              />
+              <div className='username-container'>
+                <div className='username'>
+                  {currentUser?.username.toUpperCase()}
+                </div>
+                {currentUser?.roles?.length > 0 ? (
+                  <div className='roles-grid'>
+                    {currentUser.roles.map((role) => (
+                      <div className='role'>{role.name.toUpperCase()}</div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            </div>
           </ContentContainer>
           <SocialMediaForm
             currentUser={currentUser}

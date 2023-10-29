@@ -6,6 +6,10 @@ export const GET_USER = gql`
       id
       username
       profilePictureUrl
+      roles {
+        id
+        name
+      }
       selectedTheme
       location {
         country

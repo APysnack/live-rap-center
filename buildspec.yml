@@ -3,6 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - echo Assigning variables...
       - DOCKERHUB_PASSWORD=$(aws ssm get-parameter --name "/live-rap-center/prod/DOCKERHUB_PASSWORD" --with-decryption --query "Parameter.Value" --output text --region $AWS_DEFAULT_REGION)
       - DOCKERHUB_USERNAME=$(aws ssm get-parameter --name "/live-rap-center/prod/DOCKERHUB_USERNAME" --with-decryption --query "Parameter.Value" --output text --region $AWS_DEFAULT_REGION)
       - REACT_APP_SERVER_URL=$(aws ssm get-parameter --name "/live-rap-center/prod/REACT_APP_SERVER_URL" --with-decryption --query "Parameter.Value" --output text --region $AWS_DEFAULT_REGION)
@@ -15,6 +16,7 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
+      - echo updating clientside changes
       - cd $CODEBUILD_SRC_DIR/client
       - echo REACT_APP_SERVER_URL=${REACT_APP_SERVER_URL} >> .env.production
       - echo REACT_APP_GOOGLE_CLIENT_ID=${REACT_APP_GOOGLE_CLIENT_ID} >> .env.production
@@ -25,6 +27,7 @@ phases:
       - yarn install
       - yarn update
       - cd $CODEBUILD_SRC_DIR
+      - echo Building the Docker image...
       - docker build --platform linux/amd64	--tag	$REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest	$REPOSITORY_URI:$IMAGE_TAG
   post_build:

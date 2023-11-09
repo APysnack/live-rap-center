@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  add-video-to-db
+
+  Sample SAM Template for add-video-to-db
+
+Globals:
+  Function:
+    Timeout: 900
+    MemorySize: 128
+
+Resources:
+  AddVideoToDbFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: add-video-to-db/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Role: !GetAtt AddVideoToDbFunctionRole.Arn
+      Environment:
+        Variables:
+          DB_HOST: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_HOST}}'
+          DB_USER: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_USERNAME}}'
+          DB_PASSWORD: ''
+          DB_NAME: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_NAME}}'
+          DB_PORT: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_PORT}}'
+          LAMBDA_ENV: 'prod'
+      Architectures:
+        - x86_64
+      Events:
+        AddVideoToDb:
+          Type: Api
+          Properties:
+            Path: /add-video-to-db
+            Method: get
+
+  AddVideoToDbFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: AddVideoToDbRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaBasicExecution
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - ssm:GetParameter
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - arn:aws:s3:::lrc-private-files/*
+                  - arn:aws:s3:::lrc-private-files
+
+Outputs:
+  AddVideoToDbApi:
+    Description: 'API Gateway endpoint URL for Prod stage for Add Video To Db function'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/add-video-to-db/'
+  AddVideoToDbFunction:
+    Description: 'Add Video To Db Lambda Function ARN'
+    Value: !GetAtt AddVideoToDbFunction.Arn
+  AddVideoToDbFunctionIamRole:
+    Description: 'Implicit IAM Role created for AddVideoToDb function'
+    Value: !GetAtt AddVideoToDbFunctionRole.Arn

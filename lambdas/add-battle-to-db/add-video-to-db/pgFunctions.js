@@ -1,4 +1,36 @@
+const { Client } = require('pg');
+const { getCaCertificate, getParam } = require('./utils');
+
+const DB_PASSWORD_PARAM_PATH = '/live-rap-center/prod/AWS_RDS_PASSWORD';
 const currentDate = new Date().toISOString();
+
+async function connectToDatabase() {
+  let dbPassword = process.env.DB_PASSWORD;
+  let caCertificate = null;
+
+  const beingInvokedLocally = process.env.LAMBDA_ENV === 'local';
+
+  if (!beingInvokedLocally) {
+    caCertificate = await getCaCertificate();
+    dbPassword = await getParam(DB_PASSWORD_PARAM_PATH);
+  }
+
+  const dbVars = {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: dbPassword,
+    ssl: {
+      rejectUnauthorized: beingInvokedLocally ? false : true,
+      ca: caCertificate,
+    },
+  };
+
+  const client = new Client(dbVars);
+  await client.connect();
+  return client;
+}
 
 const findBattlerByName = async (client, battlerName) => {
   const query = {
@@ -82,6 +114,7 @@ const initializeLeague = async (client, leagueId) => {
 };
 
 module.exports = {
+  connectToDatabase,
   createBattler,
   createBattle,
   createBattlerBattle,

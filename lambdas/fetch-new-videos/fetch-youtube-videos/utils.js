@@ -1,18 +1,18 @@
 const axios = require('axios');
-const { parseTitle } = require('./battleParser');
-const {
-  findBattlerByName,
-  createBattle,
-  createBattler,
-  createBattlerBattle,
-} = require('./pgFunctions');
 
 const YT_VIDEOS_API = 'https://www.googleapis.com/youtube/v3/videos';
 const YT_SEARCH_API = 'https://www.googleapis.com/youtube/v3/search';
+const AWS = require('aws-sdk');
 
-const YT_API_KEY = process.env.YT_API_KEY;
+const CA_BUCKET_NAME = 'lrc-private-files';
+const CA_FILE_NAME = 'us-east-1-bundle.pem';
 
-const createBattlesFor = async (client, videos, league, processedUrls) => {
+const s3 = new AWS.S3();
+const ssm = new AWS.SSM();
+
+const YOUTUBE_API_KEY_PATH = '/live-rap-center/prod/YT_API_KEY';
+
+const createBattlesFor = async (videos, league, processedUrls) => {
   for (const video of videos) {
     const battleUrl = video.id.videoId;
 
@@ -22,35 +22,20 @@ const createBattlesFor = async (client, videos, league, processedUrls) => {
 
     processedUrls.push(battleUrl);
 
-    const battlerNames = getBattlersFrom(video);
-
-    if (battlerNames?.length > 0) {
-      let battlerObjects = [];
-      const battleObject = await createBattle(client, league.id, battleUrl);
-
-      await Promise.all(
-        battlerNames.map(async (battlerName) => {
-          const battlerObject = await findBattlerByName(client, battlerName);
-          if (battlerObject === null) {
-            const newBattlerObj = await createBattler(client, battlerName);
-            battlerObjects.push(newBattlerObj);
-          } else {
-            battlerObjects.push(battlerObject);
-          }
-        })
-      );
-
-      for (const battlerObject of battlerObjects) {
-        await createBattlerBattle(client, battleObject.id, battlerObject.id);
-      }
-    }
+    const battleInfo = {
+      leagueId: league.id,
+      battleUrl: battleUrl,
+      video: video,
+    };
   }
 };
 
-const getBattlersFrom = (video) => {
-  const videoTitle = video.snippet.title;
-  const battlers = parseTitle(videoTitle.toUpperCase());
-  return battlers;
+const getYoutubeApiKey = async () => {
+  if (process.env.LAMBDA_ENV === 'local') {
+    return process.env.YT_API_KEY;
+  } else {
+    return await getParam(YOUTUBE_API_KEY_PATH);
+  }
 };
 
 const fetchVideosFromChannel = async (
@@ -58,7 +43,12 @@ const fetchVideosFromChannel = async (
   nextPageToken,
   videoFetchDate
 ) => {
-  const searchApiUrl = `${YT_SEARCH_API}?key=${YT_API_KEY}`;
+  const youtubeApiKey = await getYoutubeApiKey();
+
+  console.log('CHECKING YOUTUBE API KEY');
+  console.log(youtubeApiKey);
+
+  const searchApiUrl = `${YT_SEARCH_API}?key=${youtubeApiKey}`;
 
   let payload;
 
@@ -87,6 +77,7 @@ const fetchVideosFromChannel = async (
 
   try {
     const response = await axios.get(searchApiUrl, options);
+
     const token = response?.data?.nextPageToken || null;
     const videos = response.data.items;
 
@@ -142,7 +133,8 @@ const removeYouTubeShorts = (videos, contentDetails) => {
 };
 
 const fetchContentDetails = async (videoIds) => {
-  const videosApiUrl = `${YT_VIDEOS_API}?key=${YT_API_KEY}`;
+  const youtubeApiKey = await getYoutubeApiKey();
+  const videosApiUrl = `${YT_VIDEOS_API}?key=${youtubeApiKey}`;
   const payload = {
     id: videoIds.join(','),
     part: 'contentDetails',
@@ -167,9 +159,50 @@ const formatDate = (inputDate) => {
   return inputDate.toISOString().slice(0, -5) + 'Z';
 };
 
+const getParam = async (paramPath) => {
+  const params = {
+    Name: paramPath,
+    WithDecryption: true,
+  };
+
+  try {
+    const data = await ssm.getParameter(params).promise();
+
+    const parameterValue = data.Parameter.Value;
+    return parameterValue;
+  } catch (error) {
+    console.error(
+      'Error occurred while retrieving parameter from Parameter Store:',
+      error
+    );
+    throw error;
+  }
+};
+
+async function getCaCertificate() {
+  const params = {
+    Bucket: CA_BUCKET_NAME,
+    Key: CA_FILE_NAME,
+  };
+
+  try {
+    const data = await s3.getObject(params).promise();
+
+    const caCertificate = data.Body.toString();
+    return caCertificate;
+  } catch (error) {
+    console.error(
+      'Error occurred while retrieving CA certificate from S3:',
+      error
+    );
+    throw error;
+  }
+}
+
 module.exports = {
-  getBattlersFrom,
   fetchVideosFromChannel,
   formatDate,
   createBattlesFor,
+  getParam,
+  getCaCertificate,
 };

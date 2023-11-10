@@ -2,6 +2,7 @@ const { Client } = require('pg');
 const { getCaCertificate, getParam } = require('./utils');
 
 const DB_PASSWORD_PARAM_PATH = '/live-rap-center/prod/AWS_RDS_PASSWORD';
+const currentDate = new Date().toISOString();
 
 async function connectToDatabase() {
   let dbPassword = process.env.DB_PASSWORD;
@@ -11,12 +12,7 @@ async function connectToDatabase() {
 
   if (!beingInvokedLocally) {
     caCertificate = await getCaCertificate();
-    console.log('CHECKING CA CERTIFICATE');
-    console.log(caCertificate);
-
     dbPassword = await getParam(DB_PASSWORD_PARAM_PATH);
-    console.log('CHECKING YOUTUBE DB PASSWORD');
-    console.log(dbPassword);
   }
 
   const dbVars = {
@@ -36,6 +32,34 @@ async function connectToDatabase() {
   return client;
 }
 
+async function closeDatabaseConnection(client) {
+  try {
+    await client.end();
+    console.log('Database connection closed');
+  } catch (error) {
+    console.error('Error closing database connection:', error);
+    throw error;
+  }
+}
+
+const initializeLeague = async (client, leagueId) => {
+  const updateQuery = {
+    text: 'UPDATE leagues SET videos_initialized = true, last_video_fetch_date = $1 WHERE id = $2;',
+    values: [currentDate, leagueId],
+  };
+
+  try {
+    const result = await client.query(updateQuery);
+    const leagueObject = result.rows[0];
+    return leagueObject;
+  } catch (error) {
+    console.error('Error occurred while initializing league:', error);
+    throw error;
+  }
+};
+
 module.exports = {
   connectToDatabase,
+  initializeLeague,
+  closeDatabaseConnection,
 };

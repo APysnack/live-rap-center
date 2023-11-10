@@ -20,13 +20,15 @@ Resources:
       Role: !GetAtt FetchYoutubeVideosFunctionRole.Arn
       Environment:
         Variables:
+          LAMBDA_ENV: 'prod'
           DB_HOST: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_HOST}}'
           DB_USER: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_USERNAME}}'
-          DB_PASSWORD: ''
           DB_NAME: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_NAME}}'
           DB_PORT: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_PORT}}'
-          LAMBDA_ENV: 'prod'
+          DB_PASSWORD: ''
           YT_API_KEY: ''
+          ADD_VIDEO_TO_DB_LAMBDA_NAME: ''
+
       Architectures:
         - x86_64
       Events:
@@ -48,7 +50,7 @@ Resources:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: LambdaBasicExecution
+        - PolicyName: FetchNewVideosLambdaPolicy
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -58,6 +60,9 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                   - ssm:GetParameter
+                  - lambda:InvokeFunction
+                  - lambda:ListFunctions
+                  - lambda:GetFunction
                 Resource: '*'
               - Effect: Allow
                 Action:

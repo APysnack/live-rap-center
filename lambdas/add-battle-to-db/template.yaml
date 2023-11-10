@@ -22,10 +22,10 @@ Resources:
         Variables:
           DB_HOST: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_HOST}}'
           DB_USER: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_USERNAME}}'
-          DB_PASSWORD: ''
           DB_NAME: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_NAME}}'
           DB_PORT: !Sub '{{resolve:ssm:/live-rap-center/prod/AWS_RDS_PORT}}'
           LAMBDA_ENV: 'prod'
+          DB_PASSWORD: ''
       Architectures:
         - x86_64
       Events:

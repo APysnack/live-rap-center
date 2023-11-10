@@ -32,6 +32,16 @@ async function connectToDatabase() {
   return client;
 }
 
+async function closeDatabaseConnection(client) {
+  try {
+    await client.end();
+    console.log('Database connection closed');
+  } catch (error) {
+    console.error('Error closing database connection:', error);
+    throw error;
+  }
+}
+
 const findBattlerByName = async (client, battlerName) => {
   const query = {
     text: 'SELECT * FROM battlers WHERE name = $1 LIMIT 1',
@@ -120,4 +130,5 @@ module.exports = {
   createBattlerBattle,
   findBattlerByName,
   initializeLeague,
+  closeDatabaseConnection,
 };

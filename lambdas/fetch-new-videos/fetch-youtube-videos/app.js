@@ -3,7 +3,7 @@ const {
   fetchVideosFromChannel,
   createBattlesFor,
 } = require('./utils');
-const { connectToDatabase } = require('./pgFunctions');
+const { connectToDatabase, initializeLeague } = require('./pgFunctions');
 
 exports.lambdaHandler = async (event, context) => {
   try {
@@ -41,6 +41,20 @@ exports.lambdaHandler = async (event, context) => {
       if (newVideos.length > 0) {
         createBattlesFor(newVideos, league, processedUrls);
       }
+
+      if (fetchAllVideos === true) {
+        while (nextPageToken !== null) {
+          const res = await fetchVideosFromChannel(channelId, nextPageToken);
+          nextPageToken = res.nextPageToken;
+          newVideos = res.videos;
+
+          if (newVideos.length > 0) {
+            await createBattlesFor(newVideos, league, processedUrls);
+          }
+        }
+      }
+
+      await initializeLeague(client, league.id);
     }
 
     const lambdaResponse = {

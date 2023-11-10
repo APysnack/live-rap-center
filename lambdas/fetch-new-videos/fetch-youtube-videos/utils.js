@@ -27,6 +27,23 @@ const createBattlesFor = async (videos, league, processedUrls) => {
       battleUrl: battleUrl,
       video: video,
     };
+
+    invokeAddVideoToDbLambda(battleInfo);
+  }
+};
+
+const invokeAddVideoToDbLambda = async (battleInfo) => {
+  const lambdaParams = {
+    FunctionName: 'AddVideoToDbFunction',
+    InvocationType: 'Event',
+    Payload: JSON.stringify(battleInfo),
+  };
+
+  try {
+    const result = await lambda.invoke(lambdaParams).promise();
+    console.log('Lambda invocation result:', result);
+  } catch (error) {
+    console.error('Error invoking Lambda function:', error);
   }
 };
 

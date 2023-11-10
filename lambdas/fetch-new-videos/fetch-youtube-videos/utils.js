@@ -8,6 +8,7 @@ const CA_BUCKET_NAME = 'lrc-private-files';
 const CA_FILE_NAME = 'us-east-1-bundle.pem';
 
 const s3 = new AWS.S3();
+const lambda = new AWS.Lambda();
 const ssm = new AWS.SSM();
 
 const YOUTUBE_API_KEY_PATH = '/live-rap-center/prod/YT_API_KEY';
@@ -33,8 +34,10 @@ const createBattlesFor = async (videos, league, processedUrls) => {
 };
 
 const invokeAddVideoToDbLambda = async (battleInfo) => {
+  const invokedFunctionName = process.env.ADD_VIDEO_TO_DB_LAMBDA_NAME;
+
   const lambdaParams = {
-    FunctionName: 'AddVideoToDbFunction',
+    FunctionName: invokedFunctionName,
     InvocationType: 'Event',
     Payload: JSON.stringify(battleInfo),
   };
@@ -61,9 +64,6 @@ const fetchVideosFromChannel = async (
   videoFetchDate
 ) => {
   const youtubeApiKey = await getYoutubeApiKey();
-
-  console.log('CHECKING YOUTUBE API KEY');
-  console.log(youtubeApiKey);
 
   const searchApiUrl = `${YT_SEARCH_API}?key=${youtubeApiKey}`;
 

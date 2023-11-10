@@ -5,11 +5,14 @@ const {
   createBattler,
   createBattlerBattle,
   connectToDatabase,
+  closeDatabaseConnection,
 } = require('./pgFunctions');
 
 exports.lambdaHandler = async (event, context) => {
+  let client;
+
   try {
-    const client = await connectToDatabase();
+    client = await connectToDatabase();
 
     const battlerNames = getBattlersFrom(event.video);
 
@@ -53,5 +56,9 @@ exports.lambdaHandler = async (event, context) => {
         message: 'An error occurred while processing your request.',
       }),
     };
+  } finally {
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 };

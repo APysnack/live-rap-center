@@ -3,11 +3,19 @@ const {
   fetchVideosFromChannel,
   createBattlesFor,
 } = require('./utils');
-const { connectToDatabase, initializeLeague } = require('./pgFunctions');
+const {
+  connectToDatabase,
+  initializeLeague,
+  closeDatabaseConnection,
+} = require('./pgFunctions');
 
+// db creation for individual battles assumed to be functioning as expected
+// for local testing, just test that battleInfo output is as expected
 exports.lambdaHandler = async (event, context) => {
+  let client;
+
   try {
-    const client = await connectToDatabase();
+    client = await connectToDatabase();
 
     const queryResult = await client.query(
       `SELECT * FROM leagues ORDER BY league_name ASC OFFSET $1 LIMIT $2;`,
@@ -72,5 +80,9 @@ exports.lambdaHandler = async (event, context) => {
         message: 'An error occurred while processing your request.',
       }),
     };
+  } finally {
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 };

@@ -1,4 +1,4 @@
-const { keywords } = require('./keywords');
+const { keywords, stringsToRemove } = require('./keywords');
 const he = require('he');
 
 function parseTitle(title) {
@@ -109,7 +109,6 @@ const splitRight = (inputString) => {
 // all problematic substrings in the array are removed from the
 // title e.g. kings vs queens adds a misleading 'vs' to the title
 const sanitizeString = (inputString) => {
-  const stringsToRemove = ['kings vs queens'];
   let sanitizedString = inputString;
 
   for (const substring of stringsToRemove) {

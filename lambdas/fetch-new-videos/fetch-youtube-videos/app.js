@@ -1,27 +1,25 @@
-const { Client } = require('pg');
 const {
-  fetchVideosFromChannel,
   formatDate,
+  fetchVideosFromChannel,
   createBattlesFor,
 } = require('./utils');
+const {
+  connectToDatabase,
+  initializeLeague,
+  closeDatabaseConnection,
+} = require('./pgFunctions');
 
-const { initializeLeague } = require('./pgFunctions');
-
-exports.lambdaHandler = async (event) => {
-  const client = new Client({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-  });
+// db creation for individual battles assumed to be functioning as expected
+// for local testing, just test that battleInfo output is as expected
+exports.lambdaHandler = async (event, context) => {
+  let client;
 
   try {
-    await client.connect();
+    client = await connectToDatabase();
 
-    // NOTE: remember to pass event object when testing locally
     const queryResult = await client.query(
-      `SELECT * FROM leagues ORDER BY league_name ASC OFFSET ${event.startPosition} LIMIT ${event.recordsToFetch};`
+      `SELECT * FROM leagues ORDER BY league_name ASC OFFSET $1 LIMIT $2;`,
+      [event.startPosition, event.recordsToFetch]
     );
 
     const leagues = queryResult.rows;
@@ -49,7 +47,7 @@ exports.lambdaHandler = async (event) => {
       newVideos = response.videos;
 
       if (newVideos.length > 0) {
-        await createBattlesFor(client, newVideos, league, processedUrls);
+        createBattlesFor(newVideos, league, processedUrls);
       }
 
       if (fetchAllVideos === true) {
@@ -59,7 +57,7 @@ exports.lambdaHandler = async (event) => {
           newVideos = res.videos;
 
           if (newVideos.length > 0) {
-            await createBattlesFor(client, newVideos, league, processedUrls);
+            await createBattlesFor(newVideos, league, processedUrls);
           }
         }
       }
@@ -67,17 +65,24 @@ exports.lambdaHandler = async (event) => {
       await initializeLeague(client, league.id);
     }
 
-    const response = {
+    const lambdaResponse = {
       statusCode: 200,
       body: JSON.stringify({
         message: '',
       }),
     };
-    return response;
+    return lambdaResponse;
   } catch (err) {
-    console.log(err);
-    return err;
+    console.error(err);
+    return {
+      statusCode: 500, // Internal Server Error
+      body: JSON.stringify({
+        message: 'An error occurred while processing your request.',
+      }),
+    };
   } finally {
-    await client.end();
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 };

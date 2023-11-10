@@ -1,4 +1,46 @@
+const { Client } = require('pg');
+const { getCaCertificate, getParam } = require('./utils');
+
+const DB_PASSWORD_PARAM_PATH = '/live-rap-center/prod/AWS_RDS_PASSWORD';
 const currentDate = new Date().toISOString();
+
+async function connectToDatabase() {
+  let dbPassword = process.env.DB_PASSWORD;
+  let caCertificate = null;
+
+  const beingInvokedLocally = process.env.LAMBDA_ENV === 'local';
+
+  if (!beingInvokedLocally) {
+    caCertificate = await getCaCertificate();
+    dbPassword = await getParam(DB_PASSWORD_PARAM_PATH);
+  }
+
+  const dbVars = {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: dbPassword,
+    ssl: {
+      rejectUnauthorized: beingInvokedLocally ? false : true,
+      ca: caCertificate,
+    },
+  };
+
+  const client = new Client(dbVars);
+  await client.connect();
+  return client;
+}
+
+async function closeDatabaseConnection(client) {
+  try {
+    await client.end();
+    console.log('Database connection closed');
+  } catch (error) {
+    console.error('Error closing database connection:', error);
+    throw error;
+  }
+}
 
 const findBattlerByName = async (client, battlerName) => {
   const query = {
@@ -19,10 +61,10 @@ const findBattlerByName = async (client, battlerName) => {
   }
 };
 
-const createBattle = async (client, leagueId, battleUrl) => {
+const createBattle = async (client, title, leagueId, battleUrl) => {
   const insertQuery =
-    'INSERT INTO battles (league_id, battle_url, created_at, updated_at) VALUES ($1, $2, $3, $4) RETURNING *;';
-  const values = [leagueId, battleUrl, currentDate, currentDate];
+    'INSERT INTO battles (league_id, battle_url, title, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *;';
+  const values = [leagueId, battleUrl, title, currentDate, currentDate];
   try {
     const result = await client.query(insertQuery, values);
     const battleObject = result.rows[0];
@@ -82,9 +124,11 @@ const initializeLeague = async (client, leagueId) => {
 };
 
 module.exports = {
+  connectToDatabase,
   createBattler,
   createBattle,
   createBattlerBattle,
   findBattlerByName,
   initializeLeague,
+  closeDatabaseConnection,
 };

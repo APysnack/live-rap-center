@@ -5,6 +5,7 @@ module Types
     class BattleType < Types::BaseObject
       field :id, ID, null: false
       field :user_id, ID, null: true
+      field :title, String, null: true
       field :league_id, ID, null: false
       field :views, Integer
       field :battle_url, String

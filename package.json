@@ -22,7 +22,8 @@
   "homepage": "https://github.com/APysnack/live-rap-center#readme",
   "dependencies": {
     "dotenv": "^16.3.1",
-    "pg": "^8.11.0",
+    "fs": "^0.0.1-security",
+    "pg": "^8.11.3",
     "react-calendar": "^3.8.0",
     "react-scripts": "^5.0.1"
   }

@@ -38,3 +38,5 @@
 /node_modules
 yarn-error.log*
 lrc_buddy_aws.pem
+
+lambdas/env-vars.json

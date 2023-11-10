@@ -1,0 +1,35 @@
+{
+  "leagueId": "4",
+  "battleUrl": "3Tyxf40z0jc",
+  "video": {
+    "kind": "youtube#searchResult",
+    "etag": "ztr2PzJSA8xjN6hA6SwO0YiT8m0",
+    "id": { "kind": "youtube#video", "videoId": "3Tyxf40z0jc" },
+    "snippet": {
+      "publishedAt": "2022-11-25T00:02:02Z",
+      "channelId": "UCe4z-hnL9JWGiIwmY3BvjkA",
+      "title": "NoCoast Rap Battle: Kelly Betz vs Jaooo",
+      "description": "Check out Kelly Betz's music: https://www.youtube.com/@kellybetzmusic8263 https://kellybetz.bandcamp.com/ Check out Jaooo's ...",
+      "thumbnails": {
+        "default": {
+          "url": "https://i.ytimg.com/vi/7wHPKFgz9fA/default.jpg",
+          "width": 120,
+          "height": 90
+        },
+        "medium": {
+          "url": "https://i.ytimg.com/vi/7wHPKFgz9fA/mqdefault.jpg",
+          "width": 320,
+          "height": 180
+        },
+        "high": {
+          "url": "https://i.ytimg.com/vi/7wHPKFgz9fA/hqdefault.jpg",
+          "width": 480,
+          "height": 360
+        }
+      },
+      "channelTitle": "No Coast Raps",
+      "liveBroadcastContent": "none",
+      "publishTime": "2022-11-25T00:02:02Z"
+    }
+  }
+}

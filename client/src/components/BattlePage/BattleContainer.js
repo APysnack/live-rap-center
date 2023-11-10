@@ -75,14 +75,16 @@ function BattleContainer({ stats, youtubeId, battle }) {
             {battle?.battlers?.length > 0 ? (
               <div className='header-container'>
                 <div className='title-text'>
-                  {battle.battlers.map((battler, i) => (
-                    <Fragment key={battler.id}>
-                      <div className={`battler-${i}`}>
-                        {battler.name.toUpperCase()}
-                      </div>
-                      {i % 2 === 0 && <div>VS</div>}
-                    </Fragment>
-                  ))}
+                  {battle?.title
+                    ? battle.title.toUpperCase()
+                    : battle.battlers.map((battler, i) => (
+                        <Fragment key={battler.id}>
+                          <div className={`battler-${i}`}>
+                            {battler.name.toUpperCase()}
+                          </div>
+                          {i % 2 === 0 && <div>VS</div>}
+                        </Fragment>
+                      ))}
                 </div>
               </div>
             ) : null}

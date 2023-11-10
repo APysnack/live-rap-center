@@ -37,6 +37,18 @@ const getParam = async (paramPath) => {
   }
 };
 
+const getTitleFrom = (battlerNames) => {
+  if (battlerNames.length === 2) {
+    return `${battlerNames[0]} vs ${battlerNames[1]}`;
+  } else if (battlerNames.length === 3) {
+    return battlerNames.join(' vs ');
+  } else {
+    const firstPair = `${battlerNames[0]} & ${battlerNames[1]}`;
+    const secondPair = `${battlerNames[2]} & ${battlerNames[3]}`;
+    return `${firstPair} vs ${secondPair}`;
+  }
+};
+
 async function getCaCertificate() {
   const params = {
     Bucket: CA_BUCKET_NAME,
@@ -62,4 +74,5 @@ module.exports = {
   formatDate,
   getCaCertificate,
   getParam,
+  getTitleFrom,
 };

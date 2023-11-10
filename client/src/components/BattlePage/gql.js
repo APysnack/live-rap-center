@@ -4,6 +4,7 @@ export const GET_BATTLE = gql`
   query Battle($id: ID!) {
     battle(id: $id) {
       id
+      title
       battleUrl
       thumbnail
       battleStatus

@@ -14,6 +14,7 @@ module Types
     field :update_league_settings, mutation: Mutations::UpdateLeagueSettings
     field :update_battle_thumbnail, mutation: Mutations::UpdateBattleThumbnail
     field :update_battler_image, mutation: Mutations::UpdateBattlerImage
+    field :update_all_battler_stats, mutation: Mutations::UpdateAllBattlerStats
     field :create_battle_vote, mutation: Mutations::CreateBattleVote
     field :delete_battle_vote, mutation: Mutations::DeleteBattleVote
     field :create_award, mutation: Mutations::CreateAward

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CreateLeagueForm from './CreateLeagueForm/CreateLeagueForm';
 import CreateAwardForm from './CreateAwardForm/CreateAwardForm';
 import AssignAwardForm from './AssignAwardForm/AssignAwardForm';
+import UpdateBattlerSettings from './UpdateBattlerSettings/UpdateBattlerSettings';
 import SettingsGroup from '../SharedComponents/SettingsGroup/SettingsGroup';
 import { AdminPanelContainer } from './AdminPanel.styles';
 
@@ -44,6 +45,17 @@ function AdminPanel() {
     ],
   };
 
+  const updateBattlerStatsProps = {
+    header: 'Battler Stats',
+    components: [
+      {
+        title: 'Update battler stats',
+        component: UpdateBattlerSettings,
+        scrollEnabled: false,
+      },
+    ],
+  };
+
   return (
     <AdminPanelContainer>
       <SettingsGroup
@@ -57,6 +69,11 @@ function AdminPanel() {
         settingsProps={awardSettingsProps}
         shadowHeight={65}
         shadowWidth={30}
+      ></SettingsGroup>
+      <SettingsGroup
+        width={25}
+        height={80}
+        settingsProps={updateBattlerStatsProps}
       ></SettingsGroup>
     </AdminPanelContainer>
   );

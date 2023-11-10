@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  views: 1
+  league_deviation: 1.5
+  battler_deviation: 1.5
+  battle: one
+
+two:
+  views: 1
+  league_deviation: 1.5
+  battler_deviation: 1.5
+  battle: two

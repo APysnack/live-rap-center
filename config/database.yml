@@ -5,11 +5,8 @@ default: &default
 
 development:
   <<: *default
-  host: 'liverapcenterdb.cckuob6xrxuf.us-east-1.rds.amazonaws.com'
-  username: 'postgres'
-  password: 'password'
-  port: 5432
-  database: 'liverapcenterdb'
+  host: localhost
+  database: lrc_development
 
 production:
   <<: *default

@@ -61,10 +61,10 @@ const findBattlerByName = async (client, battlerName) => {
   }
 };
 
-const createBattle = async (client, leagueId, battleUrl) => {
+const createBattle = async (client, title, leagueId, battleUrl) => {
   const insertQuery =
-    'INSERT INTO battles (league_id, battle_url, created_at, updated_at) VALUES ($1, $2, $3, $4) RETURNING *;';
-  const values = [leagueId, battleUrl, currentDate, currentDate];
+    'INSERT INTO battles (league_id, battle_url, title, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *;';
+  const values = [leagueId, battleUrl, title, currentDate, currentDate];
   try {
     const result = await client.query(insertQuery, values);
     const battleObject = result.rows[0];

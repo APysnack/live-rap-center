@@ -1,4 +1,4 @@
-const { getBattlersFrom } = require('./utils');
+const { getBattlersFrom, getTitleFrom } = require('./utils');
 const {
   findBattlerByName,
   createBattle,
@@ -17,9 +17,13 @@ exports.lambdaHandler = async (event, context) => {
     const battlerNames = getBattlersFrom(event.video);
 
     if (battlerNames?.length > 0) {
+      const battleTitle = getTitleFrom(battlerNames);
+
       let battlerObjects = [];
+
       const battleObject = await createBattle(
         client,
+        battleTitle,
         event.leagueId,
         event.battleUrl
       );

@@ -18,8 +18,24 @@ const keywords = [
   'RAPPER',
   'BATTLER',
   '360°',
+  'IBATTLETV',
+  'IBATTLE',
+];
+
+// generally redundant vs e.g. champion vs champion
+const stringsToRemove = [
+  'kings vs queens',
+  'USA vs',
+  'vs USA',
+  'CHAMPION vs',
+  'vs Champion',
+  'blind vs',
+  'deaf vs',
+  'vs blind',
+  'vs deaf',
 ];
 
 module.exports = {
   keywords,
+  stringsToRemove,
 };

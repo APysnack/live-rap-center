@@ -220,6 +220,17 @@ describe('parseTitle', function () {
 
     expect(result).to.deep.equal(expectedOutput);
   });
+
+  it('It should parse LUMINOUS vs MACKENZIE - iBattleTV (USA vs SCOTLAND RAP BATTLE) correctly', function () {
+    const input =
+      'LUMINOUS vs MACKENZIE - iBattleTV (USA vs SCOTLAND RAP BATTLE)';
+
+    const expectedOutput = ['LUMINOUS', 'MACKENZIE'];
+
+    const result = parseTitle(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
 });
 
 describe('isTagTeamMatch', function () {

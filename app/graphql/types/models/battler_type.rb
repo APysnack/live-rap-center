@@ -10,10 +10,12 @@ module Types
       field :user, Types::Models::UserType, null: true
       field :league, Types::Models::LeagueType, null: true
       field :battles, [Types::Models::BattleType], null: true
-      field :score, Int, null: true
+      field :score, Integer, null: true
       field :booking_price, Integer, null: true
       field :booking_price_enabled, Boolean, null: true
       field :potential_leagues, [Types::Models::LeagueType], null: true
+      field :total_views, Integer, null: true
+      field :average_views, Float, null: true
       field :league_id, ID, null: false
       field :image, String, null: true
       field :record, Types::BattlerRecordObject, null: false

@@ -17,8 +17,8 @@ function BattlerStats({ battler, battlerViews }) {
         <div>This battler has not confirmed a homeleague</div>
       )}
       <div>This battler's rating is {battler.score}</div>
-      <div>Total Views: {battlerViews.totalViews}</div>
-      <div>Average Views: {battlerViews.avgViews}</div>
+      <div>Total Views: {battler.totalViews}</div>
+      <div>Average Views: {battler.averageViews}</div>
       <div>Wins: {battler?.record?.wins}</div>
       <div>Losses: {battler?.record?.losses}</div>
       <div>{numFollowersText()}</div>

@@ -11,14 +11,20 @@ function BattleLink({ battle, size = 'medium' }) {
       size={size}
     >
       <div className='title-container'>
-        <>
-          {battle.battlers.map((battler, i) => (
-            <Fragment key={battler.id}>
-              <div className={`battler-${i}`}>{battler.name.toUpperCase()}</div>
-              {i % 2 === 0 && <div>VS</div>}
-            </Fragment>
-          ))}
-        </>
+        {battle.title ? (
+          <div>{battle.title}</div>
+        ) : (
+          <>
+            {battle.battlers.map((battler, i) => (
+              <Fragment key={battler.id}>
+                <div className={`battler-${i}`}>
+                  {battler.name.toUpperCase()}
+                </div>
+                {i % 2 === 0 && <div>VS</div>}
+              </Fragment>
+            ))}
+          </>
+        )}
       </div>
       <div className='thumbnail-container'>
         <Thumbnail type='battleImage' object={battle} />

@@ -1,4 +1,6 @@
 class Battler < ApplicationRecord
+  include ViewStats
+  
   has_many :battler_battles
   has_many :battles, :through => :battler_battles
 
@@ -26,19 +28,4 @@ class Battler < ApplicationRecord
   :class_name => 'League', 
   :foreign_key => 'league_id',
   :source => :league
-
-  def battles_with_views
-    self.battles
-      .joins(:battle_stats)
-      .where.not(battle_status: 'prospective')
-      .where.not(battle_stats: { views: nil })
-  end
-
-  def total_views
-    self.battles_with_views.sum(&:views)
-  end
-
-  def average_views
-    total_views / self.battles_with_views.count
-  end
 end

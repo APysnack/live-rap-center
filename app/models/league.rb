@@ -1,4 +1,6 @@
 class League < ApplicationRecord
+  include ViewStats
+
   attribute :last_video_fetch_date, :date
   
   has_many :battles
@@ -20,20 +22,4 @@ class League < ApplicationRecord
                                      :class_name => 'Battler', 
                                      :foreign_key => 'battler_id',
                                      :source => :battler
-
-
-  def battles_with_views
-    self.battles
-      .joins(:battle_stats)
-      .where.not(battle_status: 'prospective')
-      .where.not(battle_stats: { views: nil })
-  end
-
-  def total_views
-    self.battles_with_views.sum(&:views)
-  end
-
-  def average_views
-    total_views / self.battles_with_views.count
-  end
 end

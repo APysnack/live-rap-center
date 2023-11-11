@@ -42,14 +42,8 @@ class StatUpdater
   def update_battle_stats(battles, views)
     battles.each do |battle|
       video_id = battle.battle_url
-      
-      if battle&.battle_stats.nil?
-        battle.battle_stats = BattleStat.new(battle_id: battle.id, views: views[video_id])
-      else
-        battle.battle_stats.views = views[video_id] if views.key?(video_id)
-      end
-
-      battle.battle_stats.save
+      battle.update(views: views[video_id]) if views.key?(video_id)
+      battle.save
     end
   end
 end

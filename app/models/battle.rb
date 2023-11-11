@@ -5,8 +5,6 @@ class Battle < ApplicationRecord
   belongs_to :event, optional: true
   belongs_to :league
 
-  has_one :battle_stats, class_name: 'BattleStat', dependent: :destroy, inverse_of: :battle
-
   has_many :battler_battles
   has_many :battlers, through: :battler_battles
 
@@ -18,7 +16,10 @@ class Battle < ApplicationRecord
 
   has_one_attached :thumbnail
 
-  delegate :views, to: :battle_stats, prefix: false, allow_nil: true
-  delegate :league_deviation, to: :battle_stats, prefix: false, allow_nil: true
-  delegate :battler_deviation, to: :battle_stats, prefix: false, allow_nil: true
+  def league_deviation
+    league_views = league.battles.pluck(:views).compact
+    league_standard_deviation = Math.sqrt(league_views.map { |views| (views - league.average_views) ** 2 }.sum / league.battles.count)
+    current_battle_deviation = Math.sqrt((views - league.average_views) ** 2)
+    current_battle_deviation / league_standard_deviation
+  end
 end

@@ -15,14 +15,6 @@ class StatUpdater
     end
   end
 
-  def update_league_deviations
-    # TODO: Determine the standard deviation of battle from league avg
-  end
-
-  def update_battler_deviations
-     # TODO: Determine the standard deviation of battle from battler avg
-  end
-
   private
 
   def fetch_youtube_views(video_ids)

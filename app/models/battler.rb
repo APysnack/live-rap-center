@@ -28,4 +28,17 @@ class Battler < ApplicationRecord
   :class_name => 'League', 
   :foreign_key => 'league_id',
   :source => :league
+
+
+  def average_league_zscore
+    calculate_average(battles.map { |battle| battle.league_deviation })
+  end
+
+  private
+
+  def calculate_average(all_zscores)
+    filtered_zscores = all_zscores.reject { |zscore| zscore.nil? || zscore == 0 || zscore.nan? }
+    return 0 if filtered_zscores.empty?
+    filtered_zscores.sum / filtered_zscores.size.to_f
+  end
 end

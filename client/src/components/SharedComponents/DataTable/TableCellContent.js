@@ -26,16 +26,6 @@ function TableCellContent({
     );
   };
 
-  const generateVersusTitle = () => {
-    let str = '';
-    rowData[column.accessor].forEach((data, i) =>
-      i % 2 === 1
-        ? (str += ` VS ${data.name.toUpperCase()}`)
-        : (str += data.name.toUpperCase())
-    );
-    return str;
-  };
-
   const renderStarRating = () => {
     return <StyledRating value={rowData['score']}></StyledRating>;
   };
@@ -46,8 +36,6 @@ function TableCellContent({
         return enumerate();
       case 'image':
         return renderImage();
-      case 'versus':
-        return generateVersusTitle();
       default:
         return typeof rowData[column.accessor] === 'string'
           ? rowData[column.accessor].toUpperCase()

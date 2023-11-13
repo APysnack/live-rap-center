@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { GET_BATTLER, GET_USER } from './gql';
 import { useQuery } from '@apollo/client';
 import { useSelector } from 'react-redux';
-import api from '../../api/api';
 import LeagueOwnerControls from './LeagueOwnerControls';
 import SocialMediaContainer from '../SharedComponents/SocialMediaContainer/SocialMediaContainer';
 import { Avatar } from '@mui/material';
@@ -23,10 +22,6 @@ function BattlerPage() {
   let { battlerId } = useParams();
   const [flashMessage, setFlashMessage] = useState('');
   const [battler, setBattler] = useState(null);
-  const [battlerStats, setBattlerStats] = useState({
-    totalViews: 0,
-    avgViews: 0,
-  });
   const { user } = useSelector((state) => state.user.userState);
 
   const { loading, data, refetch } = useQuery(GET_BATTLER, {
@@ -49,32 +44,6 @@ function BattlerPage() {
       setBattler(data.battler);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (battler?.battles) {
-      console.log(battler.battles);
-      // concatenates all battler's battles into idString
-      // per youtube API docs, video ids format should be: ["id1,id2,id3"]
-      var idString = battler.battles.reduce(
-        (accumulator, battle) => accumulator + (battle.battleUrl + ','),
-        ''
-      );
-      idString = idString.replace(/,\s*$/, '');
-      api.fetchYouTubeVideos(idString, updateViews);
-    }
-  }, [battler]);
-
-  const updateViews = (res) => {
-    console.log(res);
-    const totalViews = res.reduce(
-      (accumulator, video) =>
-        accumulator + parseInt(video.statistics.viewCount),
-      0
-    );
-    const avgViews = Math.ceil(totalViews / res.length);
-    let stats = { totalViews: totalViews, avgViews: avgViews };
-    setBattlerStats({ ...stats });
-  };
 
   if (loading) return <Loading />;
 
@@ -153,8 +122,8 @@ function BattlerPage() {
               </div>
 
               <div>Number of Battles: {battler.battleCount}</div>
-              <div>Total Views: {battlerStats.totalViews}</div>
-              <div>Average Views: {battlerStats.avgViews}</div>
+              <div>Total Views: {battler.totalViews}</div>
+              <div>Average Views: {battler.averageViews}</div>
             </div>
 
             <FollowBattlerButton

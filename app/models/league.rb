@@ -1,4 +1,6 @@
 class League < ApplicationRecord
+  include ViewStats
+
   attribute :last_video_fetch_date, :date
   
   has_many :battles
@@ -8,6 +10,7 @@ class League < ApplicationRecord
   has_many :events
   has_one :league_chat
   has_one_attached :image
+
 
   has_many :league_awards
   has_many :awards, :through => :league_awards

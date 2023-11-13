@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_10_144820) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_11_215017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_144820) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "award_type"
+  end
+
+  create_table "battle_stats", force: :cascade do |t|
+    t.integer "views"
+    t.float "league_deviation"
+    t.float "battler_deviation"
+    t.bigint "battle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battle_id"], name: "index_battle_stats_on_battle_id"
   end
 
   create_table "battle_votes", force: :cascade do |t|
@@ -127,7 +137,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_144820) do
 
   create_table "battles", force: :cascade do |t|
     t.bigint "league_id", null: false
-    t.bigint "views"
     t.integer "rating"
     t.string "battle_url"
     t.datetime "created_at", null: false
@@ -137,6 +146,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_144820) do
     t.integer "battle_status", default: 1
     t.integer "event_id"
     t.string "title"
+    t.integer "views"
     t.index ["event_id"], name: "index_battles_on_event_id"
     t.index ["league_id"], name: "index_battles_on_league_id"
   end
@@ -405,6 +415,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_10_144820) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "battle_stats", "battles"
   add_foreign_key "battle_votes", "battles"
   add_foreign_key "battle_votes", "voters"
   add_foreign_key "battler_awards", "awards"

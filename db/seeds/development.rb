@@ -110,17 +110,17 @@ BookingChatMessage.create(booking_chat_id:  bookingOfferChat.id, user_id: second
 BookingChatMessage.create(booking_chat_id:  bookingOfferChat.id, user_id: purelyDef.id, body: "ok")
 
 # creating battles
-craniumVsDef = Battle.create(league_id: lrc.id, battle_url: "jMt0E9OaiKo", event_id: 1)
-brotherPhilVsDef = Battle.create(league_id: showtime.id, battle_url: "UE044GrYSXo")
-antVsDef = Battle.create(league_id: lrc.id, battle_url: "-EjyQarYyyk")
-remydVsComa = Battle.create(league_id: lrc.id, battle_url: "aPVZrMEYrR0")
-skVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "2QDeROLwwR8", event_id: 1)
-reggieVs3rdDegree = Battle.create(league_id: lrc.id, battle_url: "_Uivyl1veQ8")
-kaveVsFloLeeds = Battle.create(league_id: lrc.id, battle_url: "NQ2Jr3se3vk")
-codesVsComa = Battle.create(league_id: lrc.id, battle_url: "SiS7TkiO7sQ", event_id: 1)
+craniumVsDef = Battle.create(league_id: lrc.id, title: "THIS IS A DUMMY TEST", battle_url: "jMt0E9OaiKo", event_id: 1)
+brotherPhilVsDef = Battle.create(league_id: showtime.id, title: "PurelyDef vs Brother Phil", battle_url: "UE044GrYSXo")
+antVsDef = Battle.create(league_id: lrc.id, title: "PurelyDef vs Big Ant", battle_url: "-EjyQarYyyk")
+remydVsComa = Battle.create(league_id: lrc.id, title: "Remy D vs Coma", battle_url: "aPVZrMEYrR0")
+skVs3rdDegree = Battle.create(league_id: lrc.id, title: "3rd Degree vs SK",  battle_url: "2QDeROLwwR8", event_id: 1)
+reggieVs3rdDegree = Battle.create(league_id: lrc.id, title: "Reggie Loud vs 3rd Degree", battle_url: "_Uivyl1veQ8")
+kaveVsFloLeeds = Battle.create(league_id: lrc.id, title: "Kaveman Brown vs Flo Leeds", battle_url: "NQ2Jr3se3vk")
+codesVsComa = Battle.create(league_id: lrc.id, title: "Codes vs Coma", battle_url: "SiS7TkiO7sQ", event_id: 1)
 
-luxVsGeechi = Battle.create(league_id: kotd.id, battle_url: "6cr0idmmSrs")
-febouVsMac = Battle.create(league_id: iBattle.id, battle_url: "v6gJhMQ0chU")
+luxVsGeechi = Battle.create(league_id: kotd.id, title: "Loaded Lux vs Geechi Gotti", battle_url: "6cr0idmmSrs")
+febouVsMac = Battle.create(league_id: iBattle.id, title: "Febou vs Mac The Captain", battle_url: "v6gJhMQ0chU")
 
 # creating battler/battle relationship
 BattlerBattle.create(battler_id: battlerPurelyDef.id, battle_id: craniumVsDef.id)

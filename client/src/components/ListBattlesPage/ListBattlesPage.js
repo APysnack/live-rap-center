@@ -41,8 +41,7 @@ function ListBattlesPage() {
 
     columns.push({
       title: 'title',
-      accessor: 'battlers',
-      behavior: 'versus',
+      accessor: 'title',
       starRatingUnderneath: true,
       width: '20em',
     });

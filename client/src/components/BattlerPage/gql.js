@@ -7,6 +7,8 @@ export const GET_BATTLER = gql`
       name
       score
       image
+      totalViews
+      averageViews
       bookingPrice
       battleCount
       record {
@@ -16,6 +18,7 @@ export const GET_BATTLER = gql`
       battles {
         id
         thumbnail
+        title
         battleUrl
         score
         battlers {

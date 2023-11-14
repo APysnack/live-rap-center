@@ -1,8 +1,10 @@
 const { Client } = require('pg');
 const { getCaCertificate, getParam } = require('./utils');
 
+const AWS = require('aws-sdk');
 const DB_PASSWORD_PARAM_PATH = '/live-rap-center/prod/AWS_RDS_PASSWORD';
 const currentDate = new Date().toISOString();
+const lambda = new AWS.Lambda();
 
 async function connectToDatabase() {
   let dbPassword = process.env.DB_PASSWORD;
@@ -58,8 +60,26 @@ const initializeLeague = async (client, leagueId) => {
   }
 };
 
+const invokeAddVideoToDbLambda = async (battleInfo) => {
+  const invokedFunctionName = process.env.ADD_VIDEO_TO_DB_LAMBDA_NAME;
+
+  const lambdaParams = {
+    FunctionName: invokedFunctionName,
+    InvocationType: 'Event',
+    Payload: JSON.stringify(battleInfo),
+  };
+
+  try {
+    const result = await lambda.invoke(lambdaParams).promise();
+    console.log('Lambda invocation result:', result);
+  } catch (error) {
+    console.error('Error invoking Lambda function:', error);
+  }
+};
+
 module.exports = {
   connectToDatabase,
   initializeLeague,
+  invokeAddVideoToDbLambda,
   closeDatabaseConnection,
 };

@@ -1,52 +1,31 @@
 const axios = require('axios');
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
+const ssm = new AWS.SSM();
 
 const YT_VIDEOS_API = 'https://www.googleapis.com/youtube/v3/videos';
 const YT_SEARCH_API = 'https://www.googleapis.com/youtube/v3/search';
-const AWS = require('aws-sdk');
-
 const CA_BUCKET_NAME = 'lrc-private-files';
 const CA_FILE_NAME = 'us-east-1-bundle.pem';
-
-const s3 = new AWS.S3();
-const lambda = new AWS.Lambda();
-const ssm = new AWS.SSM();
-
 const YOUTUBE_API_KEY_PATH = '/live-rap-center/prod/YT_API_KEY';
+
+const { invokeAddVideoToDbLambda } = require('./pgFunctions');
 
 const createBattlesFor = async (videos, league, processedUrls) => {
   for (const video of videos) {
     const battleUrl = video.id.videoId;
 
-    if (processedUrls.includes(battleUrl)) {
-      return;
+    if (!processedUrls.includes(battleUrl)) {
+      processedUrls.push(battleUrl);
+
+      const battleInfo = {
+        leagueId: league.id,
+        battleUrl: battleUrl,
+        video: video,
+      };
+
+      invokeAddVideoToDbLambda(battleInfo);
     }
-
-    processedUrls.push(battleUrl);
-
-    const battleInfo = {
-      leagueId: league.id,
-      battleUrl: battleUrl,
-      video: video,
-    };
-
-    invokeAddVideoToDbLambda(battleInfo);
-  }
-};
-
-const invokeAddVideoToDbLambda = async (battleInfo) => {
-  const invokedFunctionName = process.env.ADD_VIDEO_TO_DB_LAMBDA_NAME;
-
-  const lambdaParams = {
-    FunctionName: invokedFunctionName,
-    InvocationType: 'Event',
-    Payload: JSON.stringify(battleInfo),
-  };
-
-  try {
-    const result = await lambda.invoke(lambdaParams).promise();
-    console.log('Lambda invocation result:', result);
-  } catch (error) {
-    console.error('Error invoking Lambda function:', error);
   }
 };
 
@@ -64,28 +43,17 @@ const fetchVideosFromChannel = async (
   videoFetchDate
 ) => {
   const youtubeApiKey = await getYoutubeApiKey();
-
   const searchApiUrl = `${YT_SEARCH_API}?key=${youtubeApiKey}`;
 
-  let payload;
-
-  if (nextPageToken) {
-    payload = {
-      pageToken: nextPageToken,
-      channelId: channelId,
-      type: 'video',
-      maxResults: 50,
-      part: 'snippet',
-    };
-  } else {
-    payload = {
-      channelId: channelId,
-      type: 'video',
-      maxResults: 50,
-      part: 'snippet',
-      publishedAfter: videoFetchDate,
-    };
-  }
+  const payload = {
+    pageToken: nextPageToken || undefined,
+    channelId: channelId,
+    type: 'video',
+    maxResults: 50,
+    part: 'snippet',
+    order: 'date',
+    publishedAfter: videoFetchDate,
+  };
 
   const options = {
     method: 'get',
@@ -100,9 +68,10 @@ const fetchVideosFromChannel = async (
 
     const videosWithVsInTitle = filterByVersus(videos);
 
-    const videoIds = videosWithVsInTitle.map((video) => video.id.videoId);
+    const contentDetails = await fetchContentDetails(
+      getVideoIds(videosWithVsInTitle)
+    );
 
-    const contentDetails = await fetchContentDetails(videoIds);
     const filteredVideos = removeYouTubeShorts(
       videosWithVsInTitle,
       contentDetails
@@ -122,39 +91,47 @@ const filterByVersus = (videos) => {
   });
 };
 
+const getVideoIds = (videos) => {
+  return videos.map((video) => video.id.videoId).join(',');
+};
+
+const exceedsDuration = (duration) => {
+  const MINUTE_THRESHOLD = 7;
+  const regex = /PT(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+)S)?/;
+  const matches = duration.match(regex);
+  const hours = parseInt(matches[1]) || 0;
+  const minutes = parseInt(matches[2]) || 0;
+  return hours > 0 || minutes > MINUTE_THRESHOLD;
+};
+
+// removes Youtube videos shorter than 7 mins & attaches viewCount
 const removeYouTubeShorts = (videos, contentDetails) => {
   return videos
     .map((video) => {
-      const videoId = video.id.videoId;
+      const { videoId } = video.id;
       const videoContentDetails = contentDetails.find(
         (detail) => detail.id === videoId
       );
 
       if (
-        videoContentDetails &&
-        videoContentDetails.contentDetails.duration &&
-        videoContentDetails.contentDetails.duration.match(/PT(\d+)M/)
+        videoContentDetails?.contentDetails?.duration &&
+        exceedsDuration(videoContentDetails.contentDetails.duration)
       ) {
-        const durationMinutes = parseInt(
-          videoContentDetails.contentDetails.duration.match(/PT(\d+)M/)[1]
-        );
-
-        if (durationMinutes >= 7) {
-          return video;
-        }
+        video.viewCount = videoContentDetails.statistics.viewCount;
+        return video;
       }
 
       return null;
     })
-    .filter(Boolean);
+    .filter((video) => video !== null);
 };
 
 const fetchContentDetails = async (videoIds) => {
   const youtubeApiKey = await getYoutubeApiKey();
   const videosApiUrl = `${YT_VIDEOS_API}?key=${youtubeApiKey}`;
   const payload = {
-    id: videoIds.join(','),
-    part: 'contentDetails',
+    id: videoIds,
+    part: 'contentDetails,statistics',
     maxResults: 50,
   };
 
@@ -222,4 +199,10 @@ module.exports = {
   createBattlesFor,
   getParam,
   getCaCertificate,
+  filterByVersus,
+  getVideoIds,
+  fetchContentDetails,
+  removeYouTubeShorts,
+  exceedsDuration,
+  invokeAddVideoToDbLambda,
 };

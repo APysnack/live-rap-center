@@ -37,10 +37,12 @@ exports.lambdaHandler = async (event, context) => {
 
       const channelId = league.league_url;
 
+      const lastFetchDate = formatDate(league.last_video_fetch_date);
+
       const response = await fetchVideosFromChannel(
         channelId,
         null,
-        formatDate(league.last_video_fetch_date)
+        lastFetchDate
       );
 
       nextPageToken = response.nextPageToken;
@@ -75,7 +77,7 @@ exports.lambdaHandler = async (event, context) => {
   } catch (err) {
     console.error(err);
     return {
-      statusCode: 500, // Internal Server Error
+      statusCode: 500,
       body: JSON.stringify({
         message: 'An error occurred while processing your request.',
       }),

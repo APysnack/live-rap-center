@@ -24,7 +24,10 @@ const createBattlesFor = async (videos, league, processedUrls) => {
         video: video,
       };
 
-      invokeAddVideoToDbLambda(battleInfo);
+      console.log('THIS SHOULD BE THE EVENT');
+      console.log(battleInfo);
+
+      // invokeAddVideoToDbLambda(battleInfo);
     }
   }
 };

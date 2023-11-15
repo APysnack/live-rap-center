@@ -1,8 +1,9 @@
 'use strict';
 
 const chai = require('chai');
-const { getTitleFrom } = require('../../utils');
+const { getTitleFrom, getBattlersFrom } = require('../../utils');
 const expect = chai.expect;
+const eventData = require('../../../events/event.json');
 
 describe('getTitleFrom', function () {
   it('It should parse A vs B correctly', function () {
@@ -28,6 +29,17 @@ describe('getTitleFrom', function () {
     const expectedOutput = 'PurelyDef & Refractor vs Saint & Dough';
 
     const result = getTitleFrom(input);
+
+    expect(result).to.deep.equal(expectedOutput);
+  });
+});
+
+describe('getBattlersFrom', function () {
+  it('It should parse A vs B correctly', function () {
+    const input = eventData.video;
+    const expectedOutput = ['KELLY BETZ', 'JAOOO'];
+
+    const result = getBattlersFrom(input);
 
     expect(result).to.deep.equal(expectedOutput);
   });

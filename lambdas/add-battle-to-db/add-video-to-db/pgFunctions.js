@@ -61,10 +61,20 @@ const findBattlerByName = async (client, battlerName) => {
   }
 };
 
-const createBattle = async (client, title, leagueId, battleUrl) => {
+const createBattle = async (client, title, leagueId, battleUrl, video) => {
+  const publishedDate = new Date(video.snippet.publishedAt).toISOString();
+
   const insertQuery =
-    'INSERT INTO battles (league_id, battle_url, title, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *;';
-  const values = [leagueId, battleUrl, title, currentDate, currentDate];
+    'INSERT INTO battles (league_id, battle_url, title, created_at, updated_at, views, youtube_date) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;';
+  const values = [
+    leagueId,
+    battleUrl,
+    title,
+    currentDate,
+    currentDate,
+    video.viewCount,
+    publishedDate,
+  ];
   try {
     const result = await client.query(insertQuery, values);
     const battleObject = result.rows[0];
@@ -107,28 +117,11 @@ const createBattlerBattle = async (client, battleId, battlerId) => {
   }
 };
 
-const initializeLeague = async (client, leagueId) => {
-  const updateQuery = {
-    text: 'UPDATE leagues SET videos_initialized = true, last_video_fetch_date = $1 WHERE id = $2;',
-    values: [currentDate, leagueId],
-  };
-
-  try {
-    const result = await client.query(updateQuery);
-    const leagueObject = result.rows[0];
-    return leagueObject;
-  } catch (error) {
-    console.error('Error occurred while initializing league:', error);
-    throw error;
-  }
-};
-
 module.exports = {
   connectToDatabase,
   createBattler,
   createBattle,
   createBattlerBattle,
   findBattlerByName,
-  initializeLeague,
   closeDatabaseConnection,
 };

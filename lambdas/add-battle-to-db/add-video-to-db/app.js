@@ -25,7 +25,8 @@ exports.lambdaHandler = async (event, context) => {
         client,
         battleTitle,
         event.leagueId,
-        event.battleUrl
+        event.battleUrl,
+        event.video
       );
 
       await Promise.all(

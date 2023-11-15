@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
+  require "sidekiq/web"
+
   mount ActionCable.server => "/cable"
+  mount Sidekiq::Web => "/sidekiq"
 
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
 
   post "/graphql", to: "graphql#execute"
+
+  get "/report", to: "main#report"
 
   get "profile-picture", to: "profile_picture#index"
   post "profile-picture", to: "profile_picture#create"

@@ -1,15 +1,18 @@
 {
-  "leagueId": "4",
-  "battleUrl": "3Tyxf40z0jc",
+  "leagueId": "3",
+  "battleUrl": "z1BY3TGvqgY",
   "video": {
     "kind": "youtube#searchResult",
-    "etag": "ztr2PzJSA8xjN6hA6SwO0YiT8m0",
-    "id": { "kind": "youtube#video", "videoId": "3Tyxf40z0jc" },
+    "etag": "hct6X2zTVbqxrlyg-jjz-jw0jww",
+    "id": {
+      "kind": "youtube#video",
+      "videoId": "z1BY3TGvqgY"
+    },
     "snippet": {
-      "publishedAt": "2022-11-25T00:02:02Z",
+      "publishedAt": "2017-03-17T17:11:17Z",
       "channelId": "UCe4z-hnL9JWGiIwmY3BvjkA",
-      "title": "NoCoast Rap Battle: Kelly Betz vs Jaooo",
-      "description": "Check out Kelly Betz's music: https://www.youtube.com/@kellybetzmusic8263 https://kellybetz.bandcamp.com/ Check out Jaooo's ...",
+      "title": "Copywrite vs Reverse Live - No Coast Raps | VDM4 (Hosted by Lush One)",
+      "description": "Underground legend Copywrite (Ohio) makes his No Coast debut against Reverse Live (California) at Valentines Day Massacre 4 ...",
       "thumbnails": {
         "default": {
           "url": "https://i.ytimg.com/vi/7wHPKFgz9fA/default.jpg",
@@ -29,7 +32,8 @@
       },
       "channelTitle": "No Coast Raps",
       "liveBroadcastContent": "none",
-      "publishTime": "2022-11-25T00:02:02Z"
-    }
+      "publishTime": "2017-03-17T17:11:17Z"
+    },
+    "viewCount": "13097"
   }
 }

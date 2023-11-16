@@ -137,6 +137,11 @@ Resources:
           FromPort: 5432
           ToPort: 5432
           CidrIp: 98.204.58.188/32
+        - Description: 'Allow redis to communicate with DB'
+          IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !GetAtt AllTrafficSG.GroupId
 
   LoadBalancerSG:
     Type: AWS::EC2::SecurityGroup
@@ -430,6 +435,149 @@ Resources:
       AliasTarget:
         HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
         DNSName: !GetAtt LoadBalancer.DNSName
+
+  AllTrafficSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: PermitAllTraffic
+      GroupDescription: RDS Security Group
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: '-1'
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: '-1'
+
+  MyCacheSubnetGroup:
+    Type: 'AWS::ElastiCache::SubnetGroup'
+    Properties:
+      Description: Live Rap Center Subnet Group
+      CacheSubnetGroupName: lrc-cache-subnet-group
+      SubnetIds:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+        - !Ref PublicSubnet3
+
+  MyRedisCluster:
+    Type: AWS::ElastiCache::ReplicationGroup
+    DependsOn:
+      - MyCacheSubnetGroup
+      - AllTrafficSG
+    Properties:
+      ReplicationGroupId: sidekiq-redis
+      ReplicationGroupDescription: Redis cache for sidekiq
+      Engine: redis
+      CacheNodeType: cache.t2.micro
+      NumCacheClusters: 1
+      Port: 6379
+      # If traffic warrants it, set this true and increase NumCacheClusters
+      AutomaticFailoverEnabled: false
+      CacheSubnetGroupName: !Ref MyCacheSubnetGroup
+      SecurityGroupIds:
+        - !Ref AllTrafficSG
+
+  RedisUrlParameter:
+    Type: 'AWS::SSM::Parameter'
+    DependsOn: MyRedisCluster
+    Properties:
+      Name: '/live-rap-center/prod/REDIS_URL'
+      Type: 'String'
+      Value: !Sub 'redis://${MyRedisCluster.PrimaryEndPoint.Address}:${MyRedisCluster.PrimaryEndPoint.Port}/0'
+
+  SidekiqTaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    DependsOn:
+      - RedisUrlParameter
+      - MyRDSInstance
+    Properties:
+      Family: launch_sidekiq_container
+      NetworkMode: awsvpc
+      ExecutionRoleArn: !GetAtt ECSExecutionRole.Arn
+      Cpu: '1024'
+      Memory: '3072'
+      RequiresCompatibilities:
+        - FARGATE
+      ContainerDefinitions:
+        - Name: sidekiq_jobs
+          Image: !Sub '${AWS::AccountId}.dkr.ecr.${AWSDefaultRegion}.amazonaws.com/sidekiq_jobs:latest'
+          Cpu: 1024
+          Memory: 3072
+          Essential: true
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/launch_sidekiq_container
+              awslogs-region: !Ref AWSDefaultRegion
+              awslogs-stream-prefix: ecs
+              awslogs-create-group: 'true'
+          Environment:
+            - Name: RAILS_LOG_TO_STDOUT
+              Value: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/RAILS_LOG_TO_STDOUT
+          Secrets:
+            - Name: RAILS_ENV
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/RAILS_ENV
+            - Name: AWS_RDS_HOST
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_HOST
+            - Name: AWS_RDS_USERNAME
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_USERNAME
+            - Name: AWS_RDS_PASSWORD
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_PASSWORD
+            - Name: AWS_RDS_NAME
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_NAME
+            - Name: AWS_RDS_PORT
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/AWS_RDS_PORT
+            - Name: VOTES_UNTIL_BATTLE_CLOSED
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/VOTES_UNTIL_BATTLE_CLOSED
+            - Name: SERVER_URL
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/SERVER_URL
+            - Name: YT_VIDEO_API
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_VIDEO_API
+            - Name: YT_CHANNEL_API
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_CHANNEL_API
+            - Name: YT_PLAYLIST_API
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_PLAYLIST_API
+            - Name: TWITTER_BEARER_TOKEN
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/TWITTER_BEARER_TOKEN
+            - Name: YT_API_KEY
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/YT_API_KEY
+            - Name: SECRET_KEY_BASE
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/SECRET_KEY_BASE
+            - Name: REDIS_URL
+              ValueFrom: arn:aws:ssm:us-east-1:655948565243:parameter/live-rap-center/prod/REDIS_URL
+
+  SidekiqService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSClusterName
+      CapacityProviderStrategy:
+        - CapacityProvider: FARGATE
+          Base: 0
+          Weight: 1
+      TaskDefinition: !Ref SidekiqTaskDefinition
+      ServiceName: sidekiq-svc
+      SchedulingStrategy: REPLICA
+      DesiredCount: 0
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups:
+            - !GetAtt ServiceSG.GroupId
+          Subnets:
+            - !Ref PublicSubnet1
+            - !Ref PublicSubnet2
+            - !Ref PublicSubnet3
+      PlatformVersion: LATEST
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 100
+        DeploymentCircuitBreaker:
+          Enable: true
+          Rollback: true
+      DeploymentController:
+        Type: ECS
+      Tags: []
+      EnableECSManagedTags: true
 
   CodePipelineBucket:
     Type: AWS::S3::Bucket

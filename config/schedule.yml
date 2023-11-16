@@ -1,0 +1,3 @@
+fetch_new_videos_job:
+  cron: '*/5 * * * *'
+  class: 'FetchNewVideosJob'

@@ -1,7 +1,7 @@
-FROM ruby:3.0.4-alpine
+ARG APP_TYPE=server
 
-# installs dependencies
-# note for Mac M1 gcompat seems necessary, otherwise nokogiri throws an error
+# Common stage
+FROM ruby:3.1.0-alpine as common
 RUN apk add --update --virtual \
   runtime-deps \
   postgresql-client \
@@ -24,20 +24,20 @@ RUN apk add --update --virtual \
   tzdata \
   && rm -rf /var/cache/apk/*
 
-# tells docker to install and work out of the /app folder
 WORKDIR /app
-
-# copies all the files in current directory into /app
 COPY . .
 
-# installs all gems to /gems folder
 ENV BUNDLE_PATH /gems
 
 RUN yarn install 
 RUN bundle install
 
+# Server stage
+FROM common as server
 ENTRYPOINT ["bin/rails"]
 CMD ["s", "-b", "0.0.0.0"]
-
-# port to be exposed
 EXPOSE 3000
+
+# Sidekiq stage
+FROM common as sidekiq
+ENTRYPOINT ["bundle", "exec", "sidekiq", "-e", "production"]

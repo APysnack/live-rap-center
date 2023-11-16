@@ -81,17 +81,20 @@ This should start up the client on `localhost:4000`
 ------------------------------------------------------------------------------------------
 Deploy Steps
 
+Run cloudformation template
+
 ```
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 655948565243.dkr.ecr.us-east-1.amazonaws.com
 
-Server
+# Server
 docker build --build-arg APP_TYPE=server --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
 
-Sidekiq
+# Sidekiq
 docker build --build-arg APP_TYPE=sidekiq --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs:latest
 
+# ensure that client .env files have cloudfront distribution id and correct server host
 cd client
-yarn update (ensure that client .env files have cloudfront dist and correct server host)
+yarn update
 ```

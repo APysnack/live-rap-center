@@ -82,9 +82,11 @@ This should start up the client on `localhost:4000`
 Deploy Steps
 
 1. Get AWS credentials and set ecr login
-`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 655948565243.dkr.ecr.us-east-1.amazonaws.com`
+```
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 655948565243.dkr.ecr.us-east-1.amazonaws.com
+```
 
-2. Build and push server container
+3. Build and push server container
 ```
 docker build --build-arg APP_TYPE=server --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest

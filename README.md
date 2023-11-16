@@ -88,13 +88,13 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 
 3. Build and push server container image
 ```
-docker build --build-arg --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server .
+docker build --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
 ```
 
 3. Build and push sidekiq container image
 ```
-docker build --build-arg --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs -f SidekiqDockerfile .
+docker build --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs -f SidekiqDockerfile .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs:latest
 ```
 

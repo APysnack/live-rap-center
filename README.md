@@ -81,8 +81,6 @@ This should start up the client on `localhost:4000`
 ------------------------------------------------------------------------------------------
 Deploy Steps
 
-Run cloudformation template
-
 ```
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 655948565243.dkr.ecr.us-east-1.amazonaws.com
 
@@ -94,7 +92,9 @@ docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
 docker build --build-arg APP_TYPE=sidekiq --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs:latest
 
-# ensure that client .env files have cloudfront distribution id and correct server host
+# Run cloudformation template here. ECS service relies on an image being uploaded to ECR
+
+# ensure that your client .env file has the new cloudfront distribution id and correct server url
 cd client
 yarn update
 ```

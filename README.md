@@ -124,3 +124,5 @@ SEED_FILE=production rake db:reset
 cd client
 yarn update
 ```
+
+9. Update sidekiq service to desired tasks: 1

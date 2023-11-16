@@ -86,13 +86,13 @@ Deploy Steps
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 655948565243.dkr.ecr.us-east-1.amazonaws.com
 ```
 
-3. Build and push server container
+3. Build and push server container image
 ```
 docker build --build-arg APP_TYPE=server --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
 ```
 
-3. Build and push sidekiq container
+3. Build and push sidekiq container image
 ```
 docker build --build-arg APP_TYPE=sidekiq --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs:latest

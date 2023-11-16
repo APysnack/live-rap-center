@@ -100,7 +100,10 @@ docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs:latest
 
 4. Use Cloudformation template to create CFN Stack
 
-5. set config.active_storage.service = :amazon in development.rb and update database.yml
+5. Update development.rb and database.yml, respectively
+```
+config.active_storage.service = :amazon
+```
 ```
 development:
   <<: *default

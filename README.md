@@ -94,7 +94,7 @@ docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/lrc_server:latest
 
 3. Build and push sidekiq container image
 ```
-docker build --build-arg APP_TYPE=sidekiq --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs .
+docker build --build-arg APP_TYPE=sidekiq --platform linux/amd64 --tag 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs -f SidekiqDockerfile .
 docker push 655948565243.dkr.ecr.us-east-1.amazonaws.com/sidekiq_jobs:latest
 ```
 

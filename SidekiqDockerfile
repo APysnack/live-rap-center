@@ -36,8 +36,4 @@ ENV BUNDLE_PATH /gems
 RUN yarn install 
 RUN bundle install
 
-ENTRYPOINT ["bin/rails"]
-CMD ["s", "-b", "0.0.0.0"]
-
-# port to be exposed
-EXPOSE 3000
+CMD ["bundle", "exec", "sidekiq", "-e", "production"]

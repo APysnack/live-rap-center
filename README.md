@@ -125,4 +125,4 @@ cd client
 yarn update
 ```
 
-9. Update sidekiq service to desired tasks: 1
+9. Update sidekiq AWS service to desired tasks: 1

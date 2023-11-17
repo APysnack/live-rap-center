@@ -31,7 +31,6 @@ gem "stimulus-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
-gem 'clockwork', '~> 3.0', '>= 3.0.1'
 
 gem "aws-sdk-s3", require: false
 

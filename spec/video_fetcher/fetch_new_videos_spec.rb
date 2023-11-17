@@ -22,7 +22,7 @@ RSpec.describe VideoFetcher::FetchNewVideos do
       it 'creates a new battler' do
         expect {
           result = vf.find_or_create_battler('PURPLE DEF')
-        }.to change { Battler.count }
+        }.to change { Battler.count }.by(1)
       end
     end
 
@@ -39,16 +39,24 @@ RSpec.describe VideoFetcher::FetchNewVideos do
       it 'creates a new battler' do 
         expect {
           result = vf.find_or_create_battler('SK')
-        }.to change { Battler.count }
+        }.to change { Battler.count }.by(1)
       end
     end
 
-    context '' do 
+    context 'A battler with the same name sans symbols exists' do 
       it 'does not create a new battler' do 
         expect {
           result = vf.find_or_create_battler('PT')
           expect(result).to eq(battler_3)
         }.not_to change { Battler.count }
+      end
+    end
+
+    context 'no best match exists' do 
+      it 'creates a new battler' do 
+        expect {
+          result = vf.find_or_create_battler('JOHNJACOBJINGLEHEIMERSCHMIDT')
+        }.to change { Battler.count }.by(1)
       end
     end
   end

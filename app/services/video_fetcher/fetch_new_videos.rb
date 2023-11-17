@@ -12,13 +12,13 @@ require 'fuzzy_match'
 
 module VideoFetcher
   class FetchNewVideos
-    attr_accessor :fuzzy_matcher
-
+    # How similar a battler's name has to be to be considered a match in the db
     SIMILARITY_THRESHOLD = 0.95
+
+    # Characters to remove from battler names before comparing
     CHARACTERS_TO_REMOVE = [' ', '.', '-']
 
     def initialize()
-      @fuzzy_matcher = FuzzyMatch.new(Battler.pluck(:name))
     end
 
     def fetch_new_videos
@@ -43,9 +43,13 @@ module VideoFetcher
       return battler if battler
     
       best_match = get_best_match_for(battler_name)
-      similarity = get_similarity(battler_name, best_match)
+      similarity = get_similarity(battler_name, best_match) unless best_match.nil?
 
-      similarity > SIMILARITY_THRESHOLD ? Battler.find_by(name: best_match) : Battler.create(name: battler_name)
+      if similarity && similarity > SIMILARITY_THRESHOLD
+        Battler.find_by(name: best_match)
+      else
+        Battler.create(name: battler_name)
+      end
     end
 
     private
@@ -66,6 +70,7 @@ module VideoFetcher
     end
 
     def get_best_match_for(battler_name)
+      fuzzy_matcher = FuzzyMatch.new(Battler.pluck(:name))
       best_match = fuzzy_matcher.find(battler_name)
     end
 

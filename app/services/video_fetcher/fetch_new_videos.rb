@@ -7,12 +7,18 @@
 # battle_parser: parses battle into easily accessible instance variables
 
 require 'typhoeus'
+require 'amatch'
+require 'fuzzy_match'
 
 module VideoFetcher
   class FetchNewVideos
-    attr_accessor :processed_urls
+    attr_accessor :fuzzy_matcher
+
+    SIMILARITY_THRESHOLD = 0.95
+    CHARACTERS_TO_REMOVE = [' ', '.', '-']
 
     def initialize()
+      @fuzzy_matcher = FuzzyMatch.new(Battler.pluck(:name))
     end
 
     def fetch_new_videos
@@ -32,10 +38,35 @@ module VideoFetcher
       end
     end
 
+    def find_or_create_battler(battler_name)
+      battler = Battler.find_by(name: battler_name)
+      return battler if battler
+    
+      best_match = get_best_match_for(battler_name)
+      similarity = get_similarity(battler_name, best_match)
+
+      similarity > SIMILARITY_THRESHOLD ? Battler.find_by(name: best_match) : Battler.create(name: battler_name)
+    end
+
     private
+
+    def get_similarity(battler_name, best_match)
+      sanitized_battler_name = sanitize(battler_name)
+      sanitized_match_name = sanitize(best_match)
+      Amatch::JaroWinkler.new(sanitized_battler_name).match(sanitized_match_name)
+    end
+
+    def sanitize(string)
+      characters_regex = Regexp.union(CHARACTERS_TO_REMOVE)
+      string.gsub(characters_regex, '')
+    end
 
     def leagues 
       League.all
+    end
+
+    def get_best_match_for(battler_name)
+      best_match = fuzzy_matcher.find(battler_name)
     end
 
     def create_battles_for(videos, league, processed_urls)
@@ -56,13 +87,10 @@ module VideoFetcher
       battle = Battle.create(league_id: bp.league_id, battle_url: bp.battle_url, title: bp.title, views: bp.views, youtube_date: bp.date)
       
       bp.battlers.each do |battler_name|
-        battler = Battler.find_or_create_by(name: battler_name)
+        battler = find_or_create_battler(battler_name)
         BattlerBattle.create(battler_id: battler.id, battle_id: battle.id)
       end
     end
-
-    
-
   end
 end
     

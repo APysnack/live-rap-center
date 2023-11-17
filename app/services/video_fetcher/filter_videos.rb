@@ -19,7 +19,7 @@ module VideoFetcher
 		end
 
 		def filter_by_versus
-			@videos.select! do |video|
+			@videos&.select! do |video|
         title = video["snippet"]["title"].downcase
         title.include?('vs') || title.include?('versus')
       end

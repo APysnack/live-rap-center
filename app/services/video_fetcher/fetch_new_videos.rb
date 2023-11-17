@@ -15,22 +15,16 @@ module VideoFetcher
     def initialize()
     end
 
-    def leagues 
-      League.all
-    end
-
     def fetch_new_videos
       leagues.each do |league|
         processed_urls = []
         channel_fetcher = VideoFetcher::ChannelVideoFetcher.new(league)
-        response = channel_fetcher.fetch_videos
-        new_videos = response[:videos]
-        
+        new_videos = channel_fetcher.fetch_videos
+          
         create_battles_for(new_videos, league, processed_urls)
 
         while channel_fetcher.next_page_token.present? && !league.videos_initialized
-          response = channel_fetcher.fetch_videos
-          new_videos = response[:videos]
+          new_videos = channel_fetcher.fetch_videos
           create_battles_for(new_videos, league, processed_urls)
         end
 
@@ -38,27 +32,37 @@ module VideoFetcher
       end
     end
 
+    private
+
+    def leagues 
+      League.all
+    end
+
     def create_battles_for(videos, league, processed_urls)
-      return unless videos.length > 0
-
+      return unless videos&.length > 0
+    
       videos.each do |video|
-        next if processed_urls.include?(video['id']['videoId'])
-
+        battle_url = video['id']['videoId']
+        next if processed_urls.include?(battle_url)
+    
         processed_urls << battle_url
         create_battle(video, league)
       end
     end
-  end
 
-  def create_battle(video, league)
-    bp = VideoFetcher::BattleParser.new(video, league)
+    def create_battle(video, league)
+      bp = VideoFetcher::BattleParser.new(video, league)
 
-    battle = Battle.create(league_id: bp.league_id, battle_url: bp.battle_url, title: bp.title, views: bp.views, youtube_date: bp.date)
-    
-    bp.battlers.each do |battler_name|
-      battler = Battler.find_or_create_by(name: battler_name)
-      BattlerBattle.create(battler_id: battler.id, battle_id: battle.id)
+      battle = Battle.create(league_id: bp.league_id, battle_url: bp.battle_url, title: bp.title, views: bp.views, youtube_date: bp.date)
+      
+      bp.battlers.each do |battler_name|
+        battler = Battler.find_or_create_by(name: battler_name)
+        BattlerBattle.create(battler_id: battler.id, battle_id: battle.id)
+      end
     end
+
+    
+
   end
 end
     

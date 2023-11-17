@@ -1,3 +1,5 @@
+require 'typhoeus'
+
 module VideoFetcher
   class ChannelVideoFetcher
     attr_reader :channel_id, :last_fetch_date, :videos_initialized, :search_api_url, :next_page_token
@@ -9,11 +11,12 @@ module VideoFetcher
       @last_fetch_date = league.last_video_fetch_date.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
       @videos_initialized = league.videos_initialized
       @next_page_token = nil
+      @filtered_videos = nil
     end
 
     def fetch_videos
       response = Typhoeus.get(search_api_url, { params: payload })
-      parse_response(response)
+      @filtered_videos = parse_response(response)
     end
 
     private
@@ -22,8 +25,7 @@ module VideoFetcher
       data = JSON.parse(response.body)
       @next_page_token = data['nextPageToken'] || nil
       videos = data['items']
-      filtered_videos = VideoFetcher::FilterVideos.new(videos).filter_videos
-      { videos: filtered_videos }
+      VideoFetcher::FilterVideos.new(videos).filter_videos
     end
 
     def payload

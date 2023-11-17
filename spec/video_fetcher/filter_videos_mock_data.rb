@@ -307,4 +307,169 @@ FILTER_VIDEOS_MOCK_DATA = [
       },
 
   ]
+
+
+  CONTENT_DETAILS_MOCK_DATA = [
+    {
+      "kind" => "youtube#video",
+      "etag" => "gcyPzfNsE-OznHGcdRvLYZFXrcM",
+      "id" => "XjHZpREyMe0",
+      "contentDetails" => {
+        "duration" => "PT2M7S",
+        "dimension" => "2d",
+        "definition" => "hd",
+        "caption" => "false",
+        "licensedContent" => false,
+        "contentRating" => {},
+        "projection" => "rectangular"
+      },
+      "statistics" => {
+        "viewCount" => "628",
+        "likeCount" => "5",
+        "favoriteCount" => "0",
+        "commentCount" => "2"
+      }
+    },
+    {
+      "kind" => "youtube#video",
+      "etag" => "gcyPzfNsE-OznHGcdRvLYZFXrcM",
+      "id" => "aLjEjLEsqYk",
+      "contentDetails" => {
+        "duration" => "PT7M",
+        "dimension" => "2d",
+        "definition" => "hd",
+        "caption" => "false",
+        "licensedContent" => false,
+        "contentRating" => {},
+        "projection" => "rectangular"
+      },
+      "statistics" => {
+        "viewCount" => "628",
+        "likeCount" => "5",
+        "favoriteCount" => "0",
+        "commentCount" => "2"
+      }
+    },
+    {
+      "kind" => "youtube#video",
+      "etag" => "gcyPzfNsE-OznHGcdRvLYZFXrcM",
+      "id" => "NQ2Jr3se3vk",
+      "contentDetails" => {
+        "duration" => "PT1H0M7S",
+        "dimension" => "2d",
+        "definition" => "hd",
+        "caption" => "false",
+        "licensedContent" => false,
+        "contentRating" => {},
+        "projection" => "rectangular"
+      },
+      "statistics" => {
+        "viewCount" => "628",
+        "likeCount" => "5",
+        "favoriteCount" => "0",
+        "commentCount" => "2"
+      }
+    },
+    {
+      "kind" => "youtube#video",
+      "etag" => "s8suXTIYEgsgqZBbBl2uvQ9oHQc",
+      "id" => "-EjyQarYyyk",
+      "contentDetails" => {
+        "duration" => "PT59S",
+        "dimension" => "2d",
+        "definition" => "hd",
+        "caption" => "false",
+        "licensedContent" => false,
+        "contentRating" => {},
+        "projection" => "rectangular"
+      },
+      "statistics" => {
+        "viewCount" => "542",
+        "likeCount" => "6",
+        "favoriteCount" => "0",
+        "commentCount" => "2"
+      }
+    },
+    {
+      "kind" => "youtube#video",
+      "etag" => "1Cpytc10t6r0Vt2l9m8zDzuVZrE",
+      "id" => "_Uivyl1veQ8",
+      "contentDetails" => {
+        "duration" => "PT13M29S",
+        "dimension" => "2d",
+        "definition" => "hd",
+        "caption" => "false",
+        "licensedContent" => false,
+        "contentRating" => {},
+        "projection" => "rectangular"
+      },
+      "statistics" => {
+        "viewCount" => "1210",
+        "likeCount" => "47",
+        "favoriteCount" => "0",
+        "commentCount" => "25"
+      }
+    },
+    {
+      "kind" => "youtube#video",
+      "etag" => "5lP32BDp4JXWnD4X0BpImnRBoK0",
+      "id" => "lBGaBmHZpdE",
+      "contentDetails" => {
+        "duration" => "PT7M59S",
+        "dimension" => "2d",
+        "definition" => "hd",
+        "caption" => "false",
+        "licensedContent" => false,
+        "contentRating" => {},
+        "projection" => "rectangular"
+      },
+      "statistics" => {
+        "viewCount" => "418",
+        "likeCount" => "15",
+        "favoriteCount" => "0",
+        "commentCount" => "1"
+      }
+    },
+    {
+      "kind" => "youtube#video",
+      "etag" => "beKFqcvJ46voY3TQZ-oHO7qkwjo",
+      "id" => "aJQ5Uei8xN0",
+      "contentDetails" => {
+        "duration" => "PT7M18S",
+        "dimension" => "2d",
+        "definition" => "hd",
+        "caption" => "false",
+        "licensedContent" => false,
+        "contentRating" => {},
+        "projection" => "rectangular"
+      },
+      "statistics" => {
+        "viewCount" => "504",
+        "likeCount" => "10",
+        "favoriteCount" => "0",
+        "commentCount" => "1"
+      }
+    },
+    {
+      "kind" => "youtube#video",
+      "etag" => "vwUcJEfW4javmYttgfxtjNfSmKA",
+      "id" => "rRSCoYYr6-c",
+      "contentDetails" => {
+        "duration" => "PT6M59S",
+        "dimension" => "2d",
+        "definition" => "hd",
+        "caption" => "false",
+        "licensedContent" => false,
+        "contentRating" => {},
+        "projection" => "rectangular"
+      },
+      "statistics" => {
+        "viewCount" => "1724",
+        "likeCount" => "18",
+        "favoriteCount" => "0",
+        "commentCount" => "3"
+      }
+    }
+  ]
+  
   

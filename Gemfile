@@ -16,6 +16,9 @@ gem "puma", "~> 5.0"
 gem 'sidekiq', '~> 7.2'
 gem 'sinatra', '~> 3.1'
 gem 'sidekiq-cron', '~> 1.11'
+gem 'fabrication', '~> 2.30'
+gem 'amatch', '~> 0.4.1'
+gem 'fuzzy_match', '~> 2.1'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -28,7 +31,6 @@ gem "stimulus-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
-gem 'clockwork', '~> 3.0', '>= 3.0.1'
 
 gem "aws-sdk-s3", require: false
 

@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_ALL_BATTLERS } from './gql';
 import StyledSelect from '../../../SharedComponents/StyledSelect/StyledSelect';
-import Loading from '../../../SharedComponents/Loading/Loading';
 
-function BattlerSearchBox({ componentNumber, onSelect }) {
+function BattlerSearchBox({ componentNumber, onSelect, data }) {
   const [options, setOptions] = useState([]);
-
-  const { loading, data } = useQuery(GET_ALL_BATTLERS, {
-    variables: { fetchAll: true },
-  });
 
   const handleSelect = (selection) => {
     const tempObj = { [componentNumber]: selection.value };
@@ -26,8 +19,6 @@ function BattlerSearchBox({ componentNumber, onSelect }) {
       setOptions(battlersArray);
     }
   }, [data]);
-
-  if (loading) return <Loading />;
 
   return (
     <StyledSelect

@@ -4,6 +4,8 @@ import { BattlerSelectorContainer } from './AddBattleToEvent.styles';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_BATTLERS } from './gql';
 import BattlerProfilePanel from './BattlerProfilePanel';
+import BattleProjections from './BattleProjections';
+import Loading from '../../../SharedComponents/Loading/Loading';
 
 // TODO: Make adjustable for triple threat and 2v2
 const BATTLERS_PER_BATTLE = 2;
@@ -12,26 +14,34 @@ function BattlerSelector({ selectedBattlers, setSelectedBattlers }) {
   const [displayedBattlers, setDisplayedBattlers] = useState([]);
   const [displayedBattlerIds, setDisplayedBattlerIds] = useState(['1', '2']);
 
-  const { loading, data, refetch } = useQuery(GET_ALL_BATTLERS, {
+  // TODO: Reduce the number of records being fetched then make changes to query on search
+  const { loading, data } = useQuery(GET_ALL_BATTLERS, {
+    variables: { fetchAll: true },
+  });
+
+  const queryResult = useQuery(GET_ALL_BATTLERS, {
     variables: { ids: displayedBattlerIds },
     onCompleted: (result) => {
       setDisplayedBattlers(result.battlers.battlers);
     },
   });
 
-  // TODO: set selected battler which will be used for the creation of the battle
   const onSelect = (battlerObj) => {
     setDisplayedBattlerIds((prevBattlerIds) => {
       const updatedBattlerIds = [...prevBattlerIds];
 
       for (const key in battlerObj) {
         const index = parseInt(key, 10);
-        updatedBattlerIds[index] = battlerObj[key];
+        if (!isNaN(index) && index >= 0 && index < updatedBattlerIds.length) {
+          updatedBattlerIds[index] = battlerObj[key];
+        }
       }
 
       return updatedBattlerIds;
     });
   };
+
+  if (loading) return <Loading />;
 
   return (
     <BattlerSelectorContainer>
@@ -43,6 +53,7 @@ function BattlerSelector({ selectedBattlers, setSelectedBattlers }) {
               className='search-box'
               componentNumber={i}
               onSelect={onSelect}
+              data={data}
             />
           ))}
         </div>
@@ -53,6 +64,7 @@ function BattlerSelector({ selectedBattlers, setSelectedBattlers }) {
               ))
             : 'No battlers for this league'}
         </div>
+        <BattleProjections battlers={displayedBattlers} />
       </div>
     </BattlerSelectorContainer>
   );

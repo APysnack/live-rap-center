@@ -6,8 +6,15 @@ export const GET_ALL_BATTLERS = gql`
       battlers {
         id
         name
+        image
+        totalViews
+        averageViews
+        medianViews
+        averageLeagueZscore
+        score
         user {
           id
+          username
           isVerified
         }
       }

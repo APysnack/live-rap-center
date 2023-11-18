@@ -56,4 +56,28 @@ export const BattlerSelectorContainer = styled.div`
   }
 `;
 
-export const BattlerProfilePanelContainer = styled.div``;
+export const BattlerProfilePanelContainer = styled.div`
+  margin-top: 1em;
+  background-color: ${(props) => props.theme.formBackground};
+  padding: 2em;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+`;
+
+export const BattleProjectionsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .view-stats {
+    margin: 2em 1em 2em 1em;
+    padding: 1em;
+    border-radius: 10px;
+    background-color: ${(props) => props.theme.formBackground};
+    font-size: small;
+    width: 50%;
+  }
+`;

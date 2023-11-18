@@ -16,6 +16,8 @@ module Types
       field :potential_leagues, [Types::Models::LeagueType], null: true
       field :total_views, Integer, null: true
       field :average_views, Float, null: true
+      field :median_views, Float, null: true
+      field :average_league_zscore, Float, null: true
       field :league_id, ID, null: false
       field :image, String, null: true
       field :record, Types::BattlerRecordObject, null: false
@@ -32,6 +34,18 @@ module Types
 
       def battles
         battles = object.battles
+      end
+
+      def average_views
+        object.average_views.to_i if object.average_views.present?
+      end
+
+      def median_views
+        object.median_views.to_i if object.median_views.present?
+      end
+
+      def average_league_zscore
+        object.average_league_zscore.round(3) if object.average_league_zscore.present?
       end
 
       def potential_leagues

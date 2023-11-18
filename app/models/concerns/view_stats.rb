@@ -20,5 +20,9 @@ module ViewStats
   def standard_deviation
     StatCalculator.new(view_counts).get_std_dev
   end
+
+  def median_views
+    StatCalculator.new(view_counts).get_median
+  end
 end
   

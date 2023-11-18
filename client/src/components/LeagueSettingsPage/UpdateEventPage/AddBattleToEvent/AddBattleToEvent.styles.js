@@ -28,10 +28,32 @@ export const AddBattleToEventContainer = styled.div`
     justify-content: center;
     gap: 0.5em;
     border-radius: 10px;
-    background-color: ${(props) => props.theme.formBackground};
   }
   .lrc-button {
     padding: 0.4em;
     width: 30%;
   }
+
+  .battler-selectors-container {
+    display: flex;
+  }
 `;
+
+export const BattlerSelectorContainer = styled.div`
+  width: 100%;
+
+  .battler-selector-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .battler-panel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
+    width: 100%;
+  }
+`;
+
+export const BattlerProfilePanelContainer = styled.div``;

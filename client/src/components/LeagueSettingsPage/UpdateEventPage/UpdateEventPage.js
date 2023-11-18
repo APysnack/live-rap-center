@@ -12,9 +12,11 @@ import {
 } from './UpdateEventPage.styles';
 import ContentContainer from '../../SharedComponents/ContentContainer/ContentStyleWrapper';
 import Loading from '../../SharedComponents/Loading/Loading';
+import BasicModal from '../../SharedComponents/BasicModal';
 
 function UpdateEventPage() {
   const [event, setEvent] = useState(null);
+  const [addBattleModalVisible, setAddBattleModalVisible] = useState(false);
 
   const location = useLocation();
   const { eventId } = location.state || {};
@@ -36,6 +38,15 @@ function UpdateEventPage() {
 
   return (
     <UpdateEventPageWrapper>
+      <BasicModal
+        width={1100}
+        height={750}
+        isOpen={addBattleModalVisible}
+        onClose={() => setAddBattleModalVisible(false)}
+      >
+        <AddBattleToEvent />
+      </BasicModal>
+
       {event ? (
         <div className='event-details-container'>
           <div>
@@ -54,12 +65,9 @@ function UpdateEventPage() {
             </ContentContainer>
           </div>
           <div>
-            <ContentContainer width={750} height={300}>
-              <AddBattleToEvent event={event} refetch={refetch} />
-            </ContentContainer>
             <ContentContainer width={750} height={510}>
               <BattleListContainer>
-                <div className='header-container'>Battles</div>
+                <div className='header-container'>Scheduled Battles</div>
                 <div className='scroll-section'>
                   {event?.battles
                     ? event.battles.map((battles, i) => (
@@ -87,6 +95,13 @@ function UpdateEventPage() {
                         </div>
                       ))
                     : null}
+                </div>
+
+                <div
+                  className='lrc-button'
+                  onClick={() => setAddBattleModalVisible(true)}
+                >
+                  Add battle
                 </div>
               </BattleListContainer>
             </ContentContainer>

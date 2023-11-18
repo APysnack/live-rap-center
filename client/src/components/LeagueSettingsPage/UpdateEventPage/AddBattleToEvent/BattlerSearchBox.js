@@ -4,18 +4,16 @@ import { GET_ALL_BATTLERS } from './gql';
 import StyledSelect from '../../../SharedComponents/StyledSelect/StyledSelect';
 import Loading from '../../../SharedComponents/Loading/Loading';
 
-function BattlerSearchBox({
-  componentNumber,
-  selectedBattlers,
-  setSelectedBattlers,
-}) {
+function BattlerSearchBox({ componentNumber, onSelect }) {
   const [options, setOptions] = useState([]);
 
-  const { loading, data } = useQuery(GET_ALL_BATTLERS);
+  const { loading, data } = useQuery(GET_ALL_BATTLERS, {
+    variables: { fetchAll: true },
+  });
 
   const handleSelect = (selection) => {
     const tempObj = { [componentNumber]: selection.value };
-    setSelectedBattlers({ ...selectedBattlers, ...tempObj });
+    onSelect(tempObj);
   };
 
   useEffect(() => {

@@ -6,6 +6,11 @@ export const UpdateEventPageWrapper = styled.div`
     align-items: flex-start;
     justify-content: center;
   }
+
+  .lrc-button {
+    width: 100%;
+    padding: 0.5em;
+  }
 `;
 
 export const BattleListContainer = styled.div`

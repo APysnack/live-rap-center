@@ -1,11 +1,15 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_BATTLERS = gql`
-  query Battlers {
-    battlers {
+  query Battlers($fetchAll: Boolean, $ids: [ID!]) {
+    battlers(fetchAll: $fetchAll, ids: $ids) {
       battlers {
         id
         name
+        user {
+          id
+          isVerified
+        }
       }
     }
   }

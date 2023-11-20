@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import StyledSelect from '../../../SharedComponents/StyledSelect/StyledSelect';
 
-function BattlerSearchBox({ componentNumber, onSelect, data }) {
+function BattlerSearchBox({
+  componentNumber,
+  onSelect,
+  data,
+  onSearch,
+  searchText,
+}) {
   const [options, setOptions] = useState([]);
 
   const handleSelect = (selection) => {
@@ -25,6 +31,8 @@ function BattlerSearchBox({ componentNumber, onSelect, data }) {
       className='select-component'
       options={options}
       onChange={(input) => handleSelect(input)}
+      onSearch={(input) => onSearch(input)}
+      value={searchText}
     />
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import { useTheme } from 'styled-components';
 
-function StyledSelect({ className, options, onChange, value }) {
+function StyledSelect({ className, options, onChange, onSearch, value }) {
   const theme = useTheme();
 
   const reactSelectStyles = {
@@ -37,6 +37,7 @@ function StyledSelect({ className, options, onChange, value }) {
       options={options}
       value={value}
       onChange={(input) => onChange(input)}
+      onInputChange={(input) => onSearch(input)}
       styles={reactSelectStyles}
     />
   );

@@ -10,13 +10,18 @@ import Loading from '../../../SharedComponents/Loading/Loading';
 // TODO: Make adjustable for triple threat and 2v2
 const BATTLERS_PER_BATTLE = 2;
 
-function BattlerSelector({ selectedBattlers, setSelectedBattlers }) {
+function BattlerSelector({ selectedBattlers, setSelectedBattlers, league }) {
   const [displayedBattlers, setDisplayedBattlers] = useState([]);
   const [displayedBattlerIds, setDisplayedBattlerIds] = useState(['1', '2']);
+  const [searchText, setSearchText] = useState('');
 
-  // TODO: Reduce the number of records being fetched then make changes to query on search
   const { loading, data } = useQuery(GET_ALL_BATTLERS, {
-    variables: { fetchAll: true },
+    variables: {
+      rowsToFetch: 20,
+      firstPageToFetch: 1,
+      searchText: searchText,
+      leagueId: league?.id ? league.id : null,
+    },
   });
 
   const queryResult = useQuery(GET_ALL_BATTLERS, {
@@ -41,7 +46,9 @@ function BattlerSelector({ selectedBattlers, setSelectedBattlers }) {
     });
   };
 
-  if (loading) return <Loading />;
+  const onSearch = (input) => {
+    setSearchText(input);
+  };
 
   return (
     <BattlerSelectorContainer>
@@ -54,6 +61,8 @@ function BattlerSelector({ selectedBattlers, setSelectedBattlers }) {
               componentNumber={i}
               onSelect={onSelect}
               data={data}
+              onSearch={onSearch}
+              searchText={searchText}
             />
           ))}
         </div>

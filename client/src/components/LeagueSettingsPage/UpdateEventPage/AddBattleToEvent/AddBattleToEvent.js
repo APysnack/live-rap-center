@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
 import { ADD_BATTLE_TO_UPCOMING_EVENT } from './gql';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { AddBattleToEventContainer } from './AddBattleToEvent.styles';
 import BattlerSelector from './BattlerSelector';
+import { useSelector } from 'react-redux';
+import { GET_USER_WITH_LEAGUES } from './gql';
 
 function AddBattleToEvent({ event, refetch }) {
-  const [selectedBattlers, setSelectedBattlers] = useState({});
+  const { user } = useSelector((state) => state.user.userState);
 
-  const [addBattleToUpcomingEvent, { data }] = useMutation(
+  const [selectedBattlers, setSelectedBattlers] = useState({});
+  const [league, setLeague] = useState(null);
+
+  const [addBattleToUpcomingEvent, result] = useMutation(
     ADD_BATTLE_TO_UPCOMING_EVENT,
     { onCompleted: refetch }
   );
+
+  const { loading, data } = useQuery(GET_USER_WITH_LEAGUES, {
+    skip: !user?.id,
+    variables: { id: user.id },
+    onCompleted: (result) => {
+      setLeague(result.user.ownedLeagues[0]);
+    },
+  });
 
   const handleSubmit = () => {
     const gqlVars = {
@@ -33,6 +46,7 @@ function AddBattleToEvent({ event, refetch }) {
         <BattlerSelector
           selectedBattlers={selectedBattlers}
           setSelectedBattlers={setSelectedBattlers}
+          league={league}
         />
 
         <div className='lrc-button' onClick={handleSubmit}>

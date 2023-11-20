@@ -71,6 +71,14 @@ export const BattleProjectionsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+
+  .view-stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 
   .view-stats {
     margin: 2em 1em 2em 1em;
